@@ -1,0 +1,139 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "0.1.0"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "UNRESOLVED",
+        "PROPOSED",
+        "APPROVED",
+        "LOCKED"
+      ],
+      "type": "string"
+    },
+    "approval": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "report_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sample_evidence_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "reviewer",
+        "approved_at",
+        "report_ref",
+        "sample_evidence_ref",
+        "content_sha256"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "assignments_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "group_policy_hash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "ratios": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "number"
+          }
+        },
+        "counts": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "preserve_existing_assignments": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "new_group_default_role": {
+          "enum": [
+            "unassigned",
+            "quarantine"
+          ],
+          "type": "string"
+        },
+        "automatic_resplit": {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        },
+        "automatic_retrain": {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "assignments_ref",
+        "group_policy_hash",
+        "ratios",
+        "counts",
+        "preserve_existing_assignments",
+        "new_group_default_role",
+        "automatic_resplit",
+        "automatic_retrain"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "approval",
+    "payload"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EP-TTA split 0.1.0"
+}

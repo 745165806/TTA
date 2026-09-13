@@ -1,0 +1,8 @@
+COMMAND: py -3 scripts/check_delivery.py
+EXIT_CODE: 1
+Traceback (most recent call last):
+  File "D:\����\��ʿ\code\TTA\scripts\check_delivery.py", line 11, in <module>
+    assert "Version: 0.1.0\n" in metadata
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+

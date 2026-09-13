@@ -1,0 +1,59 @@
+{
+  "registry_version": "0.1.0",
+  "datasets": {
+    "asvspoof2019_la": {
+      "roles": [
+        "fit",
+        "source_val",
+        "select",
+        "cal0",
+        "audit",
+        "control_test",
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": null,
+      "implementation_status": "TODO"
+    },
+    "asvspoof2021_df": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": null,
+      "implementation_status": "TODO"
+    },
+    "asvspoof2021_la": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": null,
+      "implementation_status": "TODO"
+    },
+    "wavefake": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": null,
+      "implementation_status": "TODO"
+    },
+    "codecfake_xie": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": null,
+      "implementation_status": "TODO"
+    },
+    "in_the_wild": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": null,
+      "implementation_status": "TODO"
+    }
+  }
+}

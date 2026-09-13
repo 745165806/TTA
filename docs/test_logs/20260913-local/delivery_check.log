@@ -1,0 +1,12 @@
+COMMAND: py -3 scripts/check_delivery.py
+EXIT_CODE: 1
+Full JSON output: delivery_manifest.json
+Traceback (most recent call last):
+  File "D:\����\��ʿ\code\TTA\scripts\check_delivery.py", line 9, in <module>
+    with zipfile.ZipFile(wheel) as archive:
+         ~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Python314\Lib\zipfile\__init__.py", line 1453, in __init__
+    self.fp = io.open(file, filemode)
+              ~~~~~~~^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'D:\\����\\��ʿ\\code\\TTA\\dist\\ep_tta-0.1.0-py3-none-any.whl'
+

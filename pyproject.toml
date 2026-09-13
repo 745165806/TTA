@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ep-tta"
+version = "0.1.0"
+description = "EP-TTA: local contracts and synthetic episodic adaptation core"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+yaml = ["PyYAML>=6"]
+core = ["torch>=2"]
+test = ["pytest>=7"]
+
+[project.scripts]
+eptta = "eptta.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+eptta = ["schemas/*.json", "catalogs/*.json"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "tests/reference"]
+testpaths = ["tests"]
+addopts = "-ra"

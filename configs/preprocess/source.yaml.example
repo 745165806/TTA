@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "status": "UNRESOLVED",
+  "approval": null,
+  "payload": {
+    "decode": null,
+    "train_unit": null,
+    "eval_unit": null,
+    "source_probe": null,
+    "target_probe": null,
+    "quality_policy": null
+  }
+}

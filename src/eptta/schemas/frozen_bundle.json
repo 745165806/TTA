@@ -1,0 +1,123 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "0.1.0"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "UNRESOLVED",
+        "PROPOSED",
+        "APPROVED",
+        "LOCKED"
+      ],
+      "type": "string"
+    },
+    "approval": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "reviewer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "report_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sample_evidence_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_sha256": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "reviewer",
+        "approved_at",
+        "report_ref",
+        "sample_evidence_ref",
+        "content_sha256"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "properties": {
+        "bundle_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "selected_checkpoint_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "training_run_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "training_status": {
+          "enum": [
+            "FINALIZED",
+            null
+          ],
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_weight_origin": {
+          "enum": [
+            "trained_in_project"
+          ],
+          "type": "string"
+        },
+        "parity_report_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "bundle_ref",
+        "selected_checkpoint_sha256",
+        "training_run_id",
+        "training_status",
+        "task_weight_origin",
+        "parity_report_ref"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "approval",
+    "payload"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EP-TTA frozen_bundle 0.1.0"
+}

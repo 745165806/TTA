@@ -1,0 +1,67 @@
+COMMAND: & 'C:\Users\m7451\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe' -c "from setuptools.build_meta import build_wheel; print(build_wheel('dist'))"
+EXIT_CODE: 0
+running bdist_wheel
+running build
+running build_py
+running egg_info
+writing src\ep_tta.egg-info\PKG-INFO
+writing dependency_links to src\ep_tta.egg-info\dependency_links.txt
+writing entry points to src\ep_tta.egg-info\entry_points.txt
+writing requirements to src\ep_tta.egg-info\requires.txt
+writing top-level names to src\ep_tta.egg-info\top_level.txt
+reading manifest file 'src\ep_tta.egg-info\SOURCES.txt'
+writing manifest file 'src\ep_tta.egg-info\SOURCES.txt'
+installing to build\bdist.win-amd64\wheel
+running install
+running install_lib
+running install_egg_info
+Copying src\ep_tta.egg-info to build\bdist.win-amd64\wheel\.\ep_tta-0.1.0-py3.12.egg-info
+running install_scripts
+creating build\bdist.win-amd64\wheel\ep_tta-0.1.0.dist-info\WHEEL
+creating 'D:\\����\\��ʿ\\code\\TTA\\dist\\.tmp-j_41hsqz\\ep_tta-0.1.0-py3-none-any.whl' and adding 'build\\bdist.win-amd64\\wheel' to it
+adding 'eptta/__init__.py'
+adding 'eptta/cli.py'
+adding 'eptta/errors.py'
+adding 'eptta/registry.py'
+adding 'eptta/adaptation/__init__.py'
+adding 'eptta/adaptation/batch.py'
+adding 'eptta/adaptation/episode.py'
+adding 'eptta/adaptation/math.py'
+adding 'eptta/adaptation/types.py'
+adding 'eptta/adaptation/validation.py'
+adding 'eptta/catalogs/datasets.json'
+adding 'eptta/catalogs/methods.json'
+adding 'eptta/catalogs/models.json'
+adding 'eptta/config/__init__.py'
+adding 'eptta/config/resolve.py'
+adding 'eptta/config/schema.py'
+adding 'eptta/config/validate.py'
+adding 'eptta/data/__init__.py'
+adding 'eptta/data/contracts.py'
+adding 'eptta/data/permissions.py'
+adding 'eptta/models/__init__.py'
+adding 'eptta/models/contracts.py'
+adding 'eptta/schemas/architecture.json'
+adding 'eptta/schemas/config.json'
+adding 'eptta/schemas/frozen_bundle.json'
+adding 'eptta/schemas/group.json'
+adding 'eptta/schemas/initialization.json'
+adding 'eptta/schemas/label.json'
+adding 'eptta/schemas/preprocess.json'
+adding 'eptta/schemas/raw.json'
+adding 'eptta/schemas/recipe.json'
+adding 'eptta/schemas/score_seal.json'
+adding 'eptta/schemas/snapshot.json'
+adding 'eptta/schemas/source_resources.json'
+adding 'eptta/schemas/source_training_plan.json'
+adding 'eptta/schemas/split.json'
+adding 'eptta/training/__init__.py'
+adding 'eptta/training/contracts.py'
+adding 'ep_tta-0.1.0.dist-info/METADATA'
+adding 'ep_tta-0.1.0.dist-info/WHEEL'
+adding 'ep_tta-0.1.0.dist-info/entry_points.txt'
+adding 'ep_tta-0.1.0.dist-info/top_level.txt'
+adding 'ep_tta-0.1.0.dist-info/RECORD'
+removing build\bdist.win-amd64\wheel
+ep_tta-0.1.0-py3-none-any.whl
+

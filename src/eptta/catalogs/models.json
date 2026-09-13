@@ -1,0 +1,37 @@
+{
+  "registry_version": "0.1.0",
+  "models": {
+    "aasist_source": {
+      "architecture_plugin": "aasist_author",
+      "repo_commit": null,
+      "task_weights": "native_initialization",
+      "pretrained_frontend": null,
+      "pretrained_scope": null,
+      "training_regime": "all_native_trainable_parameters",
+      "allow_external_task_checkpoint": false,
+      "source_training_required": true,
+      "training_recipe_ref": "configs/training/aasist.yaml",
+      "embedding_dim": null,
+      "class_index_map": null,
+      "frozen_bundle_ref": null,
+      "implementation_status": "TODO",
+      "training_status": "NOT_RUN"
+    },
+    "ssl_aasist_source": {
+      "architecture_plugin": "ssl_aasist_author",
+      "repo_commit": null,
+      "task_weights": "native_initialization",
+      "pretrained_frontend": "xlsr_300m",
+      "pretrained_scope": "generic_ssl_frontend_only",
+      "training_regime": "joint_finetune",
+      "allow_external_task_checkpoint": false,
+      "source_training_required": true,
+      "training_recipe_ref": "configs/training/ssl_aasist.yaml",
+      "embedding_dim": null,
+      "class_index_map": null,
+      "frozen_bundle_ref": null,
+      "implementation_status": "TODO",
+      "training_status": "NOT_RUN"
+    }
+  }
+}

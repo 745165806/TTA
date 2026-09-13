@@ -1,0 +1,5 @@
+opaque_id,relative_audio,raw_label
+unit001,fixture/001.wav,1
+unit002,fixture/002.wav,0
+unit003,fixture/003.wav,unknown
+unit004,fixture/004.wav,

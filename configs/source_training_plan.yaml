@@ -1,0 +1,15 @@
+{
+  "schema_version": "0.1.0",
+  "status": "DRAFT",
+  "execution_environment": "remote_only",
+  "source_dataset_id": "asvspoof2019_la",
+  "model_ids": [
+    "aasist_source",
+    "ssl_aasist_source"
+  ],
+  "fit_snapshot_ref": null,
+  "source_val_snapshot_ref": null,
+  "split_plan_lock_ref": null,
+  "preprocess_lock_ref": null,
+  "automatic_followup_full_training": false
+}

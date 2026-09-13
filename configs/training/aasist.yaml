@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "status": "UNRESOLVED",
+  "approval": null,
+  "payload": {
+    "optimizer": null,
+    "lr": null,
+    "max_epochs": null,
+    "scheduler": null,
+    "loss": null,
+    "class_weights_by_name": null,
+    "sampler_policy": null,
+    "augmentation_recipe_ref": null,
+    "trainable_scope": null,
+    "selection_metric": "source_val_eer",
+    "tie_break": "earliest_epoch"
+  }
+}

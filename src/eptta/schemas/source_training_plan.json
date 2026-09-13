@@ -1,0 +1,95 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "0.1.0"
+      ],
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "APPROVED",
+        "LOCKED"
+      ],
+      "type": "string"
+    },
+    "execution_environment": {
+      "enum": [
+        "remote_only"
+      ],
+      "type": "string"
+    },
+    "source_dataset_id": {
+      "enum": [
+        "asvspoof2019_la",
+        "asvspoof2021_df",
+        "asvspoof2021_la",
+        "wavefake",
+        "codecfake_xie",
+        "in_the_wild"
+      ],
+      "type": "string"
+    },
+    "model_ids": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "aasist_source",
+          "ssl_aasist_source"
+        ],
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "fit_snapshot_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "source_val_snapshot_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "split_plan_lock_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "preprocess_lock_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "automatic_followup_full_training": {
+      "type": "boolean",
+      "enum": [
+        false
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "execution_environment",
+    "source_dataset_id",
+    "model_ids",
+    "fit_snapshot_ref",
+    "source_val_snapshot_ref",
+    "split_plan_lock_ref",
+    "preprocess_lock_ref",
+    "automatic_followup_full_training"
+  ]
+}

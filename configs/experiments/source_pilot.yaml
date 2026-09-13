@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.1.0",
+  "selection": {
+    "dataset_ids": [
+      "asvspoof2019_la"
+    ],
+    "model_id": "ssl_aasist_source",
+    "method_id": "ep_tta"
+  }
+}

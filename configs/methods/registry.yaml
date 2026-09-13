@@ -1,0 +1,137 @@
+{
+  "registry_version": "0.1.0",
+  "methods": {
+    "ep_tta": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "parameterization": "matrix",
+      "objective": "view_variance",
+      "regularizer": "margin",
+      "subspace": "response",
+      "reset_policy": "per_sample",
+      "final_output": "original",
+      "projection": "frobenius",
+      "implementation_status": "IMPLEMENTED_UNVERIFIED"
+    },
+    "frozen": {
+      "comparison_track": "reference",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "multiview_mean": {
+      "comparison_track": "reference",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "static_subspace": {
+      "comparison_track": "reference",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "fixed_source_adapter": {
+      "comparison_track": "reference",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "frozen_source_shift": {
+      "comparison_track": "reference",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_no_keep": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_random_U": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_feature_pca_U": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_no_projection": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "entropy_same_adapter_no_keep": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "entropy_same_adapter": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "memo_same_adapter_no_keep": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "memo_same_adapter_keep": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_keep_l2": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_keep_logit": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_keep_fisher": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_scalar_adaptive": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "ep_diagonal_R": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "source_ce_only": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "implementation_status": "TODO"
+    },
+    "tent_audio_ep": {
+      "comparison_track": "published_port",
+      "route": "waveform_update",
+      "implementation_status": "TODO"
+    },
+    "sar_audio_ep": {
+      "comparison_track": "published_port",
+      "route": "waveform_update",
+      "implementation_status": "TODO"
+    },
+    "memo_audio_ep_full": {
+      "comparison_track": "published_port",
+      "route": "waveform_update",
+      "implementation_status": "TODO"
+    },
+    "eata_audio_ep": {
+      "comparison_track": "published_port",
+      "route": "waveform_update",
+      "implementation_status": "TODO"
+    },
+    "t2a_audio_ep": {
+      "comparison_track": "published_port",
+      "route": "waveform_update",
+      "implementation_status": "TODO"
+    }
+  }
+}

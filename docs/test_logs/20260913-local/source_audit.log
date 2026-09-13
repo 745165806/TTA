@@ -1,0 +1,53 @@
+COMMAND: py -3 scripts/check_sources.py
+EXIT_CODE: 0
+{
+  "schema_version": "0.1.0",
+  "status": "PASS",
+  "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "syntax_target": "Python 3.10",
+  "syntax_files": [
+    "src\\eptta\\__init__.py",
+    "src\\eptta\\adaptation\\__init__.py",
+    "src\\eptta\\adaptation\\batch.py",
+    "src\\eptta\\adaptation\\episode.py",
+    "src\\eptta\\adaptation\\math.py",
+    "src\\eptta\\adaptation\\types.py",
+    "src\\eptta\\adaptation\\validation.py",
+    "src\\eptta\\cli.py",
+    "src\\eptta\\config\\__init__.py",
+    "src\\eptta\\config\\resolve.py",
+    "src\\eptta\\config\\schema.py",
+    "src\\eptta\\config\\validate.py",
+    "src\\eptta\\data\\__init__.py",
+    "src\\eptta\\data\\contracts.py",
+    "src\\eptta\\data\\permissions.py",
+    "src\\eptta\\errors.py",
+    "src\\eptta\\models\\__init__.py",
+    "src\\eptta\\models\\contracts.py",
+    "src\\eptta\\registry.py",
+    "src\\eptta\\training\\__init__.py",
+    "src\\eptta\\training\\contracts.py",
+    "tests\\conftest.py",
+    "tests\\contracts\\test_config.py",
+    "tests\\contracts\\test_permissions.py",
+    "tests\\reference\\batch_reference.py",
+    "tests\\reference\\core_reference.py",
+    "tests\\unit\\test_cli.py",
+    "tests\\unit\\test_ep.py",
+    "scripts\\check_sources.py",
+    "scripts\\create_templates.py",
+    "scripts\\extract_references.py"
+  ],
+  "schema_files": 14,
+  "dependencies": {
+    "torch": false,
+    "pytest": true,
+    "numpy": false,
+    "yaml": false,
+    "setuptools": false
+  },
+  "design_sha256": "534c1e1349e7bbd4845256137ac695614f9a0a217b082f327ad3bc2d75035f14",
+  "tensor_execution": "NOT_RUN"
+}
+
