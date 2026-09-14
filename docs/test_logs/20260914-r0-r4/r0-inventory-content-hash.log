@@ -1,0 +1,130 @@
+Script started on 2026-09-14 19:29:37+08:00 [<not executed on terminal>]
+{
+    "datasets": {
+        "asvspoof2019_la": {
+            "audio_file_count": 915694,
+            "contract_status": "UNRESOLVED",
+            "dataset_id": "asvspoof2019_la",
+            "extension_counts": {
+                ".flac": 915694,
+                ".npy": 119176,
+                ".txt": 26
+            },
+            "observed_only": true,
+            "protocol_files": [
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt",
+                    "relative_to_protocol_source": "ASVspoof2019.LA.cm.dev.trl.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_0069 LA_D_1047731 - - bonafide",
+                        "LA_0069 LA_D_1105538 - - bonafide",
+                        "LA_0069 LA_D_1125976 - - bonafide",
+                        "LA_0069 LA_D_1293230 - - bonafide",
+                        "LA_0069 LA_D_1340209 - - bonafide"
+                    ],
+                    "sha256": "2fedaebf1ba3ae1a9bb7d3ec916804ac237b4eee063a27fa92e6549f03d129c7",
+                    "size_bytes": 822400
+                },
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt",
+                    "relative_to_protocol_source": "ASVspoof2019.LA.cm.eval.trl.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_0039 LA_E_2834763 - A11 spoof",
+                        "LA_0014 LA_E_8877452 - A14 spoof",
+                        "LA_0040 LA_E_6828287 - A16 spoof",
+                        "LA_0022 LA_E_6977360 - A09 spoof",
+                        "LA_0031 LA_E_5932896 - A13 spoof"
+                    ],
+                    "sha256": "84fce576efff092269a0a6ad247d2e9f2f7b4d4e25a4545efb2518da92708036",
+                    "size_bytes": 2358176
+                },
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt",
+                    "relative_to_protocol_source": "ASVspoof2019.LA.cm.train.trn.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_0079 LA_T_1138215 - - bonafide",
+                        "LA_0079 LA_T_1271820 - - bonafide",
+                        "LA_0079 LA_T_1272637 - - bonafide",
+                        "LA_0079 LA_T_1276960 - - bonafide",
+                        "LA_0079 LA_T_1341447 - - bonafide"
+                    ],
+                    "sha256": "65a289e4009400b42bb4f1e47ac60938d93f7f595452d1f220d35defc3de8ab8",
+                    "size_bytes": 840120
+                },
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2021.LA.cm.eval.trl.txt",
+                    "relative_to_protocol_source": "ASVspoof2021.LA.cm.eval.trl.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_E_9332881",
+                        "LA_E_6866159",
+                        "LA_E_5464494",
+                        "LA_E_4759417",
+                        "LA_E_2667748"
+                    ],
+                    "sha256": "09b3928d59bfba15701f7c555b644d700c7a9143702ac5566fa9d374465a9e59",
+                    "size_bytes": 2360358
+                },
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/dev_label.txt",
+                    "relative_to_protocol_source": "dev_label.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_D_1047731.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_dev/flac/LA_D_1047731.flac\treal",
+                        "LA_D_1105538.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_dev/flac/LA_D_1105538.flac\treal",
+                        "LA_D_1125976.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_dev/flac/LA_D_1125976.flac\treal",
+                        "LA_D_1293230.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_dev/flac/LA_D_1293230.flac\treal",
+                        "LA_D_1340209.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_dev/flac/LA_D_1340209.flac\treal"
+                    ],
+                    "sha256": "b2a0829bed64097a826beb87ebd9da9d9e026c03dc74299c570f3be53c15cd8e",
+                    "size_bytes": 2683152
+                },
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/test_label.txt",
+                    "relative_to_protocol_source": "test_label.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_E_2834763.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_eval/flac/LA_E_2834763.flac\tfake",
+                        "LA_E_8877452.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_eval/flac/LA_E_8877452.flac\tfake",
+                        "LA_E_6828287.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_eval/flac/LA_E_6828287.flac\tfake",
+                        "LA_E_6977360.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_eval/flac/LA_E_6977360.flac\tfake",
+                        "LA_E_5932896.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_eval/flac/LA_E_5932896.flac\tfake"
+                    ],
+                    "sha256": "5f5049a902df5a0a472439bdc2b097cdcf2c227468f82bb52291bcc8c6bc22ef",
+                    "size_bytes": 7764833
+                },
+                {
+                    "path": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/train_label.txt",
+                    "relative_to_protocol_source": "train_label.txt",
+                    "sample_error": null,
+                    "sample_lines": [
+                        "LA_T_1138215.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_1138215.flac\treal",
+                        "LA_T_1271820.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_1271820.flac\treal",
+                        "LA_T_1272637.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_1272637.flac\treal",
+                        "LA_T_1276960.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_1276960.flac\treal",
+                        "LA_T_1341447.flac\t/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_1341447.flac\treal"
+                    ],
+                    "sha256": "662faf12c70288338e59557b0aeeb37cf084ef665115a4dd4b77de57e71829ee",
+                    "size_bytes": 2791800
+                }
+            ],
+            "protocol_source": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols",
+            "root": "/media/dell/data/fakedata/asvspoof2019/LA",
+            "symlink_file_count": 0
+        }
+    },
+    "generated_at": "2026-09-14T11:29:23+00:00",
+    "read_only": true,
+    "schema_version": "0.1.0",
+    "status": "INVENTORIED"
+}
+ffeda97305733a43206a3830ec702d2ba9dfc82b248f5a686a7b6cd409ce6661  /media/dell/data/fakedata/eptta_work/inventory/inventory.json
+58G	/media/dell/data/fakedata/asvspoof2019/LA
+20K	/media/dell/data/fakedata/eptta_work
+3.4M	/media/dell/data/fakeAudioDection/aasist
+172M	/media/dell/data/fakeAudioDection/SSL_Anti-spoofing
+
+Script done on 2026-09-14 19:29:40+08:00 [COMMAND_EXIT_CODE="0"]

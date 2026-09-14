@@ -1,0 +1,12 @@
+Script started on 2026-09-14 19:29:14+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "INVENTORIED",
+  "out": "/media/dell/data/fakedata/eptta_work/inventory/inventory.json",
+  "datasets": [
+    "asvspoof2019_la"
+  ],
+  "label_contract_approved": false
+}
+
+Script done on 2026-09-14 19:29:23+08:00 [COMMAND_EXIT_CODE="0"]
