@@ -1,13 +1,13 @@
 {
   "schema_version": "0.1.0",
-  "status": "UNRESOLVED",
+  "status": "PROPOSED",
   "approval": null,
   "payload": {
-    "decode": null,
-    "train_unit": null,
-    "eval_unit": null,
-    "source_probe": null,
-    "target_probe": null,
-    "quality_policy": null
+    "decode": "soundfile_float32_mono_mean_require_16khz",
+    "train_unit": "repeat_or_crop_first_64600",
+    "eval_unit": "repeat_or_crop_first_64600",
+    "source_probe": "identity",
+    "target_probe": "probe_default_after_baseline_unit",
+    "quality_policy": "snapshot_prevalidated_fail_runtime"
   }
 }

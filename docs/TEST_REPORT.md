@@ -1,5 +1,40 @@
 # EP-TTA v0.1.0 本轮真实测试报告
 
+## 2026-09-14 L4/缓存/机制实现追加执行
+
+| 检查 | 实际命令 | 退出码与结果 | 证据 |
+|---|---|---|---|
+| 全套 D/S/T/C 合成验收 | `PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python -m pytest -q --junitxml=docs/test_logs/20260914-l4/pytest-final4.xml` | 0；**206 passed in 3.97s** | [pytest-final4.log](test_logs/20260914-l4/pytest-final4.log)、[pytest-final4.xml](test_logs/20260914-l4/pytest-final4.xml) |
+| core/schema/worker 语法审计 | `/home/dell/anaconda3/envs/py310/bin/python scripts/check_sources.py` | 0；core Python 3.10、worker Python 3.7 AST 目标、14 schemas PASS | [source_audit_final.log](test_logs/20260914-l4/source_audit_final.log) |
+| py38 worker 编译 | py38 `py_compile` 三个 bridge/compat 文件 | 0；Python 3.8.20 三文件 PASS | [worker_py38_compile.log](test_logs/20260914-l4/worker_py38_compile.log) |
+| pinned AASIST 结构前向 | Python 3.10 构建 commit `a04c...d1` 的作者 `Model`，CPU FP32 输入 `[1,64600]` | 0；embedding `[1,160]`、logits `[1,2]`、finite、无源码补丁 | [aasist_architecture_smoke.log](test_logs/20260914-l4/aasist_architecture_smoke.log) |
+
+本轮合成 PASS 覆盖 source manifest 角色/哈希、native 类别/权重、EER 选模、smoke/export 拒绝、checkpoint 身份、DDP 加权梯度公式、pickle-free cache、exact shard coverage、P0/P1 机制、Fisher 自动微分对照、U/M/tau/static R、published-port 阻塞合同、label-free inference job、score seal 后评价。AASIST 结构前向使用真实作者源码但随机初始化，不能证明任务训练或性能。
+
+SSL-AASIST 因 `generic_ssl_initialization=null` 且当前 py38 环境无系统 fairseq 安装（作者仓库虽含 vendored revision），结构/梯度/训练记 `NOT_RUN/DEFERRED_REMOTE`。本机无可见 CUDA，源训练、DDP 运行、checkpoint 真恢复、finalize/export parity、真实 cache/适配和 published port parity 均未执行，不计 PASS。
+
+## 2026-09-14 统一标签追加执行
+
+| 检查 | 实际命令 | 退出码与结果 | 证据 |
+|---|---|---|---|
+| 统一标签全量校验 | `PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python -m eptta.cli --profile remote_a6000 --paths configs/paths.fakedata.private.yaml validate-labels --labels fakedata/current --check-audio` | 0；17 manifests，1,415,725 条 VALID | [validate_labels.log](test_logs/20260914-labels/validate_labels.log) |
+| ALLM-DF 逐行兼容 | `/home/dell/anaconda3/envs/py310/bin/python scripts/check_allmdf_compat.py --labels fakedata/current --reference-dir /media/dell/data/fakeAudioDection/ALLM-DF/data/manifests` | 0；5 份共享清单 PASS | [allmdf_compat.log](test_logs/20260914-labels/allmdf_compat.log) |
+| 全套验收 | `/home/dell/anaconda3/envs/py310/bin/python -m pytest -q` | 0；**173 passed in 3.89s** | [pytest.log](test_logs/20260914-labels/pytest.log) |
+| 源码与 schema 审计 | `/home/dell/anaconda3/envs/py310/bin/python scripts/check_sources.py` | 0；PASS | [source_audit.log](test_logs/20260914-labels/source_audit.log) |
+
+真实标签包及隔离边界见 [LABEL_PACK_REPORT.md](LABEL_PACK_REPORT.md)。这些结果证明数据读取与标签预处理工程状态，不代表 group/split/preprocess 已完成正式人工审核，也不代表源模型训练或科学实验已经执行。
+
+## 2026-09-14 Linux L3 追加执行
+
+| 检查 | 真实命令 | 退出码 / 结果 | 日志 |
+|---|---|---|---|
+| 全套合成验收 | `/home/dell/anaconda3/envs/py310/bin/python -m pytest -q --junitxml=docs/test_logs/20260914-l3/pytest.xml` | 0；**167 passed in 3.92s** | [pytest.log](test_logs/20260914-l3/pytest.log)、[pytest.xml](test_logs/20260914-l3/pytest.xml) |
+| Python/schema 审计 | `/home/dell/anaconda3/envs/py310/bin/python scripts/check_sources.py` | 0；Python 3.10 语法、14 schema、依赖与 base 配置通过 | [source_audit.log](test_logs/20260914-l3/source_audit.log) |
+| ASVspoof root 只读 inventory | `PYTHONPATH=src ... python -m eptta.cli --profile remote_a6000 --paths configs/paths.fakedata.private.yaml inspect-data --datasets asvspoof2019_la --out /tmp/.../inventory3` | 0；915,694 音频，7 个协议/sidecar 候选；`label_contract_approved=false` | [inventory_cli.log](test_logs/20260914-l3/inventory_cli.log)、[inventory_summary.log](test_logs/20260914-l3/inventory_summary.log) |
+| 旧 wheel 交付检查 | `/home/dell/anaconda3/envs/py310/bin/python scripts/check_delivery.py` | 1；当前 worktree 无 `dist/ep_tta-0.1.0-py3-none-any.whl`，未为本次数据接口重建 wheel | [delivery_check.log](test_logs/20260914-l3/delivery_check.log) |
+
+本次 D01–D10 均为合成合同/工程验收；只读 inventory 证明当前路径可枚举，不证明 raw/label/group/preprocess/split 已审核。未生成真实 staging/snapshot，未启动训练。原 L2 环境本次有 PyTorch/PyYAML，因此旧报告中相应 NOT_RUN 由本次执行证据补充，不改写旧日志。
+
 测试日期：2026-09-13；Windows 11 本机，合成 fixture 与配置文件。数据、音频、模型、远程服务器均未参与。所有 PASS 仅对应下列真实检查；缺依赖未被计入 PASS。
 
 ## 命令与结果

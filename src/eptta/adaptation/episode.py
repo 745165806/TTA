@@ -22,7 +22,10 @@ def finish(target, resources, cfg, R, before, trace, steps_completed, reason=Non
     after = before
     if reason is None:
         try:
-            after = float(finite((apply_adapter(Z[:1], U, R) @ resources.w + resources.b)[0], "non-finite final score"))
+            # K=0 is the frozen path by contract. Reusing the already validated
+            # scalar also avoids a zero-matmul roundoff changing its exact value.
+            after = before if steps_completed == 0 else float(finite(
+                (apply_adapter(Z[:1], U, R) @ resources.w + resources.b)[0], "non-finite final score"))
             final_view = finite(view_loss(apply_adapter(Z, U, R)), "non-finite final view loss")
             deficits = margin_deficit(apply_adapter(resources.anchors_z, U, R), resources.w,
                                       resources.b, resources.anchors_y, resources.anchors_m0,

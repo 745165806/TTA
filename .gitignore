@@ -18,3 +18,32 @@ trained_models/
 feature_cache/
 derived_audio/
 plans/
+/fakedata/
+
+# Remote datasets and generated data products (keep source/config examples in Git).
+/data/
+/inventory/
+/staging/
+/snapshots/
+/manifests/
+
+# Remote training, model exports, caches, and experiment outputs.
+/artifacts/
+/frozen_export/
+/runs/
+/reports/
+/logs/
+
+# Large generated tensor/model files. Real artifacts are referenced by path + hash.
+*.npy
+*.npz
+*.safetensors
+*.onnx
+*.h5
+*.hdf5
+
+# Other raw audio formats that should stay on the data host.
+*.ogg
+*.opus
+*.m4a
+*.aac

@@ -17,7 +17,7 @@ def require_text(value, name):
         raise ContractError(f"{name} must be nonempty")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class SourceManifestRef:
     manifest_ref: str
     snapshot_hash: str
@@ -28,7 +28,7 @@ class SourceManifestRef:
         require_hash(self.snapshot_hash, "snapshot_hash")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class InitializationRef:
     artifact_ref: str
     sha256: str
@@ -43,7 +43,7 @@ class InitializationRef:
         require_text(self.pretraining_provenance, "pretraining_provenance")
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class ResumeRef:
     artifact_ref: str
     training_run_id: str
@@ -59,7 +59,7 @@ class ResumeRef:
             require_hash(getattr(self, name), name)
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class SourceTrainJob:
     schema_version: str
     job_type: str

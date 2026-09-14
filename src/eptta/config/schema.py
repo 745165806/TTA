@@ -94,7 +94,20 @@ def validate(value, spec, path="$"):
 
 
 def check(value, schema_name="config"):
-    spec = read_document(Path(__file__).parents[1] / "schemas" / f"{schema_name}.json")
+    schema_root = Path(__file__).parents[1] / "schemas"
+    spec = read_document(schema_root / f"{schema_name}.json")
+    if schema_name == "config":
+        # Contract schemas evolve as independent strict documents during L3.
+        # Replace the generated embedded copies so config validation has one
+        # canonical definition instead of silently accepting stale fields.
+        contracts = spec["properties"]["contracts"]["properties"]
+        datasets = contracts["datasets"]["properties"]
+        for kind in ("raw", "label", "group", "snapshot"):
+            contract_spec = read_document(schema_root / f"{kind}.json")
+            for dataset in datasets.values():
+                dataset["properties"][kind] = contract_spec
+        for kind in set(contracts) - {"datasets"}:
+            contracts[kind] = read_document(schema_root / f"{kind}.json")
     errors = validate(value, spec)
     if errors:
         raise EPTTAError("; ".join(errors))

@@ -112,6 +112,28 @@
           "enum": [
             false
           ]
+        },
+        "seed": {
+          "type": ["integer", "null"]
+        },
+        "staging_id": {
+          "type": ["string", "null"]
+        },
+        "staging_records_sha256": {
+          "type": ["string", "null"]
+        },
+        "assignments_sha256": {
+          "type": ["string", "null"]
+        },
+        "assignment_method": {
+          "type": ["string", "null"]
+        },
+        "pool_ratios": {
+          "type": ["object", "null"],
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {"type": "number"}
+          }
         }
       },
       "additionalProperties": false,
@@ -123,7 +145,13 @@
         "preserve_existing_assignments",
         "new_group_default_role",
         "automatic_resplit",
-        "automatic_retrain"
+        "automatic_retrain",
+        "seed",
+        "staging_id",
+        "staging_records_sha256",
+        "assignments_sha256",
+        "assignment_method",
+        "pool_ratios"
       ]
     }
   },

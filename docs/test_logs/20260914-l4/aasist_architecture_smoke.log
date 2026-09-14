@@ -1,0 +1,1 @@
+{'status': 'PASS', 'repo_commit': 'a04c9863f63d44471dde8a6abcb3b082b07cd1d1', 'embedding_shape': [1, 160], 'logits_shape': [1, 2], 'patch': {'kind': 'none', 'sha256': 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'}, 'finite': True}

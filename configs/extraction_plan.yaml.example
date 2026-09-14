@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "status": "UNRESOLVED",
+  "frozen_bundle_ref": null,
+  "manifest_ref": null,
+  "manifest_sha256": null,
+  "data_roots": {},
+  "probe": {
+    "num_views": 3,
+    "seed": 13,
+    "noise_snr_db": 30.0,
+    "fir_side_gain": 0.05
+  },
+  "numerical_mode": {
+    "dtype": "float32",
+    "tf32": false,
+    "block_units": 256
+  },
+  "output_root": null
+}

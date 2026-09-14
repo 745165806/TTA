@@ -1,0 +1,18 @@
+{
+  "schema_version": "0.1.0",
+  "status": "PROPOSED",
+  "payload": {
+    "seed": 13,
+    "ratios": null,
+    "pool_ratios": {
+      "train": {"fit": 1.0},
+      "dev": {"source_val": 0.4, "select": 0.3, "cal0": 0.2, "audit": 0.1},
+      "eval": {"control_test": 1.0}
+    },
+    "new_group_default_role": "unassigned",
+    "preserve_existing_assignments": true,
+    "automatic_resplit": false,
+    "automatic_retrain": false
+  },
+  "notice": "Candidate only. Review source groups, class counts, role sizes, and whether eval may be used as control_test before approval."
+}

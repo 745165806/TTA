@@ -47,25 +47,57 @@ def check_contract(contract, kind, field):
         if not re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$", approval["approved_at"]):
             fail("approval.approved_at", "ISO timestamp with timezone required")
     payload = contract["payload"]
-    optional = {"split": {"ratios", "counts"}, "raw": {"columns", "json_paths", "delimiter", "header"}}.get(kind, set())
+    optional = {"split": {"ratios", "counts", "pool_ratios"},
+                "raw": {"columns", "json_paths", "delimiter", "header"},
+                "group": {"source_mapping_sha256"}}.get(kind, set())
     for key, value in payload.items():
         if key not in optional and unresolved(value):
             fail(f"payload.{key}", "unresolved required field; no inferred defaults")
         if key.endswith("sha256") and value is not None and not re.fullmatch(r"[0-9a-f]{64}", value):
             fail(f"payload.{key}", "expected SHA-256 hex")
     if kind == "raw":
+        if not payload.get("dataset_release"):
+            fail("payload.dataset_release", "explicit dataset release identity required")
         if payload["format"] == "delimited":
             for key in ("columns", "delimiter", "header"):
                 if payload[key] is None or payload[key] == {}:
                     fail(f"payload.{key}", "explicit delimited format contract required")
-        elif payload["format"] in ("json", "jsonl", "sidecar") and not payload["json_paths"]:
-            fail("payload.json_paths", "explicit JSON/sidecar paths required")
+        elif payload["format"] in ("json", "jsonl") and not payload["json_paths"]:
+            fail("payload.json_paths", "explicit JSON paths required")
+        elif payload["format"] == "sidecar":
+            if not (payload["json_paths"] or payload["columns"]):
+                fail("payload", "sidecar requires explicit columns or JSON paths")
+            if payload["columns"] and (payload["delimiter"] is None or payload["header"] is None):
+                fail("payload", "delimited sidecar requires explicit delimiter and header")
         if not payload["allowed_values"]:
             fail("payload.allowed_values", "empty label vocabulary")
+        if not payload.get("protocol_globs"):
+            fail("payload.protocol_globs", "explicit protocol file selection required")
+        if not payload.get("protocol_contexts"):
+            fail("payload.protocol_contexts", "explicit protocol-to-audio context required")
+        elif set(payload["protocol_globs"] or []) != set(payload["protocol_contexts"]):
+            fail("payload.protocol_contexts", "every selected protocol glob needs exactly one reviewed context")
+        if payload.get("audio_path_rule") != "protocol_context_template" and not (
+                isinstance(payload.get("audio_path_rule"), str) and payload["audio_path_rule"].startswith("field:")):
+            fail("payload.audio_path_rule", "unsupported path rule")
     if kind == "label" and not payload["raw_to_canonical"]:
         fail("payload.raw_to_canonical", "explicit nonempty label mapping required")
     if kind == "group" and payload["group_quality"] in ("unknown", "synthetic_fixture"):
         fail("payload.group_quality", "real source grouping requires review")
+    if kind == "group" and payload["resolver"] is not None and payload["resolver"] != "record_id" and not (
+            payload["resolver"].startswith("field:") or payload["resolver"].startswith("mapping:")):
+        fail("payload.resolver", "unsupported group resolver")
+    if kind == "group" and isinstance(payload["resolver"], str) and payload["resolver"].startswith("mapping:"):
+        if not payload.get("source_mapping_sha256"):
+            fail("payload.source_mapping_sha256", "mapping resolver requires a reviewed mapping hash")
+    if kind == "split":
+        if not payload["assignments_ref"]:
+            fail("payload.assignments_ref", "reviewed explicit assignments required")
+        for key in ("assignments_sha256", "staging_id", "staging_records_sha256", "assignment_method"):
+            if not payload.get(key):
+                fail(f"payload.{key}", "locked split must bind reviewed staging and assignments")
+        if payload.get("assignments_sha256") is not None and not re.fullmatch(r"[0-9a-f]{64}", payload["assignments_sha256"]):
+            fail("payload.assignments_sha256", "expected assignment SHA-256 hex")
     if kind == "architecture":
         mapping = payload["class_index_map"]
         if mapping is not None and set(mapping.values()) != {0, 1}:

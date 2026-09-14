@@ -4,7 +4,8 @@ from pathlib import Path
 import pytest
 
 from eptta import __version__, SCHEMA_VERSION
-from eptta.cli import STUBS, main
+from eptta.cli import (ADAPTATION_COMMANDS, DATA_COMMANDS, EVALUATION_COMMANDS, EXECUTION_COMMANDS,
+                       STUBS, TRAINING_COMMANDS, main)
 from eptta.registry import get_spec
 from eptta.errors import EPTTAError
 
@@ -16,7 +17,9 @@ def test_versions():
     assert 'version = "0.1.0"' in (ROOT / "pyproject.toml").read_text()
 
 
-@pytest.mark.parametrize("cmd", [None, *STUBS, "validate", "plan"])
+@pytest.mark.parametrize("cmd", [None, *STUBS, *DATA_COMMANDS, *TRAINING_COMMANDS,
+                                  *EVALUATION_COMMANDS, *EXECUTION_COMMANDS, *ADAPTATION_COMMANDS,
+                                  "validate", "plan"])
 def test_all_help(cmd):
     with pytest.raises(SystemExit) as exc:
         main(([cmd] if cmd else []) + ["--help"])
@@ -30,6 +33,14 @@ def test_real_commands_never_succeed(cmd, capsys, monkeypatch):
     result = json.loads(capsys.readouterr().out)
     assert result["code"] == "NOT_IMPLEMENTED_STAGE"
     assert result["execution_ready"] is False
+
+
+def test_local_profile_cannot_read_real_data(capsys, monkeypatch, tmp_path):
+    monkeypatch.chdir(ROOT)
+    assert main(["inspect-data", "--datasets", "asvspoof2019_la", "--out", str(tmp_path / "inventory")]) == 2
+    result = json.loads(capsys.readouterr().out)
+    assert result["code"] == "PERMISSION_DENIED"
+    assert not (tmp_path / "inventory").exists()
 
 
 def test_plan_is_preview_and_no_overwrite(tmp_path, monkeypatch):
@@ -48,5 +59,5 @@ def test_plan_is_preview_and_no_overwrite(tmp_path, monkeypatch):
 def test_unknown_method_and_registered_todo():
     with pytest.raises(EPTTAError):
         get_spec("methods", "made_up")
-    assert get_spec("methods", "tent_audio_ep")["implementation_status"] == "TODO"
+    assert get_spec("methods", "tent_audio_ep")["implementation_status"] == "CONTRACT_ONLY_BLOCKED_AUDIT"
     assert get_spec("models", "ssl_aasist_source")["source_training_required"] is True

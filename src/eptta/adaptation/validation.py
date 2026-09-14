@@ -14,8 +14,8 @@ def validate_inputs(target, resources, cfg):
         raise ValueError("opaque sample and artifact IDs are required")
     if resources.schema_version != "0.1.0" or resources.source_role != "fit":
         raise ValueError("fixed source anchors must come from fit with schema 0.1.0")
-    if resources.channel != "synthetic_test":
-        raise ValueError("real artifact loader and lineage validation are not implemented in L0-L2")
+    if resources.channel not in ("synthetic_test", "frozen_bundle"):
+        raise ValueError("resources must come from synthetic tests or a finalized frozen bundle loader")
     Z, U, w, Za, ya, m0, s0 = (target.features, resources.U, resources.w,
                                 resources.anchors_z, resources.anchors_y,
                                 resources.anchors_m0, resources.anchors_s0)

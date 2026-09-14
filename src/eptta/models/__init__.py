@@ -1,1 +1,7 @@
-"""Model factory and frozen-bundle contracts; author architectures remain TODO."""
+"""Model contracts and hash-bound author architecture identities."""
+from eptta.models.author import (ARCHITECTURES, canonical_to_native,
+                                 class_weights_native, get_author_architecture,
+                                 inspect_author_repository)
+
+__all__ = ["ARCHITECTURES", "canonical_to_native", "class_weights_native",
+           "get_author_architecture", "inspect_author_repository"]

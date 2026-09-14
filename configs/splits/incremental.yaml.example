@@ -10,6 +10,12 @@
     "preserve_existing_assignments": true,
     "new_group_default_role": "unassigned",
     "automatic_resplit": false,
-    "automatic_retrain": false
+    "automatic_retrain": false,
+    "seed": null,
+    "staging_id": null,
+    "staging_records_sha256": null,
+    "assignments_sha256": null,
+    "assignment_method": null,
+    "pool_ratios": null
   }
 }

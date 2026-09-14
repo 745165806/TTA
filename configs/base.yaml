@@ -91,6 +91,7 @@
           "approval": null,
           "payload": {
             "format": null,
+            "dataset_release": null,
             "encoding": null,
             "delimiter": null,
             "header": null,
@@ -100,7 +101,9 @@
             "audio_path_rule": null,
             "label_field": null,
             "allowed_values": null,
-            "missing_policy": null
+            "missing_policy": null,
+            "protocol_globs": null,
+            "protocol_contexts": null
           }
         },
         "label": {
@@ -120,6 +123,7 @@
           "payload": {
             "resolver": null,
             "source_mapping_ref": null,
+            "source_mapping_sha256": null,
             "group_quality": null
           }
         },
@@ -142,6 +146,7 @@
           "approval": null,
           "payload": {
             "format": null,
+            "dataset_release": null,
             "encoding": null,
             "delimiter": null,
             "header": null,
@@ -151,7 +156,9 @@
             "audio_path_rule": null,
             "label_field": null,
             "allowed_values": null,
-            "missing_policy": null
+            "missing_policy": null,
+            "protocol_globs": null,
+            "protocol_contexts": null
           }
         },
         "label": {
@@ -171,6 +178,7 @@
           "payload": {
             "resolver": null,
             "source_mapping_ref": null,
+            "source_mapping_sha256": null,
             "group_quality": null
           }
         },
@@ -193,6 +201,7 @@
           "approval": null,
           "payload": {
             "format": null,
+            "dataset_release": null,
             "encoding": null,
             "delimiter": null,
             "header": null,
@@ -202,7 +211,9 @@
             "audio_path_rule": null,
             "label_field": null,
             "allowed_values": null,
-            "missing_policy": null
+            "missing_policy": null,
+            "protocol_globs": null,
+            "protocol_contexts": null
           }
         },
         "label": {
@@ -222,6 +233,7 @@
           "payload": {
             "resolver": null,
             "source_mapping_ref": null,
+            "source_mapping_sha256": null,
             "group_quality": null
           }
         },
@@ -244,6 +256,7 @@
           "approval": null,
           "payload": {
             "format": null,
+            "dataset_release": null,
             "encoding": null,
             "delimiter": null,
             "header": null,
@@ -253,7 +266,9 @@
             "audio_path_rule": null,
             "label_field": null,
             "allowed_values": null,
-            "missing_policy": null
+            "missing_policy": null,
+            "protocol_globs": null,
+            "protocol_contexts": null
           }
         },
         "label": {
@@ -273,6 +288,7 @@
           "payload": {
             "resolver": null,
             "source_mapping_ref": null,
+            "source_mapping_sha256": null,
             "group_quality": null
           }
         },
@@ -295,6 +311,7 @@
           "approval": null,
           "payload": {
             "format": null,
+            "dataset_release": null,
             "encoding": null,
             "delimiter": null,
             "header": null,
@@ -304,7 +321,9 @@
             "audio_path_rule": null,
             "label_field": null,
             "allowed_values": null,
-            "missing_policy": null
+            "missing_policy": null,
+            "protocol_globs": null,
+            "protocol_contexts": null
           }
         },
         "label": {
@@ -324,6 +343,7 @@
           "payload": {
             "resolver": null,
             "source_mapping_ref": null,
+            "source_mapping_sha256": null,
             "group_quality": null
           }
         },
@@ -346,6 +366,7 @@
           "approval": null,
           "payload": {
             "format": null,
+            "dataset_release": null,
             "encoding": null,
             "delimiter": null,
             "header": null,
@@ -355,7 +376,9 @@
             "audio_path_rule": null,
             "label_field": null,
             "allowed_values": null,
-            "missing_policy": null
+            "missing_policy": null,
+            "protocol_globs": null,
+            "protocol_contexts": null
           }
         },
         "label": {
@@ -375,6 +398,7 @@
           "payload": {
             "resolver": null,
             "source_mapping_ref": null,
+            "source_mapping_sha256": null,
             "group_quality": null
           }
         },
@@ -416,7 +440,13 @@
         "preserve_existing_assignments": true,
         "new_group_default_role": "unassigned",
         "automatic_resplit": false,
-        "automatic_retrain": false
+        "automatic_retrain": false,
+        "seed": null,
+        "staging_id": null,
+        "staging_records_sha256": null,
+        "assignments_sha256": null,
+        "assignment_method": null,
+        "pool_ratios": null
       }
     },
     "architecture": {

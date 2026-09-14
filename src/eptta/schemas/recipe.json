@@ -129,6 +129,29 @@
           ],
           "minLength": 1
         },
+        "model_id": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
+        "weight_decay": {
+          "type": ["number", "null"],
+          "minimum": 0
+        },
+        "class_index_map": {
+          "type": ["object", "null"],
+          "properties": {
+            "bonafide": {"type": "integer"},
+            "spoof": {"type": "integer"}
+          },
+          "additionalProperties": false,
+          "required": ["bonafide", "spoof"]
+        },
+        "bindings": {
+          "type": ["object", "null"]
+        },
+        "runtime": {
+          "type": ["object", "null"]
+        },
         "selection_metric": {
           "enum": [
             "source_val_eer"

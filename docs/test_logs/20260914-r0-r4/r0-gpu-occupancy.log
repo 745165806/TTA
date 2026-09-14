@@ -1,0 +1,16 @@
+Script started on 2026-09-14 19:26:26+08:00 [<not executed on terminal>]
+0, NVIDIA RTX A6000, 49140 MiB, 10 MiB, 48666 MiB, 0 %, Default
+1, NVIDIA RTX A6000, 49140 MiB, 10 MiB, 48666 MiB, 0 %, Default
+2, NVIDIA RTX A6000, 49140 MiB, 983 MiB, 47660 MiB, 18 %, Default
+3, NVIDIA RTX A6000, 49140 MiB, 276 MiB, 48400 MiB, 0 %, Default
+# gpu         pid  type    sm    mem    enc    dec    command
+# Idx           #   C/G     %      %      %      %    name
+    0       5711     G      -      -      -      -    Xorg           
+    1       5711     G      -      -      -      -    Xorg           
+    2       5711     G     15      5      -      -    Xorg           
+    2       6128     G      4      1      -      -    gnome-shell    
+    2    1235401     G      -      -      -      -    firefox        
+    3       5711     G      -      -      -      -    Xorg           
+    3       3978     C      -      -      -      -    python3        
+
+Script done on 2026-09-14 19:26:27+08:00 [COMMAND_EXIT_CODE="0"]

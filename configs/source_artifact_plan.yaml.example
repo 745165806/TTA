@@ -1,0 +1,21 @@
+{
+  "schema_version": "0.1.0",
+  "status": "UNRESOLVED",
+  "frozen_bundle_ref": null,
+  "fit_labels_ref": null,
+  "calibration_cache_ref": null,
+  "calibration_labels_ref": null,
+  "source_snapshot_hash": null,
+  "rank": 8,
+  "alpha_cal": 0.05,
+  "anchor_per_class": 128,
+  "seed": 13,
+  "random_seeds": [13, 29, 47],
+  "fixed_adapter": {
+    "steps": 200,
+    "lr": 0.01,
+    "rho": 0.2,
+    "gamma": 0.1,
+    "lambda_keep": 1.0
+  }
+}

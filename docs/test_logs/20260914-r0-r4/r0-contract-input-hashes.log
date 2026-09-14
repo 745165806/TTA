@@ -1,0 +1,14 @@
+Script started on 2026-09-14 19:26:19+08:00 [<not executed on terminal>]
+534c1e1349e7bbd4845256137ac695614f9a0a217b082f327ad3bc2d75035f14  docs/DESIGN.md
+1df5b9028702fddbdd9823dc62a4df117117e39964cb2f730f6b54de60ab498f  IMPLEMENTATION_STATUS.md
+a5678fdd636a72312edd2aa97ea3ba791c81609f3b66e3a50a85f4fc16002633  docs/REMOTE_RUNBOOK.md
+5613f27b75da1336dc61530d5359698cd2c62d469d8e0b403938e0c2c77480a9  configs/paths.fakedata.private.yaml
+2a29761c6ca581dd5943b564a823196dbf0c7de3744ce480fcdc7919452e6534  configs/unified_labels.fakedata.private.json
+0c7fa0b5e43db146ed8798fa1aff4ec6916d14f3c0f2297da0e4a1fbce74bdce  configs/data_contracts/asvspoof2019_la.observed.yaml.example
+1027a9a2f8440d001f155e04382ec86cd30c519139e6c16df684fa293bcda92e  configs/preprocess/source.yaml.example
+eb17b4ffc28c6b71372f2bd7fc2045d668c2ae73a9cc99cd80f03e02bc48d11e  configs/split_policies/asvspoof2019_la.yaml.example
+/media/dell/data/fakeAudioDection/TTA/fakedata/unified_v0.1.0-r2
+c728f3cccec6dc16bb0d38ff59cedfbdca5884cb4c08b7b89c4d15301f6cdcc6  fakedata/current/index.json
+66fe7c76b5deb0b982ca2a331f4c6af909f634c3ecbabc5c7aeaec36415d04fe  fakedata/current/quarantine.csv
+
+Script done on 2026-09-14 19:26:19+08:00 [COMMAND_EXIT_CODE="0"]

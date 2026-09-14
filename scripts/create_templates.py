@@ -42,17 +42,21 @@ DATASETS = ["asvspoof2019_la", "asvspoof2021_df", "asvspoof2021_la", "wavefake",
 ROLES = ["fit", "source_val", "select", "cal0", "audit", "control_test", "target_test", "cal1"]
 approval = nullable(obj({"reviewer": S, "approved_at": S, "report_ref": S,
                          "sample_evidence_ref": S, "content_sha256": S}))
+protocol_context = obj({"root_key": S, "official_split": NS, "audio_path_template": S})
 payloads = {
-    "raw": obj({"format": nullable(enum("delimited", "json", "jsonl", "sidecar")),
+    "raw": obj({"format": nullable(enum("delimited", "json", "jsonl", "sidecar")), "dataset_release": NS,
                 "encoding": NS, "delimiter": NS, "header": nullable(B),
                 "columns": nullable({"type": "object", "additionalProperties": {"type": ["string", "integer"]}}),
                 "json_paths": nullable({"type": "object", "additionalProperties": S}),
                 "record_id": NS, "audio_path_rule": NS, "label_field": NS,
                 "allowed_values": nullable(arr({"type": ["string", "integer"]})),
-                "missing_policy": NS}),
+                "missing_policy": nullable(enum("error", "quarantine")),
+                "protocol_globs": nullable(arr(S, uniqueItems=True)),
+                "protocol_contexts": nullable({"type": "object", "additionalProperties": protocol_context})}),
     "label": obj({"policy_id": NS, "raw_to_canonical": nullable({"type": "object", "additionalProperties": {"type": "integer", "enum": [0, 1]}}),
                   "unknown_policy": enum("quarantine", "error")}),
-    "group": obj({"resolver": NS, "source_mapping_ref": NS, "group_quality": NS}),
+    "group": obj({"resolver": NS, "source_mapping_ref": NS, "source_mapping_sha256": NS,
+                  "group_quality": NS}),
     "preprocess": obj({"decode": NS, "train_unit": NS, "eval_unit": NS,
                        "source_probe": NS, "target_probe": NS, "quality_policy": NS}),
     "split": obj({"assignments_ref": NS, "group_policy_hash": NS,
@@ -61,7 +65,11 @@ payloads = {
                   "preserve_existing_assignments": {"type": "boolean", "enum": [True]},
                   "new_group_default_role": enum("unassigned", "quarantine"),
                   "automatic_resplit": {"type": "boolean", "enum": [False]},
-                  "automatic_retrain": {"type": "boolean", "enum": [False]}}),
+                  "automatic_retrain": {"type": "boolean", "enum": [False]}, "seed": nullable(I),
+                  "staging_id": NS, "staging_records_sha256": NS, "assignments_sha256": NS,
+                  "assignment_method": NS,
+                  "pool_ratios": nullable({"type": "object", "additionalProperties":
+                                           {"type": "object", "additionalProperties": N}})}),
     "architecture": obj({"repo_commit": NS, "patch_sha256": NS, "config_ref": NS,
                           "class_index_map": nullable(obj({"bonafide": {"type": "integer", "enum": [0, 1]},
                                                           "spoof": {"type": "integer", "enum": [0, 1]}}))}),
@@ -167,8 +175,12 @@ models = {f"{m}_source": {"architecture_plugin": f"{m}_author", "repo_commit": N
           "training_recipe_ref": f"configs/training/{m}.yaml", "embedding_dim": None,
           "class_index_map": None, "frozen_bundle_ref": None,
           "implementation_status": "TODO", "training_status": "NOT_RUN"} for m in ["aasist", "ssl_aasist"]}
+adapter_names = {"asvspoof2019_la": "asvspoof2019_candidate", "asvspoof2021_df": "asvspoof2021_candidate",
+                 "asvspoof2021_la": "asvspoof2021_candidate", "wavefake": "wavefake_candidate",
+                 "codecfake_xie": "codecfake_xie_candidate", "in_the_wild": "in_the_wild_candidate"}
 datasets = {d: {"roles": ROLES[:-1] if d == "asvspoof2019_la" else ["target_test"],
-                "raw_contract_status": "UNRESOLVED", "adapter": None, "implementation_status": "TODO"} for d in DATASETS}
+                "raw_contract_status": "UNRESOLVED", "adapter": adapter_names[d],
+                "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"} for d in DATASETS}
 methods = {"ep_tta": {"comparison_track": "mechanism", "route": "feature_cache", "parameterization": "matrix", "objective": "view_variance", "regularizer": "margin", "subspace": "response", "reset_policy": "per_sample", "final_output": "original", "projection": "frobenius", "implementation_status": "IMPLEMENTED_UNVERIFIED"}}
 for m in ["frozen", "multiview_mean", "static_subspace", "fixed_source_adapter", "frozen_source_shift", "ep_no_keep", "ep_random_U", "ep_feature_pca_U", "ep_no_projection", "entropy_same_adapter_no_keep", "entropy_same_adapter", "memo_same_adapter_no_keep", "memo_same_adapter_keep", "ep_keep_l2", "ep_keep_logit", "ep_keep_fisher", "ep_scalar_adaptive", "ep_diagonal_R", "source_ce_only", "tent_audio_ep", "sar_audio_ep", "memo_audio_ep_full", "eata_audio_ep", "t2a_audio_ep"]:
     methods[m] = {"comparison_track": "published_port" if "audio_ep" in m else "reference" if m in ["frozen", "multiview_mean", "static_subspace", "fixed_source_adapter", "frozen_source_shift"] else "mechanism", "route": "waveform_update" if "audio_ep" in m else "feature_cache", "implementation_status": "TODO"}

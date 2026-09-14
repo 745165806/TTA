@@ -68,6 +68,10 @@
             "null"
           ]
         },
+        "dataset_release": {
+          "type": ["string", "null"],
+          "minLength": 1
+        },
         "encoding": {
           "type": [
             "string",
@@ -144,16 +148,32 @@
           }
         },
         "missing_policy": {
-          "type": [
-            "string",
-            "null"
-          ],
-          "minLength": 1
+          "type": ["string", "null"],
+          "enum": ["error", "quarantine", null]
+        },
+        "protocol_globs": {
+          "type": ["array", "null"],
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "protocol_contexts": {
+          "type": ["object", "null"],
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "root_key": {"type": "string", "minLength": 1},
+              "official_split": {"type": ["string", "null"]},
+              "audio_path_template": {"type": "string", "minLength": 1}
+            },
+            "additionalProperties": false,
+            "required": ["root_key", "official_split", "audio_path_template"]
+          }
         }
       },
       "additionalProperties": false,
       "required": [
         "format",
+        "dataset_release",
         "encoding",
         "delimiter",
         "header",
@@ -163,7 +183,9 @@
         "audio_path_rule",
         "label_field",
         "allowed_values",
-        "missing_policy"
+        "missing_policy",
+        "protocol_globs",
+        "protocol_contexts"
       ]
     }
   },

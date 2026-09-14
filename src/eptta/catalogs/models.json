@@ -3,7 +3,7 @@
   "models": {
     "aasist_source": {
       "architecture_plugin": "aasist_author",
-      "repo_commit": null,
+      "repo_commit": "a04c9863f63d44471dde8a6abcb3b082b07cd1d1",
       "task_weights": "native_initialization",
       "pretrained_frontend": null,
       "pretrained_scope": null,
@@ -11,15 +11,15 @@
       "allow_external_task_checkpoint": false,
       "source_training_required": true,
       "training_recipe_ref": "configs/training/aasist.yaml",
-      "embedding_dim": null,
-      "class_index_map": null,
+      "embedding_dim": 160,
+      "class_index_map": {"spoof": 0, "bonafide": 1},
       "frozen_bundle_ref": null,
-      "implementation_status": "TODO",
+      "implementation_status": "AUTHOR_SOURCE_BOUND",
       "training_status": "NOT_RUN"
     },
     "ssl_aasist_source": {
       "architecture_plugin": "ssl_aasist_author",
-      "repo_commit": null,
+      "repo_commit": "4acaa61dcef5f7610f43aa4d0b29c4559b970cd2",
       "task_weights": "native_initialization",
       "pretrained_frontend": "xlsr_300m",
       "pretrained_scope": "generic_ssl_frontend_only",
@@ -27,10 +27,10 @@
       "allow_external_task_checkpoint": false,
       "source_training_required": true,
       "training_recipe_ref": "configs/training/ssl_aasist.yaml",
-      "embedding_dim": null,
-      "class_index_map": null,
+      "embedding_dim": 160,
+      "class_index_map": {"spoof": 0, "bonafide": 1},
       "frozen_bundle_ref": null,
-      "implementation_status": "TODO",
+      "implementation_status": "AUTHOR_SOURCE_BOUND",
       "training_status": "NOT_RUN"
     }
   }

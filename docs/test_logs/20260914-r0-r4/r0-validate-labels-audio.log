@@ -1,0 +1,16 @@
+Script started on 2026-09-14 19:26:33+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "VALID",
+  "label_pack": "fakedata/current/index.json",
+  "checked_audio": true,
+  "counts": {
+    "label_0": 271445,
+    "label_1": 1144280,
+    "ready": 1415725
+  },
+  "manifest_count": 17,
+  "quarantine_count": 173551
+}
+
+Script done on 2026-09-14 19:27:06+08:00 [COMMAND_EXIT_CODE="0"]

@@ -5,6 +5,7 @@
     "approval": null,
     "payload": {
       "format": null,
+      "dataset_release": null,
       "encoding": null,
       "delimiter": null,
       "header": null,
@@ -14,7 +15,9 @@
       "audio_path_rule": null,
       "label_field": null,
       "allowed_values": null,
-      "missing_policy": null
+      "missing_policy": null,
+      "protocol_globs": null,
+      "protocol_contexts": null
     }
   },
   "label": {
@@ -34,6 +37,7 @@
     "payload": {
       "resolver": null,
       "source_mapping_ref": null,
+      "source_mapping_sha256": null,
       "group_quality": null
     }
   },

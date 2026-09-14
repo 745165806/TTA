@@ -1,0 +1,18 @@
+Script started on 2026-09-14 19:26:19+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "stage": "inventory",
+  "level": "resources",
+  "status": "CONTRACT_FIELDS_VALID",
+  "resource_io_performed": false,
+  "execution_ready": false,
+  "issues": [],
+  "notice": "L0-L2 only; resource existence, review evidence and real workers are not verified",
+  "field_sources": {
+    "$": "base",
+    "runtime": "profile",
+    "paths": "paths"
+  }
+}
+
+Script done on 2026-09-14 19:26:19+08:00 [COMMAND_EXIT_CODE="0"]

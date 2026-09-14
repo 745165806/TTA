@@ -75,12 +75,17 @@
             "null"
           ],
           "minLength": 1
+        },
+        "source_mapping_sha256": {
+          "type": ["string", "null"],
+          "minLength": 1
         }
       },
       "additionalProperties": false,
       "required": [
         "resolver",
         "source_mapping_ref",
+        "source_mapping_sha256",
         "group_quality"
       ]
     }

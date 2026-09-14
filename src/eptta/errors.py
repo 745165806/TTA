@@ -17,3 +17,13 @@ class MissingDependency(EPTTAError):
 
 class NotImplementedStage(EPTTAError):
     code = "NOT_IMPLEMENTED_STAGE"
+
+
+class ResourceError(EPTTAError):
+    exit_code = 3
+    code = "MISSING_RESOURCE"
+
+
+class DataError(EPTTAError):
+    exit_code = 4
+    code = "DATA_INCOMPLETE"

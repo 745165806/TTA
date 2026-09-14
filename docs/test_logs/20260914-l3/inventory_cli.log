@@ -1,0 +1,9 @@
+{
+  "schema_version": "0.1.0",
+  "status": "INVENTORIED",
+  "out": "/tmp/eptta-l3-validation.D7Y8tk/inventory3/inventory.json",
+  "datasets": [
+    "asvspoof2019_la"
+  ],
+  "label_contract_approved": false
+}

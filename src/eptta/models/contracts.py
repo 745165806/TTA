@@ -16,7 +16,7 @@ class FrozenDetector(Protocol):
     def metadata(self) -> Mapping[str, Any]: ...
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(frozen=True)
 class FrozenModelBundle:
     schema_version: str
     model_id: str

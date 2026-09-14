@@ -1,0 +1,19 @@
+Script started on 2026-09-14 19:26:19+08:00 [<not executed on terminal>]
+  25380 /media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
+  24844 /media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt
+  71237 /media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt
+ 121461 总计
+65a289e4009400b42bb4f1e47ac60938d93f7f595452d1f220d35defc3de8ab8  /media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt
+2fedaebf1ba3ae1a9bb7d3ec916804ac237b4eee063a27fa92e6549f03d129c7  /media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt
+84fce576efff092269a0a6ad247d2e9f2f7b4d4e25a4545efb2518da92708036  /media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt
+LA_0079 LA_T_1138215 - - bonafide
+LA_0079 LA_T_1271820 - - bonafide
+LA_0079 LA_T_1272637 - - bonafide
+LA_0069 LA_D_1047731 - - bonafide
+LA_0069 LA_D_1105538 - - bonafide
+LA_0069 LA_D_1125976 - - bonafide
+LA_0039 LA_E_2834763 - A11 spoof
+LA_0014 LA_E_8877452 - A14 spoof
+LA_0040 LA_E_6828287 - A16 spoof
+
+Script done on 2026-09-14 19:26:19+08:00 [COMMAND_EXIT_CODE="0"]

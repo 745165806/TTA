@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "status": "VALID",
+  "label_pack": "/media/dell/data/fakeAudioDection/TTA/fakedata/current/index.json",
+  "checked_audio": true,
+  "counts": {
+    "label_0": 271445,
+    "label_1": 1144280,
+    "ready": 1415725
+  },
+  "manifest_count": 17,
+  "quarantine_count": 173551
+}

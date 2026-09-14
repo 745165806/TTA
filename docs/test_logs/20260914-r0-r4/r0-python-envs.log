@@ -1,0 +1,22 @@
+Script started on 2026-09-14 19:24:27+08:00 [<not executed on terminal>]
+3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]
+torch 2.1.0+cu121
+cuda_available False
+cuda_version 12.1
+/home/dell/anaconda3/envs/py310/lib/python3.10/site-packages/torch/cuda/__init__.py:611: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+device_count 0
+3.8.20 (default, Oct  3 2024, 15:24:27) 
+[GCC 11.2.0]
+torch 2.0.1+cu118
+cuda_available False
+cuda_version 11.8
+/home/dell/anaconda3/envs/py38/lib/python3.8/site-packages/torch/cuda/__init__.py:546: UserWarning: Can't initialize NVML
+  warnings.warn("Can't initialize NVML")
+device_count 0
+soundfile 0.12.1
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'fairseq'
+
+Script done on 2026-09-14 19:24:29+08:00 [COMMAND_EXIT_CODE="1"]

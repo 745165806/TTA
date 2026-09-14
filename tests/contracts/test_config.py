@@ -168,6 +168,7 @@ def test_training_resolver_does_not_inherit_ep_defaults(cfg):
                  **{k: cfg["contracts"][k] for k in ("preprocess", "split", "architecture")}}
     result = resolve_training("aasist_source", plan, recipe, contracts, cfg["runtime"], cfg["paths"])
     assert "defaults" not in result and "lambda_keep" not in result
-    assert result["recipe"]["payload"]["lr"] is None
+    assert result["recipe"]["payload"]["lr"] == 0.0001
+    assert result["recipe"]["payload"]["lr"] != cfg["defaults"]["lr"]
     assert result["status"] == "PREVIEW_ONLY" and result["execution_ready"] is False
     assert result["model"]["pretrained_frontend"] is None

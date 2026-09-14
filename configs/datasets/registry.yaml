@@ -12,48 +12,48 @@
         "target_test"
       ],
       "raw_contract_status": "UNRESOLVED",
-      "adapter": null,
-      "implementation_status": "TODO"
+      "adapter": "asvspoof2019_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
     },
     "asvspoof2021_df": {
       "roles": [
         "target_test"
       ],
       "raw_contract_status": "UNRESOLVED",
-      "adapter": null,
-      "implementation_status": "TODO"
+      "adapter": "asvspoof2021_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
     },
     "asvspoof2021_la": {
       "roles": [
         "target_test"
       ],
       "raw_contract_status": "UNRESOLVED",
-      "adapter": null,
-      "implementation_status": "TODO"
+      "adapter": "asvspoof2021_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
     },
     "wavefake": {
       "roles": [
         "target_test"
       ],
       "raw_contract_status": "UNRESOLVED",
-      "adapter": null,
-      "implementation_status": "TODO"
+      "adapter": "wavefake_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
     },
     "codecfake_xie": {
       "roles": [
         "target_test"
       ],
       "raw_contract_status": "UNRESOLVED",
-      "adapter": null,
-      "implementation_status": "TODO"
+      "adapter": "codecfake_xie_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
     },
     "in_the_wild": {
       "roles": [
         "target_test"
       ],
       "raw_contract_status": "UNRESOLVED",
-      "adapter": null,
-      "implementation_status": "TODO"
+      "adapter": "in_the_wild_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
     }
   }
 }
