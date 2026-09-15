@@ -1,0 +1,78 @@
+Script started on 2026-09-15 19:25:20+08:00 [TERM="dumb" TTY="/dev/pts/6" COLUMNS="80" LINES="24"]
+{
+  "architecture": {
+    "class_index_map": {
+      "bonafide": 1,
+      "spoof": 0
+    },
+    "embedding_dim": 160,
+    "entrypoint": "models/AASIST.py",
+    "entrypoint_sha256": "9e0d3e80937dd0577beea7883098465a479da23a198ebc0d712abcc59b0bec50",
+    "initialization_scope": "native_initialization",
+    "model_id": "aasist_source",
+    "repo_commit": "a04c9863f63d44471dde8a6abcb3b082b07cd1d1",
+    "repository": "https://github.com/clovaai/aasist.git",
+    "repository_ref": "/media/dell/data/fakeAudioDection/aasist",
+    "schema_version": "0.1.0",
+    "status": "VERIFIED"
+  },
+  "class_index_map": {
+    "bonafide": 1,
+    "spoof": 0
+  },
+  "elapsed_seconds": 408.75110816955566,
+  "execution_channel": "production",
+  "fit_snapshot_hash": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+  "initialization": null,
+  "metrics_ref": "metrics.jsonl",
+  "metrics_sha256": "c5d41abe1795ac6a51e4bb192feefd134e67e4b2f8fc827b2a91195017033c0e",
+  "model_id": "aasist_source",
+  "patch": {
+    "combined_sha256": "00aea39322b51c49a70d691d9daa8cad0be99da460a5043f566da1b016e721a7",
+    "payload": {
+      "model_construction": {
+        "kind": "none",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "training_orchestration": {
+        "patch_sha256": "342987b541f8fcfb9c325878c6494ed911718e75df9ef76dd583803a5f0596e9",
+        "payload": {
+          "allowed_roles": [
+            "fit",
+            "source_val"
+          ],
+          "author_eval_path_disabled": true,
+          "author_training_entrypoint": "main.py",
+          "author_training_sha256": "ac920ce8f5eb66e02ce40ff0ee4d3d5cf3b94c24a03c4e2e4c04726f64917b3e",
+          "forbidden_roles": [
+            "select",
+            "cal0",
+            "audit",
+            "control_test",
+            "target_test",
+            "cal1"
+          ],
+          "kind": "project_source_worker_replaces_author_train_eval_orchestration",
+          "project_compat_ref": "/media/dell/data/fakeAudioDection/TTA/workers/compat/author_training.py",
+          "project_compat_sha256": "a135f6cb80f0e83f96681e8131556fce669a6c9736a7b2c1f6216c30a008c325",
+          "project_worker_ref": "/media/dell/data/fakeAudioDection/TTA/workers/source_train_bridge.py",
+          "project_worker_sha256": "ff77caa3f20065e665bb8a1bedb4eb8dc13fa7609d62dfb451fa4ffbdbe7f631"
+        }
+      }
+    }
+  },
+  "phase": "smoke",
+  "recipe_hash": "5bf67b0bd9f56287eb5ccafb3383cc94c867c4885c2b12ad3a25ef0f54fb935c",
+  "recipe_ref": "/media/dell/data/fakedata/eptta_work/contracts/aasist.recipe.lock.json",
+  "schema_version": "0.1.0",
+  "source_val_snapshot_hash": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+  "status": "TRAINED",
+  "task_weight_origin": "trained_in_project",
+  "train_log_ref": "train_log.jsonl",
+  "train_log_sha256": "46d772b64fd2da2531debace452fea28ae437df44f37c6a5dd91fa9d059e86d5",
+  "training_run_id": "source-run-b85321be4f42ec370182",
+  "training_seed": 13,
+  "world_size": 1
+}
+
+Script done on 2026-09-15 19:32:11+08:00 [COMMAND_EXIT_CODE="0"]

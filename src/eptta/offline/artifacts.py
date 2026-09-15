@@ -4,6 +4,7 @@ from pathlib import Path
 from eptta.config.validate import content_hash
 from eptta.data.io import AtomicDirectory, read_json, sha256_file, write_json_new
 from eptta.errors import ContractError, DataError
+from eptta.models.frozen import verify_frozen_export
 
 
 ARRAY_NAMES = ("U", "U_feature_pca", "U_random_0", "U_random_1", "U_random_2", "w",
@@ -96,16 +97,24 @@ def build_source_resources(plan_ref, fit_cache_ref, output):
     from eptta.offline.static_adapter import fit_fixed_source_adapter
     from eptta.offline.subspace import feature_pca_subspace, random_subspace, response_subspace
     plan = read_json(plan_ref)
-    required = {"schema_version", "status", "frozen_bundle_ref", "fit_labels_ref",
+    required = {"schema_version", "status", "frozen_bundle_ref", "fit_role", "fit_manifest_sha256",
+                "fit_labels_ref", "calibration_role", "calibration_manifest_sha256",
                 "calibration_cache_ref", "calibration_labels_ref", "source_snapshot_hash",
                 "rank", "alpha_cal", "anchor_per_class", "seed", "random_seeds", "fixed_adapter"}
     if set(plan) != required or plan.get("status") != "LOCKED" or plan.get("random_seeds") is None or len(
             plan["random_seeds"]) != 3:
         raise ContractError("source artifact plan must be strict, LOCKED, and contain three random seeds")
+    if plan["fit_role"] != "fit" or plan["calibration_role"] != "cal0":
+        raise ContractError("source artifacts may use labels only from fit and cal0")
     bundle_path = Path(plan["frozen_bundle_ref"])
-    bundle = read_json(bundle_path)
+    bundle, _export, _parity, _selection = verify_frozen_export(bundle_path)
     fit_cache = FeatureCache(fit_cache_ref)
     cal_cache = FeatureCache(plan["calibration_cache_ref"])
+    if fit_cache.index["identity"]["input_manifest_sha256"] != plan["fit_manifest_sha256"] or cal_cache.index[
+            "identity"]["input_manifest_sha256"] != plan["calibration_manifest_sha256"]:
+        raise ContractError("source cache manifests differ from the locked fit/cal0 plan")
+    if plan["source_snapshot_hash"] != bundle["fit_snapshot_hash"]:
+        raise ContractError("source artifact snapshot differs from the trained frozen detector")
     for cache in (fit_cache, cal_cache):
         if cache.index["identity"]["baseline_id"] != bundle["baseline_id"] or cache.index["identity"][
                 "selected_checkpoint_sha256"] != bundle["selected_checkpoint_sha256"]:

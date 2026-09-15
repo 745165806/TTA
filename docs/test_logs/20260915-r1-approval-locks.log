@@ -1,0 +1,31 @@
+Script started on 2026-09-15 12:50:58+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "LOCKED",
+  "kind": "raw",
+  "out": "/media/dell/data/fakedata/eptta_work/contracts/raw.lock.json",
+  "content_sha256": "64b915bf168598e36242b0ce8688caf2880aee1b4469b0b386287b2923fc87a5"
+}
+{
+  "schema_version": "0.1.0",
+  "status": "LOCKED",
+  "kind": "label",
+  "out": "/media/dell/data/fakedata/eptta_work/contracts/label.lock.json",
+  "content_sha256": "b382ec7e6939667dbfee30141515a5ce9a481ec8e198468d87529560c6a36dd1"
+}
+{
+  "schema_version": "0.1.0",
+  "status": "LOCKED",
+  "kind": "group",
+  "out": "/media/dell/data/fakedata/eptta_work/contracts/group.lock.json",
+  "content_sha256": "47f5904687248aa10973a75894b033dacf8bf718170d9473c42dc67324d9b775"
+}
+{
+  "schema_version": "0.1.0",
+  "status": "LOCKED",
+  "kind": "preprocess",
+  "out": "/media/dell/data/fakedata/eptta_work/contracts/source_preprocess.lock.json",
+  "content_sha256": "6d1eaf49fe7fbf0fcf931572751c0bf6a9178ee89d04bd6b70f6f27f72528f6a"
+}
+
+Script done on 2026-09-15 12:50:58+08:00 [COMMAND_EXIT_CODE="0"]

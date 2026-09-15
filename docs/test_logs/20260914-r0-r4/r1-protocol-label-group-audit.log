@@ -1,0 +1,9 @@
+Script started on 2026-09-14 19:30:43+08:00 [<not executed on terminal>]
+/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt rows 25380 bonafide 2580 spoof 22800 unknown 0 bad_nf 0
+/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt speakers 20 attacks 7 duplicate_ids 0
+/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt rows 24844 bonafide 2548 spoof 22296 unknown 0 bad_nf 0
+/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt speakers 20 attacks 7 duplicate_ids 0
+/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt rows 71237 bonafide 7355 spoof 63882 unknown 0 bad_nf 0
+/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt speakers 67 attacks 14 duplicate_ids 0
+
+Script done on 2026-09-14 19:30:43+08:00 [COMMAND_EXIT_CODE="0"]

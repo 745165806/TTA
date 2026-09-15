@@ -1,0 +1,15 @@
+{
+  "audio": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_1271820.flac",
+  "eval_first_sha256": "d22e450ffb36890904ce1bb9201c1ae844467ef45e42db301a4dfd9c50634216",
+  "fit_differs_from_eval": true,
+  "fit_epoch_sha256": [
+    "84dcdd6712f2dbb28c4db933d0192dc23b3e2cc7f8386d60b883a3dc6d944bd0",
+    "4a81c95ee7583dfa95b58955c9aed9d62573daa520a4554ab4f58f62c66a0e29"
+  ],
+  "fit_epochs_differ": true,
+  "lengths": [
+    64600,
+    64600,
+    64600
+  ]
+}

@@ -1,6 +1,8 @@
 {
   "schema_version": "0.1.0",
   "status": "UNRESOLVED",
+  "purpose": null,
+  "input_role": null,
   "frozen_bundle_ref": null,
   "manifest_ref": null,
   "manifest_sha256": null,

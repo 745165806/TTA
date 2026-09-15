@@ -34,7 +34,12 @@
     "schema_version": "0.1.0",
     "status": "PROPOSED",
     "approval": null,
-    "payload": {"resolver": "field:speaker_id", "source_mapping_ref": null, "source_mapping_sha256": null, "group_quality": "proposed_official_speaker"}
+    "payload": {
+      "resolver": "field:speaker_id",
+      "source_mapping_ref": "docs/test_logs/20260914-r0-r4/r1-cross-split-speakers.log",
+      "source_mapping_sha256": "498a8e7e2eb226bf2f802b9f00e474346b2810a114ee1a06c621f905c41aa4f4",
+      "group_quality": "official_protocol_speaker_audited_candidate"
+    }
   },
   "snapshot": {
     "schema_version": "0.1.0",

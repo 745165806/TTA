@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.1.0",
+  "status": "UNRESOLVED",
+  "suite_id": null,
+  "phase": "confirmatory",
+  "selected_on_role": "select",
+  "plan_ref": null,
+  "plan_sha256": null,
+  "methods": []
+}

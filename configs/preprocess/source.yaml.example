@@ -4,7 +4,7 @@
   "approval": null,
   "payload": {
     "decode": "soundfile_float32_mono_mean_require_16khz",
-    "train_unit": "repeat_or_crop_first_64600",
+    "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample",
     "eval_unit": "repeat_or_crop_first_64600",
     "source_probe": "identity",
     "target_probe": "probe_default_after_baseline_unit",

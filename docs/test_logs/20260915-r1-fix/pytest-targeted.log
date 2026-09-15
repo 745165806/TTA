@@ -1,0 +1,108 @@
+Script started on 2026-09-15 10:38:46+08:00 [<not executed on terminal>]
+......F.F..............................................................  [100%]
+=================================== FAILURES ===================================
+_____________ test_full_run_finalization_uses_earliest_minimum_eer _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-dell/pytest-101/test_full_run_finalization_use0')
+
+    def test_full_run_finalization_uses_earliest_minimum_eer(tmp_path):
+        run = tmp_path / "run"
+        (run / "checkpoints").mkdir(parents=True)
+        checkpoint = run / "checkpoints/best.pt"
+        checkpoint.write_bytes(b"in-project-checkpoint")
+        checkpoint_hash = sha256_file(checkpoint)
+        provenance = {"schema_version": "0.1.0", "epoch": 1, "global_step": 10,
+                      "recipe_hash": "a" * 64, "fit_snapshot_hash": "b" * 64,
+                      "source_val_snapshot_hash": "c" * 64, "task_weight_origin": "trained_in_project",
+                      "training_seed": 13}
+        (run / "checkpoints/best.pt.json").write_text(json.dumps(provenance))
+        _write_jsonl(run / "metrics.jsonl", [{"epoch": 1, "source_val_eer": .1,
+                                               "checkpoint_ref": "checkpoints/best.pt",
+                                               "checkpoint_sha256": checkpoint_hash}])
+        metadata = {"schema_version": "0.1.0", "status": "TRAINED", "phase": "full",
+                    "execution_channel": "production", "task_weight_origin": "trained_in_project",
+                    "training_run_id": "run", "model_id": "aasist_source", "recipe_ref": "recipe.json",
+                    "recipe_hash": "a" * 64, "fit_snapshot_hash": "b" * 64,
+                    "source_val_snapshot_hash": "c" * 64, "training_seed": 13,
+                    "metrics_ref": "metrics.jsonl", "metrics_sha256": sha256_file(run / "metrics.jsonl"),
+                    "architecture": {"repo_commit": "d" * 40},
+                    "class_index_map": {"spoof": 0, "bonafide": 1}, "initialization": None}
+        (run / "run.json").write_text(json.dumps(metadata))
+>       result = finalize_training(run, tmp_path / "finalized.json")
+
+tests/contracts/test_source_training.py:135: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+run_ref = PosixPath('/tmp/pytest-of-dell/pytest-101/test_full_run_finalization_use0/run')
+output = PosixPath('/tmp/pytest-of-dell/pytest-101/test_full_run_finalization_use0/finalized.json')
+
+    def finalize_training(run_ref, output):
+        run_dir = Path(run_ref)
+        run = read_json(run_dir / "run.json")
+        if run.get("schema_version") != "0.1.0" or run.get("status") != "TRAINED":
+            raise ContractError("only a completed training run can be finalized")
+        if run.get("phase") != "full" or run.get("execution_channel") != "production":
+            raise ContractError("smoke/synthetic runs cannot be finalized")
+        if run.get("task_weight_origin") != "trained_in_project":
+            raise ContractError("external task weights cannot be finalized")
+        metrics_path = run_dir / run.get("metrics_ref", "metrics.jsonl")
+        if sha256_file(metrics_path) != run.get("metrics_sha256"):
+            raise DataError("training metrics changed after completion")
+        selected = select_source_checkpoint(list(iter_jsonl(metrics_path)))
+        checkpoint = run_dir / selected["checkpoint_ref"]
+        if not checkpoint.is_file() or sha256_file(checkpoint) != selected["checkpoint_sha256"]:
+            raise DataError("selected checkpoint is missing or changed")
+        sidecar = read_json(str(checkpoint) + ".json")
+        required_equal = {
+            "recipe_hash": run["recipe_hash"], "fit_snapshot_hash": run["fit_snapshot_hash"],
+            "source_val_snapshot_hash": run["source_val_snapshot_hash"],
+            "task_weight_origin": "trained_in_project", "training_seed": run["training_seed"]}
+        if any(sidecar.get(key) != value for key, value in required_equal.items()):
+            raise ContractError("selected checkpoint provenance disagrees with its run")
+        if not run.get("patch") or sidecar.get("patch") != run["patch"]:
+>           raise ContractError("selected checkpoint patch provenance disagrees with its run")
+E           eptta.errors.ContractError: selected checkpoint patch provenance disagrees with its run
+
+src/eptta/training/artifacts.py:37: ContractError
+__________ test_recipe_compilation_keeps_only_source_roots_and_roles ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-dell/pytest-101/test_recipe_compilation_keeps_0')
+
+    def test_recipe_compilation_keeps_only_source_roots_and_roles(tmp_path):
+        repository = Path("/media/dell/data/fakeAudioDection/aasist")
+        if not repository.is_dir():
+            pytest.skip("pinned author repository is not available in this checkout")
+        snapshot = _snapshot(tmp_path / "snapshot")
+        preprocess_proposal = {"schema_version": "0.1.0", "status": "PROPOSED", "approval": None,
+            "payload": {"decode": "soundfile_float32_mono_mean_require_16khz",
+                        "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample",
+                        "eval_unit": "repeat_or_crop_first_64600",
+                        "source_probe": "identity", "target_probe": "probe_default_after_baseline_unit",
+                        "quality_policy": "snapshot_prevalidated_fail_runtime"}}
+        preprocess = approve(preprocess_proposal, review(), "preprocess")
+        preprocess_path = tmp_path / "preprocess.lock.json"
+        preprocess_path.write_text(json.dumps(preprocess))
+        proposal = resolve_training_recipe("aasist_source", snapshot, preprocess_path,
+            ROOT / "configs/training/aasist.yaml", repository,
+            {"fixture": str(tmp_path), "target_test": "/forbidden/target"})
+        locked = approve(proposal, review(), "recipe")
+        recipe_path = tmp_path / "recipe.lock.json"
+        recipe_path.write_text(json.dumps(locked))
+        job = compile_source_job(recipe_path, "smoke", tmp_path / "run")
+        assert job["execution"]["data_roots"] == {"fixture": str(tmp_path)}
+>       assert "target_test" not in json.dumps(job)
+E       assert 'target_test' not in '{"schema_ve...n_project"}}'
+E         
+E         'target_test' is contained here:
+E         ?           ^^
+E           l_test", "target_test", "cal1"], "author_eval_path_disabled": true}, "patch_sha256": "eefd7749d685566f04c676508cad355a37d6bb8692869dc8d42878158afbb022"}, "manifest_hashes": {"fit": "af10babf406466f7e21a89a222f346824f7a76268b320376bfa9925e2f493484", "source_val": "10e112249c4721e1dd3e5cebac3641233c225f7a8403e4f4d48ce08997cbb095"}, "sample_counts": {"fit": 2, "source_val": 2}, "data_roots": {"fixture": "/tmp/pytest-of-dell/pytest-101/test_recipe_compilation_keeps_0"}, "preprocess_ref": "/tmp/pytest-of-dell/pytest-101/test_recipe_compilatio...
+E         
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests/contracts/test_source_training.py:182: AssertionError
+=========================== short test summary info ============================
+FAILED tests/contracts/test_source_training.py::test_full_run_finalization_uses_earliest_minimum_eer
+FAILED tests/contracts/test_source_training.py::test_recipe_compilation_keeps_only_source_roots_and_roles
+2 failed, 69 passed in 1.56s
+
+Script done on 2026-09-15 10:38:48+08:00 [COMMAND_EXIT_CODE="1"]

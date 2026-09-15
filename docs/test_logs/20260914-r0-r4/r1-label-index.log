@@ -1,0 +1,284 @@
+Script started on 2026-09-14 19:30:43+08:00 [<not executed on terminal>]
+{
+    "blocked_sources": [
+        {
+            "dataset_id": "asvspoof2021_df",
+            "evidence": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval/ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/ASVspoof2021.DF.cm.eval.trl.txt",
+            "reason": "available local trial list contains utterance IDs only; no reviewed DF label key is bound"
+        },
+        {
+            "dataset_id": "wavefake",
+            "evidence": "/media/dell/data/fakedata/WaveFake/generated_audio.zip",
+            "reason": "archive is present but audio and authoritative metadata are not extracted"
+        }
+    ],
+    "canonical_labels": {
+        "bonafide": 0,
+        "spoof": 1
+    },
+    "compatibility_columns": [
+        "utt_id",
+        "path",
+        "label",
+        "attack",
+        "speaker",
+        "split",
+        "source"
+    ],
+    "counts": {
+        "label_0": 271445,
+        "label_1": 1144280,
+        "quarantine": 173551,
+        "ready": 1415725,
+        "source_rows": 1589276
+    },
+    "format": "eptta_unified_labels_csv_v1",
+    "immutable": true,
+    "manifests": [
+        {
+            "counts": {
+                "label_0": 2580,
+                "label_1": 22800,
+                "ready": 25380
+            },
+            "dataset_id": "asvspoof2019_la",
+            "dataset_release": "ASVspoof2019-LA",
+            "official_split": "train",
+            "protocol_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt",
+            "protocol_sha256": "65a289e4009400b42bb4f1e47ac60938d93f7f595452d1f220d35defc3de8ab8",
+            "ref": "manifests/asvspoof2019_la_train.csv",
+            "sha256": "9a5b6a402e028560aff7cdd177dfb22937e00ad8024aa822f211d4d4a655b073"
+        },
+        {
+            "counts": {
+                "label_0": 2548,
+                "label_1": 22296,
+                "ready": 24844
+            },
+            "dataset_id": "asvspoof2019_la",
+            "dataset_release": "ASVspoof2019-LA",
+            "official_split": "dev",
+            "protocol_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt",
+            "protocol_sha256": "2fedaebf1ba3ae1a9bb7d3ec916804ac237b4eee063a27fa92e6549f03d129c7",
+            "ref": "manifests/asvspoof2019_la_dev.csv",
+            "sha256": "7153a2b19dc92d6596a60d4282279738aebc162827f9ad116b28fe81b2fb7e6b"
+        },
+        {
+            "counts": {
+                "label_0": 7355,
+                "label_1": 63882,
+                "ready": 71237
+            },
+            "dataset_id": "asvspoof2019_la",
+            "dataset_release": "ASVspoof2019-LA",
+            "official_split": "eval",
+            "protocol_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.eval.trl.txt",
+            "protocol_sha256": "84fce576efff092269a0a6ad247d2e9f2f7b4d4e25a4545efb2518da92708036",
+            "ref": "manifests/asvspoof2019_la_eval.csv",
+            "sha256": "1103ba972118761cfdbbc0aea79d6a7599644685bfc32210178e2998dfccb2cc"
+        },
+        {
+            "counts": {
+                "label_0": 18452,
+                "label_1": 163114,
+                "ready": 181566
+            },
+            "dataset_id": "asvspoof2021_la",
+            "dataset_release": "ASVspoof2021-LA-eval",
+            "official_split": "eval",
+            "protocol_ref": "/media/dell/data/fakedata/asvspoof2021/LA-keys-full/keys/LA/CM/trial_metadata.txt",
+            "protocol_sha256": "6cc64a94d74c3c749a4ad8f5e377d0f46ed221477cfe3585996d8b550548bba8",
+            "ref": "manifests/asvspoof2021_la_eval.csv",
+            "sha256": "b3b22277bf84a6f70e4a2017a72fbd3323fafde77cb6af202b3a97c7c717dadd"
+        },
+        {
+            "counts": {
+                "label_0": 19963,
+                "label_1": 11816,
+                "ready": 31779
+            },
+            "dataset_id": "in_the_wild",
+            "dataset_release": "release_in_the_wild",
+            "official_split": "eval",
+            "protocol_ref": "/media/dell/data/fakedata/release_in_the_wild/meta.csv",
+            "protocol_sha256": "2e404150eff3cf171b766da81013a93248cbb219682fff420bbadb6b86a18795",
+            "ref": "manifests/in_the_wild_eval.csv",
+            "sha256": "2a13733c6ce8dfeed7772a070b0a043cda982f7db2136f05ddd7557956490ea9"
+        },
+        {
+            "counts": {
+                "label_0": 105821,
+                "label_1": 634926,
+                "ready": 740747
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "train",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/train.txt",
+            "protocol_sha256": "f789240cb61f714270123526e2b8d020f15859d315c240dfaf22b93746503ca4",
+            "ref": "manifests/codecfake_xie_train.csv",
+            "sha256": "49aa10976b6fb2112f865bbda1f61b20246f4b9a901588bf05eab50457f11f77"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 79368,
+                "ready": 92596
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "dev",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/dev.txt",
+            "protocol_sha256": "30393f1ff6cf180c317e2bc502246f904785351981d5f2ce811d98352a2a1277",
+            "ref": "manifests/codecfake_xie_dev.csv",
+            "sha256": "fe0050a9af08197997816bbcd2d43aecde11a7986ad140c4edf9db8a2cf28ae0"
+        },
+        {
+            "counts": {
+                "label_0": 4451,
+                "label_1": 4436,
+                "ready": 8887
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_A1",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/A1.txt",
+            "protocol_sha256": "68ade24c79e85ece36a8a3e90d0048a30dd656d4706703049c1f9b7a65641f78",
+            "ref": "manifests/codecfake_xie_A1_eval.csv",
+            "sha256": "525cdfa77567bd6f8ecaf657ab2913ec42dfb66a439621d75091da330bdcb063"
+        },
+        {
+            "counts": {
+                "label_0": 4451,
+                "label_1": 4436,
+                "ready": 8887
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_A2",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/A2.txt",
+            "protocol_sha256": "1398913e7d123f0af828ba09e0636b759033f1663fc0ef696af3d95e4bb87582",
+            "ref": "manifests/codecfake_xie_A2_eval.csv",
+            "sha256": "0de32f99ca9468424b19ab98eec32f2397a93049950d14612e251423f6df1584"
+        },
+        {
+            "counts": {
+                "audio_missing": 49274,
+                "label_1": 49838,
+                "ready": 49838
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_A3",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/A3.txt",
+            "protocol_sha256": "070bf31e8d2cec2d6a702d733b64aec0f10987e211f08cc1f781fdfe5cd18126",
+            "ref": "manifests/codecfake_xie_A3_eval.csv",
+            "sha256": "f4c21a92a7c422b1937ba0d7a91694abe4d57d20b043fef68c5ddcd84458b84a"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 13228,
+                "ready": 26456
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C1",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C1.txt",
+            "protocol_sha256": "b67636e46783135704a850464987aac2464619f1f88029683196261e4b5cb161",
+            "ref": "manifests/codecfake_xie_C1_eval.csv",
+            "sha256": "4109c9c146894bc4ca21aeaa380e1b7f706d48e579e46ba33033365619df0208"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 13228,
+                "ready": 26456
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C2",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C2.txt",
+            "protocol_sha256": "3c1d545f00c51bee59efa8fba9dd74d566818e0b5434f30d6551a89f7745b3e6",
+            "ref": "manifests/codecfake_xie_C2_eval.csv",
+            "sha256": "17de7672e94accbddcbabc6950c309d59f4ead7200cfb504de3a9da0cde07f0e"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 13228,
+                "ready": 26456
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C3",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C3.txt",
+            "protocol_sha256": "33630725bcc6c0078380d5a1f55b2127072aa41db9ea52d9c9f2bc8c8417249d",
+            "ref": "manifests/codecfake_xie_C3_eval.csv",
+            "sha256": "30af270ad140dec426769b190f5a23e19686aefbc185691ee28c094984d9770b"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 13228,
+                "ready": 26456
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C4",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C4.txt",
+            "protocol_sha256": "735b82d3fe6851ee70ebbf5cbeb4e3e3c87b3af9fe3ab69ad7941a2c82f32620",
+            "ref": "manifests/codecfake_xie_C4_eval.csv",
+            "sha256": "f8042289f800e6642e73e279bf02b4f8671e8e94ad565d2670557453443a0db2"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 13228,
+                "ready": 26456
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C5",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C5.txt",
+            "protocol_sha256": "0f8019ed7e8861865c331f14ed003a38d3b728aa2ffcba3f62763ab7f40402b6",
+            "ref": "manifests/codecfake_xie_C5_eval.csv",
+            "sha256": "1dab84d55c9571a8aa0e15137b348ad61f604f7c248f8523822d958b08b5e2c4"
+        },
+        {
+            "counts": {
+                "label_0": 13228,
+                "label_1": 13228,
+                "ready": 26456
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C6",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C6.txt",
+            "protocol_sha256": "f9b955523099728f48b7cfc12622202ba656972a5bb9ac0a14a4e82f877fdd54",
+            "ref": "manifests/codecfake_xie_C6_eval.csv",
+            "sha256": "8e5913b8fe3eb6c206a2fee0ecaa7b22e830526862596218c637e113b904a03e"
+        },
+        {
+            "counts": {
+                "audio_missing": 124277,
+                "label_0": 13228,
+                "label_1": 8000,
+                "ready": 21228
+            },
+            "dataset_id": "codecfake_xie",
+            "dataset_release": "Codecfake-Xie-extracted",
+            "official_split": "eval_C7",
+            "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/C7.txt",
+            "protocol_sha256": "ada3f1574b45b6aaafe6f3d59e5a17eb2ab481faaa023776f3590cb5b769146d",
+            "ref": "manifests/codecfake_xie_C7_eval.csv",
+            "sha256": "2636674a78da4d2e094c0bbd0c8072f4570cdfea571e7309849c8dbe00c31d1a"
+        }
+    ],
+    "quarantine_ref": "quarantine.csv",
+    "quarantine_sha256": "66fe7c76b5deb0b982ca2a331f4c6af909f634c3ecbabc5c7aeaec36415d04fe",
+    "schema_version": "0.1.0",
+    "status": "READY_WITH_QUARANTINE"
+}
+
+Script done on 2026-09-14 19:30:43+08:00 [COMMAND_EXIT_CODE="0"]

@@ -1,0 +1,68 @@
+{
+  "dev": {
+    "channels": {
+      "1": 24844
+    },
+    "error_count": 0,
+    "errors": [],
+    "formats": {
+      "FLAC": 24844
+    },
+    "max_frames": 185508,
+    "max_seconds": 11.59425,
+    "min_frames": 11122,
+    "min_seconds": 0.695125,
+    "readable": 24844,
+    "rows": 24844,
+    "sample_rates": {
+      "16000": 24844
+    },
+    "subtypes": {
+      "PCM_16": 24844
+    }
+  },
+  "eval": {
+    "channels": {
+      "1": 71237
+    },
+    "error_count": 0,
+    "errors": [],
+    "formats": {
+      "FLAC": 71237
+    },
+    "max_frames": 208409,
+    "max_seconds": 13.0255625,
+    "min_frames": 7519,
+    "min_seconds": 0.4699375,
+    "readable": 71237,
+    "rows": 71237,
+    "sample_rates": {
+      "16000": 71237
+    },
+    "subtypes": {
+      "PCM_16": 71237
+    }
+  },
+  "train": {
+    "channels": {
+      "1": 25380
+    },
+    "error_count": 0,
+    "errors": [],
+    "formats": {
+      "FLAC": 25380
+    },
+    "max_frames": 211007,
+    "max_seconds": 13.1879375,
+    "min_frames": 10439,
+    "min_seconds": 0.6524375,
+    "readable": 25380,
+    "rows": 25380,
+    "sample_rates": {
+      "16000": 25380
+    },
+    "subtypes": {
+      "PCM_16": 25380
+    }
+  }
+}

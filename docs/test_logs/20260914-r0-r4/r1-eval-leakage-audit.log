@@ -1,0 +1,63 @@
+Script started on 2026-09-14 19:30:43+08:00 [<not executed on terminal>]
+/media/dell/data/fakeAudioDection/aasist/config/AASIST.conf
+9:    "eval_all_best": "True",
+
+/media/dell/data/fakeAudioDection/aasist/main.py
+46:    if "eval_all_best" not in config:
+47:        config["eval_all_best"] = "True"
+61:    eval_trial_path = (
+90:    trn_loader, dev_loader, eval_loader = get_loader(
+99:        produce_evaluation_file(eval_loader, model, device,
+100:                                eval_score_path, eval_trial_path)
+106:        eval_eer, eval_tdcf = calculate_tDCF_EER(
+118:    best_eval_eer = 100.
+155:            if str_to_bool(config["eval_all_best"]):
+156:                produce_evaluation_file(eval_loader, model, device,
+157:                                        eval_score_path, eval_trial_path)
+158:                eval_eer, eval_tdcf = calculate_tDCF_EER(
+165:                if eval_eer < best_eval_eer:
+166:                    log_text += "best eer, {:.4f}%".format(eval_eer)
+167:                    best_eval_eer = eval_eer
+183:    print("Start final evaluation")
+188:    produce_evaluation_file(eval_loader, model, device, eval_score_path,
+189:                            eval_trial_path)
+190:    eval_eer, eval_tdcf = calculate_tDCF_EER(cm_scores_file=eval_score_path,
+196:    f_log.write("EER: {:.3f}, min t-DCF: {:.5f}".format(eval_eer, eval_tdcf))
+202:    if eval_eer <= best_eval_eer:
+203:        best_eval_eer = eval_eer
+209:        best_eval_eer, best_eval_tdcf))
+241:    eval_trial_path = (
+277:    file_eval = genSpoof_list(dir_meta=eval_trial_path,
+282:    eval_loader = DataLoader(eval_set,
+288:    return trn_loader, dev_loader, eval_loader
+56:               "fit", "source_val", "initialization", "output_dir", "training_seed", "phase", "resume"}
+59:    if source["fit"]["role"] != "fit" or source["source_val"]["role"] != "source_val":
+60:        raise ValueError("worker accepts fit/source_val only")
+62:    for forbidden in ("target_test", "control_test", '"select"', '"audit"', '"cal0"', '"cal1"'):
+64:            raise ValueError("target/evaluation role leaked into source worker")
+220:        raise ValueError("source_val EER undefined: one class is absent")
+272:        raise ValueError("source_val must contain every ID exactly once")
+276:            raise ValueError("source_val changed model buffer: %s" % name)
+278:    return {"source_val_loss": numerator / denominator, "source_val_eer": eer(scores, labels),
+279:            "source_val_count": len(ids),
+280:            "source_val_ids_sha256": hashlib.sha256("\n".join(ids).encode("utf-8")).hexdigest(),
+328:             "source_val_snapshot_hash": source["source_val"]["snapshot_hash"],
+338:               "fit_snapshot_hash", "source_val_snapshot_hash", "architecture", "patch",
+377:    val = ManifestDataset(source["source_val"]["manifest_ref"], execution["manifest_hashes"]["source_val"], roots, "source_val")
+399:                              ("source_val_snapshot_hash", source["source_val"]["snapshot_hash"])):
+430:            best_eer = min(float(item["source_val_eer"]) for item in previous)
+452:        improved = validation["source_val_eer"] < best_eer
+453:        best_eer = min(best_eer, validation["source_val_eer"])
+462:                      "source_val_loss": validation["source_val_loss"],
+463:                      "source_val_eer": validation["source_val_eer"],
+464:                      "source_val_count": validation["source_val_count"],
+465:                      "source_val_ids_sha256": validation["source_val_ids_sha256"],
+470:                append_jsonl(metrics_path, {"epoch": epoch, "source_val_eer": validation["source_val_eer"],
+476:                                   source["source_val"]["snapshot_hash"] + str(source["training_seed"])).encode()).hexdigest()
+481:               "source_val_snapshot_hash": source["source_val"]["snapshot_hash"],
+7f9d761a370673ba2aaf0bb37b6d4eee9137bdbae613842c973c19cd79afd743  workers/source_train_bridge.py
+d9af309a169a8d6ab2204f78defed58f4d657b6e7341f28639bae009103c1694  workers/compat/author_training.py
+ac920ce8f5eb66e02ce40ff0ee4d3d5cf3b94c24a03c4e2e4c04726f64917b3e  /media/dell/data/fakeAudioDection/aasist/main.py
+c25023331685027cce90e1b9a0d2df10aa04b2a27d9b27d5afa36e6815b0fe76  /media/dell/data/fakeAudioDection/aasist/config/AASIST.conf
+
+Script done on 2026-09-14 19:30:43+08:00 [COMMAND_EXIT_CODE="0"]

@@ -120,7 +120,14 @@ def build_author_model(job, device):
     return AuthorModelAdapter(model, model_id), patch
 
 
-def load_audio(path, expected_sample_rate=16000, length=64600):
+def _crop_start(audio_length, length, crop_identity):
+    if crop_identity is None or audio_length <= length:
+        return 0
+    digest = hashlib.sha256(crop_identity.encode("utf-8")).digest()
+    return int.from_bytes(digest[:8], byteorder="big") % (audio_length - length + 1)
+
+
+def load_audio(path, expected_sample_rate=16000, length=64600, crop_identity=None):
     try:
         import soundfile
     except ImportError as exc:
@@ -134,18 +141,22 @@ def load_audio(path, expected_sample_rate=16000, length=64600):
     if audio.ndim != 1 or audio.size == 0 or not numpy.isfinite(audio).all():
         raise ValueError("invalid audio tensor: %s" % path)
     if audio.shape[0] >= length:
-        return audio[:length].copy()
+        start = _crop_start(audio.shape[0], length, crop_identity)
+        return audio[start:start + length].copy()
     repeats = int(length / audio.shape[0]) + 1
     return numpy.tile(audio, repeats)[:length].copy()
 
 
 class ManifestDataset(object):
-    def __init__(self, manifest_ref, expected_hash, data_roots, role):
+    def __init__(self, manifest_ref, expected_hash, data_roots, role, training_seed=0):
         import torch
         self._dataset_base = torch.utils.data.Dataset
         if sha256_file(manifest_ref) != expected_hash:
             raise ValueError("%s manifest hash mismatch" % role)
         self.rows = []
+        self.role = role
+        self.training_seed = int(training_seed)
+        self.epoch = 0
         seen = set()
         with open(manifest_ref, encoding="utf-8") as stream:
             for number, line in enumerate(stream, 1):
@@ -169,10 +180,16 @@ class ManifestDataset(object):
     def __len__(self):
         return len(self.rows)
 
+    def set_epoch(self, epoch):
+        self.epoch = int(epoch)
+
     def __getitem__(self, index):
         import torch
         row = self.rows[index]
-        waveform = torch.from_numpy(load_audio(row["audio_path"]))
+        crop_identity = None
+        if self.role == "fit":
+            crop_identity = "%d\0%d\0%s" % (self.training_seed, self.epoch, row["sample_id"])
+        waveform = torch.from_numpy(load_audio(row["audio_path"], crop_identity=crop_identity))
         return waveform, int(row["canonical_label"]), row["sample_id"]
 
 

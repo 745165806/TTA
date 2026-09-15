@@ -39,6 +39,17 @@ def binary_metrics(scores, labels, threshold, frozen_scores=None):
         if len(frozen_scores) != len(scores):
             raise DataError("frozen/adapted score coverage mismatch")
         before = [int(score > threshold) for score in frozen_scores]
-        result["helpful_flips"] = sum(a != b and a == y for a, b, y in zip(prediction, before, labels))
-        result["harmful_flips"] = sum(a != b and b == y for a, b, y in zip(prediction, before, labels))
+        helpful = {label: sum(a != b and a == y and y == label
+                              for a, b, y in zip(prediction, before, labels)) for label in (0, 1)}
+        harmful = {label: sum(a != b and b == y and y == label
+                              for a, b, y in zip(prediction, before, labels)) for label in (0, 1)}
+        class_count = {label: sum(y == label for y in labels) for label in (0, 1)}
+        result["helpful_flips"] = sum(helpful.values())
+        result["harmful_flips"] = sum(harmful.values())
+        result["helpful_flips_by_class"] = {str(key): value for key, value in helpful.items()}
+        result["harmful_flips_by_class"] = {str(key): value for key, value in harmful.items()}
+        result["helpful_flip_rate_by_class"] = {
+            str(key): helpful[key] / class_count[key] for key in (0, 1)}
+        result["harmful_flip_rate_by_class"] = {
+            str(key): harmful[key] / class_count[key] for key in (0, 1)}
     return result

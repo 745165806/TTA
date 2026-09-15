@@ -24,7 +24,7 @@ def write_json(path, value):
 def validate_job(job):
     allowed = {"schema_version", "job_type", "model_id", "architecture", "initialization",
                "selected_checkpoint_ref", "selected_checkpoint_sha256", "fixture_audio_ref",
-               "output_dir", "bundle_fields"}
+               "training_patch", "output_dir", "bundle_fields"}
     if set(job) != allowed or job["schema_version"] != "0.1.0" or job["job_type"] != "frozen_export":
         raise ValueError("invalid frozen export job")
     serialized = json.dumps(job, sort_keys=True).lower()
@@ -46,6 +46,8 @@ def export(job):
     checkpoint = torch.load(job["selected_checkpoint_ref"], map_location=device)
     if checkpoint.get("task_weight_origin") != "trained_in_project":
         raise ValueError("checkpoint is not an in-project task training artifact")
+    if checkpoint.get("patch") != job["training_patch"]:
+        raise ValueError("checkpoint training patch provenance mismatch")
     adapter.model.load_state_dict(checkpoint["model_state"], strict=True)
     adapter.model.eval()
     waveform = torch.from_numpy(load_audio(job["fixture_audio_ref"])).unsqueeze(0).to(device)
@@ -78,7 +80,8 @@ def export(job):
         head_path = os.path.join(temporary, "linear_head.pt")
         torch.save({"schema_version": "0.1.0", "model_id": job["model_id"],
                     "model_state": adapter.model.state_dict(), "architecture": job["architecture"],
-                    "patch": patch, "class_index_map": mapping}, state_path)
+                    "model_construction_patch": patch, "training_patch": job["training_patch"],
+                    "class_index_map": mapping}, state_path)
         torch.save({"schema_version": "0.1.0", "w": weight.detach().cpu(), "b": bias.detach().cpu(),
                     "score_direction": "larger_is_spoof"}, head_path)
         parity = {"schema_version": "0.1.0", "status": "PASS", "fixture_ref": job["fixture_audio_ref"],
@@ -141,11 +144,17 @@ def _views(waveform, sample_id, probe):
 def extract(job):
     import numpy
     import torch
-    allowed = {"schema_version", "job_type", "bundle_ref", "manifest_ref", "manifest_sha256",
+    allowed = {"schema_version", "job_type", "purpose", "input_role", "bundle_ref", "manifest_ref", "manifest_sha256",
                "data_roots", "probe", "numerical_mode", "worker_slot", "worker_count",
-               "expected_ids", "cache_identity", "cache_key", "output_dir"}
+               "expected_ids", "worker_sha256", "cache_identity", "cache_key", "output_dir"}
     if set(job) != allowed or job["job_type"] != "inference" or job["schema_version"] != "0.1.0":
         raise ValueError("invalid inference job")
+    if sha256_file(os.path.abspath(__file__)) != job["worker_sha256"]:
+        raise ValueError("extraction worker hash mismatch")
+    role_policy = {"source_prepare": {"fit", "cal0"}, "select": {"select"},
+                   "confirmatory": {"control_test", "target_test"}}
+    if job["purpose"] not in role_policy or job["input_role"] not in role_policy[job["purpose"]]:
+        raise ValueError("inference purpose/input role violates the stage permission policy")
     if sha256_file(job["manifest_ref"]) != job["manifest_sha256"]:
         raise ValueError("inference manifest hash mismatch")
     if job["probe"].get("num_views") != 3 or set(job["probe"]) != {
@@ -159,6 +168,29 @@ def extract(job):
     for name, digest in export_manifest["files"].items():
         if sha256_file(os.path.join(bundle_root, name)) != digest:
             raise ValueError("frozen export file changed: %s" % name)
+    if (bundle.get("training_status") != "FINALIZED" or bundle.get("training_phase") != "full" or
+            bundle.get("task_weight_origin") != "trained_in_project"):
+        raise ValueError("inference requires a finalized in-project full source model")
+    with open(os.path.join(bundle_root, bundle["parity_report_ref"]), encoding="utf-8") as stream:
+        parity = json.load(stream)
+    if (parity.get("status") != "PASS" or parity.get("module_modes_stable") is not True or
+            parity.get("buffers_stable") is not True):
+        raise ValueError("inference requires frozen parity PASS")
+    selection_ref = bundle["source_val_selection_ref"]
+    if sha256_file(selection_ref) != bundle["task_training_provenance"].get(
+            "source_val_selection_sha256"):
+        raise ValueError("source_val selection changed after export")
+    with open(selection_ref, encoding="utf-8") as stream:
+        selection = json.load(stream)
+    expected_selection = {"status": "FINALIZED", "training_phase": "full",
+                          "task_weight_origin": "trained_in_project",
+                          "selected_checkpoint_sha256": bundle["selected_checkpoint_sha256"],
+                          "training_run_id": bundle["training_run_id"],
+                          "fit_snapshot_hash": bundle["fit_snapshot_hash"],
+                          "source_val_snapshot_hash": bundle["source_val_snapshot_hash"],
+                          "recipe_hash": bundle["recipe_hash"]}
+    if any(selection.get(key) != value for key, value in expected_selection.items()):
+        raise ValueError("frozen bundle and source_val selection disagree")
     state = torch.load(os.path.join(bundle_root, "detector_state.pt"), map_location="cpu")
     construction = {"source_job": {"model_id": bundle["model_id"],
                                     "initialization": bundle["init_provenance"] if
@@ -177,6 +209,8 @@ def extract(job):
             row = json.loads(line)
             if set(row) != {"schema_version", "sample_id", "root_key", "audio_relpath", "input_sha256", "split_role"}:
                 raise ValueError("inference worker received annotations")
+            if row["split_role"] != job["input_role"]:
+                raise ValueError("inference row violates locked input role")
             if row["sample_id"] in expected:
                 rows.append(row)
     if {row["sample_id"] for row in rows} != expected or len(rows) != len(expected):

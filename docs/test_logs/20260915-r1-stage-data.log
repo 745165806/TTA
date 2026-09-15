@@ -1,0 +1,25 @@
+Script started on 2026-09-15 12:51:24+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "STAGED",
+  "snapshot_kind": "staging",
+  "staging_id": "staging-71275b8662b3509ce95a",
+  "dataset_id": "asvspoof2019_la",
+  "record_count": 121461,
+  "status_counts": {
+    "staged": 121461
+  },
+  "issue_count": 0,
+  "records_ref": "records.jsonl",
+  "records_sha256": "1db0c6c435e4b550ed07ac7ca008abebfed81f0424497b86150aaf98740bf656",
+  "contract_hashes": {
+    "raw": "64b915bf168598e36242b0ce8688caf2880aee1b4469b0b386287b2923fc87a5",
+    "label": "b382ec7e6939667dbfee30141515a5ce9a481ec8e198468d87529560c6a36dd1",
+    "group": "47f5904687248aa10973a75894b033dacf8bf718170d9473c42dc67324d9b775"
+  },
+  "source_inventory_sha256": "454edf6675884f2e30d72d5cad0e14bf19fb757cdbe2cf135146dffcaeef6129",
+  "immutable": true,
+  "indexing": "sqlite_disk_v1"
+}
+
+Script done on 2026-09-15 12:52:11+08:00 [COMMAND_EXIT_CODE="0"]

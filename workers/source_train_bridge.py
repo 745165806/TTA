@@ -58,7 +58,10 @@ def validate_job(job):
         raise ValueError("source job has forbidden fields")
     if source["fit"]["role"] != "fit" or source["source_val"]["role"] != "source_val":
         raise ValueError("worker accepts fit/source_val only")
-    serialized = json.dumps(job, sort_keys=True).lower()
+    serialized = json.dumps({"source_job": source,
+                             "data_roots": job["execution"].get("data_roots"),
+                             "manifest_hashes": job["execution"].get("manifest_hashes")},
+                            sort_keys=True).lower()
     for forbidden in ("target_test", "control_test", '"select"', '"audit"', '"cal0"', '"cal1"'):
         if forbidden in serialized:
             raise ValueError("target/evaluation role leaked into source worker")
@@ -73,6 +76,41 @@ def validate_job(job):
         raise ValueError("worker only implements the audited semantic weighted CE")
 
 
+def verify_training_orchestration(job):
+    identity = job["execution"].get("training_orchestration")
+    if not isinstance(identity, dict) or set(identity) != {"payload", "patch_sha256"}:
+        raise ValueError("training orchestration patch identity is missing")
+    payload = identity["payload"]
+    required = {"kind", "author_training_entrypoint", "author_training_sha256",
+                "project_worker_ref", "project_worker_sha256", "project_compat_ref",
+                "project_compat_sha256", "allowed_roles", "forbidden_roles",
+                "author_eval_path_disabled"}
+    if set(payload) != required:
+        raise ValueError("training orchestration patch identity has unknown fields")
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                         ensure_ascii=False, allow_nan=False).encode("utf-8")
+    if hashlib.sha256(encoded).hexdigest() != identity["patch_sha256"]:
+        raise ValueError("training orchestration patch hash mismatch")
+    if payload["kind"] != "project_source_worker_replaces_author_train_eval_orchestration":
+        raise ValueError("unreviewed training orchestration kind")
+    if payload["allowed_roles"] != ["fit", "source_val"] or payload["author_eval_path_disabled"] is not True:
+        raise ValueError("author eval access is not disabled")
+    expected_forbidden = ["select", "cal0", "audit", "control_test", "target_test", "cal1"]
+    if payload["forbidden_roles"] != expected_forbidden:
+        raise ValueError("training orchestration forbidden-role policy mismatch")
+    architecture = job["execution"]["architecture"]
+    author_training = os.path.join(architecture["repository_ref"], payload["author_training_entrypoint"])
+    for path_key, hash_key, expected_path in (
+            ("project_worker_ref", "project_worker_sha256", os.path.abspath(__file__)),
+            ("project_compat_ref", "project_compat_sha256",
+             os.path.join(HERE, "compat", "author_training.py")),
+            (None, "author_training_sha256", author_training)):
+        path = expected_path if path_key is None else payload[path_key]
+        if os.path.abspath(path) != os.path.abspath(expected_path) or sha256_file(path) != payload[hash_key]:
+            raise ValueError("training orchestration source changed: %s" % expected_path)
+    return identity
+
+
 def verify_preprocess(job):
     path = job["execution"]["preprocess_ref"]
     with open(path, encoding="utf-8") as stream:
@@ -85,7 +123,7 @@ def verify_preprocess(job):
     if digest != job["execution"]["preprocess_hash"] or digest != contract["approval"].get("content_sha256"):
         raise ValueError("source preprocess contract hash mismatch")
     expected = {"decode": "soundfile_float32_mono_mean_require_16khz",
-                "train_unit": "repeat_or_crop_first_64600",
+                "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample",
                 "eval_unit": "repeat_or_crop_first_64600"}
     if any(contract["payload"].get(key) != value for key, value in expected.items()):
         raise ValueError("worker does not implement the locked decode/unit profile")
@@ -367,15 +405,21 @@ def execute(job, resume_checkpoint=None):
     import torch
     validate_job(job)
     verify_preprocess(job)
+    orchestration_patch = verify_training_orchestration(job)
     source = job["source_job"]
     execution = job["execution"]
     runtime = execution["runtime"]
     rank, world, local_rank, device = setup_distributed(runtime)
     seed_all(source["training_seed"], rank)
     roots = execution["data_roots"]
-    fit = ManifestDataset(source["fit"]["manifest_ref"], execution["manifest_hashes"]["fit"], roots, "fit")
+    fit = ManifestDataset(source["fit"]["manifest_ref"], execution["manifest_hashes"]["fit"], roots, "fit",
+                          source["training_seed"])
     val = ManifestDataset(source["source_val"]["manifest_ref"], execution["manifest_hashes"]["source_val"], roots, "source_val")
-    adapter, patch = build_author_model(job, device)
+    adapter, model_patch = build_author_model(job, device)
+    patch_payload = {"model_construction": model_patch, "training_orchestration": orchestration_patch}
+    patch_encoded = json.dumps(patch_payload, sort_keys=True, separators=(",", ":"),
+                               ensure_ascii=False, allow_nan=False).encode("utf-8")
+    patch = {"payload": patch_payload, "combined_sha256": hashlib.sha256(patch_encoded).hexdigest()}
     model = adapter.model
     if world > 1:
         model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank] if device.type == "cuda" else None)
@@ -401,6 +445,8 @@ def execute(job, resume_checkpoint=None):
                 raise ValueError("exact resume rejected: %s changed" % key)
         if checkpoint["sampler_state"]["world_size"] != world:
             raise ValueError("exact resume rejected: DDP world size changed")
+        if checkpoint.get("patch") != patch:
+            raise ValueError("exact resume rejected: training patch identity changed")
         unwrap(model).load_state_dict(checkpoint["model_state"])
         optimizer.load_state_dict(checkpoint["optimizer_state"])
         if scheduler and checkpoint["scheduler_state"] is not None:
@@ -431,6 +477,7 @@ def execute(job, resume_checkpoint=None):
     started = time.time()
     for epoch in range(start_epoch, max_epochs):
         sampler.set_epoch(epoch)
+        fit.set_epoch(epoch)
         loader = make_loader(fit, sampler, int(runtime["per_gpu_batch_size"]), int(runtime.get("num_workers", 0)))
         train_result = train_epoch(model, adapter, loader, optimizer, scheduler, scaler, device, job, rank, world,
                                    int(runtime["grad_accum_steps"]))
@@ -480,6 +527,7 @@ def execute(job, resume_checkpoint=None):
                "recipe_hash": source["recipe_hash"], "fit_snapshot_hash": source["fit"]["snapshot_hash"],
                "source_val_snapshot_hash": source["source_val"]["snapshot_hash"],
                "architecture": execution["architecture"], "class_index_map": execution["class_index_map"],
+               "patch": patch,
                "initialization": source.get("initialization"), "training_seed": source["training_seed"],
                "task_weight_origin": "trained_in_project", "world_size": world,
                "metrics_ref": "metrics.jsonl", "metrics_sha256": sha256_file(metrics_path),

@@ -32,6 +32,7 @@ def compile_source_job(recipe_ref, phase, output_dir, resume_ref=None):
                 "source_job": asdict(spec),
                 "execution": {
                     "architecture": bindings["architecture"],
+                    "training_orchestration": bindings["training_orchestration"],
                     "manifest_hashes": {role: source["roles"][role]["manifest_sha256"]
                                         for role in ("fit", "source_val")},
                     "sample_counts": {role: source["roles"][role]["sample_count"]

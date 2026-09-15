@@ -1,0 +1,9 @@
+Script started on 2026-09-15 10:31:59+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "ERROR",
+  "code": "BLOCKED_CONTRACT",
+  "message": "review must explicitly accept and contain reviewer/time/report/sample evidence"
+}
+
+Script done on 2026-09-15 10:31:59+08:00 [COMMAND_EXIT_CODE="2"]

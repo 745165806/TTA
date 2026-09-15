@@ -1,4 +1,5 @@
 import json
+import importlib.util
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,22 @@ from eptta.training.dispatch import compile_source_job
 
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def _author_training_module():
+    path = ROOT / "workers/compat/author_training.py"
+    spec = importlib.util.spec_from_file_location("eptta_test_author_training", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def _source_worker_module():
+    path = ROOT / "workers/source_train_bridge.py"
+    spec = importlib.util.spec_from_file_location("eptta_test_source_worker", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def review():
@@ -71,6 +88,22 @@ def test_native_mapping_and_semantic_weights_are_reversed_from_canonical():
     assert class_weights_native({"bonafide": 0.9, "spoof": 0.1}, mapping) == [0.1, 0.9]
 
 
+def test_fit_crop_is_deterministic_by_seed_epoch_sample_and_eval_is_first():
+    module = _author_training_module()
+    length = 64600
+    audio_length = 211007
+    key_a_epoch_0 = "%d\0%d\0%s" % (13, 0, "sample-a")
+    key_a_epoch_1 = "%d\0%d\0%s" % (13, 1, "sample-a")
+    key_b_epoch_0 = "%d\0%d\0%s" % (13, 0, "sample-b")
+    first = module._crop_start(audio_length, length, key_a_epoch_0)
+    assert first == module._crop_start(audio_length, length, key_a_epoch_0)
+    assert 0 <= first <= audio_length - length
+    assert len({module._crop_start(audio_length, length, key) for key in
+                (key_a_epoch_0, key_a_epoch_1, key_b_epoch_0)}) > 1
+    assert module._crop_start(audio_length, length, None) == 0
+    assert module._crop_start(length, length, key_a_epoch_0) == 0
+
+
 def test_source_val_eer_and_selection_contract():
     assert equal_error_rate([-2.0, -1.0, 1.0, 2.0], [0, 0, 1, 1]) == 0.0
     with pytest.raises(DataError, match="one class"):
@@ -115,10 +148,11 @@ def test_full_run_finalization_uses_earliest_minimum_eer(tmp_path):
     checkpoint = run / "checkpoints/best.pt"
     checkpoint.write_bytes(b"in-project-checkpoint")
     checkpoint_hash = sha256_file(checkpoint)
+    patch = {"payload": {"fixture": True}, "combined_sha256": "e" * 64}
     provenance = {"schema_version": "0.1.0", "epoch": 1, "global_step": 10,
                   "recipe_hash": "a" * 64, "fit_snapshot_hash": "b" * 64,
                   "source_val_snapshot_hash": "c" * 64, "task_weight_origin": "trained_in_project",
-                  "training_seed": 13}
+                  "training_seed": 13, "patch": patch}
     (run / "checkpoints/best.pt.json").write_text(json.dumps(provenance))
     _write_jsonl(run / "metrics.jsonl", [{"epoch": 1, "source_val_eer": .1,
                                            "checkpoint_ref": "checkpoints/best.pt",
@@ -130,7 +164,8 @@ def test_full_run_finalization_uses_earliest_minimum_eer(tmp_path):
                 "source_val_snapshot_hash": "c" * 64, "training_seed": 13,
                 "metrics_ref": "metrics.jsonl", "metrics_sha256": sha256_file(run / "metrics.jsonl"),
                 "architecture": {"repo_commit": "d" * 40},
-                "class_index_map": {"spoof": 0, "bonafide": 1}, "initialization": None}
+                "class_index_map": {"spoof": 0, "bonafide": 1}, "initialization": None,
+                "patch": patch}
     (run / "run.json").write_text(json.dumps(metadata))
     result = finalize_training(run, tmp_path / "finalized.json")
     assert result["status"] == "FINALIZED" and result["selected_epoch"] == 1
@@ -164,7 +199,8 @@ def test_recipe_compilation_keeps_only_source_roots_and_roles(tmp_path):
     snapshot = _snapshot(tmp_path / "snapshot")
     preprocess_proposal = {"schema_version": "0.1.0", "status": "PROPOSED", "approval": None,
         "payload": {"decode": "soundfile_float32_mono_mean_require_16khz",
-                    "train_unit": "repeat_or_crop_first_64600", "eval_unit": "repeat_or_crop_first_64600",
+                    "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample",
+                    "eval_unit": "repeat_or_crop_first_64600",
                     "source_probe": "identity", "target_probe": "probe_default_after_baseline_unit",
                     "quality_policy": "snapshot_prevalidated_fail_runtime"}}
     preprocess = approve(preprocess_proposal, review(), "preprocess")
@@ -178,4 +214,15 @@ def test_recipe_compilation_keeps_only_source_roots_and_roles(tmp_path):
     recipe_path.write_text(json.dumps(locked))
     job = compile_source_job(recipe_path, "smoke", tmp_path / "run")
     assert job["execution"]["data_roots"] == {"fixture": str(tmp_path)}
-    assert "target_test" not in json.dumps(job)
+    assert "target_test" not in json.dumps({"source_job": job["source_job"],
+                                             "data_roots": job["execution"]["data_roots"]})
+    orchestration = job["execution"]["training_orchestration"]
+    assert orchestration["payload"]["allowed_roles"] == ["fit", "source_val"]
+    assert orchestration["payload"]["author_eval_path_disabled"] is True
+    worker = _source_worker_module()
+    worker.validate_job(job)
+    assert worker.verify_training_orchestration(job) == orchestration
+    tampered = json.loads(json.dumps(job))
+    tampered["execution"]["training_orchestration"]["payload"]["project_worker_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="patch hash mismatch"):
+        worker.verify_training_orchestration(tampered)

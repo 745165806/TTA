@@ -1,5 +1,21 @@
 # EP-TTA v0.1.0 本轮真实测试报告
 
+## 2026-09-15 R1 人工批准与数据构建
+
+审核人 `mm` 明确批准 raw/label/group/preprocess。四个 lock 发布命令均退出 0；staging 处理 121,461 条记录，状态 `STAGED`，parse error、label conflict、quarantine 均为 0。随后只生成 split proposal：121,461 条 assignment 恰好覆盖一次，跨角色 group 冲突、重复与缺失均为 0；split 尚未批准，未发布 snapshot 或启动训练。
+
+完整路径、文件 SHA-256、类别/来源组分布和审批边界见 [R1_APPROVAL_AND_SPLIT_PROPOSAL_20260915.md](R1_APPROVAL_AND_SPLIT_PROPOSAL_20260915.md)。实际日志为 [20260915-r1-approval-locks.log](test_logs/20260915-r1-approval-locks.log)、[20260915-r1-stage-data.log](test_logs/20260915-r1-stage-data.log)、[20260915-r1-propose-splits.log](test_logs/20260915-r1-propose-splits.log) 和 [20260915-r1-split-audit.log](test_logs/20260915-r1-split-audit.log)。
+
+## 2026-09-15 R5–R9 前置门禁追加执行
+
+| 检查 | 实际命令 | 退出码与结果 | 证据 |
+|---|---|---|---|
+| 全套 D/S/T/C 合成验收 | `PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python -m pytest -q --junitxml=docs/test_logs/20260915-r5-r9-gates/pytest-final2.xml` | 0；**211 passed in 3.99s** | [pytest-final2.log](test_logs/20260915-r5-r9-gates/pytest-final2.log)、[pytest-final2.xml](test_logs/20260915-r5-r9-gates/pytest-final2.xml) |
+| core/schema/worker 审计 | `/home/dell/anaconda3/envs/py310/bin/python scripts/check_sources.py` | 0；Python 3.10、worker 3.7 AST、14 schemas PASS | [source-audit-final2.log](test_logs/20260915-r5-r9-gates/source-audit-final2.log) |
+| py38 worker 编译 | py38 `py_compile` 三个 bridge/compat 文件 | 0 | [worker-py38-compile-final.log](test_logs/20260915-r5-r9-gates/worker-py38-compile-final.log) |
+
+本次 PASS 只证明 R4→R5 资格门禁、source_prepare/select/confirmatory 角色防火墙、无标签 manifest、confirmatory plan hash、逐样本 reset 元数据、coverage seal、按类翻转及缺失 published-port 保留 NOT_RUN 行的合成合同。R1 人工审核、R2–R4 真实训练/选模/冻结 parity、R5–R9 真实 cache/先导/移植/评分/评价和端到端成本均为 **NOT_RUN**。
+
 ## 2026-09-14 L4/缓存/机制实现追加执行
 
 | 检查 | 实际命令 | 退出码与结果 | 证据 |

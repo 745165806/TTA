@@ -10,6 +10,36 @@ from eptta.errors import ContractError, DataError, ResourceError
 from eptta.models.author import inspect_author_repository
 
 
+AUTHOR_TRAIN_ENTRYPOINTS = {
+    "aasist_source": "main.py",
+    "ssl_aasist_source": "main_SSL_LA.py",
+}
+
+
+def _training_orchestration_identity(model_id, source_repo_ref):
+    """Bind the project worker that replaces author train/eval orchestration."""
+    root = Path(__file__).parents[3]
+    worker = root / "workers/source_train_bridge.py"
+    compat = root / "workers/compat/author_training.py"
+    author_entrypoint = Path(source_repo_ref) / AUTHOR_TRAIN_ENTRYPOINTS[model_id]
+    for path in (worker, compat, author_entrypoint):
+        if not path.is_file():
+            raise ResourceError("training orchestration input is missing: %s" % path)
+    payload = {
+        "kind": "project_source_worker_replaces_author_train_eval_orchestration",
+        "author_training_entrypoint": AUTHOR_TRAIN_ENTRYPOINTS[model_id],
+        "author_training_sha256": sha256_file(author_entrypoint),
+        "project_worker_ref": str(worker.resolve()),
+        "project_worker_sha256": sha256_file(worker),
+        "project_compat_ref": str(compat.resolve()),
+        "project_compat_sha256": sha256_file(compat),
+        "allowed_roles": ["fit", "source_val"],
+        "forbidden_roles": ["select", "cal0", "audit", "control_test", "target_test", "cal1"],
+        "author_eval_path_disabled": True,
+    }
+    return {"payload": payload, "patch_sha256": content_hash(payload)}
+
+
 def _locked_preprocess(path):
     value = read_document(path)
     issues = check_contract(value, "preprocess", "preprocess")
@@ -64,7 +94,8 @@ def resolve_training_recipe(model_id, snapshot_ref, preprocess_ref, template_ref
         "bindings": {"source": source, "preprocess_ref": str(Path(preprocess_ref).resolve()),
                      "preprocess_hash": preprocess["approval"]["content_sha256"],
                      "architecture": architecture, "initialization": initialization,
-                     "data_roots": source_roots},
+                     "data_roots": source_roots,
+                     "training_orchestration": _training_orchestration_identity(model_id, source_repo_ref)},
         "runtime": payload.get("runtime") if "runtime" in payload else None,
     })
     proposal = {"schema_version": "0.1.0", "status": "PROPOSED", "approval": None, "payload": payload}
@@ -97,6 +128,11 @@ def load_locked_training_recipe(path):
         ref = Path(item.get("manifest_ref", ""))
         if not ref.is_file() or sha256_file(ref) != item.get("manifest_sha256"):
             raise DataError("locked %s manifest is missing or changed" % role)
+    orchestration = payload["bindings"].get("training_orchestration")
+    expected_orchestration = _training_orchestration_identity(
+        payload["model_id"], payload["bindings"]["architecture"]["repository_ref"])
+    if orchestration != expected_orchestration:
+        raise DataError("training orchestration patch changed after recipe lock")
     init = payload["bindings"].get("initialization")
     if payload["model_id"] == "ssl_aasist_source":
         if not init or init.get("scope") != "generic_ssl_frontend_only":

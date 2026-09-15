@@ -1,0 +1,10 @@
+Script started on 2026-09-14 19:30:43+08:00 [<not executed on terminal>]
+76cb8560bfe80f447f862441552c12b43f878749e0ad8c6e6e11a9c965ee15e5  /tmp/eptta-train-speakers.txt
+10327a77d08d9d1a815942c25f259ed1d8bac56ae564cead97a5cff5abd374ea  /tmp/eptta-dev-speakers.txt
+2b3e59d69297130201c9ceffed510a165d25a6b7450963b02afc20df3b7df97f  /tmp/eptta-eval-speakers.txt
+ 20 /tmp/eptta-train-speakers.txt
+ 20 /tmp/eptta-dev-speakers.txt
+ 67 /tmp/eptta-eval-speakers.txt
+107 总计
+
+Script done on 2026-09-14 19:30:43+08:00 [COMMAND_EXIT_CODE="0"]

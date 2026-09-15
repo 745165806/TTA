@@ -28,6 +28,9 @@ def test_t20_metrics_and_labels_only_after_seal(tmp_path):
     assert result["metrics"]["auroc"] == result["metrics"]["balanced_accuracy"] == 1.0
     assert result["metrics"]["eer"] == 0.0
     assert result["metrics"]["helpful_flips"] == 2
+    assert result["metrics"]["helpful_flips_by_class"] == {"0": 1, "1": 1}
+    assert result["metrics"]["harmful_flips_by_class"] == {"0": 0, "1": 0}
+    assert result["labels_read"] is True and result["evaluator_role"] == "independent_post_seal"
 
 
 def test_score_seal_rejects_target_annotations(tmp_path):

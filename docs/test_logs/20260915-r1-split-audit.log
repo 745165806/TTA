@@ -1,0 +1,69 @@
+Script started on 2026-09-15 12:52:49+08:00 [<not executed on terminal>]
+{
+  "assignment_rows": 121461,
+  "assignments_sha256": "afcb818fcf4c07205edf1ce1f943c36f01adc00ccf88dcc750f2fd92ba06cd8f",
+  "class_counts": {
+    "audit": {
+      "0": 280,
+      "1": 2484
+    },
+    "cal0": {
+      "0": 574,
+      "1": 4332
+    },
+    "control_test": {
+      "0": 7355,
+      "1": 63882
+    },
+    "fit": {
+      "0": 2580,
+      "1": 22800
+    },
+    "select": {
+      "0": 1008,
+      "1": 10512
+    },
+    "source_val": {
+      "0": 686,
+      "1": 4968
+    }
+  },
+  "duplicate_ids": 0,
+  "group_cross_role_conflicts": 0,
+  "missing_staging_ids": 0,
+  "official_split_by_role": {
+    "dev": {
+      "audit": 2764,
+      "cal0": 4906,
+      "select": 11520,
+      "source_val": 5654
+    },
+    "eval": {
+      "control_test": 71237
+    },
+    "train": {
+      "fit": 25380
+    }
+  },
+  "proposal_sha256": "e07ddd4d994317907872a75042a00b9064e1f442091ca076adf1b2567fc941db",
+  "role_counts": {
+    "audit": 2764,
+    "cal0": 4906,
+    "control_test": 71237,
+    "fit": 25380,
+    "select": 11520,
+    "source_val": 5654
+  },
+  "schema_version": "0.1.0",
+  "source_group_counts": {
+    "audit": 2,
+    "cal0": 5,
+    "control_test": 67,
+    "fit": 20,
+    "select": 8,
+    "source_val": 5
+  },
+  "status": "PASS"
+}
+
+Script done on 2026-09-15 12:52:50+08:00 [COMMAND_EXIT_CODE="0"]

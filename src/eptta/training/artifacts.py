@@ -33,6 +33,8 @@ def finalize_training(run_ref, output):
         "task_weight_origin": "trained_in_project", "training_seed": run["training_seed"]}
     if any(sidecar.get(key) != value for key, value in required_equal.items()):
         raise ContractError("selected checkpoint provenance disagrees with its run")
+    if not run.get("patch") or sidecar.get("patch") != run["patch"]:
+        raise ContractError("selected checkpoint patch provenance disagrees with its run")
     result = {"schema_version": "0.1.0", "status": "FINALIZED", "training_phase": "full",
               "training_run_id": run["training_run_id"], "model_id": run["model_id"],
               "selected_epoch": selected["epoch"], "source_val_eer": selected["source_val_eer"],
@@ -43,6 +45,7 @@ def finalize_training(run_ref, output):
               "fit_snapshot_hash": run["fit_snapshot_hash"],
               "source_val_snapshot_hash": run["source_val_snapshot_hash"],
               "architecture": run["architecture"], "class_index_map": run["class_index_map"],
+              "patch": run["patch"],
               "embedding_dim": 160, "initialization": run.get("initialization"),
               "task_weight_origin": "trained_in_project", "metrics_sha256": run["metrics_sha256"],
               "finalized_id": "training-final-" + content_hash({"run": run["training_run_id"],
@@ -82,6 +85,7 @@ def launch_frozen_export(finalized_ref, output, worker_ref=None, python_executab
            "initialization": finalized.get("initialization"),
            "selected_checkpoint_ref": str(checkpoint),
            "selected_checkpoint_sha256": finalized["selected_checkpoint_sha256"],
+           "training_patch": finalized["patch"],
            "fixture_audio_ref": str(fixture), "output_dir": str(Path(output).resolve()),
            "bundle_fields": {
                "training_run_id": finalized["training_run_id"],
@@ -92,7 +96,9 @@ def launch_frozen_export(finalized_ref, output, worker_ref=None, python_executab
                                   {"scope": "native_initialization"},
                "source_val_selection_ref": str(Path(finalized_ref).resolve()),
                "task_training_provenance": {"finalized_id": finalized["finalized_id"],
-                                               "task_weight_origin": "trained_in_project"},
+                                               "task_weight_origin": "trained_in_project",
+                                               "source_val_selection_sha256": sha256_file(finalized_ref),
+                                               "training_patch_sha256": finalized["patch"]["combined_sha256"]},
                "eval_preprocess_hash": source_job["execution"]["preprocess_hash"]}}
     destination = Path(output)
     if destination.exists():

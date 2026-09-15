@@ -16,9 +16,9 @@
     "runtime": {
       "strategy": "single_gpu",
       "world_size": 1,
-      "physical_gpu_ids": [0],
-      "per_gpu_batch_size": 24,
-      "validation_batch_size": 24,
+      "physical_gpu_ids": [2],
+      "per_gpu_batch_size": 48,
+      "validation_batch_size": 48,
       "grad_accum_steps": 1,
       "precision": "float32",
       "num_workers": 4,

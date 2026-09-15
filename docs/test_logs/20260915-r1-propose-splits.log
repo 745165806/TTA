@@ -1,0 +1,17 @@
+Script started on 2026-09-15 12:52:30+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "PROPOSED",
+  "out": "/media/dell/data/fakedata/eptta_work/splits/asvspoof2019_la.proposal.json",
+  "counts": {
+    "audit": 2764,
+    "cal0": 4906,
+    "control_test": 71237,
+    "fit": 25380,
+    "select": 11520,
+    "source_val": 5654
+  },
+  "execution_ready": false
+}
+
+Script done on 2026-09-15 12:52:32+08:00 [COMMAND_EXIT_CODE="0"]
