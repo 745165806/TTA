@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1.0",
+  "status": "APPROVAL_REQUIRED",
+  "plan_id": "ticket1-recovery-20260916",
+  "prohibitions": {
+    "auto_resume_training": false,
+    "start_gpu": false,
+    "score_new_target_models": false,
+    "publish_target_snapshot": false
+  },
+  "source_snapshot": {
+    "snapshot_id": "snapshot-5731a8d70a8b8fa4997d",
+    "canonical_sha256": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+    "retain_roles_for_existing_training": ["fit", "source_val", "control_test"],
+    "downstream_child_candidate": {
+      "publish_now": false,
+      "keep_membership_identical": ["fit", "source_val", "control_test"],
+      "reassign_only": ["select", "cal0", "audit"],
+      "reason": "audit has two speakers and a 0.9544138929088278 maximum group share",
+      "reuse": ["existing source training", "existing source_val selection evidence"],
+      "rebuild_if_approved": ["future select/cal0/audit manifests", "future resources or pilots depending on those roles"]
+    }
+  },
+  "models": {
+    "aasist_source": {
+      "parent_run_dir": "/media/dell/data/fakedata/eptta_work/training_runs/aasist_source/full-gpu2-b48-001",
+      "parent_last_sha256": "d712df099c19e3d0d191065eb7cdbfb84ddae45cd17e84725e8334c7e39c3b19",
+      "parent_best_sha256": "89cf9c65b3274c62e8e2d9b0bff0ab898cbaeabc2578dc80d6eb6e84273da295",
+      "parent_last_epoch": 13,
+      "parent_global_step": 7406,
+      "recommended_route": "B_PARENT_TO_CHILD",
+      "exact_resume_claim": false,
+      "child_total_epochs": 80,
+      "child_epochs_to_execute": [14, 79],
+      "remaining_epochs": 66,
+      "remaining_optimizer_updates": 34914,
+      "scheduler_requirement": "restore parent state and retain the locked 100-epoch cosine horizon; do not rebuild an 80-epoch curve",
+      "checkpoint_policy": "write immutable epoch-0014.pt through epoch-0079.pt; never synthesize epochs 0000-0013",
+      "fallback": "C_NEW_80_EPOCH_RUN"
+    },
+    "ssl_aasist_source": {
+      "parent_run_dir": "/media/dell/data/fakedata/eptta_work/training_runs/ssl_aasist_source/full-gpu1-b48-001",
+      "parent_last_sha256": "efb3c259f05a24fd7992c771328aa27ef12c4f5a8f7cc084ec52947dd9f7cdde",
+      "parent_best_sha256": "5dea8eb1a53bc719c380c0d189718921d0a60976b7485983f9c92eef30081d08",
+      "parent_last_epoch": 90,
+      "parent_global_step": 48139,
+      "recommended_route": "B_PARENT_TO_CHILD_ADMINISTRATIVE_FINALIZATION",
+      "exact_resume_claim": false,
+      "additional_training_epochs": 0,
+      "reason": "the parent already completed 91 epochs; the new 80-epoch default cannot be applied retroactively",
+      "selection": "retain the original strict-improvement earliest best at epoch 5; do not use 2019 evaluation results",
+      "disclosure": "parent was a stopped 100-epoch contract after epoch 90; child migration is not completion of an 80-epoch run",
+      "fallback": "A_FINISH_PARENT_TO_100_OR_C_NEW_80_EPOCH_RUN"
+    }
+  },
+  "finite_real_resume_validation": {
+    "authorization_required": true,
+    "target_scores": false,
+    "isolated_directories": true,
+    "per_model": {
+      "continuous_branch": "run two complete fit epochs from the same parent checkpoint",
+      "restart_branch": "run one complete fit epoch, exit process, resume, then run the second complete epoch",
+      "updates_per_epoch": 529,
+      "total_update_executions": 2116,
+      "compare": ["sample order and augmentation identity", "loss", "model parameters and buffers", "optimizer", "scheduler and LR", "AMP scaler", "RNG", "global step"]
+    },
+    "pass_rule": "all declared exact fields match at the tested boundary; otherwise route C or an explicitly non-exact migration",
+    "estimated_combined_gpu_hours": 1.5
+  },
+  "resource_budget_estimate": {
+    "aasist_child_training_gpu_hours": 7.3,
+    "aasist_new_immutable_checkpoint_space_gib": 0.25,
+    "ssl_administrative_migration_gpu_hours": 0,
+    "fallback_new_80_epoch_ssl_checkpoint_space_gib": 283.1,
+    "basis": "observed stopped-run wall times and current checkpoint byte sizes; estimates are not execution results"
+  },
+  "after_training": {
+    "r4_only": ["FINALIZED source-val selection", "frozen export", "eval/export parity", "buffer/mode/batch/score-direction and gradient-boundary checks"],
+    "r5_to_r9": "NOT_AUTHORIZED",
+    "new_target_effect_access": "FORBIDDEN"
+  }
+}

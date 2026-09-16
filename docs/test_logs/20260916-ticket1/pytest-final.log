@@ -1,0 +1,107 @@
+Script started on 2026-09-16 20:06:05+08:00 [<not executed on terminal>]
+........................................................................ [ 31%]
+.......................FF............................................... [ 63%]
+........................................................................ [ 95%]
+...........                                                              [100%]
+=================================== FAILURES ===================================
+_______________ test_resume_preflight_rejects_worker_hash_change _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-dell/pytest-132/test_resume_preflight_rejects_0')
+
+    def test_resume_preflight_rejects_worker_hash_change(tmp_path):
+        run, checkpoint, worker, _ = _resume_fixture(tmp_path)
+        worker.write_text("# changed worker\n")
+>       result = compile_resume_preflight(run, checkpoint, worker, "exact", 80)
+
+tests/contracts/test_source_training.py:198: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/eptta/training/resume.py:213: in compile_resume_preflight
+    check(report, "resume_preflight")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'schema_version': '0.1.0', 'status': 'BLOCKED', 'read_only': True, 'route': 'exact', ...}
+schema_name = 'resume_preflight'
+
+    def check(value, schema_name="config"):
+        schema_root = Path(__file__).parents[1] / "schemas"
+        spec = read_document(schema_root / f"{schema_name}.json")
+        if schema_name == "config":
+            # Contract schemas evolve as independent strict documents during L3.
+            # Replace the generated embedded copies so config validation has one
+            # canonical definition instead of silently accepting stale fields.
+            contracts = spec["properties"]["contracts"]["properties"]
+            datasets = contracts["datasets"]["properties"]
+            for kind in ("raw", "label", "group", "snapshot"):
+                contract_spec = read_document(schema_root / f"{kind}.json")
+                for dataset in datasets.values():
+                    dataset["properties"][kind] = contract_spec
+            for kind in set(contracts) - {"datasets"}:
+                contracts[kind] = read_document(schema_root / f"{kind}.json")
+        errors = validate(value, spec)
+        if errors:
+>           raise EPTTAError("; ".join(errors))
+E           eptta.errors.EPTTAError: $.phase: expected ['string']
+
+src/eptta/config/schema.py:113: EPTTAError
+_______ test_resume_preflight_rejects_missing_state_and_epoch_lr_offsets _______
+
+tmp_path = PosixPath('/tmp/pytest-of-dell/pytest-132/test_resume_preflight_rejects_1')
+
+    def test_resume_preflight_rejects_missing_state_and_epoch_lr_offsets(tmp_path):
+        torch = pytest.importorskip("torch")
+        run, checkpoint, worker, state = _resume_fixture(tmp_path)
+        state.pop("rng_states")
+        torch.save(state, checkpoint)
+        digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+        sidecar = json.loads(checkpoint.with_suffix(".pt.json").read_text())
+        sidecar["checkpoint_sha256"] = digest
+        checkpoint.with_suffix(".pt.json").write_text(json.dumps(sidecar))
+        with pytest.raises(DataError, match="lacks resume state"):
+            compile_resume_preflight(run, checkpoint, worker, "exact", 80)
+    
+        run, checkpoint, worker, state = _resume_fixture(tmp_path / "offset")
+        state["scheduler_state"]["last_epoch"] = 1
+        state["scheduler_state"]["_last_lr"] = [0.2]
+        torch.save(state, checkpoint)
+        digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+        sidecar = json.loads(checkpoint.with_suffix(".pt.json").read_text())
+        sidecar["checkpoint_sha256"] = digest
+        checkpoint.with_suffix(".pt.json").write_text(json.dumps(sidecar))
+>       result = compile_resume_preflight(run, checkpoint, worker, "exact", 80)
+
+tests/contracts/test_source_training.py:223: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/eptta/training/resume.py:213: in compile_resume_preflight
+    check(report, "resume_preflight")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+value = {'schema_version': '0.1.0', 'status': 'BLOCKED', 'read_only': True, 'route': 'exact', ...}
+schema_name = 'resume_preflight'
+
+    def check(value, schema_name="config"):
+        schema_root = Path(__file__).parents[1] / "schemas"
+        spec = read_document(schema_root / f"{schema_name}.json")
+        if schema_name == "config":
+            # Contract schemas evolve as independent strict documents during L3.
+            # Replace the generated embedded copies so config validation has one
+            # canonical definition instead of silently accepting stale fields.
+            contracts = spec["properties"]["contracts"]["properties"]
+            datasets = contracts["datasets"]["properties"]
+            for kind in ("raw", "label", "group", "snapshot"):
+                contract_spec = read_document(schema_root / f"{kind}.json")
+                for dataset in datasets.values():
+                    dataset["properties"][kind] = contract_spec
+            for kind in set(contracts) - {"datasets"}:
+                contracts[kind] = read_document(schema_root / f"{kind}.json")
+        errors = validate(value, spec)
+        if errors:
+>           raise EPTTAError("; ".join(errors))
+E           eptta.errors.EPTTAError: $.phase: expected ['string']
+
+src/eptta/config/schema.py:113: EPTTAError
+=========================== short test summary info ============================
+FAILED tests/contracts/test_source_training.py::test_resume_preflight_rejects_worker_hash_change
+FAILED tests/contracts/test_source_training.py::test_resume_preflight_rejects_missing_state_and_epoch_lr_offsets
+2 failed, 225 passed in 4.51s
+
+Script done on 2026-09-16 20:06:10+08:00 [COMMAND_EXIT_CODE="1"]

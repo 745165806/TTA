@@ -9,6 +9,7 @@ import json
 import math
 import os
 import random
+import shutil
 import sys
 import tempfile
 import time
@@ -47,7 +48,10 @@ def append_jsonl(path, value):
 
 
 def validate_job(job):
-    if set(job) != {"schema_version", "job_type", "source_job", "execution"}:
+    allowed_envelope = {"schema_version", "job_type", "source_job", "execution"}
+    if "migration" in job:
+        allowed_envelope.add("migration")
+    if set(job) != allowed_envelope:
         raise ValueError("source worker envelope has unknown fields")
     if job["schema_version"] != "0.1.0" or job["job_type"] != "source_train":
         raise ValueError("source worker job version/type mismatch")
@@ -68,6 +72,27 @@ def validate_job(job):
     if job["execution"].get("task_weight_origin") != "trained_in_project":
         raise ValueError("external task weight injection is forbidden")
     training = job["execution"]["training"]
+    horizon = training.get("scheduler_horizon_epochs", training.get("max_epochs"))
+    if type(horizon) is not int or horizon < int(training["max_epochs"]):
+        raise ValueError("scheduler horizon must be an integer >= max_epochs")
+    migration = job.get("migration")
+    if migration is not None:
+        required = {"kind", "plan_id", "plan_sha256", "parent_run_ref",
+                    "resume_checkpoint_sha256", "resume_recipe_hash",
+                    "resume_patch_sha256", "exact_resume_claim", "purpose"}
+        if set(migration) != required:
+            raise ValueError("parent/child migration has unknown fields")
+        if migration["kind"] != "approved_parent_to_child" or migration["exact_resume_claim"] is not False:
+            raise ValueError("migration must disclose a non-exact parent/child identity")
+        for key in ("plan_sha256", "resume_checkpoint_sha256", "resume_recipe_hash",
+                    "resume_patch_sha256"):
+            value = migration.get(key)
+            if not isinstance(value, str) or len(value) != 64:
+                raise ValueError("migration %s must be a SHA-256" % key)
+        if migration["purpose"] not in ("resume_validation", "formal_continuation"):
+            raise ValueError("unsupported migration purpose")
+        if training.get("scheduler") not in (None, "none") and "scheduler_horizon_epochs" not in training:
+            raise ValueError("scheduled migration must bind the parent scheduler horizon")
     expected_augmentation = ("none_author_freq_aug_false" if source["model_id"] == "aasist_source"
                              else "none_project_deviation_requires_review")
     if training.get("augmentation_recipe_ref") != expected_augmentation:
@@ -343,6 +368,39 @@ def restore_rng_state(state):
         numpy.random.set_state(state["numpy"])
 
 
+def epoch_checkpoint_path(checkpoints, epoch):
+    if not isinstance(epoch, int) or isinstance(epoch, bool) or epoch < 0:
+        raise ValueError("checkpoint epoch must be a non-negative integer")
+    return os.path.join(checkpoints, "epoch-%04d.pt" % epoch)
+
+
+def _atomic_link_or_copy(source, destination):
+    if not os.path.isfile(source):
+        raise ValueError("checkpoint alias source is missing: %s" % source)
+    directory = os.path.dirname(destination)
+    fd, temporary = tempfile.mkstemp(prefix="." + os.path.basename(destination), dir=directory)
+    os.close(fd)
+    os.unlink(temporary)
+    try:
+        try:
+            os.link(source, temporary)
+        except OSError:
+            shutil.copy2(source, temporary)
+        os.replace(temporary, destination)
+    except BaseException:
+        try:
+            os.unlink(temporary)
+        except OSError:
+            pass
+        raise
+
+
+def publish_checkpoint_alias(source, destination):
+    """Atomically advance a mutable convenience alias without changing epoch history."""
+    _atomic_link_or_copy(source, destination)
+    _atomic_link_or_copy(source + ".json", destination + ".json")
+
+
 def save_checkpoint(path, model, optimizer, scheduler, scaler, epoch, global_step, job,
                     patch, rank, world, sampler):
     import torch
@@ -354,6 +412,8 @@ def save_checkpoint(path, model, optimizer, scheduler, scaler, epoch, global_ste
         all_rng[0] = local_rng
     if rank != 0:
         return None
+    if os.path.exists(path) or os.path.exists(path + ".json"):
+        raise ValueError("immutable epoch checkpoint already exists: %s" % path)
     source = job["source_job"]
     value = {"schema_version": "0.1.0", "model_state": unwrap(model).state_dict(),
              "optimizer_state": optimizer.state_dict(),
@@ -391,7 +451,7 @@ def build_optimizer(model, job, steps_per_epoch):
     if scheduler_name in ("none", None):
         scheduler = None
     elif scheduler_name in ("cosine", "cosine_author_audited"):
-        total_steps = int(training["max_epochs"]) * int(steps_per_epoch)
+        total_steps = int(training.get("scheduler_horizon_epochs", training["max_epochs"])) * int(steps_per_epoch)
         minimum_factor = 5e-6 / float(training["lr"])
         scheduler = torch.optim.lr_scheduler.LambdaLR(
             optimizer, lr_lambda=lambda step: minimum_factor + (1.0 - minimum_factor) *
@@ -437,15 +497,33 @@ def execute(job, resume_checkpoint=None):
             resume_sidecar = json.load(stream)
         if sha256_file(resume_checkpoint) != resume_sidecar.get("checkpoint_sha256"):
             raise ValueError("exact resume checkpoint hash mismatch")
-        checkpoint = torch.load(resume_checkpoint, map_location=device)
-        for key, expected in (("recipe_hash", source["recipe_hash"]),
+        # RNG tensors must remain CPU ByteTensors for torch.set_rng_state.  Loading
+        # the whole payload directly onto CUDA silently moves them and makes a
+        # valid legacy checkpoint unrestorable.  State-dict loaders move model and
+        # optimizer tensors to their parameter devices as needed.
+        checkpoint = torch.load(resume_checkpoint, map_location="cpu")
+        migration = job.get("migration")
+        expected_recipe = migration["resume_recipe_hash"] if migration else source["recipe_hash"]
+        for key, expected in (("recipe_hash", expected_recipe),
                               ("fit_snapshot_hash", source["fit"]["snapshot_hash"]),
                               ("source_val_snapshot_hash", source["source_val"]["snapshot_hash"])):
             if checkpoint.get(key) != expected:
-                raise ValueError("exact resume rejected: %s changed" % key)
+                raise ValueError("resume rejected: %s changed" % key)
+        for key, expected in (("architecture", execution["architecture"]),
+                              ("class_index_map", execution["class_index_map"]),
+                              ("initialization", source.get("initialization")),
+                              ("training_seed", source["training_seed"]),
+                              ("task_weight_origin", "trained_in_project")):
+            if checkpoint.get(key) != expected:
+                raise ValueError("resume rejected: %s changed" % key)
+        if migration:
+            if sha256_file(resume_checkpoint) != migration["resume_checkpoint_sha256"]:
+                raise ValueError("migration resume checkpoint is not the approved immutable input")
+            if checkpoint.get("patch", {}).get("combined_sha256") != migration["resume_patch_sha256"]:
+                raise ValueError("migration resume patch identity changed")
         if checkpoint["sampler_state"]["world_size"] != world:
             raise ValueError("exact resume rejected: DDP world size changed")
-        if checkpoint.get("patch") != patch:
+        if not migration and checkpoint.get("patch") != patch:
             raise ValueError("exact resume rejected: training patch identity changed")
         unwrap(model).load_state_dict(checkpoint["model_state"])
         optimizer.load_state_dict(checkpoint["optimizer_state"])
@@ -498,30 +576,34 @@ def execute(job, resume_checkpoint=None):
             validation = values[0]
         improved = validation["source_val_eer"] < best_eer
         best_eer = min(best_eer, validation["source_val_eer"])
-        last_hash = save_checkpoint(os.path.join(checkpoints, "last.pt"), model, optimizer, scheduler,
-                                    scaler, epoch, global_step, job, patch, rank, world, sampler)
-        best_hash = None
-        if improved:
-            best_hash = save_checkpoint(os.path.join(checkpoints, "best.pt"), model, optimizer, scheduler,
-                                        scaler, epoch, global_step, job, patch, rank, world, sampler)
+        epoch_path = epoch_checkpoint_path(checkpoints, epoch)
+        epoch_hash = save_checkpoint(epoch_path, model, optimizer, scheduler, scaler, epoch,
+                                     global_step, job, patch, rank, world, sampler)
         if rank == 0:
+            publish_checkpoint_alias(epoch_path, os.path.join(checkpoints, "last.pt"))
+            if improved:
+                publish_checkpoint_alias(epoch_path, os.path.join(checkpoints, "best.pt"))
+            epoch_ref = "checkpoints/" + os.path.basename(epoch_path)
             record = {"epoch": epoch, "global_step": global_step, "train": train_result,
                       "source_val_loss": validation["source_val_loss"],
                       "source_val_eer": validation["source_val_eer"],
                       "source_val_count": validation["source_val_count"],
                       "source_val_ids_sha256": validation["source_val_ids_sha256"],
                       "lr": optimizer.param_groups[0]["lr"], "improved": improved,
-                      "last_checkpoint_sha256": last_hash}
+                      "epoch_checkpoint_ref": epoch_ref,
+                      "epoch_checkpoint_sha256": epoch_hash,
+                      "last_checkpoint_sha256": epoch_hash}
             append_jsonl(log_path, record)
             if improved:
                 append_jsonl(metrics_path, {"epoch": epoch, "source_val_eer": validation["source_val_eer"],
-                             "checkpoint_ref": "checkpoints/best.pt", "checkpoint_sha256": best_hash})
+                             "checkpoint_ref": epoch_ref, "checkpoint_sha256": epoch_hash})
         if world > 1:
             torch.distributed.barrier()
     if rank == 0:
         identity = hashlib.sha256((source["recipe_hash"] + source["fit"]["snapshot_hash"] +
                                    source["source_val"]["snapshot_hash"] + str(source["training_seed"])).encode()).hexdigest()
-        run = {"schema_version": "0.1.0", "status": "TRAINED", "phase": phase,
+        run_status = "VALIDATED" if phase == "resume_validation" else "TRAINED"
+        run = {"schema_version": "0.1.0", "status": run_status, "phase": phase,
                "execution_channel": "production", "training_run_id": "source-run-" + identity[:20],
                "model_id": source["model_id"], "recipe_ref": source["recipe_lock_ref"],
                "recipe_hash": source["recipe_hash"], "fit_snapshot_hash": source["fit"]["snapshot_hash"],
@@ -533,6 +615,8 @@ def execute(job, resume_checkpoint=None):
                "metrics_ref": "metrics.jsonl", "metrics_sha256": sha256_file(metrics_path),
                "train_log_ref": "train_log.jsonl", "train_log_sha256": sha256_file(log_path),
                "elapsed_seconds": time.time() - started}
+        if job.get("migration"):
+            run["migration"] = job["migration"]
         atomic_json(os.path.join(output, "run.json"), run)
     if world > 1:
         torch.distributed.barrier()

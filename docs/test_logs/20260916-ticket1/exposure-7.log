@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "event_id": "exposure-000007",
+  "recorded_at": "2026-09-16T20:00:35+08:00",
+  "dataset_id": "in_the_wild",
+  "scope": "author_metadata_full_eval_list",
+  "event_type": "metadata_view",
+  "artifact_ref": "/media/dell/data/fakedata/release_in_the_wild/meta.csv",
+  "artifact_sha256": "2e404150eff3cf171b766da81013a93248cbb219682fff420bbadb6b86a18795",
+  "effect_visible": false,
+  "decision_impact": "METADATA_AUDIT_ONLY_NO_MODEL_SCORES",
+  "previous_event_sha256": "ce0f5dd911fb51550cd1c773e31bafbc7f9276dc6194350d7ab01c5820da4e1a",
+  "event_sha256": "097b936dae0ea57ccbefe614b69477bb3fa8978fe720faaf694b7b8a548aa15a"
+}

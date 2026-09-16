@@ -14,6 +14,8 @@ from eptta.data.manifests import build_manifests
 from eptta.data.preprocess import cache_identity, require_cache_preprocess
 from eptta.data.splits import propose_splits
 from eptta.data.staging import stage_dataset
+from eptta.data.target_metadata import audit_target_metadata
+from eptta.data.exposure import append_exposure_event, validate_exposure_ledger
 from eptta.errors import ContractError, DataError, EPTTAError
 
 
@@ -236,3 +238,57 @@ def test_d10_preprocess_is_part_of_cache_identity_and_old_cache_is_rejected():
     assert first_id != second_id
     with pytest.raises(DataError, match="mismatch"):
         require_cache_preprocess({"preprocess_sha256": first["approval"]["content_sha256"]}, second)
+
+
+def test_target_adapters_filter_exact_eval_and_keep_labels_out_of_runtime(tmp_path):
+    audio = tmp_path / "audio"
+    audio.mkdir()
+    for name in ("LA_E_1.flac", "LA_E_2.flac", "DF_E_1.flac", "DF_E_2.flac", "0.wav", "1.wav"):
+        (audio / name).write_bytes(b"audio")
+    la = tmp_path / "la.txt"
+    la.write_text("LA_1 LA_E_1 alaw ita_tx A07 spoof notrim eval\n"
+                  "LA_2 LA_P_1 none loc_tx bonafide bonafide notrim progress\n"
+                  "LA_3 LA_E_2 none loc_tx bonafide bonafide notrim eval\n")
+    result = audit_target_metadata("asvspoof2021_la", la, audio, "release", "eval")
+    assert result["selected_count"] == 2
+    assert result["available_subset_counts"] == {"eval": 2, "progress": 1}
+    assert result["label_counts"] == {"0": 1, "1": 1}
+    assert result["sidecar_separation_verified"] is True
+
+    df = tmp_path / "df.txt"
+    df.write_text("LA_1 DF_E_1 nocodec asvspoof A14 spoof notrim eval traditional_vocoder - - - -\n"
+                  "LA_2 DF_E_2 nocodec vcc2020 bonafide bonafide notrim eval bonafide - - - -\n")
+    assert audit_target_metadata("asvspoof2021_df", df, audio, "release", "eval")["selected_count"] == 2
+
+    itw = tmp_path / "meta.csv"
+    itw.write_text("file,speaker,label\n0.wav,s1,bona-fide\n1.wav,s2,spoof\n")
+    assert audit_target_metadata("in_the_wild", itw, audio, "release", "eval")["label_counts"] == {"0": 1, "1": 1}
+    with pytest.raises(ContractError, match="exactly subset=eval"):
+        audit_target_metadata("asvspoof2021_la", la, audio, "release", "progress")
+
+
+def test_target_adapter_rejects_wrong_schema_and_label_polarity(tmp_path):
+    audio = tmp_path / "audio"
+    audio.mkdir()
+    metadata = tmp_path / "bad.txt"
+    metadata.write_text("LA_1 LA_E_1 alaw ita_tx A07 human notrim eval\n")
+    with pytest.raises(DataError, match="invalid label"):
+        audit_target_metadata("asvspoof2021_la", metadata, audio, "release", "eval")
+    metadata.write_text("LA_1 LA_E_1 spoof eval\n")
+    with pytest.raises(DataError, match="expected 8"):
+        audit_target_metadata("asvspoof2021_la", metadata, audio, "release", "eval")
+
+
+def test_exposure_ledger_is_hash_chained_and_cannot_be_silently_cleared(tmp_path):
+    ledger = tmp_path / "exposure.jsonl"
+    base = {"recorded_at": "2026-09-16T00:00:00Z", "dataset_id": "asvspoof2019_la",
+            "scope": "eval", "event_type": "effect_view", "artifact_ref": "metrics.json",
+            "artifact_sha256": "a" * 64, "effect_visible": True, "decision_impact": "UNKNOWN"}
+    first = append_exposure_event(ledger, base)
+    second = append_exposure_event(ledger, {**base, "event_type": "method_selection",
+                                            "decision_impact": "FORBIDDEN_FROM_NOW"})
+    assert second["previous_event_sha256"] == first["event_sha256"]
+    assert validate_exposure_ledger(ledger)["event_count"] == 2
+    ledger.write_text("")
+    with pytest.raises(DataError, match="silently cleared"):
+        validate_exposure_ledger(ledger)

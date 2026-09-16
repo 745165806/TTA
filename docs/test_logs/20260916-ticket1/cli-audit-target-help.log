@@ -1,0 +1,14 @@
+usage: cli.py audit-target-metadata [-h] --dataset-id
+                                    {asvspoof2021_la,asvspoof2021_df,in_the_wild}
+                                    --metadata METADATA --audio-dir AUDIO_DIR
+                                    --release RELEASE --subset
+                                    {eval,progress,hidden} --out OUT
+
+options:
+  -h, --help            show this help message and exit
+  --dataset-id {asvspoof2021_la,asvspoof2021_df,in_the_wild}
+  --metadata METADATA
+  --audio-dir AUDIO_DIR
+  --release RELEASE
+  --subset {eval,progress,hidden}
+  --out OUT

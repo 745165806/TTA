@@ -1,0 +1,202 @@
+{
+  "schema_version": "0.1.0",
+  "status": "PASS",
+  "read_only": true,
+  "snapshot_id": "snapshot-5731a8d70a8b8fa4997d",
+  "snapshot_ref": "/media/dell/data/fakedata/eptta_work/snapshots/asv2019_la_initial/snapshot.json",
+  "snapshot_sha256": "315dcc9aa7c6542fe3f30104dec7cfdaf6fa71d2ac4d36bd32cac223f50160bc",
+  "canonical_sha256": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+  "record_count": 121461,
+  "official_partition_role_class": [
+    {
+      "official_partition": "dev",
+      "role": "audit",
+      "canonical_label": 0,
+      "count": 280
+    },
+    {
+      "official_partition": "dev",
+      "role": "audit",
+      "canonical_label": 1,
+      "count": 2484
+    },
+    {
+      "official_partition": "dev",
+      "role": "cal0",
+      "canonical_label": 0,
+      "count": 574
+    },
+    {
+      "official_partition": "dev",
+      "role": "cal0",
+      "canonical_label": 1,
+      "count": 4332
+    },
+    {
+      "official_partition": "dev",
+      "role": "select",
+      "canonical_label": 0,
+      "count": 1008
+    },
+    {
+      "official_partition": "dev",
+      "role": "select",
+      "canonical_label": 1,
+      "count": 10512
+    },
+    {
+      "official_partition": "dev",
+      "role": "source_val",
+      "canonical_label": 0,
+      "count": 686
+    },
+    {
+      "official_partition": "dev",
+      "role": "source_val",
+      "canonical_label": 1,
+      "count": 4968
+    },
+    {
+      "official_partition": "eval",
+      "role": "control_test",
+      "canonical_label": 0,
+      "count": 7355
+    },
+    {
+      "official_partition": "eval",
+      "role": "control_test",
+      "canonical_label": 1,
+      "count": 63882
+    },
+    {
+      "official_partition": "train",
+      "role": "fit",
+      "canonical_label": 0,
+      "count": 2580
+    },
+    {
+      "official_partition": "train",
+      "role": "fit",
+      "canonical_label": 1,
+      "count": 22800
+    }
+  ],
+  "roles": {
+    "audit": {
+      "sample_count": 2764,
+      "group_count": 2,
+      "speaker_count": 2,
+      "attack_coverage": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "max_group_count": 2638,
+      "max_group_share": 0.9544138929088278,
+      "manifest_sha256": "8f009de7abd44d9940d8fd09c018a8d315eb4272e70545acf076e08afcbf6b0d"
+    },
+    "cal0": {
+      "sample_count": 4906,
+      "group_count": 5,
+      "speaker_count": 5,
+      "attack_coverage": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "max_group_count": 2638,
+      "max_group_share": 0.537708927843457,
+      "manifest_sha256": "ca5e97010e33dbfc7b2c109be950c79e7907b4bb277a3ceb085dde484648396b"
+    },
+    "control_test": {
+      "sample_count": 71237,
+      "group_count": 67,
+      "speaker_count": 67,
+      "attack_coverage": [
+        "A07",
+        "A08",
+        "A09",
+        "A10",
+        "A11",
+        "A12",
+        "A13",
+        "A14",
+        "A15",
+        "A16",
+        "A17",
+        "A18",
+        "A19"
+      ],
+      "max_group_count": 1784,
+      "max_group_share": 0.025043165770596742,
+      "manifest_sha256": "eb7fe098b81bbcbb8697edb29eaaed67cb44a59d675825f91ca59883993e443a"
+    },
+    "fit": {
+      "sample_count": 25380,
+      "group_count": 20,
+      "speaker_count": 20,
+      "attack_coverage": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "max_group_count": 1308,
+      "max_group_share": 0.051536643026004726,
+      "manifest_sha256": "550bcc0f6c394b4624b6f7eb5e4c4b86c0237d2ceba769d25d2a3db2a6df4e03"
+    },
+    "select": {
+      "sample_count": 11520,
+      "group_count": 8,
+      "speaker_count": 8,
+      "attack_coverage": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "max_group_count": 2638,
+      "max_group_share": 0.22899305555555555,
+      "manifest_sha256": "ef76e3c8cf3b1f971c52b5bdf3cada58b7abe4eb83d1278681e855f09ce51807"
+    },
+    "source_val": {
+      "sample_count": 5654,
+      "group_count": 5,
+      "speaker_count": 5,
+      "attack_coverage": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05",
+        "A06"
+      ],
+      "max_group_count": 2638,
+      "max_group_share": 0.4665723381676689,
+      "manifest_sha256": "4378b98fc54b69767e5e2be5f754765533a47b1d1d51dbbee5ea8b8cab031a73"
+    }
+  },
+  "unique_sample_ids": 121461,
+  "unique_audio_paths": 121461,
+  "non_null_input_hash_count": 0,
+  "duplicate_non_null_input_hashes": 0,
+  "boundary_errors": [],
+  "parent_relation": {
+    "known_count": 0,
+    "cross_role_count": 0,
+    "unknown_count": 121461,
+    "interpretation": "UNKNOWN when parent_id is null"
+  },
+  "audit_role_contract": "source-only damage evaluation; forbidden for training loss, rollback, or step selection",
+  "audit_access_history": "UNKNOWN_WITHOUT_APPEND_ONLY_LEDGER"
+}

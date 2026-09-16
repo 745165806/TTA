@@ -1,0 +1,120 @@
+{
+  "schema_version": "0.1.0",
+  "status": "PROPOSED",
+  "publishable": false,
+  "approval_required": true,
+  "dataset_id": "asvspoof2021_la",
+  "dataset_release": "ASVspoof2021-LA-keys-full",
+  "metadata_ref": "/media/dell/data/fakedata/asvspoof2021/LA-keys-full/keys/LA/CM/trial_metadata.txt",
+  "metadata_sha256": "6cc64a94d74c3c749a4ad8f5e377d0f46ed221477cfe3585996d8b550548bba8",
+  "audio_dir": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_LA_eval/flac",
+  "selection_rule": "subset == 'eval'",
+  "selected_subset": "eval",
+  "available_subset_counts": {
+    "eval": 148176,
+    "hidden": 16926,
+    "progress": 16464
+  },
+  "selected_count": 148176,
+  "label_counts": {
+    "0": 14816,
+    "1": 133360
+  },
+  "unique_record_ids": 148176,
+  "missing_audio_count": 0,
+  "missing_audio_examples": [],
+  "runtime_field_whitelist": [
+    "schema_version",
+    "sample_id",
+    "root_key",
+    "audio_relpath",
+    "input_sha256",
+    "decode_profile_id",
+    "probe_profile_id"
+  ],
+  "sidecar_separation_verified": true,
+  "lineage_audit": {
+    "source_snapshot_id": "snapshot-5731a8d70a8b8fa4997d",
+    "source_canonical_sha256": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+    "target_speaker_count": 67,
+    "by_source_role": {
+      "audit": {
+        "overlap_speaker_count": 0,
+        "source_sample_count_with_overlap_speaker": 0,
+        "target_sample_count_with_overlap_speaker": 0,
+        "exact_record_id_count": 0
+      },
+      "cal0": {
+        "overlap_speaker_count": 0,
+        "source_sample_count_with_overlap_speaker": 0,
+        "target_sample_count_with_overlap_speaker": 0,
+        "exact_record_id_count": 0
+      },
+      "control_test": {
+        "overlap_speaker_count": 67,
+        "source_sample_count_with_overlap_speaker": 71237,
+        "target_sample_count_with_overlap_speaker": 148176,
+        "exact_record_id_count": 0
+      },
+      "fit": {
+        "overlap_speaker_count": 0,
+        "source_sample_count_with_overlap_speaker": 0,
+        "target_sample_count_with_overlap_speaker": 0,
+        "exact_record_id_count": 0
+      },
+      "select": {
+        "overlap_speaker_count": 0,
+        "source_sample_count_with_overlap_speaker": 0,
+        "target_sample_count_with_overlap_speaker": 0,
+        "exact_record_id_count": 0
+      },
+      "source_val": {
+        "overlap_speaker_count": 0,
+        "source_sample_count_with_overlap_speaker": 0,
+        "target_sample_count_with_overlap_speaker": 0,
+        "exact_record_id_count": 0
+      }
+    },
+    "original_recording_family_relation": "UNKNOWN_NO_REVIEWED_CROSS_DATASET_MAPPING"
+  },
+  "lineage_to_exposed_2019": {
+    "overlap_speaker_count": 67,
+    "source_sample_count_with_overlap_speaker": 71237,
+    "target_sample_count_with_overlap_speaker": 148176,
+    "exact_record_id_count": 0
+  },
+  "lineage_to_source_development": {
+    "audit": {
+      "overlap_speaker_count": 0,
+      "source_sample_count_with_overlap_speaker": 0,
+      "target_sample_count_with_overlap_speaker": 0,
+      "exact_record_id_count": 0
+    },
+    "cal0": {
+      "overlap_speaker_count": 0,
+      "source_sample_count_with_overlap_speaker": 0,
+      "target_sample_count_with_overlap_speaker": 0,
+      "exact_record_id_count": 0
+    },
+    "fit": {
+      "overlap_speaker_count": 0,
+      "source_sample_count_with_overlap_speaker": 0,
+      "target_sample_count_with_overlap_speaker": 0,
+      "exact_record_id_count": 0
+    },
+    "select": {
+      "overlap_speaker_count": 0,
+      "source_sample_count_with_overlap_speaker": 0,
+      "target_sample_count_with_overlap_speaker": 0,
+      "exact_record_id_count": 0
+    },
+    "source_val": {
+      "overlap_speaker_count": 0,
+      "source_sample_count_with_overlap_speaker": 0,
+      "target_sample_count_with_overlap_speaker": 0,
+      "exact_record_id_count": 0
+    }
+  },
+  "effect_access_history": "UNKNOWN_WITHOUT_APPEND_ONLY_LEDGER",
+  "content_sha256": "9d6a380bcc4228929d087f3bcee79dd874d50ae1a0f60da603961430c3a402fd"
+}

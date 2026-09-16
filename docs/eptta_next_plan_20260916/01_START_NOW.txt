@@ -1,0 +1,85 @@
+继续 EP-TTA v0.1.0。读取随附00_PLAN.md，以此落实后续方案。
+本轮执行工单1：直接审计、修补必要代码、运行可执行测试和交付真实工件，不只返回另一个计划。
+本轮不自动启动GPU或重启训练，不新生成目标模型分数，不擅自发布新的数据snapshot。
+
+一、核对最新起点并保全现有成果
+后续模型默认训练80轮，不用100轮
+先读AGENTS、DESIGN、schema/CLI/worker/registry、审批、run manifest、停止快照、git diff和测试报告。
+用户截至2026-09-16报告：
+源数据及split/snapshot已锁定；AASIST完成14/80，SSL-AASIST完成91/80；
+两者STOPPED、未FINALIZED，R4–R9未运行；2019 LA eval已有底座诊断结果被查看；
+原worker与当前worker hash不一致，逐epoch不可变保存是停止后新增的。
+现场有更新则追加修正，不照抄过时的NOT_STARTED或重新从零smoke指令。
+
+确认当前进程状态，记录实际run_id、seed、配置、初始化、snapshot、完整代码hash、
+best/last hash、epoch/global_step/phase、scheduler状态和停止原因。
+先安全归档原checkpoint、运行记录和必要源码/diff，保留用户工作区修改和全部历史。
+不要reset、删除用户文件、改写旧checkpoint身份或伪造历史epoch文件。
+未经已有明确授权不commit/push/tag，版本保持0.1.0。
+可用commit+完整patch+必要源码归档/hash清单建立不可变执行身份，不能伪称已提交。
+
+二、源划分是条件性保留，不是无条件维护lock
+
+现有数量：fit=25380，source_val=5654，select=11520，cal0=4906，audit=2764，control_test=71237。
+只读审计official_partition×role×class、说话人/group、攻击覆盖、最大组占比、
+重复/缺失、文件hash、已知原录音与派生关系，以及audit的原用途和访问历史。
+数量相符不等于官方来源已验证；未知血缘写UNKNOWN。
+
+无实质问题就保留现有snapshot和批准，不执行旧40/20/40或8/4/8重划建议。
+有泄漏、严重覆盖缺陷或合同违规时，只阻塞受影响流程，提出新候选与影响分析，
+说明哪些训练、选模、统计和缓存可复用、哪些需重做；不自行发布或覆盖。
+不把audit擅自并入select，也不默认它完全未被使用。
+
+三、采用四个主要测试范围，准备外部数据增量接入
+
+1. ASVspoof2019 LA官方eval全量：复用control_test，标注已查看底座诊断的标准参照。
+2. ASVspoof2021 DF：只用绑定官方metadata中的subset=eval。
+3. In-the-Wild：绑定作者版本后的完整评价清单，实际核对访问史。
+4. ASVspoof2021 LA：只用绑定官方metadata中的subset=eval。
+WaveFake和CodecFake_Xie为R7前必须定案的扩展，不阻塞源训练与先导。
+
+本轮只做数据/元数据与访问历史审计、必要adapter开发，不评价新的目标效果。
+2021的eval/progress/hidden必须显式筛选，LA/DF按各自真实schema解析，不能扫描目录代替协议。
+2019/2021来源关系、与源开发的原录音重叠、与已暴露2019的同源关系分别记录。
+不能把“同一speaker”当“同一录音”，也不能把不同文件名当独立。
+完整标准范围保留，补充排除子集若需要，先按元数据规则提出，不根据分数挑样本。
+WaveFake需同来源真实参考；CodecFake需具体作者/版本/条件及原录音审计。
+缺数据或映射写UNKNOWN/NOT_RUN，不从结果缺记录推断从未查看。
+
+复用现有增量数据接口。明确管理员sidecar和评分白名单，防止标签、攻击、来源身份进入适配。
+记录2019既有诊断的checkpoint、访问时间、指标文件hash和已知决策，保留历史，不包装回盲测。
+四个目标从现在起都不参与模型/epoch/recipe/seed/EP参数或阈值选择。
+
+四、调查恢复路线并补齐真正缺失的代码
+
+逐模型先调查原身份恢复：完整执行代码/依赖、真实import路径、last状态及恢复边界。
+不能只让入口来自旧目录而导入新worker，不能添加force忽略hash。
+核验模型、optimizer、scheduler、AMP scaler（若用）、best状态、step/epoch/phase、
+Python/NumPy/CPU/CUDA随机状态及合同要求的sampler/worker/DDP状态。
+检查重复epoch、漏step、学习率重置和scheduler多执行等风险。
+
+输出路线A原身份恢复、B显式parent→child新身份续训、C从头新run的证据与建议。
+不自行在路线之间切换。新身份续训不叫原run的exact resume，缺失状态不伪造。
+只有best/last的旧run按其当时合同及真实选模证据核验，不能仅因新规则就废弃。
+
+先列功能缺口：可复用、缺真实验收、缺实现、外部阻塞。
+只对当前必要缺口补恢复preflight/最小入口、身份审计、snapshot审计、目标adapter、
+暴露记录和权限守卫；已有训练器、缓存和调度框架不要重建。
+新增字段必须贯通schema/解析/运行/序列化/hash/测试，不能关闭严格校验。
+先核对实际--help；缺入口就写薄封装并测试，再交付真实命令，不能编造CLI。
+
+至少执行反例测试：代码hash变化拒绝、缺恢复状态拒绝、epoch/LR偏移、旧文件不可覆盖、
+错误partition/2021 subset拒绝、标签极性错误、角色越权、已有暴露记录不能静默清空。
+合成通过与真实数据/GPU证据分开。
+
+五、本轮交付和停止点
+
+交付实际代码文件/修改、测试命令/环境/退出码、归档及完整hash、
+源划分审计结论和audit用途、四个主要目标范围/元数据/血缘/暴露状态表、
+两模型恢复建议、有限真实恢复测试及剩余训练/R4计划、实际入口与GPU预算。
+R7前才生成的完整目标计划不能提前填假hash。
+
+最后给一条绑定实际恢复计划完整SHA-256的mm批准模板。
+没有变化的旧批准不重新申请，普通代码修改和获准只读审计不反复问是否开始。
+资源不可访问时继续本地可做部分，真实任务标NOT_RUN。
+停在恢复路线/GPU预算和新目标snapshot发布审批点，不自动恢复正式训练或评分目标。

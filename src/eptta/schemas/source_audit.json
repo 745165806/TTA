@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EP-TTA source snapshot audit 0.1.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string", "enum": ["0.1.0"]},
+    "status": {"type": "string", "enum": ["PASS", "REVIEW_REQUIRED"]},
+    "read_only": {"type": "boolean", "enum": [true]},
+    "snapshot_id": {"type": "string", "minLength": 1},
+    "snapshot_ref": {"type": "string", "minLength": 1},
+    "snapshot_sha256": {"type": "string", "minLength": 64},
+    "canonical_sha256": {"type": "string", "minLength": 64},
+    "record_count": {"type": "integer", "minimum": 1},
+    "official_partition_role_class": {"type": "array", "items": {"type": "object"}},
+    "roles": {"type": "object"},
+    "unique_sample_ids": {"type": "integer", "minimum": 1},
+    "unique_audio_paths": {"type": "integer", "minimum": 1},
+    "non_null_input_hash_count": {"type": "integer", "minimum": 0},
+    "duplicate_non_null_input_hashes": {"type": "integer", "minimum": 0},
+    "boundary_errors": {"type": "array", "items": {"type": "object"}},
+    "parent_relation": {"type": "object"},
+    "audit_role_contract": {"type": "string", "minLength": 1},
+    "audit_access_history": {"type": "string", "minLength": 1}
+  },
+  "required": ["schema_version", "status", "read_only", "snapshot_id", "snapshot_ref", "snapshot_sha256", "canonical_sha256", "record_count", "official_partition_role_class", "roles", "unique_sample_ids", "unique_audio_paths", "non_null_input_hash_count", "duplicate_non_null_input_hashes", "boundary_errors", "parent_relation", "audit_role_contract", "audit_access_history"],
+  "additionalProperties": false
+}

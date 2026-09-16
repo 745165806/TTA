@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "event_id": "exposure-000006",
+  "recorded_at": "2026-09-16T20:00:35+08:00",
+  "dataset_id": "asvspoof2021_la",
+  "scope": "official_metadata_subset_eval",
+  "event_type": "metadata_view",
+  "artifact_ref": "/media/dell/data/fakedata/asvspoof2021/LA-keys-full/keys/LA/CM/trial_metadata.txt",
+  "artifact_sha256": "6cc64a94d74c3c749a4ad8f5e377d0f46ed221477cfe3585996d8b550548bba8",
+  "effect_visible": false,
+  "decision_impact": "METADATA_AUDIT_ONLY_NO_MODEL_SCORES",
+  "previous_event_sha256": "f2f370df9fa82d371b4c2fb4c6da03954fb84b3150dd554587a2ee6495bd74ba",
+  "event_sha256": "ce0f5dd911fb51550cd1c773e31bafbc7f9276dc6194350d7ab01c5820da4e1a"
+}

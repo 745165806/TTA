@@ -1,0 +1,12 @@
+usage: cli.py resume-preflight [-h] --run RUN --checkpoint CHECKPOINT --worker
+                               WORKER --route {exact,child}
+                               --target-max-epochs TARGET_MAX_EPOCHS --out OUT
+
+options:
+  -h, --help            show this help message and exit
+  --run RUN
+  --checkpoint CHECKPOINT
+  --worker WORKER
+  --route {exact,child}
+  --target-max-epochs TARGET_MAX_EPOCHS
+  --out OUT

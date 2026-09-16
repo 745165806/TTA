@@ -147,6 +147,8 @@ PYTHONPATH=src "$EPTTA_CORE_PY" -m eptta.cli --profile remote_a6000 \
   --mode epoch_boundary --worker-python "$EPTTA_SOURCE_PY"
 ```
 
+每个完成验证的epoch都会保留为`checkpoints/epoch-NNNN.pt`，并同时保存同名`.json` hash sidecar；训练器不自动删除旧epoch。`last.pt`和`best.pt`只是原子更新的便利别名，分别指向最近epoch和source_val EER最优epoch的相同内容。`metrics.jsonl`引用不可变epoch文件，因此finalize/export不会以可变别名作为科学身份。规划磁盘时应按“单个完整checkpoint大小 × 最大epoch数”预留空间。
+
 要启用源训练 DDP，在 **recipe proposal 审核前** 把 runtime 固定为 `strategy=ddp, world_size=2, physical_gpu_ids=[0,1]`；worker 用 `torch.distributed.run` 启动。训练采样策略须显式选择全局尾部 drop 或 repeat。验证由 rank 0 对解除 DDP 的模型完整执行并广播。该设置不传播到 EP：EP 每条 R 独立、`loss_b.sum()`，禁止跨卡归约。
 
 SSL-AASIST 同样执行上述链路，但必须先在私有 paths 中填写 `generic_ssl_initialization`，其内容 hash 会进入 recipe。当前主机该字段为 null，所以 SSL 命令应阻塞；不得用仓库中的 `best_SSL_model*.pth` 或其他鉴伪 checkpoint 填充。
@@ -184,5 +186,22 @@ PYTHONPATH=src "$EPTTA_CORE_PY" -m eptta.cli run-suite \
 ```
 
 `run-suite` 为每个 method 写独立无标签分数目录。每个目录必须先 `seal-scores --run DIR`，之后 `evaluate --run DIR --labels SIDECAR --threshold TAU --out FILE` 才能读取标签。confirmatory 阶段额外要求 `--frozen-spec` 且 method/参数逐项一致。
+
+### 任意兼容参数的ASVspoof2019 LA eval评测
+
+`evaluate-checkpoint`与训练完成状态解耦，可评测项目checkpoint（`model_state`）、原生state dict、`state_dict`字段或带`module.`前缀的DDP参数。模型参数必须严格匹配指定结构。输出目录包含`run.json`、`metrics.json`、`scores.jsonl`和`progress.jsonl`，并记录输入与产物hash；已存在目录拒绝覆盖。
+
+```bash
+PYTHONPATH=src "$EPTTA_CORE_PY" -m eptta.cli --profile remote_a6000 \
+  --paths configs/paths.fakedata.private.yaml evaluate-checkpoint \
+  --model-id aasist_source --checkpoint /absolute/path/to/weights.pt \
+  --protocol /absolute/path/to/ASVspoof2019.LA.cm.eval.trl.txt \
+  --audio-dir /absolute/path/to/ASVspoof2019_LA_eval/flac \
+  --asv-scores /absolute/path/to/ASVspoof2019.LA.asv.eval.gi.trl.scores.txt \
+  --out /absolute/path/to/new/evaluation-output --gpu-id 2 --batch-size 48 \
+  --evaluation-tag asvspoof2019-la-eval --worker-python "$EPTTA_SOURCE_PY"
+```
+
+评测分数固定为`spoof_logit - bonafide_logit`，因此越大越偏spoof。`metrics.json`报告EER、AUROC、阈值0下的混淆矩阵/平衡准确率及逐攻击EER；提供`--asv-scores`时还用hash绑定的ASVspoof2019实现报告官方EER百分比和min t-DCF。阈值0指标只是给定参数头的诊断，EER/AUROC不依赖该阈值。
 
 以上均是可执行接口与远程核验顺序；当前没有 GPU 吞吐、显存、训练收敛、真实适配或鉴伪效果结论。

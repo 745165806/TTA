@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.1.0",
+  "status": "PASS",
+  "read_only": true,
+  "route": "exact",
+  "execution_ready": true,
+  "run_dir": "/media/dell/data/fakedata/eptta_work/training_runs/ssl_aasist_source/full-gpu1-b48-001",
+  "run_id_recorded": null,
+  "deterministic_completion_run_id": "source-run-31f82a1c4b1315c2f811",
+  "model_id": "ssl_aasist_source",
+  "training_seed": 13,
+  "checkpoint_ref": "/media/dell/data/fakedata/eptta_work/training_runs/ssl_aasist_source/full-gpu1-b48-001/checkpoints/last.pt",
+  "checkpoint_sha256": "efb3c259f05a24fd7992c771328aa27ef12c4f5a8f7cc084ec52947dd9f7cdde",
+  "checkpoint_epoch": 90,
+  "resume_start_epoch": 91,
+  "global_step": 48139,
+  "steps_per_epoch": 529,
+  "expected_global_step": 48139,
+  "locked_max_epochs": 100,
+  "target_max_epochs": 100,
+  "recipe_hash": "f378a02ec126634a30b63b27169793529991bd18bf8fdd06c8cc4f433b326646",
+  "snapshot_hashes": {
+    "fit": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+    "source_val": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0"
+  },
+  "architecture": {
+    "class_index_map": {
+      "bonafide": 1,
+      "spoof": 0
+    },
+    "embedding_dim": 160,
+    "entrypoint": "model.py",
+    "entrypoint_sha256": "08b2b99b9cc0e90732746471325185f2eb144795ee35338e0a02951015a856c6",
+    "initialization_scope": "generic_ssl_frontend_only",
+    "model_id": "ssl_aasist_source",
+    "repo_commit": "4acaa61dcef5f7610f43aa4d0b29c4559b970cd2",
+    "repository": "https://github.com/TakHemlata/SSL_Anti-spoofing.git",
+    "repository_ref": "/media/dell/data/fakeAudioDection/SSL_Anti-spoofing",
+    "schema_version": "0.1.0",
+    "status": "VERIFIED"
+  },
+  "initialization": {
+    "artifact_ref": "/media/dell/data/fakeAudioDection/pretrained-model/xlsr2_300m.pt",
+    "pretraining_provenance": "user_bound_generic_xlsr",
+    "scope": "generic_ssl_frontend_only",
+    "sha256": "b08927597f2c9eb2ebd7dcc3ac78ee4b5f6021cbac4b3a6c5a9deec445d80ed9"
+  },
+  "scheduler": "none",
+  "scheduler_state_present": false,
+  "scaler_state_present": true,
+  "rng_rank_count": 1,
+  "sampler_state": {
+    "epoch": 90,
+    "policy": "shuffle_drop_global_tail",
+    "world_size": 1
+  },
+  "best_selection_record": {
+    "checkpoint_ref": "checkpoints/best.pt",
+    "checkpoint_sha256": "5dea8eb1a53bc719c380c0d189718921d0a60976b7485983f9c92eef30081d08",
+    "epoch": 5,
+    "source_val_eer": 0.0
+  },
+  "bound_worker_sha256": "ff77caa3f20065e665bb8a1bedb4eb8dc13fa7609d62dfb451fa4ffbdbe7f631",
+  "candidate_worker_ref": "/media/dell/data/fakeAudioDection/TTA/artifacts/private/ticket1-20260916/source_identity/source_train_bridge.original.py",
+  "candidate_worker_sha256": "ff77caa3f20065e665bb8a1bedb4eb8dc13fa7609d62dfb451fa4ffbdbe7f631",
+  "stop_reason": "UNKNOWN_NO_STOP_RECORD",
+  "blockers": [],
+  "warnings": []
+}

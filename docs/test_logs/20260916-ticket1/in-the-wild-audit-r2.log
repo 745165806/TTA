@@ -1,0 +1,93 @@
+{
+  "schema_version": "0.1.0",
+  "status": "PROPOSED",
+  "publishable": false,
+  "approval_required": true,
+  "dataset_id": "in_the_wild",
+  "dataset_release": "release_in_the_wild-local-unversioned",
+  "metadata_ref": "/media/dell/data/fakedata/release_in_the_wild/meta.csv",
+  "metadata_sha256": "2e404150eff3cf171b766da81013a93248cbb219682fff420bbadb6b86a18795",
+  "audio_dir": "/media/dell/data/fakedata/release_in_the_wild",
+  "selection_rule": "subset == 'eval'",
+  "selected_subset": "eval",
+  "available_subset_counts": {
+    "eval": 31779
+  },
+  "selected_count": 31779,
+  "label_counts": {
+    "0": 19963,
+    "1": 11816
+  },
+  "unique_record_ids": 31779,
+  "missing_audio_count": 0,
+  "missing_audio_examples": [],
+  "runtime_field_whitelist": [
+    "schema_version",
+    "sample_id",
+    "root_key",
+    "audio_relpath",
+    "input_sha256",
+    "decode_profile_id",
+    "probe_profile_id"
+  ],
+  "sidecar_separation_verified": true,
+  "lineage_audit": {
+    "source_snapshot_id": "snapshot-5731a8d70a8b8fa4997d",
+    "source_canonical_sha256": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+    "by_source_role": {
+      "audit": {
+        "same_speaker_sample_count": 0,
+        "exact_record_id_count": 0
+      },
+      "cal0": {
+        "same_speaker_sample_count": 0,
+        "exact_record_id_count": 0
+      },
+      "control_test": {
+        "same_speaker_sample_count": 0,
+        "exact_record_id_count": 0
+      },
+      "fit": {
+        "same_speaker_sample_count": 0,
+        "exact_record_id_count": 0
+      },
+      "select": {
+        "same_speaker_sample_count": 0,
+        "exact_record_id_count": 0
+      },
+      "source_val": {
+        "same_speaker_sample_count": 0,
+        "exact_record_id_count": 0
+      }
+    },
+    "original_recording_family_relation": "UNKNOWN_NO_REVIEWED_CROSS_DATASET_MAPPING"
+  },
+  "lineage_to_exposed_2019": {
+    "same_speaker_sample_count": 0,
+    "exact_record_id_count": 0
+  },
+  "lineage_to_source_development": {
+    "audit": {
+      "same_speaker_sample_count": 0,
+      "exact_record_id_count": 0
+    },
+    "cal0": {
+      "same_speaker_sample_count": 0,
+      "exact_record_id_count": 0
+    },
+    "fit": {
+      "same_speaker_sample_count": 0,
+      "exact_record_id_count": 0
+    },
+    "select": {
+      "same_speaker_sample_count": 0,
+      "exact_record_id_count": 0
+    },
+    "source_val": {
+      "same_speaker_sample_count": 0,
+      "exact_record_id_count": 0
+    }
+  },
+  "effect_access_history": "UNKNOWN_WITHOUT_APPEND_ONLY_LEDGER",
+  "content_sha256": "07de3ca9bae640737b8a1530949730153849573014e125b1af88e1043162930a"
+}

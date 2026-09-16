@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EP-TTA target metadata audit 0.1.0",
+  "type": "object",
+  "properties": {
+    "schema_version": {"type": "string", "enum": ["0.1.0"]},
+    "status": {"type": "string", "enum": ["PROPOSED"]},
+    "publishable": {"type": "boolean", "enum": [false]},
+    "approval_required": {"type": "boolean", "enum": [true]},
+    "dataset_id": {"type": "string", "minLength": 1},
+    "dataset_release": {"type": "string", "minLength": 1},
+    "metadata_ref": {"type": "string", "minLength": 1},
+    "metadata_sha256": {"type": "string", "minLength": 64},
+    "audio_dir": {"type": "string", "minLength": 1},
+    "selection_rule": {"type": "string", "minLength": 1},
+    "selected_subset": {"type": "string", "enum": ["eval"]},
+    "available_subset_counts": {"type": "object"},
+    "selected_count": {"type": "integer", "minimum": 1},
+    "label_counts": {"type": "object"},
+    "unique_record_ids": {"type": "integer", "minimum": 1},
+    "missing_audio_count": {"type": "integer", "minimum": 0},
+    "missing_audio_examples": {"type": "array", "items": {"type": "string"}},
+    "runtime_field_whitelist": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "sidecar_separation_verified": {"type": "boolean", "enum": [true]},
+    "lineage_audit": {"type": "object"},
+    "lineage_to_exposed_2019": {"type": ["object", "string"]},
+    "lineage_to_source_development": {"type": ["object", "string"]},
+    "effect_access_history": {"type": "string", "minLength": 1},
+    "content_sha256": {"type": "string", "minLength": 64}
+  },
+  "required": ["schema_version", "status", "publishable", "approval_required", "dataset_id", "dataset_release", "metadata_ref", "metadata_sha256", "audio_dir", "selection_rule", "selected_subset", "available_subset_counts", "selected_count", "label_counts", "unique_record_ids", "missing_audio_count", "missing_audio_examples", "runtime_field_whitelist", "sidecar_separation_verified", "lineage_audit", "lineage_to_exposed_2019", "lineage_to_source_development", "effect_access_history", "content_sha256"],
+  "additionalProperties": false
+}

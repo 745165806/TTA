@@ -1,0 +1,6 @@
+usage: cli.py audit-source-snapshot [-h] --snapshot SNAPSHOT --out OUT
+
+options:
+  -h, --help           show this help message and exit
+  --snapshot SNAPSHOT
+  --out OUT

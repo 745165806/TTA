@@ -1,0 +1,6 @@
+Script started on 2026-09-16 20:19:28+08:00 [<not executed on terminal>]
+Error importing huggingface_hub.hf_api: No module named 'httpx'
+Error importing huggingface_hub.hf_api: No module named 'httpx'
+{"schema_version": "0.1.0", "status": "FAILED", "error_type": "TypeError", "message": "RNG state must be a torch.ByteTensor"}
+
+Script done on 2026-09-16 20:19:31+08:00 [COMMAND_EXIT_CODE="2"]

@@ -342,7 +342,7 @@ resolve-training-recipe → validate fit/source_val permissions → init-model
 
 `fit`可以有随机增强，随机性按training seed/epoch/sample/augmentation实例控制并记录；保存训练抽样实际来源与重复/丢弃政策。训练日志包含step、epoch、train loss、source_val loss/EER、LR、梯度/溢出、训练时长、每卡显存、样本覆盖和checkpoint选择原因。不得把`select/cal0/audit`用于反向、训练早停或隐藏的checkpoint筛选。
 
-**检查点（checkpoint）**至少包含：model state、optimizer/scheduler、AMP scaler（启用时）、epoch/global step、随机数状态、sampler/数据顺序状态、训练配方hash、架构commit和patch hash、数据snapshot/split/preprocess/label policy hash、class index map、初始化来源和训练seed。`last`用于恢复，`best`用于选择，两者职责分开；导出使用确定hash，不使用可变`latest`路径作为科学身份。
+**检查点（checkpoint）**至少包含：model state、optimizer/scheduler、AMP scaler（启用时）、epoch/global step、随机数状态、sampler/数据顺序状态、训练配方hash、架构commit和patch hash、数据snapshot/split/preprocess/label policy hash、class index map、初始化来源和训练seed。每个完成验证的epoch必须写入独立且不可覆盖的`checkpoints/epoch-NNNN.pt`及hash sidecar，不自动裁剪；`last.pt`用于恢复，`best.pt`用于操作便利，两者是指向相应epoch内容的原子别名。选模记录和导出必须引用不可变epoch路径及其确定hash，不使用可变`last/best/latest`路径作为科学身份。
 
 恢复默认保证同一配方和相同数据快照下的**epoch边界恢复**；step级恢复须实现并测试sampler、增强和worker状态，否则明确记为非逐步等价恢复。fit成员改变或代码改变不能用`resume-exact`，需新run和显式warm-start记录。不要把近似恢复写成位级可重复保证。
 
@@ -1491,7 +1491,7 @@ selection:
   tie_break: earliest_epoch
   final_test_access: false
 training:
-  max_epochs: 100
+  max_epochs: 80
   optimizer: adam
   lr: 0.0001
   weight_decay: 0.0001
@@ -1537,7 +1537,7 @@ selection:
   tie_break: earliest_epoch
   final_test_access: false
 training:
-  max_epochs: 100
+  max_epochs: 80
   optimizer: adam
   lr: 0.000001
   weight_decay: 0.0001
@@ -1563,7 +1563,7 @@ checkpoint:
 recipe_lock_ref: null
 ```
 
-`scheduler=null`等字段表示尚未完成配方审计，不等于自动使用默认scheduler；锁定时需要把“无scheduler”明确写为`none`，或选定已审核配置。class weights、sampler、训练增强、preprocess与native index mapping必须在训练前解决。`reference_batch`是文献/源码参照，不是实际batch承诺；runtime预检后决定实际microbatch/累积，并写入recipe lock和偏离记录。
+`scheduler=null`等字段表示尚未完成配方审计，不等于自动使用默认scheduler；锁定时需要把“无scheduler”明确写为`none`，或选定已审核配置。class weights、sampler、训练增强、preprocess与native index mapping必须在训练前解决。`reference_batch`是文献/源码参照，不是实际batch承诺；runtime预检后决定实际microbatch/累积，并写入recipe lock和偏离记录。自2026-09-16起新模型recipe模板默认总预算为80轮；此前已锁定的100轮recipe保持原字节身份，不能用模板更新倒写其合同或冒充exact resume。
 
 建议先独立smoke 10–20个optimizer steps与一次完整验证管线，不将smoke输出注册为正式底座；首次正式运行只执行一个训练seed。用户是否启用额外长训练由已批准计划控制，不因一个smoke命令成功就自动耗满服务器。
 
@@ -2013,12 +2013,15 @@ R6若静态/标量已解释全部收益，可停止复杂化并报告；五项�
 | `run-suite` | `--plan FILE --suite-id ID --phase select|confirmatory --run-output DIR [--frozen-spec FILE]` | 确认性运行必须已封存；只读自身目标样本 |
 | `seal-scores` | `--run DIR` | 分数与覆盖校验，无目标标签 |
 | `evaluate` | `--run DIR --labels FILE --out DIR` | seal后读评价标签；不反馈当前run优化 |
+| `evaluate-checkpoint` | `--model-id ID --checkpoint FILE --protocol FILE --audio-dir DIR --out DIR [...]` | 评测任意能严格加载到已审计AASIST/SSL-AASIST结构的参数；不要求训练完成或FINALIZED |
 | `select-methods` | `--metrics FILE --plan FILE --out FILE` | 仅source-select角色；不选择源训练checkpoint |
 | `freeze` | `--plan FILE --selection FILE --out FILE` | 确认性计划hash，不是公共注册或安全凭证 |
 | `resume` | `--run DIR [--check-only]` | 恢复同科学/数值身份的提取/适应作业 |
 | `report` | `--run DIR --out FILE` | 由真实产物生成中文Markdown；未执行写not_run |
 
 公共退出码：0成功；2配置/未批准合同/权限错误；3选中资源缺失；4数据/缓存不完整；5数值/模型/训练失败；130中断。CLI输出机器可读code与未解决字段；不能用`|| true`吞掉错误。
+
+`evaluate-checkpoint`不以训练是否完成、是否存在训练sidecar、参数来源或是否FINALIZED作为数值执行门槛。它必须记录参数、协议、worker和分数hash，保存逐条无标签分数、聚合指标、攻击类型分解、运行环境和资源开销，并禁止覆盖既有结果目录。参数按`model_state`、`state_dict`、原生state dict或DDP `module.`前缀格式解析，之后必须`strict=True`加载。该入口的结果可由用户标注用途，但不得反馈改变已封存训练split或recipe。
 
 `STAGE`至少枚举`development / inventory / data_build / source_training / frozen_extract / adaptation / evaluation`。阶段数据权限分别检查：data_build能读取raw label；source_training只能fit/source_val；adaptation绝不能读取目标label；evaluation只有在封存之后。为解析/审计看到标签不构成适应器获得标签的权限。
 

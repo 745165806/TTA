@@ -1,3 +1,4 @@
+import hashlib
 import json
 import importlib.util
 from pathlib import Path
@@ -14,6 +15,7 @@ from eptta.training.artifacts import finalize_training, require_exportable
 from eptta.training.selection import equal_error_rate, select_source_checkpoint
 from eptta.training.recipe import resolve_training_recipe
 from eptta.training.dispatch import compile_source_job
+from eptta.training.resume import compile_resume_preflight, prepare_child_resume
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -112,6 +114,178 @@ def test_source_val_eer_and_selection_contract():
         {"epoch": 2, "source_val_eer": 0.1, "checkpoint_ref": "b", "checkpoint_sha256": "b" * 64},
         {"epoch": 1, "source_val_eer": 0.1, "checkpoint_ref": "a", "checkpoint_sha256": "a" * 64}])
     assert chosen["epoch"] == 1
+
+
+def test_epoch_checkpoints_are_retained_while_last_and_best_advance(tmp_path):
+    worker = _source_worker_module()
+    checkpoints = tmp_path / "checkpoints"
+    checkpoints.mkdir()
+    epoch_0 = Path(worker.epoch_checkpoint_path(str(checkpoints), 0))
+    epoch_1 = Path(worker.epoch_checkpoint_path(str(checkpoints), 1))
+    epoch_0.write_bytes(b"epoch-zero")
+    epoch_0.with_suffix(".pt.json").write_text('{"checkpoint_sha256":"zero"}\n')
+    epoch_1.write_bytes(b"epoch-one")
+    epoch_1.with_suffix(".pt.json").write_text('{"checkpoint_sha256":"one"}\n')
+
+    worker.publish_checkpoint_alias(str(epoch_0), str(checkpoints / "last.pt"))
+    worker.publish_checkpoint_alias(str(epoch_0), str(checkpoints / "best.pt"))
+    worker.publish_checkpoint_alias(str(epoch_1), str(checkpoints / "last.pt"))
+
+    assert epoch_0.read_bytes() == b"epoch-zero"
+    assert epoch_1.read_bytes() == b"epoch-one"
+    assert (checkpoints / "last.pt").read_bytes() == b"epoch-one"
+    assert (checkpoints / "best.pt").read_bytes() == b"epoch-zero"
+    assert json.loads((checkpoints / "last.pt.json").read_text())["checkpoint_sha256"] == "one"
+    assert json.loads((checkpoints / "best.pt.json").read_text())["checkpoint_sha256"] == "zero"
+
+
+def test_epoch_checkpoint_path_rejects_invalid_epoch(tmp_path):
+    worker = _source_worker_module()
+    assert worker.epoch_checkpoint_path(str(tmp_path), 12).endswith("epoch-0012.pt")
+    for invalid in (-1, True, 1.5):
+        with pytest.raises(ValueError, match="non-negative integer"):
+            worker.epoch_checkpoint_path(str(tmp_path), invalid)
+
+
+def _resume_fixture(tmp_path, scheduler="cosine_author_audited"):
+    torch = pytest.importorskip("torch")
+    worker = tmp_path / "worker.py"
+    worker.parent.mkdir(parents=True, exist_ok=True)
+    worker.write_text("# worker\n")
+    worker_hash = hashlib.sha256(worker.read_bytes()).hexdigest()
+    run = tmp_path / "run"
+    checkpoints = run / "checkpoints"
+    checkpoints.mkdir(parents=True)
+    job = {"source_job": {"output_dir": str(run.resolve()), "model_id": "aasist_source",
+                           "recipe_hash": "a" * 64, "training_seed": 13, "phase": "full",
+                           "fit": {"snapshot_hash": "b" * 64},
+                           "source_val": {"snapshot_hash": "b" * 64}, "initialization": None},
+           "execution": {"runtime": {"strategy": "single_gpu", "world_size": 1,
+                                        "per_gpu_batch_size": 2, "grad_accum_steps": 1},
+                         "sample_counts": {"fit": 4},
+                         "training": {"max_epochs": 80, "scheduler": scheduler,
+                                      "sampler_policy": "shuffle_drop_global_tail"},
+                         "training_orchestration": {"payload": {"project_worker_ref": str(worker.resolve()),
+                                                                  "project_worker_sha256": worker_hash}},
+                         "architecture": {}}}
+    (run / "source_train_job.json").write_text(json.dumps(job))
+    state = {"schema_version": "0.1.0", "model_state": {"w": torch.tensor([1.])},
+             "optimizer_state": {"state": {}, "param_groups": [{"lr": 0.1}]},
+             "scheduler_state": ({"last_epoch": 2, "_last_lr": [0.1]} if scheduler != "none" else None),
+             "scaler_state": {}, "epoch": 0, "global_step": 2, "rng_states": [{"rank": 0}],
+             "sampler_state": {"epoch": 0, "policy": "shuffle_drop_global_tail", "world_size": 1},
+             "recipe_hash": "a" * 64, "fit_snapshot_hash": "b" * 64,
+             "source_val_snapshot_hash": "b" * 64, "architecture": {}, "patch": {},
+             "class_index_map": {"spoof": 0, "bonafide": 1}, "initialization": None,
+             "training_seed": 13, "task_weight_origin": "trained_in_project"}
+    checkpoint = checkpoints / "last.pt"
+    torch.save(state, checkpoint)
+    digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    sidecar = {key: state[key] for key in ("epoch", "global_step", "recipe_hash", "fit_snapshot_hash",
+                                           "source_val_snapshot_hash", "training_seed", "task_weight_origin")}
+    sidecar["checkpoint_sha256"] = digest
+    checkpoint.with_suffix(".pt.json").write_text(json.dumps(sidecar))
+    best = checkpoints / "best.pt"
+    best.write_bytes(checkpoint.read_bytes())
+    (run / "metrics.jsonl").write_text(json.dumps({"epoch": 0, "source_val_eer": 0.1,
+        "checkpoint_ref": "checkpoints/best.pt", "checkpoint_sha256": digest}) + "\n")
+    return run, checkpoint, worker, state
+
+
+def test_resume_preflight_rejects_worker_hash_change(tmp_path):
+    run, checkpoint, worker, _ = _resume_fixture(tmp_path)
+    worker.write_text("# changed worker\n")
+    result = compile_resume_preflight(run, checkpoint, worker, "exact", 80)
+    assert result["status"] == "BLOCKED"
+    assert any("worker hash" in item for item in result["blockers"])
+
+
+def test_resume_preflight_rejects_missing_state_and_epoch_lr_offsets(tmp_path):
+    torch = pytest.importorskip("torch")
+    run, checkpoint, worker, state = _resume_fixture(tmp_path)
+    state.pop("rng_states")
+    torch.save(state, checkpoint)
+    digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    sidecar = json.loads(checkpoint.with_suffix(".pt.json").read_text())
+    sidecar["checkpoint_sha256"] = digest
+    checkpoint.with_suffix(".pt.json").write_text(json.dumps(sidecar))
+    with pytest.raises(DataError, match="lacks resume state"):
+        compile_resume_preflight(run, checkpoint, worker, "exact", 80)
+
+    run, checkpoint, worker, state = _resume_fixture(tmp_path / "offset")
+    state["scheduler_state"]["last_epoch"] = 1
+    state["scheduler_state"]["_last_lr"] = [0.2]
+    torch.save(state, checkpoint)
+    digest = hashlib.sha256(checkpoint.read_bytes()).hexdigest()
+    sidecar = json.loads(checkpoint.with_suffix(".pt.json").read_text())
+    sidecar["checkpoint_sha256"] = digest
+    checkpoint.with_suffix(".pt.json").write_text(json.dumps(sidecar))
+    result = compile_resume_preflight(run, checkpoint, worker, "exact", 80)
+    assert any("scheduler last_epoch" in item for item in result["blockers"])
+    assert any("optimizer LR" in item for item in result["blockers"])
+
+
+def test_route_b_child_is_hash_bound_new_identity_and_preserves_scheduler_horizon(tmp_path):
+    parent = tmp_path / "parent"
+    checkpoints = parent / "checkpoints"
+    checkpoints.mkdir(parents=True)
+    worker = tmp_path / "worker.py"
+    worker.write_text("# fixed worker bytes\n")
+    parent_job = {
+        "schema_version": "0.1.0", "job_type": "source_train",
+        "source_job": {"model_id": "aasist_source", "recipe_hash": "a" * 64,
+                       "fit": {"snapshot_hash": "b" * 64},
+                       "source_val": {"snapshot_hash": "b" * 64},
+                       "training_seed": 13, "phase": "full", "resume": None,
+                       "output_dir": str(parent), "recipe_lock_ref": "parent.lock"},
+        "execution": {"training": {"max_epochs": 100, "scheduler": "cosine_author_audited"},
+                      "training_orchestration": {"payload": {"project_worker_ref": "old",
+                                                                 "project_worker_sha256": "c" * 64},
+                                                     "patch_sha256": "d" * 64}}}
+    (parent / "source_train_job.json").write_text(json.dumps(parent_job))
+    checkpoint = checkpoints / "last.pt"
+    checkpoint.write_bytes(b"immutable parent")
+    digest = sha256_file(checkpoint)
+    sidecar = {"checkpoint_sha256": digest, "epoch": 13, "recipe_hash": "a" * 64,
+               "fit_snapshot_hash": "b" * 64, "source_val_snapshot_hash": "b" * 64,
+               "task_weight_origin": "trained_in_project",
+               "patch": {"combined_sha256": "e" * 64}}
+    checkpoint.with_suffix(".pt.json").write_text(json.dumps(sidecar))
+    plan = {"plan_id": "ticket1-recovery-20260916", "models": {"aasist_source": {
+        "parent_run_dir": str(parent), "parent_last_sha256": digest,
+        "recommended_route": "B_PARENT_TO_CHILD", "child_total_epochs": 80}}}
+    plan_path = tmp_path / "plan.json"
+    plan_path.write_text(json.dumps(plan))
+    plan_hash = sha256_file(plan_path)
+
+    first = prepare_child_resume(plan_path, plan_hash, "aasist_source", checkpoint,
+                                 worker, tmp_path / "continuous", "resume_validation", 2)
+    second = prepare_child_resume(plan_path, plan_hash, "aasist_source", checkpoint,
+                                  worker, tmp_path / "restart", "resume_validation", 1)
+    assert first["exact_resume_claim"] is False
+    assert first["child_recipe_hash"] == second["child_recipe_hash"]
+    assert first["execution_end_epoch"] == 16 and second["execution_end_epoch"] == 15
+    child_job = json.loads((tmp_path / "continuous/source_train_job.json").read_text())
+    assert child_job["execution"]["training"]["scheduler_horizon_epochs"] == 100
+    assert child_job["source_job"]["recipe_hash"] != "a" * 64
+    with pytest.raises(ContractError, match="SHA-256 changed"):
+        prepare_child_resume(plan_path, "0" * 64, "aasist_source", checkpoint,
+                             worker, tmp_path / "wrong", "resume_validation", 2)
+    with pytest.raises(ContractError, match="overwrite"):
+        prepare_child_resume(plan_path, plan_hash, "aasist_source", checkpoint,
+                             worker, tmp_path / "continuous", "resume_validation", 2)
+
+
+def test_worker_rejects_undisclosed_migration_and_uses_parent_scheduler_horizon():
+    torch = pytest.importorskip("torch")
+    worker = _source_worker_module()
+    model = torch.nn.Linear(1, 1)
+    job = {"execution": {"training": {"optimizer": "adam", "lr": 1e-4,
+                                         "weight_decay": 0.0, "scheduler": "cosine",
+                                         "max_epochs": 80, "scheduler_horizon_epochs": 100}}}
+    optimizer, scheduler = worker.build_optimizer(model, job, 10)
+    assert scheduler.lr_lambdas[0](800) > 5e-6 / 1e-4
+    assert scheduler.lr_lambdas[0](1000) == pytest.approx(5e-6 / 1e-4)
 
 
 def test_author_sources_are_pinned_when_local_repositories_exist():

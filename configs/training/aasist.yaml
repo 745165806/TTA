@@ -5,7 +5,7 @@
   "payload": {
     "optimizer": "adam",
     "lr": 0.0001,
-    "max_epochs": 100,
+    "max_epochs": 80,
     "scheduler": "cosine_author_audited",
     "loss": "weighted_categorical_cross_entropy",
     "class_weights_by_name": {"bonafide": 0.9, "spoof": 0.1},

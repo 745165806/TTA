@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0",
+  "event_id": "exposure-000002",
+  "recorded_at": "2026-09-16T18:51:10+08:00",
+  "dataset_id": "asvspoof2019_la",
+  "scope": "official_eval_full_control_test",
+  "event_type": "model_scoring",
+  "artifact_ref": "/media/dell/data/fakedata/eptta_work/evaluations/ssl_aasist_source/asvspoof2019-la-best-epoch5-r2/run.json",
+  "artifact_sha256": "9a90fe9bdbe8e4a558b909bfd4f0295a536a43352acdf589f72e15088b7bf118",
+  "effect_visible": false,
+  "decision_impact": "DIAGNOSTIC_ONLY",
+  "previous_event_sha256": "689ca24923499ac108a41ffbf828ea1f2bfff6bd973342d36108dd1369618fc6",
+  "event_sha256": "b138f584b1669d5714a42c1a5452b8050d444dbb0b78821dd478d022b7076886"
+}

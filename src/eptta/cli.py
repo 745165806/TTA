@@ -20,10 +20,12 @@ STUBS = {
 }
 DATA_COMMANDS = ("inspect-data", "propose-data-contract", "approve-contract", "stage-data",
                  "propose-splits", "build-manifests", "ingest-delta", "commit-snapshot", "refresh-plan",
-                 "prepare-labels", "validate-labels", "seal-source-manifests", "prepare-inference-manifest")
+                 "prepare-labels", "validate-labels", "seal-source-manifests", "prepare-inference-manifest",
+                 "audit-source-snapshot", "audit-target-metadata", "record-exposure")
 TRAINING_COMMANDS = ("resolve-training-recipe", "inspect-model", "train-source",
-                     "resume-source", "finalize-training", "export-frozen")
-EVALUATION_COMMANDS = ("seal-scores", "evaluate")
+                     "resume-source", "resume-preflight", "prepare-child-resume",
+                     "finalize-training", "finalize-administrative-child", "export-frozen")
+EVALUATION_COMMANDS = ("seal-scores", "evaluate", "evaluate-checkpoint")
 EXECUTION_COMMANDS = ("extract", "merge-cache", "build-artifacts")
 ADAPTATION_COMMANDS = ("run-suite",)
 TASKS = {"source_prepare": "data_build", "source_training": "source_training",
@@ -91,6 +93,23 @@ def parser():
     inference_manifest.add_argument("--snapshot", required=True)
     inference_manifest.add_argument("--role", required=True)
     inference_manifest.add_argument("--out", required=True)
+    source_audit = sub.add_parser("audit-source-snapshot", help="read-only audit of an existing locked snapshot")
+    source_audit.add_argument("--snapshot", required=True)
+    source_audit.add_argument("--out", required=True)
+    target_audit = sub.add_parser("audit-target-metadata", help="strictly parse one principal target scope without publishing it")
+    target_audit.add_argument("--dataset-id", choices=("asvspoof2021_la", "asvspoof2021_df", "in_the_wild"), required=True)
+    target_audit.add_argument("--metadata", required=True)
+    target_audit.add_argument("--audio-dir", required=True)
+    target_audit.add_argument("--release", required=True)
+    target_audit.add_argument("--subset", choices=("eval", "progress", "hidden"), required=True)
+    target_audit.add_argument("--source-snapshot")
+    target_audit.add_argument("--out", required=True)
+    exposure = sub.add_parser("record-exposure", help="append one hash-chained target access event")
+    exposure.add_argument("--ledger", required=True)
+    for option in ("recorded-at", "dataset-id", "scope", "event-type", "artifact-ref",
+                   "artifact-sha256", "decision-impact"):
+        exposure.add_argument("--" + option, required=True)
+    exposure.add_argument("--effect-visible", choices=("true", "false"), required=True)
     resolve_recipe = sub.add_parser("resolve-training-recipe", help="bind author/data/preprocess identities for review")
     for option in ("model-id", "snapshot", "preprocess", "out"):
         resolve_recipe.add_argument("--" + option, required=True)
@@ -110,9 +129,31 @@ def parser():
     resume_source.add_argument("--checkpoint", required=True)
     resume_source.add_argument("--mode", choices=("epoch_boundary",), required=True)
     resume_source.add_argument("--worker-python")
+    resume_preflight = sub.add_parser("resume-preflight", help="read-only checkpoint and identity audit")
+    resume_preflight.add_argument("--run", required=True)
+    resume_preflight.add_argument("--checkpoint", required=True)
+    resume_preflight.add_argument("--worker", required=True)
+    resume_preflight.add_argument("--route", choices=("exact", "child"), required=True)
+    resume_preflight.add_argument("--target-max-epochs", type=int, required=True)
+    resume_preflight.add_argument("--out", required=True)
+    prepare_child = sub.add_parser("prepare-child-resume", help="publish an approved route-B child job without executing it")
+    prepare_child.add_argument("--plan", required=True)
+    prepare_child.add_argument("--plan-sha256", required=True)
+    prepare_child.add_argument("--model-id", choices=("aasist_source", "ssl_aasist_source"), required=True)
+    prepare_child.add_argument("--checkpoint", required=True)
+    prepare_child.add_argument("--worker", required=True)
+    prepare_child.add_argument("--run-output", required=True)
+    prepare_child.add_argument("--purpose", choices=("resume_validation", "formal_continuation"), required=True)
+    prepare_child.add_argument("--validation-epochs", type=int, choices=(1, 2))
+    prepare_child.add_argument("--validation-report")
     finalize = sub.add_parser("finalize-training", help="select source checkpoint by source_val EER")
     finalize.add_argument("--run", required=True)
     finalize.add_argument("--out", required=True)
+    admin_finalize = sub.add_parser("finalize-administrative-child", help="finalize the approved SSL no-training child migration")
+    admin_finalize.add_argument("--plan", required=True)
+    admin_finalize.add_argument("--plan-sha256", required=True)
+    admin_finalize.add_argument("--validation-report", required=True)
+    admin_finalize.add_argument("--out", required=True)
     export_frozen = sub.add_parser("export-frozen", help="export and parity-check a finalized source detector")
     export_frozen.add_argument("--training-manifest", required=True)
     export_frozen.add_argument("--out", required=True)
@@ -124,6 +165,19 @@ def parser():
     evaluate.add_argument("--labels", required=True)
     evaluate.add_argument("--out", required=True)
     evaluate.add_argument("--threshold", required=True, type=float)
+    checkpoint_eval = sub.add_parser("evaluate-checkpoint", help="evaluate any architecture-compatible parameter file")
+    checkpoint_eval.add_argument("--model-id", choices=("aasist_source", "ssl_aasist_source"), required=True)
+    checkpoint_eval.add_argument("--checkpoint", required=True)
+    checkpoint_eval.add_argument("--protocol", required=True)
+    checkpoint_eval.add_argument("--audio-dir", required=True)
+    checkpoint_eval.add_argument("--out", required=True)
+    checkpoint_eval.add_argument("--batch-size", type=int, default=48)
+    checkpoint_eval.add_argument("--num-workers", type=int, default=4)
+    checkpoint_eval.add_argument("--threshold", type=float, default=0.0)
+    checkpoint_eval.add_argument("--gpu-id", type=int)
+    checkpoint_eval.add_argument("--evaluation-tag", default="unspecified")
+    checkpoint_eval.add_argument("--asv-scores")
+    checkpoint_eval.add_argument("--worker-python")
     extract = sub.add_parser("extract", help="run one label-free frozen feature shard")
     extract.add_argument("--plan", required=True)
     extract.add_argument("--worker-slot", required=True, type=int)
@@ -251,6 +305,23 @@ def _data_command(args, cfg):
         _require_data_io(cfg, "inventory")
         from eptta.data.source_manifests import publish_label_free_manifest
         return publish_label_free_manifest(args.snapshot, args.role, args.out), 0
+    if args.command == "audit-source-snapshot":
+        _require_data_io(cfg, "inventory")
+        from eptta.data.audit import audit_source_snapshot
+        return audit_source_snapshot(args.snapshot, args.out), 0
+    if args.command == "audit-target-metadata":
+        _require_data_io(cfg, "inventory")
+        from eptta.data.target_metadata import audit_target_metadata
+        return audit_target_metadata(args.dataset_id, args.metadata, args.audio_dir,
+                                     args.release, args.subset, args.out, args.source_snapshot), 0
+    if args.command == "record-exposure":
+        from eptta.data.exposure import append_exposure_event
+        event = {"recorded_at": args.recorded_at, "dataset_id": args.dataset_id,
+                 "scope": args.scope, "event_type": args.event_type,
+                 "artifact_ref": args.artifact_ref, "artifact_sha256": args.artifact_sha256,
+                 "effect_visible": args.effect_visible == "true",
+                 "decision_impact": args.decision_impact}
+        return append_exposure_event(args.ledger, event), 0
     raise EPTTAError(f"unknown data command: {args.command}")
 
 
@@ -296,9 +367,23 @@ def _training_command(args, cfg):
     if args.command == "resume-source":
         from eptta.training.dispatch import launch_resume_job
         return launch_resume_job(args.run, args.checkpoint, python_executable=args.worker_python), 0
+    if args.command == "resume-preflight":
+        from eptta.training.resume import compile_resume_preflight
+        return compile_resume_preflight(args.run, args.checkpoint, args.worker, args.route,
+                                        args.target_max_epochs, args.out), 0
+    if args.command == "prepare-child-resume":
+        from eptta.training.resume import prepare_child_resume
+        return prepare_child_resume(args.plan, args.plan_sha256, args.model_id,
+                                    args.checkpoint, args.worker, args.run_output,
+                                    args.purpose, args.validation_epochs,
+                                    args.validation_report), 0
     if args.command == "finalize-training":
         from eptta.training.artifacts import finalize_training
         return finalize_training(args.run, args.out), 0
+    if args.command == "finalize-administrative-child":
+        from eptta.training.artifacts import finalize_administrative_child
+        return finalize_administrative_child(args.plan, args.plan_sha256,
+                                             args.validation_report, args.out), 0
     if args.command == "export-frozen":
         from eptta.training.artifacts import launch_frozen_export
         return launch_frozen_export(args.training_manifest, args.out,
@@ -313,6 +398,13 @@ def _evaluation_command(args, cfg):
     if cfg["runtime"]["environment"] != "remote":
         from eptta.errors import PermissionDenied
         raise PermissionDenied("real evaluation labels require the remote profile")
+    if args.command == "evaluate-checkpoint":
+        from eptta.evaluation.checkpoint import compile_checkpoint_evaluation, launch_checkpoint_evaluation
+        job = compile_checkpoint_evaluation(args.model_id, args.checkpoint, args.protocol,
+                                            args.audio_dir, args.out, cfg, args.batch_size,
+                                            args.num_workers, args.threshold, args.gpu_id,
+                                            args.evaluation_tag, args.asv_scores)
+        return launch_checkpoint_evaluation(job, args.worker_python), 0
     from eptta.evaluation.seal import evaluate_sealed
     return evaluate_sealed(args.run, args.labels, args.out, args.threshold), 0
 

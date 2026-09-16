@@ -1,0 +1,66 @@
+{
+  "schema_version": "0.1.0",
+  "status": "APPROVAL_REQUIRED",
+  "read_only": true,
+  "route": "child",
+  "execution_ready": false,
+  "run_dir": "/media/dell/data/fakedata/eptta_work/training_runs/aasist_source/full-gpu2-b48-001",
+  "run_id_recorded": null,
+  "deterministic_completion_run_id": "source-run-796f1c49ae83cbeecf38",
+  "model_id": "aasist_source",
+  "training_seed": 13,
+  "checkpoint_ref": "/media/dell/data/fakedata/eptta_work/training_runs/aasist_source/full-gpu2-b48-001/checkpoints/last.pt",
+  "checkpoint_sha256": "d712df099c19e3d0d191065eb7cdbfb84ddae45cd17e84725e8334c7e39c3b19",
+  "checkpoint_epoch": 13,
+  "resume_start_epoch": 14,
+  "global_step": 7406,
+  "steps_per_epoch": 529,
+  "expected_global_step": 7406,
+  "locked_max_epochs": 100,
+  "target_max_epochs": 80,
+  "recipe_hash": "4fe26f8e2cd71f35db19d8aabe3bd3da90c55b60b9dc8e1faa7dc8a2fe182ec7",
+  "snapshot_hashes": {
+    "fit": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0",
+    "source_val": "50d893131ce99752759fb14a121bd17c29a9782eddb0d8560ac458d336315fe0"
+  },
+  "architecture": {
+    "class_index_map": {
+      "bonafide": 1,
+      "spoof": 0
+    },
+    "embedding_dim": 160,
+    "entrypoint": "models/AASIST.py",
+    "entrypoint_sha256": "9e0d3e80937dd0577beea7883098465a479da23a198ebc0d712abcc59b0bec50",
+    "initialization_scope": "native_initialization",
+    "model_id": "aasist_source",
+    "repo_commit": "a04c9863f63d44471dde8a6abcb3b082b07cd1d1",
+    "repository": "https://github.com/clovaai/aasist.git",
+    "repository_ref": "/media/dell/data/fakeAudioDection/aasist",
+    "schema_version": "0.1.0",
+    "status": "VERIFIED"
+  },
+  "initialization": null,
+  "scheduler": "cosine_author_audited",
+  "scheduler_state_present": true,
+  "scaler_state_present": true,
+  "rng_rank_count": 1,
+  "sampler_state": {
+    "epoch": 13,
+    "policy": "shuffle_drop_global_tail",
+    "world_size": 1
+  },
+  "best_selection_record": {
+    "checkpoint_ref": "checkpoints/best.pt",
+    "checkpoint_sha256": "89cf9c65b3274c62e8e2d9b0bff0ab898cbaeabc2578dc80d6eb6e84273da295",
+    "epoch": 12,
+    "source_val_eer": 0.0029154518950437317
+  },
+  "bound_worker_sha256": "ff77caa3f20065e665bb8a1bedb4eb8dc13fa7609d62dfb451fa4ffbdbe7f631",
+  "candidate_worker_ref": "/media/dell/data/fakeAudioDection/TTA/workers/source_train_bridge.py",
+  "candidate_worker_sha256": "5a6e7658468cab0fac7c023e531d60ef0bfc46558984e1bed11244379d471b4c",
+  "stop_reason": "UNKNOWN_NO_STOP_RECORD",
+  "blockers": [],
+  "warnings": [
+    "child must preserve the parent scheduler horizon to avoid an LR discontinuity"
+  ]
+}
