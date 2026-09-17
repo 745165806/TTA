@@ -29,7 +29,8 @@ TRAINING_COMMANDS = ("resolve-training-recipe", "inspect-model", "train-source",
 EVALUATION_COMMANDS = ("seal-scores", "evaluate", "evaluate-checkpoint")
 EXECUTION_COMMANDS = ("extract", "merge-cache", "build-artifacts", "prepare-r5-stage1-proposal",
                       "lock-r5-stage1-proposal", "run-r5-stage1-parity", "run-r5-stage1-k0",
-                      "prepare-r5-stage2-proposal", "lock-r5-stage2-proposal")
+                      "prepare-r5-stage2-proposal", "lock-r5-stage2-proposal",
+                      "prepare-r6-proposal", "lock-r6-proposal", "run-r6")
 ADAPTATION_COMMANDS = ("run-suite",)
 TASKS = {"source_prepare": "data_build", "source_training": "source_training",
          "frozen_extract": "frozen_extract", "adaptation": "adaptation", "evaluation": "evaluation"}
@@ -241,6 +242,19 @@ def parser():
     r5_lock2 = sub.add_parser("lock-r5-stage2-proposal", help="publish LOCKED full-cache plans after explicit review")
     r5_lock2.add_argument("--proposal", required=True)
     r5_lock2.add_argument("--proposal-sha256", required=True)
+    r6_proposal = sub.add_parser("prepare-r6-proposal", help="fix the R6 source-pilot proposal; never lock or execute")
+    r6_proposal.add_argument("--plan", required=True)
+    r6_proposal.add_argument("--bundle", required=True)
+    r6_proposal.add_argument("--resources", required=True)
+    r6_proposal.add_argument("--select-cache", required=True)
+    r6_proposal.add_argument("--select-labels", required=True)
+    r6_proposal.add_argument("--out", required=True)
+    r6_lock = sub.add_parser("lock-r6-proposal", help="publish the LOCKED R6 proposal after explicit review")
+    r6_lock.add_argument("--proposal", required=True)
+    r6_lock.add_argument("--proposal-sha256", required=True)
+    r6_run = sub.add_parser("run-r6", help="score the full select cache, seal and evaluate all R6 methods")
+    r6_run.add_argument("--proposal", required=True)
+    r6_run.add_argument("--out", required=True)
     for name, (_, options) in STUBS.items():
         cmd = sub.add_parser(name, help="reserved for L4-L6; raises NOT_IMPLEMENTED_STAGE")
         for option in options.split():
@@ -491,6 +505,16 @@ def _execution_command(args, cfg):
     if args.command == "lock-r5-stage2-proposal":
         from eptta.execution.r5_stage2 import lock_r5_stage2_proposal
         return lock_r5_stage2_proposal(args.proposal, args.proposal_sha256), 0
+    if args.command == "prepare-r6-proposal":
+        from eptta.execution.r6 import prepare_r6_proposal
+        return prepare_r6_proposal(args.plan, args.bundle, args.resources, args.select_cache,
+                                   args.select_labels, args.out), 0
+    if args.command == "lock-r6-proposal":
+        from eptta.execution.r6 import lock_r6_proposal
+        return lock_r6_proposal(args.proposal, args.proposal_sha256), 0
+    if args.command == "run-r6":
+        from eptta.execution.r6 import run_r6
+        return run_r6(args.proposal, args.out), 0
     if args.command == "build-artifacts":
         if cfg["runtime"]["environment"] != "remote":
             from eptta.errors import PermissionDenied
