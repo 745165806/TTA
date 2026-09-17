@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "status": "FAIL",
+  "plan_id": "ticket1-recovery-20260916",
+  "plan_sha256": "07e5318c87f286f71ec6df4e484431bc317c2ec6ba7b62df7ed01231b01785a6",
+  "gpu_hour_cap": 1.5,
+  "successful_gpu_seconds": 5031.783513784409,
+  "successful_gpu_hours": 1.3977176427178912,
+  "conservative_total_gpu_hours_including_startup_failures": "<1.412",
+  "models_passed": [],
+  "models_failed": [
+    "aasist_source",
+    "ssl_aasist_source"
+  ],
+  "comparisons": {
+    "aasist_source": {
+      "report_ref": "aasist-resume-comparison.json",
+      "report_sha256": "edd1be2f3f01b4674ff762fa84970aa11bbd4b15591df09dea53a9ef0d4cb003"
+    },
+    "ssl_aasist_source": {
+      "report_ref": "ssl-resume-comparison.json",
+      "report_sha256": "5726371828b7c8a833cc12ecc7579bf9d86188620dc4e50f4f59a3f2646d65a4"
+    }
+  },
+  "exact_resume_claim": false,
+  "target_scores_generated": false
+}

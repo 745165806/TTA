@@ -1,0 +1,169 @@
+继续 EP-TTA v0.1.0。本轮只执行“AASIST R4：冻结导出及真实一致性验收”，并准备下一轮 R5 源资源任务。需要直接修改必要代码、运行获准测试并交付真实工件，不只返回计划。
+
+【0. 当前起点与范围】
+用户报告 AASIST 已正式 FINALIZED：
+- run_id：source-run-91cd36fae7770aca4b51
+- finalized_id：training-final-a095c4459547c47c9481
+- 路线：显式、获准的非 exact parent→child continuation
+- parent：epoch13 / global_step7406
+- child：epoch14–79，共66轮；最终global_step42320
+- scheduler：保留原100-epoch cosine horizon
+- best：epoch69
+- best checkpoint SHA-256：076ca355cec3358c7181769459de27279609ab1cda35f186670bc49e9a1cbf0a
+- source_val EER原始字段：0.00040257648953301306；单位须从实际代码/合同核实
+- checkpoint清单 SHA-256：d2d56441b68582a9fb70bf0a8cb27bf1ad7fd1202fc15177669972bd05fe7dba
+- 训练归档 SHA-256：c96aa4706be682552155f08b7bd463c4244f0eb322677fcd9832d14f408cee42
+- AASIST与SSL严格continuous-vs-restart均FAIL；不得改写成PASS。
+- SSL未行政finalize；本轮不处理其训练或资格，不让它阻塞AASIST。
+- R4尚未运行，R5–R9尚未运行。
+
+以上是待现场绑定的用户报告，不是由本工单签发R4合格资格。
+从实际registry、路径配置和run记录定位文件，不能把“正式运行目录/finalized.json”等展示名称猜成实际绝对路径。
+
+本轮允许：必要的代码修补、合成/CPU测试、获准源数据只读核验、AASIST冻结导出、获准单卡推理验收及source_val复算。
+本轮不允许：继续训练、重试exact resume、替换best、重划数据、操作SSL训练/状态、读取目标分数或效果、发布新目标snapshot、批量R5缓存、拟合U/M/Fisher/static R/tau0、开展R6–R9。
+不得把R4中的诊断输出冒充R5正式cache。
+
+【1. 只核对与R4有关的身份和资格，不重做整轮训练审计】
+读取AGENTS、DESIGN中R4/R5合同、实际schema/factory/worker/export/registry、finalized记录、批准的child plan、非exact授权、选模记录和停止/完成记录。
+
+必须确认：
+1. finalized指向上述真实run和epoch69选模结果。实际best权重文件hash与指定值相等；便利别名不能代替内容身份。定位不可变epoch0069工件并与别名/selected记录核对。
+2. 原授权确实允许child结束于epoch79，即累计完成epoch0–79的80轮轨迹，并保留100轮scheduler horizon。这是两个独立设置。不能称为完成100轮，也不能擅自补跑80–99。
+3. 选模仅依据原source_val规则，并列规则与允许候选范围可追溯；保留parent贡献和非exact边界。只核对既有记录，不重新评价所有epoch挑best。
+4. R4资格合同接受获准的非exact child及批准终点。若规则仍硬编码100轮或exact恢复，不能设置force、改checkpoint字段或把strict FAIL改PASS；指出合同冲突及最小修订方案，保留旧状态，不发布合格bundle。
+5. 记录实际训练seed、训练代码/patch身份、作者模型版本、初始化、数据snapshot、fit/source_val selection hash和预处理身份；不把建议seed改写为真实seed。
+6. 核验source_val EER字段单位。若是0–1比例，则其百分比为0.040257648953301306%；若已有百分比语义则按原语义处理。保留raw value与单位，不通过乘除100改变记录含义。
+
+出现上述实质不一致，阻塞受影响的R4正式发布；其他无关的历史材料缺失不扩大成全项目停工。
+保持原finalized、parent/child checkpoint、sidecar、hash清单和恢复失败报告只读。不为了格式一致重写/再次finalize原run。
+
+【2. 复用现有冻结接口，缺失才补最小代码】
+先列出：可直接复用／缺真实验收／缺实现／外部阻塞。
+优先复用已有FrozenModelBundle、head/wrapper、export和R4→R5 gate；不另建第二套模型或缓存体系。
+
+导出至少包含逻辑上必要的信息，字段映射到仓库实际schema，不要求照搬本工单名称：
+- selected checkpoint、finalized/run/parent lineage及各自hash；nonexact披露；实际训练终点和scheduler horizon；
+- 架构及构造配置、作者pinned源码、实际加载/import路径；
+- backbone与分类head的参数和所需buffer；
+- embedding取点及维度、head接口、native类别索引→语义标签映射；
+- 完整score公式、方向、输出类型与单位；不得用目标成绩推断或改变方向；
+- 音频采样率、声道、长度、裁剪/补齐、归一化、评估增强开关；
+- 环境、设备、dtype、AMP/TF32等数值模式；
+- training_code_hash和export_code_hash分别记录，不能用新export代码改写旧训练身份；
+- R4验收数据清单/hash、数值容差、报告hash及PASS/FAIL。
+
+这里的“导出”是项目现有冻结推理bundle，不要求新增ONNX、TensorRT、TorchScript或torch.export部署路线。
+只读载入模型状态；本轮不建立会step的训练optimizer。原训练状态留在原checkpoint中，不要求删掉历史优化器信息。
+若需要提取受控checkpoint里的model字段，使用当前环境支持的既有安全加载路径；不为绕过反序列化问题全局放开任意pickle。
+
+【3. 真正验证embedding、head和分数，而非只比较shape或EER】
+使用两个独立重建的实例：
+A. 绑定原训练源码/配置的reference模型，加载选定checkpoint并置评估态；
+B. 从本轮导出文件在新进程中加载的FrozenModelBundle及生产wrapper。
+不能让reference和export共用同一实例、同一输出，形成恒等自检。
+
+对于相同输入张量与同一数值设置，逐样本比较：
+- reference embedding vs export embedding；
+- reference native logits vs export native logits；
+- 冻结head(导出embedding) vs 对应原生分类head输出；
+- 经相同已批准类别映射和score公式得到的最终score。
+
+核对真实embedding取点，不能把某个中间层、BN前特征或概率当作原head输入。
+若本地pinned配置确认为160维，就验证[B,160]和[B,2]；不因历史文档写160而绕过真实结构检查。
+不额外添加softmax、标准化、温度或改变score定义“帮助parity通过”。
+确认频域随机增强等显式forward开关关闭；仅.eval()不能代替这些参数检查。
+
+检查所有参数、注册buffer和模型行为：
+- 首次前向、重复前向、A→B→A；
+- 所有模块mode保持预期，尤其Dropout/BatchNorm；
+- 不更新权重、运行均值/方差或累计统计；
+- 检查未注册但参与计算的tensor属性及其构造路径。
+若本地AASIST有确定性滤波器/临时filters属性，明确其可重建来源与是否仅为派生缓存。
+允许经解释的确定性临时缓存构造，不把任何__dict__变化都误报为适配；也不能遗漏跨样本持久学习状态。
+
+【4. 真实验收数据和范围】
+不改已批准划分。只使用fit和source_val。
+
+小样本验收：
+- 从fit按固定元数据规则选128条真实源音频，默认64 bona fide、64 spoof，在可行时覆盖6种攻击、说话人与长短音频；
+- 选样只看允许的源元数据，不看分数，封存UID清单与规则/hash；
+- 类别/攻击元数据由源数据准备方使用；推理worker只收到必要无标签输入；
+- 输入先按固定预处理生成，同一张量送入两个实例，先排除输入差异，再测试各自生产I/O链；
+- 测试B=1/2/7和实际计划生产batch、尾批、乱序、分片；
+- 同进程重复和新进程重新加载均执行。
+
+完整source_val验收：
+- 核对当前snapshot仍为5654条后，按锁定清单完整覆盖一次，不drop_last、不跳过坏样本补零；
+- 用锁定的训练验证精度/预处理比较reference与export，核验逐样本覆盖、分数和原EER单位/实现；
+- 已有epoch69历史分数时按UID直接对齐；没有时只能称为本轮复算，不声称复现了不存在的逐样本历史文件；
+- 不重新选择checkpoint、不用cal0/select/目标打破并列；
+- 数据无法读取或分数非有限时明确失败，不能以整体EER接近代替parity。
+
+容差必须在看到差异前固定：
+- 优先沿用既有严格合同；载入的同dtype参数/持久buffer逐tensor一致；
+- 缺既定规则时，建议同设备FP32同batch前向采用atol=1e-6、rtol=1e-5，作为事先声明的候选规则；不是自动放宽已有规则；
+- 跨batch/精度/设备测试分别绑定容差和支持范围，不要求所有CPU/GPU结果逐位相同；
+- 同时报告最大/分位绝对误差、稳定分母相对误差、超限元素与样本数；不能只给平均误差；
+- 需要AMP生产路径时单独验证；未测的路径不能宣称已通过；
+- 超限先调查输入、实现、精度及离散运算，不能看完结果后不断提高容差；
+- 历史AMP验证与新FP32推理如有差异，分开记载；不能强行把历史EER复算差异全部归为导出错误或直接忽略。
+
+【5. 为后续适配验证梯度边界，但不提前开展R5/R6】
+底座/head参数requires_grad=False，并维持eval。
+在独立、可丢弃的诊断中，用真实导出embedding的普通tensor副本作可导输入，
+通过冻结head执行一个预先固定的可导探针，确认梯度可以传到输入，而底座/head无参数梯度或状态更新。
+不对真实训练权重做optimizer.step，不拟合R，不搜索超参数，不计算适配收益。
+
+避免把整个未来适配路径包在no_grad/inference_mode中。
+若提取时使用inference_mode，验证转为普通tensor后的head反传链；不能仅.detach()就假定跨模式兼容。
+R4只证明这条梯度通路；完整EP reset、更新、源U/M与缓存一体化的真实验证留在R5/R6。
+K=0接线若需要尚未建立的真实源资源，不伪造U/M/tau补齐资格，保留为R5待验。
+
+【6. CPU反例与发布门禁】
+按需要补以下测试并执行可用回归：
+- 权重hash错误、错误epoch/便利别名漂移、finalized引用不一致；
+- 未授权训练终点或仅有TRAINED/smoke时禁止合格导出；
+- nonexact披露必须保留，不能把它改写为exact；已批准nonexact不能被无关硬编码误拒绝；
+- 类别顺序反转、错误score公式、错误embedding取点；
+- 错误预处理、Freq_aug开启、意外.train()、buffer变化；
+- backbone冻结但head输入无法求导；
+- 非有限值、缺失/重复UID、超容差；
+- 参数一致但导出wrapper错误的反例；
+- 原权重/旧bundle不可覆盖；没有真实R4 PASS不得进入R5。
+
+新增字段贯通schema/解析/序列化/hash/测试，不关闭严格校验。
+需要入口则实现最小封装，并实际运行--help和无副作用preview，交付真实命令。
+新产物先标为候选/未验；所有必需项通过后原子发布不可变bundle并更新受控registry。
+FAIL时保留诊断报告和候选工件，但不能发布可被R5接受的资格标记。
+不修改原finalized文件，不全局放宽full/in-project/selection/parity要求。
+
+【7. 资源和授权】
+这是新R4任务，不能把上次训练或恢复验收的剩余预算自动转作本轮授权。
+建议本轮单卡GPU累计上限0.5 GPUh，仅限上述冻结推理及诊断，包含预热、失败和重试；这是建议资源上限，不是完成时间承诺。
+本指令经用户发送并获当前审批合同接受后，可作为这项有限R4工作的范围授权；已有更严格预算/权限优先。
+若项目要求对运行前计划完整hash单独批准，且当前授权尚不满足：
+先完成代码、CPU测试、计划固化及hash，只在GPU启动前提出一条准确批准模板，不绕过门禁。
+已有有效R4批准且范围/hash一致则直接执行，不重复申请。
+不自动安装/升级全局环境、下载模型或SSH；利用已经获准的执行环境。
+GPU不可用/超过预算时写PARTIAL或NOT_RUN，保留进度，不扩大预算、不伪称PASS。
+
+【8. 交付与停止点】
+交付到现有项目文档/工件体系，复用已有名称；缺少时可建立：
+1. R4_EXPORT_REPORT.md：实际身份、epoch终点与scheduler区分、非exact披露、EER单位、逐项验收结果。
+2. frozen bundle及其manifest/完整SHA-256；只有通过时提供可进入R5的bundle_id。
+3. 真实验收UID清单、parity逐样本/聚合结果、source_val复算及覆盖报告。
+4. 测试与命令/环境/退出码、GPU成本、失败与未执行项。
+5. 修改文件摘要和稳定的export源码/patch/hash归档；保持版本0.1.0，不自动commit/push/tag。
+6. R5_SOURCE_PREP_PLAN.md（只准备不执行）：
+   - 绑定本轮通过的bundle、实际seed、源snapshot和各role/purpose；
+   - 复用DESIGN中fit/cal0/select的合法用途，明确U/M/Fisher/static R/tau0依赖；
+   - 先真实小缓存接线验收，再分角色全量缓存；
+   - 原视图与既定视图、精度、块大小、空间/端到端成本、资源预算；
+   - K=0、cache parity、逐样本reset/乱序/分片、失败隔离的真实验收；
+   - 沿用原P0/P1及方法，不提前改变算法或启动目标评分。
+
+源划分、audit原用途、2019已暴露记录、四个主要目标范围不变。
+不为了给这轮报告增加结果，再测2019 eval、2021 LA/DF或In-the-Wild。
+最终只陈述R4完成/部分完成/失败；不得据此宣称EP提升或H1–H7得到支持。
+R4完成后停止在R5执行授权点。

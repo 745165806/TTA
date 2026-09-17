@@ -1,0 +1,4 @@
+Script started on 2026-09-16 20:40:04+08:00 [<not executed on terminal>]
+{"schema_version": "0.1.0", "status": "FAILED", "error_type": "ModuleNotFoundError", "message": "No module named 'bitarray'"}
+
+Script done on 2026-09-16 20:40:08+08:00 [COMMAND_EXIT_CODE="2"]

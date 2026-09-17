@@ -1,0 +1,27 @@
+Script started on 2026-09-17 11:14:36+08:00 [<not executed on terminal>]
+usage: cli.py prepare-r5-stage1-proposal
+       [-h]
+       --plan
+       PLAN
+       --plan-sha256
+       PLAN_SHA256
+       --bundle
+       BUNDLE
+       --snapshot
+       SNAPSHOT
+       --out
+       OUT
+
+options:
+  -h, --help
+    show this
+    help
+    message and
+    exit
+  --plan PLAN
+  --plan-sha256 PLAN_SHA256
+  --bundle BUNDLE
+  --snapshot SNAPSHOT
+  --out OUT
+
+Script done on 2026-09-17 11:14:36+08:00 [COMMAND_EXIT_CODE="0"]

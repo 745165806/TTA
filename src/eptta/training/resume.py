@@ -50,10 +50,16 @@ def prepare_child_resume(plan_ref, expected_plan_sha256, model_id, checkpoint_re
         if not validation_report:
             raise ContractError("formal continuation requires a validation PASS report")
         validation = read_json(validation_report)
-        if (validation.get("status") != "PASS" or
-                validation.get("plan_sha256") != expected_plan_sha256 or
-                sorted(validation.get("models_passed", [])) != ["aasist_source", "ssl_aasist_source"]):
-            raise ContractError("formal continuation requires both models to pass the bound validation")
+        passed = (validation.get("status") == "PASS" and
+                  sorted(validation.get("models_passed", [])) == ["aasist_source", "ssl_aasist_source"])
+        approved_nonexact = (validation.get("status") == "AUTHORIZED_NONEXACT" and
+                             validation.get("model_id") == "aasist_source" and
+                             validation.get("decision") == "continue_aasist_parent_epoch13_to_child_epoch79" and
+                             validation.get("exact_resume_claim") is False and
+                             validation.get("validation_status") == "FAIL" and
+                             float(validation.get("formal_gpu_hour_cap", 0)) <= 7.3)
+        if validation.get("plan_sha256") != expected_plan_sha256 or not (passed or approved_nonexact):
+            raise ContractError("formal continuation requires bound PASS or explicit non-exact authorization")
     plan_path = Path(plan_ref).resolve()
     worker = Path(worker_ref).resolve()
     checkpoint = Path(checkpoint_ref).resolve()
@@ -140,6 +146,19 @@ def prepare_child_resume(plan_ref, expected_plan_sha256, model_id, checkpoint_re
     }
     output.mkdir(parents=True)
     write_json_new(output / "source_train_job.json", job)
+    if purpose == "formal_continuation":
+        parent_metrics = list(iter_jsonl(parent_run / "metrics.jsonl"))
+        if not parent_metrics:
+            raise DataError("formal child cannot inherit an empty parent selection history")
+        parent_best = min(parent_metrics, key=lambda item: (float(item["source_val_eer"]), int(item["epoch"])))
+        parent_best_path = parent_run / parent_best["checkpoint_ref"]
+        if not parent_best_path.is_file() or sha256_file(parent_best_path) != parent_best["checkpoint_sha256"]:
+            raise DataError("formal child parent best checkpoint is missing or changed")
+        seeded = dict(parent_best)
+        seeded["checkpoint_ref"] = str(parent_best_path.resolve())
+        seeded["selection_origin"] = "approved_parent_run"
+        with (output / "metrics.jsonl").open("x", encoding="utf-8") as stream:
+            stream.write(json.dumps(seeded, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n")
     manifest = {
         "schema_version": "0.1.0", "status": "PREPARED", "execution_started": False,
         "exact_resume_claim": False, "plan_id": plan["plan_id"],
@@ -151,8 +170,92 @@ def prepare_child_resume(plan_ref, expected_plan_sha256, model_id, checkpoint_re
         "execution_end_epoch": execution_end_epoch, "validation_epochs": validation_epochs,
         "source_train_job_sha256": sha256_file(output / "source_train_job.json"),
     }
+    if validation_report:
+        manifest["authorization_ref"] = str(Path(validation_report).resolve())
+        manifest["authorization_sha256"] = sha256_file(validation_report)
+        manifest["authorization_status"] = read_json(validation_report).get("status")
     write_json_new(output / "migration_manifest.json", manifest)
     return manifest
+
+
+def compare_resume_validation(model_id, continuous_checkpoint, restarted_checkpoint,
+                              continuous_log, restarted_log, output):
+    """Require exact state equality at the continuous/restarted epoch boundary."""
+    import torch
+    left_path = Path(continuous_checkpoint).resolve()
+    right_path = Path(restarted_checkpoint).resolve()
+    for path in (left_path, right_path, Path(continuous_log), Path(restarted_log)):
+        if not path.is_file():
+            raise ResourceError("resume comparison input is missing: %s" % path)
+    left = _load_checkpoint(left_path)
+    right = _load_checkpoint(right_path)
+    if not isinstance(left, dict) or not isinstance(right, dict):
+        raise DataError("resume comparison checkpoints must be mappings")
+    for name, checkpoint in (("continuous", left), ("restarted", right)):
+        missing = REQUIRED_CHECKPOINT_KEYS - set(checkpoint)
+        if missing:
+            raise DataError("%s checkpoint misses exact-state fields: %s" %
+                            (name, ", ".join(sorted(missing))))
+
+    def mismatch(a, b, path):
+        if isinstance(a, torch.Tensor) and isinstance(b, torch.Tensor):
+            return None if (a.dtype == b.dtype and a.shape == b.shape and torch.equal(a, b)) else path
+        if type(a) is not type(b):
+            return path + ".type"
+        if isinstance(a, dict):
+            if set(a) != set(b):
+                return path + ".keys"
+            for key in sorted(a):
+                found = mismatch(a[key], b[key], path + "." + str(key))
+                if found:
+                    return found
+            return None
+        if isinstance(a, (list, tuple)):
+            if len(a) != len(b):
+                return path + ".length"
+            for index, (one, two) in enumerate(zip(a, b)):
+                found = mismatch(one, two, "%s[%d]" % (path, index))
+                if found:
+                    return found
+            return None
+        try:
+            import numpy
+            if isinstance(a, numpy.ndarray):
+                return None if numpy.array_equal(a, b) else path
+        except ImportError:
+            pass
+        return None if a == b else path
+
+    fields = ("model_state", "optimizer_state", "scheduler_state", "scaler_state",
+              "rng_states", "epoch", "global_step", "sampler_state", "recipe_hash",
+              "fit_snapshot_hash", "source_val_snapshot_hash", "architecture", "patch",
+              "class_index_map", "initialization", "training_seed", "task_weight_origin")
+    differences = {}
+    for field in fields:
+        found = mismatch(left.get(field), right.get(field), field)
+        if found:
+            differences[field] = found
+    left_rows = list(iter_jsonl(continuous_log))
+    right_rows = list(iter_jsonl(restarted_log))
+    if not left_rows or not right_rows:
+        raise DataError("resume comparison logs must be nonempty")
+    log_difference = mismatch(left_rows[-1], right_rows[-1], "last_train_log_record")
+    if log_difference:
+        differences["train_log"] = log_difference
+    result = {
+        "schema_version": "0.1.0", "status": "PASS" if not differences else "FAIL",
+        "model_id": model_id, "comparison": "continuous_vs_process_restart_exact_epoch_boundary",
+        "continuous_checkpoint_ref": str(left_path),
+        "continuous_checkpoint_sha256": sha256_file(left_path),
+        "restarted_checkpoint_ref": str(right_path),
+        "restarted_checkpoint_sha256": sha256_file(right_path),
+        "epoch": left.get("epoch"), "global_step": left.get("global_step"),
+        "exact_fields": list(fields), "last_train_log_exact": not bool(log_difference),
+        "sample_and_augmentation_identity": "exact_state_and_epoch_seeded_sampler_contract",
+        "differences": differences,
+    }
+    write_json_new(output, result)
+    return result
 
 
 def _load_checkpoint(path):

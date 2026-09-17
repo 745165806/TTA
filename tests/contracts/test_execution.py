@@ -35,12 +35,36 @@ def extraction_plan(tmp_path, with_label=False, purpose="confirmatory", input_ro
               "fit_snapshot_hash": "c" * 64, "source_val_snapshot_hash": "d" * 64,
               "recipe_hash": "e" * 64, "init_provenance": {"scope": "native_initialization"},
               "task_training_provenance": {"task_weight_origin": "trained_in_project",
-                                             "source_val_selection_sha256": sha256_file(selection)},
+                                             "source_val_selection_sha256": sha256_file(selection),
+                                             "migration": {"exact_resume_claim": False},
+                                             "training_endpoint": {"last_epoch": 79,
+                                               "completed_epoch_count": 80, "scheduler_horizon_epochs": 100}},
               "eval_preprocess_hash": "b" * 64, "class_index_map": {"bonafide": 1, "spoof": 0},
               "head_ref": "linear_head.pt", "embedding_dim": 160,
               "training_status": "FINALIZED", "training_phase": "full",
               "task_weight_origin": "trained_in_project", "source_val_selection_ref": str(selection),
-              "parity_report_ref": "parity.json"}
+              "parity_report_ref": "parity.json",
+              "model_contract": {"embedding_point": "native_out_layer_input", "freq_aug": False},
+              "score_contract": {"formula": "native_logits[spoof]-native_logits[bonafide]",
+                 "direction": "larger_is_spoof", "output_type": "logit_difference", "unit": "dimensionless"},
+              "numerical_contract": {"atol": 1e-6, "rtol": 1e-5},
+              "r4_validation": {"status": "PASS", "fit_count": 128, "source_val_count": 5654},
+              "export_code_sha256": "f" * 64}
+    for name in ("parity_per_sample.jsonl", "source_val_recompute.json", "fit128_uids.json",
+                 "baseline_bridge.py", "author_training.py"):
+        (export / name).write_bytes(name.encode())
+    (export / "source_val_recompute.json").write_text(json.dumps({
+        "schema_version": "0.1.0", "status": "PASS", "source_val_count": 5654,
+        "reference_vs_export_eer_abs": 0.0, "historical_vs_reference_abs": 0.0,
+        "eer_atol": 1e-12}))
+    (export / "fit128_uids.json").write_text(json.dumps({"count": 128,
+        "class_counts": {"bonafide": 64, "spoof": 64},
+        "attack_ids": ["A01", "A02", "A03", "A04", "A05", "A06"]}))
+    bundle["r4_validation"].update({
+        "fit_uids_sha256": sha256_file(export / "fit128_uids.json"),
+        "parity_sha256": sha256_file(parity),
+        "per_sample_sha256": sha256_file(export / "parity_per_sample.jsonl"),
+        "source_val_recompute_sha256": sha256_file(export / "source_val_recompute.json")})
     (export / "bundle.json").write_text(json.dumps(bundle))
     manifest = tmp_path / "manifest.jsonl"
     row = {"schema_version": "0.1.0", "sample_id": "sample", "root_key": "data",
@@ -50,10 +74,11 @@ def extraction_plan(tmp_path, with_label=False, purpose="confirmatory", input_ro
         row["canonical_label"] = 1
     write_jsonl(manifest, [row])
     export_manifest = {"schema_version": "0.1.0", "status": "LOCKED", "immutable": True,
-                       "files": {"bundle.json": sha256_file(export / "bundle.json"),
-                                 "linear_head.pt": sha256_file(head),
-                                 "detector_state.pt": sha256_file(state),
-                                 "parity.json": sha256_file(parity)}}
+                       "r5_eligible": True,
+                       "files": {name: sha256_file(export / name) for name in
+                                 ("bundle.json", "linear_head.pt", "detector_state.pt", "parity.json",
+                                  "parity_per_sample.jsonl", "source_val_recompute.json", "fit128_uids.json",
+                                  "baseline_bridge.py", "author_training.py")}}
     (export / "export_manifest.json").write_text(json.dumps(export_manifest))
     plan = {"schema_version": "0.1.0", "status": "LOCKED",
             "purpose": purpose, "input_role": input_role,
@@ -106,13 +131,49 @@ def test_inference_rejects_manifest_role_different_from_locked_role(tmp_path):
 def test_r5_source_artifacts_reject_non_fit_or_non_cal0_labels(tmp_path):
     plan = {"schema_version": "0.1.0", "status": "LOCKED", "frozen_bundle_ref": "unused",
             "fit_role": "select", "fit_manifest_sha256": "a" * 64, "fit_labels_ref": "unused",
-            "calibration_role": "cal0", "calibration_manifest_sha256": "b" * 64,
-            "calibration_cache_ref": "unused", "calibration_labels_ref": "unused",
-            "source_snapshot_hash": "c" * 64, "rank": 2, "alpha_cal": .05,
-            "anchor_per_class": 2, "seed": 13, "random_seeds": [13, 29, 47],
+            "fit_labels_sha256": "a" * 64, "fit_groups_ref": "unused",
+            "fit_groups_sha256": "a" * 64, "calibration_role": "cal0",
+            "calibration_manifest_sha256": "b" * 64, "calibration_cache_ref": "unused",
+            "calibration_labels_ref": "unused", "calibration_labels_sha256": "b" * 64,
+            "source_snapshot_hash": "c" * 64, "rank": 2,
+            "alpha_cal": .05, "anchor_per_class": 2, "seed": 13, "random_seeds": [13, 29, 47],
+            "treatment_families": ["noise", "fir"], "samples_per_group": 2, "pair_seed": 13,
+            "margin_bins": 2, "margin_epsilon": 1e-6, "minimum_cal0_bonafide": 2,
             "fixed_adapter": {"steps": 1, "lr": .01, "rho": .2, "gamma": .1,
                               "lambda_keep": 1.0}}
     path = tmp_path / "source-artifacts.json"
     path.write_text(json.dumps(plan))
     with pytest.raises(ContractError, match="only from fit and cal0"):
         build_source_resources(path, "unused", tmp_path / "output")
+
+
+def test_r5_source_artifacts_reject_changed_label_or_group_sidecar(tmp_path):
+    fit_labels = tmp_path / "fit.labels.jsonl"
+    fit_groups = tmp_path / "fit.groups.jsonl"
+    cal_labels = tmp_path / "cal.labels.jsonl"
+    write_jsonl(fit_labels, [{"schema_version": "0.1.0", "sample_id": "fit",
+                              "canonical_label": 0}])
+    write_jsonl(fit_groups, [{"schema_version": "0.1.0", "sample_id": "fit",
+                              "source_group_id": "speaker"}])
+    write_jsonl(cal_labels, [{"schema_version": "0.1.0", "sample_id": "cal",
+                              "canonical_label": 0}])
+    plan = {"schema_version": "0.1.0", "status": "LOCKED", "frozen_bundle_ref": "unused",
+            "fit_role": "fit", "fit_manifest_sha256": "a" * 64,
+            "fit_labels_ref": str(fit_labels), "fit_labels_sha256": sha256_file(fit_labels),
+            "fit_groups_ref": str(fit_groups), "fit_groups_sha256": sha256_file(fit_groups),
+            "calibration_role": "cal0", "calibration_manifest_sha256": "b" * 64,
+            "calibration_cache_ref": "unused", "calibration_labels_ref": str(cal_labels),
+            "calibration_labels_sha256": sha256_file(cal_labels),
+            "source_snapshot_hash": "c" * 64, "rank": 2, "alpha_cal": .05,
+            "anchor_per_class": 2, "seed": 13, "random_seeds": [13, 29, 47],
+            "treatment_families": ["noise", "fir"], "samples_per_group": 2,
+            "pair_seed": 13, "margin_bins": 2, "margin_epsilon": 1e-6,
+            "minimum_cal0_bonafide": 2,
+            "fixed_adapter": {"steps": 1, "lr": .01, "rho": .2, "gamma": .1,
+                              "lambda_keep": 1.0}}
+    plan_path = tmp_path / "source-artifacts.json"
+    plan_path.write_text(json.dumps(plan))
+    fit_labels.write_text(fit_labels.read_text().replace('"canonical_label": 0',
+                                                         '"canonical_label": 1'))
+    with pytest.raises(DataError, match="sidecar changed"):
+        build_source_resources(plan_path, "unused", tmp_path / "output")

@@ -12,7 +12,7 @@ ARRAY_NAMES = ("U", "U_feature_pca", "U_random_0", "U_random_1", "U_random_2", "
 
 
 def write_frozen_resources(output, baseline_id, selected_checkpoint_sha256, arrays, scalars,
-                           source_snapshot_hash, source_role="fit"):
+                           source_snapshot_hash, source_role="fit", diagnostics=None):
     import numpy as np
     required = {"U", "w", "anchors_z", "anchors_y", "anchors_m0", "anchors_s0"}
     if not required.issubset(arrays) or set(arrays) - set(ARRAY_NAMES):
@@ -39,6 +39,8 @@ def write_frozen_resources(output, baseline_id, selected_checkpoint_sha256, arra
                     "source_snapshot_hash": source_snapshot_hash, "source_role": source_role,
                     "files": files, "scalars": {key: float(value) for key, value in scalars.items()},
                     "allow_pickle": False, "immutable": True}
+        if diagnostics:
+            metadata["diagnostics"] = diagnostics
         write_json_new(temporary / "resources.json", metadata)
     return metadata
 
@@ -86,6 +88,18 @@ def _labels(path):
     return result
 
 
+def _groups(path):
+    from eptta.data.io import iter_jsonl
+    result = {}
+    for row in iter_jsonl(path):
+        if set(row) != {"schema_version", "sample_id", "source_group_id"} or not row["source_group_id"]:
+            raise DataError("source artifact group sidecar is invalid")
+        if row["sample_id"] in result:
+            raise DataError("duplicate source artifact group")
+        result[row["sample_id"]] = row["source_group_id"]
+    return result
+
+
 def build_source_resources(plan_ref, fit_cache_ref, output):
     """Build response/PCA/random U, tau0, M, Fisher and fixed R from allowed source roles."""
     import numpy as np
@@ -95,17 +109,32 @@ def build_source_resources(plan_ref, fit_cache_ref, output):
     from eptta.offline.calibration import empirical_real_quantile
     from eptta.offline.fisher import empirical_diagonal_fisher
     from eptta.offline.static_adapter import fit_fixed_source_adapter
-    from eptta.offline.subspace import feature_pca_subspace, random_subspace, response_subspace
+    from eptta.offline.subspace import (balanced_response_subspace, feature_pca_subspace,
+                                        random_subspace)
     plan = read_json(plan_ref)
     required = {"schema_version", "status", "frozen_bundle_ref", "fit_role", "fit_manifest_sha256",
-                "fit_labels_ref", "calibration_role", "calibration_manifest_sha256",
-                "calibration_cache_ref", "calibration_labels_ref", "source_snapshot_hash",
-                "rank", "alpha_cal", "anchor_per_class", "seed", "random_seeds", "fixed_adapter"}
+                "fit_labels_ref", "fit_labels_sha256", "fit_groups_ref", "fit_groups_sha256",
+                "calibration_role", "calibration_manifest_sha256", "calibration_cache_ref",
+                "calibration_labels_ref", "calibration_labels_sha256", "source_snapshot_hash",
+                "rank", "alpha_cal", "anchor_per_class", "seed", "random_seeds",
+                "treatment_families", "samples_per_group", "pair_seed", "margin_bins",
+                "margin_epsilon", "minimum_cal0_bonafide", "fixed_adapter"}
     if set(plan) != required or plan.get("status") != "LOCKED" or plan.get("random_seeds") is None or len(
             plan["random_seeds"]) != 3:
         raise ContractError("source artifact plan must be strict, LOCKED, and contain three random seeds")
     if plan["fit_role"] != "fit" or plan["calibration_role"] != "cal0":
         raise ContractError("source artifacts may use labels only from fit and cal0")
+    if type(plan["treatment_families"]) is not list or len(plan["treatment_families"]) != 2:
+        raise ContractError("treatment families must list exactly two probe families (noise, fir)")
+    if type(plan["samples_per_group"]) is not int or plan["samples_per_group"] < 1:
+        raise ContractError("samples_per_group must be a positive integer")
+    if type(plan["minimum_cal0_bonafide"]) is not int or plan["minimum_cal0_bonafide"] < 2:
+        raise ContractError("minimum_cal0_bonafide must be at least 2")
+    for ref_field, hash_field in (("fit_labels_ref", "fit_labels_sha256"),
+                                  ("fit_groups_ref", "fit_groups_sha256"),
+                                  ("calibration_labels_ref", "calibration_labels_sha256")):
+        if sha256_file(plan[ref_field]) != plan[hash_field]:
+            raise DataError("source artifact sidecar changed after lock: %s" % ref_field)
     bundle_path = Path(plan["frozen_bundle_ref"])
     bundle, _export, _parity, _selection = verify_frozen_export(bundle_path)
     fit_cache = FeatureCache(fit_cache_ref)
@@ -123,23 +152,30 @@ def build_source_resources(plan_ref, fit_cache_ref, output):
     cal = cal_cache.load_by_id()
     fit_labels = _labels(plan["fit_labels_ref"])
     cal_labels = _labels(plan["calibration_labels_ref"])
-    if set(fit) != set(fit_labels) or set(cal) != set(cal_labels):
-        raise DataError("source feature/label ID coverage mismatch")
+    fit_groups = _groups(plan["fit_groups_ref"])
+    if set(fit) != set(fit_labels) or set(cal) != set(cal_labels) or set(fit) != set(fit_groups):
+        raise DataError("source feature/label/group ID coverage mismatch")
     fit_ids, cal_ids = sorted(fit), sorted(cal)
     fit_views = torch.from_numpy(np.stack([fit[key] for key in fit_ids]))
     fit_y = torch.tensor([fit_labels[key] for key in fit_ids], dtype=torch.long)
+    fit_group_ids = [fit_groups[key] for key in fit_ids]
     cal_z = torch.from_numpy(np.stack([cal[key][0] for key in cal_ids]))
     cal_y = torch.tensor([cal_labels[key] for key in cal_ids], dtype=torch.long)
     head = torch.load(bundle_path.parent / bundle["head_ref"], map_location="cpu", weights_only=True)
     w, b = head["w"].to(fit_views.dtype), float(head["b"])
-    tau0 = empirical_real_quantile(cal_z @ w + b, cal_y, plan["alpha_cal"])
+    cal_scores = cal_z @ w + b
+    if int((cal_y == 0).sum()) < plan["minimum_cal0_bonafide"]:
+        raise DataError("cal0 has too few bonafide samples for tau0")
+    tau0 = empirical_real_quantile(cal_scores, cal_y, plan["alpha_cal"])
     rank = plan["rank"]
-    deltas = (fit_views[:, 1:] - fit_views[:, :1]).reshape(-1, fit_views.shape[-1])
-    U = response_subspace(deltas, rank)
+    U, sub_diag = balanced_response_subspace(
+        fit_views, fit_y, fit_group_ids, rank, tuple(plan["treatment_families"]),
+        plan["samples_per_group"], plan["pair_seed"])
     U_pca = feature_pca_subspace(fit_views[:, 0], rank)
     random_values = [random_subspace(fit_views.shape[-1], rank, seed, dtype=fit_views.dtype)
                      for seed in plan["random_seeds"]]
-    memory = build_anchor_memory(fit_views[:, 0], fit_y, w, b, tau0, plan["anchor_per_class"], plan["seed"])
+    memory = build_anchor_memory(fit_views[:, 0], fit_y, w, b, tau0, plan["anchor_per_class"],
+                                 plan["seed"], plan["margin_bins"], plan["margin_epsilon"])
     from eptta.adaptation.types import FrozenResources
     resources = FrozenResources(U, w, b, memory["anchors_z"], memory["anchors_y"], memory["anchors_m0"],
                                 memory["anchors_s0"], tau0, "build-pending")
@@ -147,10 +183,20 @@ def build_source_resources(plan_ref, fit_cache_ref, output):
     fixed = plan["fixed_adapter"]
     fixed_R, _trace = fit_fixed_source_adapter(fit_views, resources, fixed["steps"], fixed["lr"],
                                                 fixed["rho"], fixed["gamma"], fixed["lambda_keep"])
+    diagnostics = {"tau0": float(tau0), "cal0_bonafide_count": int((cal_y == 0).sum()),
+                   "cal0_spoof_count": int((cal_y == 1).sum()), "alpha_cal": float(plan["alpha_cal"]),
+                   "subspace": sub_diag,
+                   "orthogonality_error": float((U.T @ U - torch.eye(rank, dtype=U.dtype)).abs().max()),
+                   "anchor_margins_min": float(memory["anchors_m0"].min()),
+                   "anchor_margins_max": float(memory["anchors_m0"].max()),
+                   "fisher_min": float(fisher.min()), "fisher_max": float(fisher.max()),
+                   "fisher_mean": float(fisher.mean()),
+                   "fixed_R_fro": float(torch.linalg.vector_norm(fixed_R))}
     arrays = {"U": U.numpy(), "U_feature_pca": U_pca.numpy(), "w": w.numpy(),
               "anchors_z": memory["anchors_z"].numpy(), "anchors_y": memory["anchors_y"].numpy(),
               "anchors_m0": memory["anchors_m0"].numpy(), "anchors_s0": memory["anchors_s0"].numpy(),
               "fisher": fisher.numpy(), "fixed_R": fixed_R.numpy()}
     arrays.update(("U_random_%d" % index, value.numpy()) for index, value in enumerate(random_values))
     return write_frozen_resources(output, bundle["baseline_id"], bundle["selected_checkpoint_sha256"],
-                                  arrays, {"b": b, "tau0": tau0}, plan["source_snapshot_hash"])
+                                  arrays, {"b": b, "tau0": tau0}, plan["source_snapshot_hash"],
+                                  diagnostics=diagnostics)

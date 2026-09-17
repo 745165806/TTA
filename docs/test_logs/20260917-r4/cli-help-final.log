@@ -1,0 +1,34 @@
+Script started on 2026-09-17 10:16:03+08:00 [<not executed on terminal>]
+usage: cli.py export-frozen-r4
+       [-h]
+       --training-manifest
+       TRAINING_MANIFEST
+       --out
+       OUT
+       [--worker-python WORKER_PYTHON]
+       [--gpu-id GPU_ID]
+       [--dry-run]
+
+options:
+  -h, --help
+    show this
+    help
+    message and
+    exit
+  --training-manifest TRAINING_MANIFEST
+  --out OUT
+    new R4 run
+    directory;
+    never
+    overwritten
+  --worker-python WORKER_PYTHON
+  --gpu-id GPU_ID
+  --dry-run
+    read-only
+    identity-
+    bound
+    preview;
+    does not
+    start CUDA
+
+Script done on 2026-09-17 10:16:03+08:00 [COMMAND_EXIT_CODE="0"]

@@ -2,43 +2,58 @@
 
 - Approval plan: `ticket1-recovery-20260916`
 - Bound plan SHA-256: `07e5318c87f286f71ec6df4e484431bc317c2ec6ba7b62df7ed01231b01785a6`
-- Approval received: 2026-09-16 (Asia/Shanghai)
-- Validation GPU cap: **1.0 aggregate GPU hour**
-- Formal AASIST continuation cap after validation PASS: **7.3 GPU hours**
+- Validation cap, amended by user: **1.5 aggregate GPU hours**
+- Formal AASIST continuation cap: **7.3 GPU hours**
+- Target snapshot publication, target scoring and R5--R9: **not authorized**
 
-## Outcome
+## Isolated recovery validation
 
-The route-B implementation and four initial isolated validation jobs were prepared
-and checked without starting CUDA training.  The complete approved validation is
-`2 + 1 + 1 = 4` full fit epochs per model, or `2,116` optimizer-update executions
-per model (`4,232` across AASIST and SSL-AASIST).  The bound plan estimates this
-complete two-model protocol at 1.5 aggregate GPU hours.  That exceeds the newly
-authorized hard cap of 1.0 GPU hour.
+Both models completed the declared `2 + 1 + 1` full-epoch protocol. The six
+successful branches consumed 5,031.7835 GPU-seconds (1.39772 GPU-hours). Including
+the conservative wall time of dependency/RNG-format startup failures remains below
+1.412 GPU-hours and below the 1.5-hour hard cap.
 
-Consequently:
+The original py310/PyTorch 2.1 runtime could not restore the parent's 816-byte CUDA
+RNG state (the runtime expected 16 bytes). Existing py38/PyTorch 2.0.1+cu118 was
+verified to accept both parents' RNG states. A missing SSL `bitarray` dependency in
+base py38 was resolved by using the existing, unmodified `eptta` py38 environment;
+no package was installed.
 
-- isolated GPU validation: `NOT_RUN_BUDGET_INSUFFICIENT`;
-- aggregate GPU time consumed by this execution: `0`;
-- AASIST formal continuation: `NOT_RUN_VALIDATION_NOT_PASSED`;
-- SSL-AASIST administrative child finalization: `NOT_RUN_VALIDATION_NOT_PASSED`;
-- target snapshot publication, target scoring and R5--R9: `NOT_AUTHORIZED`.
+Strict result: **FAIL for both models**. Continuous and restarted branches agree on
+epoch/global-step, scheduler/LR, scaler, final RNG, sampler and lineage, but model
+parameters/buffers, Adam state and loss/validation records diverge. AASIST already
+diverged between the two independent epoch14 executions, before the tested restart
+boundary. The runs are therefore not claimed as deterministic/exact resumes.
 
-Running only a prefix, fewer epochs, fewer batches, or a data subset would not
-satisfy the plan's declared PASS rule and therefore was not substituted silently.
+- AASIST comparison: `docs/test_logs/20260916-ticket1-approved/aasist-resume-comparison.json`
+- SSL-AASIST comparison: `docs/test_logs/20260916-ticket1-approved/ssl-resume-comparison.json`
+- SSL administrative finalization: `NOT_RUN_VALIDATION_NOT_PASSED`
 
-## Prepared isolated jobs
+All failed/superseded v2--v4 preparation directories and logs remain retained as
+evidence. No parent checkpoint or history file was modified.
 
-All jobs have `exact_resume_claim=false`, bind the approved plan/checkpoint bytes,
-use a new child recipe identity, and preserve the parent's 100-epoch scheduler
-horizon.  They are under the ignored private-artifact tree:
+## AASIST explicitly authorized non-exact continuation
 
-- `artifacts/private/ticket1-recovery-20260916/validation/aasist-continuous-v2`
-- `artifacts/private/ticket1-recovery-20260916/validation/aasist-restart-stage1-v2`
-- `artifacts/private/ticket1-recovery-20260916/validation/ssl-continuous-v2`
-- `artifacts/private/ticket1-recovery-20260916/validation/ssl-restart-stage1-v2`
+After receiving the strict FAIL result, the user explicitly directed completion of
+AASIST training and required every epoch's model parameters to be retained. The
+supplemental authorization is recorded in
+`docs/TICKET1_AASIST_NONEXACT_AUTHORIZATION_20260916.json` and does not change the
+bound recovery plan or assert exact-resume status.
 
-The restart stage-2 jobs are intentionally not created until stage-1 immutable
-checkpoints exist.  No parent file was modified.
-The four same-named directories without the `-v2` suffix bind an earlier worker
-hash and are retained as superseded preparation evidence; strict orchestration
-verification rejects them after the final resume-hardening edit.
+- Parent: epoch13 / global step 7,406 / last SHA-256
+  `d712df099c19e3d0d191065eb7cdbfb84ddae45cd17e84725e8334c7e39c3b19`
+- Child run: `/media/dell/data/fakedata/eptta_work/training_runs/aasist_source/child-plan07e5318c-nonexact-001`
+- Child identity: `source-run-91cd36fae7770aca4b51`
+- Executed: epochs 14--79, 66/66 complete; final global step 42,320
+- Scheduler: parent 100-epoch cosine horizon retained
+- Formal GPU time: 25,625.0933 seconds = **7.11808 GPU-hours**
+- Checkpoints: all `epoch-0014.pt` through `epoch-0079.pt` and sidecars present;
+  none missing, plus `last.pt` and `best.pt` aliases
+- Final status: `TRAINED` then `FINALIZED`
+- Selection: child epoch69, source-val EER `0.00040257648953301306`
+- Selected checkpoint SHA-256:
+  `076ca355cec3358c7181769459de27279609ab1cda35f186670bc49e9a1cbf0a`
+- Finalized id: `training-final-a095c4459547c47c9481`
+
+No frozen export, target effect access, target scoring, new target snapshot, or
+R5--R9 execution was performed.

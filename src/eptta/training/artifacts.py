@@ -3,11 +3,8 @@ from pathlib import Path
 
 from eptta.config.validate import content_hash
 from eptta.data.io import iter_jsonl, read_json, sha256_file, write_json_new
-from eptta.errors import ContractError, DataError
+from eptta.errors import ContractError, DataError, NotImplementedStage
 from eptta.training.selection import select_source_checkpoint
-import json
-import subprocess
-import sys
 
 
 def finalize_training(run_ref, output):
@@ -140,51 +137,14 @@ def require_exportable(finalized_ref):
 
 
 def launch_frozen_export(finalized_ref, output, worker_ref=None, python_executable=None):
-    finalized = require_exportable(finalized_ref)
-    checkpoint = Path(finalized["selected_checkpoint_ref"])
-    run_dir = checkpoint.parent.parent
-    source_job = read_json(run_dir / "source_train_job.json")
-    execution = source_job["execution"]
-    source_val = source_job["source_job"]["source_val"]
-    first = next(iter_jsonl(source_val["manifest_ref"]), None)
-    if first is None:
-        raise DataError("source_val fixture is empty")
-    try:
-        fixture = Path(execution["data_roots"][first["root_key"]]) / first["audio_relpath"]
-    except KeyError as exc:
-        raise DataError("source fixture root is not bound") from exc
-    job = {"schema_version": "0.1.0", "job_type": "frozen_export",
-           "model_id": finalized["model_id"], "architecture": finalized["architecture"],
-           "initialization": finalized.get("initialization"),
-           "selected_checkpoint_ref": str(checkpoint),
-           "selected_checkpoint_sha256": finalized["selected_checkpoint_sha256"],
-           "training_patch": finalized["patch"],
-           "fixture_audio_ref": str(fixture), "output_dir": str(Path(output).resolve()),
-           "bundle_fields": {
-               "training_run_id": finalized["training_run_id"],
-               "fit_snapshot_hash": finalized["fit_snapshot_hash"],
-               "source_val_snapshot_hash": finalized["source_val_snapshot_hash"],
-               "recipe_hash": finalized["recipe_hash"], "class_index_map": finalized["class_index_map"],
-               "embedding_dim": finalized["embedding_dim"], "init_provenance": finalized.get("initialization") or
-                                  {"scope": "native_initialization"},
-               "source_val_selection_ref": str(Path(finalized_ref).resolve()),
-               "task_training_provenance": {"finalized_id": finalized["finalized_id"],
-                                               "task_weight_origin": "trained_in_project",
-                                               "source_val_selection_sha256": sha256_file(finalized_ref),
-                                               "training_patch_sha256": finalized["patch"]["combined_sha256"]},
-               "eval_preprocess_hash": source_job["execution"]["preprocess_hash"]}}
-    destination = Path(output)
-    if destination.exists():
-        raise ContractError("frozen export output exists; overwrite is forbidden")
-    job_path = run_dir / ("frozen_export_job_" + finalized["finalized_id"] + ".json")
-    write_json_new(job_path, job)
-    worker = Path(worker_ref) if worker_ref else Path(__file__).parents[3] / "workers/baseline_bridge.py"
-    completed = subprocess.run([python_executable or sys.executable, str(worker), "export", "--job", str(job_path)],
-                               check=False)
-    if completed.returncode:
-        raise ContractError("frozen export worker failed with exit code %d" % completed.returncode)
-    bundle_path = destination / "bundle.json"
-    bundle = read_json(bundle_path)
-    from eptta.models.contracts import FrozenModelBundle
-    FrozenModelBundle(**bundle)
-    return bundle
+    """Reject the superseded single-fixture exporter before it writes anything.
+
+    The production frozen-bundle contract now requires the independent R4
+    validation evidence produced by ``export-frozen-r4``.  Keeping the legacy
+    worker callable would create an old-format directory and only fail after
+    publication, so this compatibility entrypoint is deliberately fail-closed.
+    """
+    raise NotImplementedStage(
+        "legacy export-frozen cannot satisfy the R4 frozen bundle contract; "
+        "use the reviewed export-frozen-r4 entrypoint"
+    )

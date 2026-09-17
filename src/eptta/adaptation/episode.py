@@ -4,7 +4,7 @@ import math
 import torch
 
 from eptta.adaptation.math import apply_adapter, keep_loss, margin_deficit, project_frobenius_, view_loss
-from eptta.adaptation.types import EPConfig, EpisodeOutput
+from eptta.adaptation.types import EPConfig, EpisodeOutput, TargetViews
 from eptta.adaptation.validation import validate_inputs
 
 
@@ -72,3 +72,42 @@ def run_episode(target, resources, cfg=EPConfig()):
                 reason = str(exc)
                 break
     return finish(target, resources, cfg, R, before, trace, completed, reason)
+
+
+def run_k0_episode(target, head_w, head_b, artifact_bundle_id):
+    """Resource-free K=0 production path.
+
+    K=0 is the legal identity short-circuit: R stays zero, no U/M/tau0 are
+    required, and the score is the original-view z0 frozen head score (never a
+    three-view mean and never a zero-matmul round trip).  This mirrors the
+    ``run_episode(steps=0)`` contract without loading :class:`FrozenResources`.
+    """
+    if type(target) is not TargetViews:
+        raise ValueError("only typed TargetViews are accepted by the K=0 entrypoint")
+    if torch.is_inference_mode_enabled():
+        raise ValueError("EP requires autograd for R; inference_mode is not supported")
+    for name, value in (("sample_id", target.sample_id), ("feature_artifact_id", target.feature_artifact_id),
+                        ("artifact_bundle_id", artifact_bundle_id)):
+        if type(value) is not str or not value:
+            raise ValueError("opaque sample/artifact IDs are required")
+    Z = target.features
+    if not isinstance(Z, torch.Tensor) or Z.ndim != 2 or Z.shape[0] != 3:
+        raise ValueError("K=0 requires exactly three fixed views [N=3, d]")
+    if Z.dtype not in (torch.float32, torch.float64):
+        raise ValueError("EP supports float32/float64 only")
+    if Z.requires_grad or not bool(torch.isfinite(Z).all()):
+        raise ValueError("K=0 requires detached, finite views")
+    d = Z.shape[1]
+    if not isinstance(head_w, torch.Tensor) or head_w.ndim != 1 or head_w.shape != (d,):
+        raise ValueError("K=0 requires a detached frozen head weight [d]")
+    if head_w.dtype != Z.dtype or head_w.device != Z.device or head_w.requires_grad:
+        raise ValueError("K=0 head must share view dtype/device and be detached")
+    if type(head_b) not in (int, float) or not math.isfinite(head_b):
+        raise ValueError("frozen head bias must be a finite scalar")
+    z0 = Z[0]  # original view, not a view mean
+    before = float(z0 @ head_w + head_b)
+    if not math.isfinite(before):
+        raise FloatingPointError("non-finite K=0 original-view score")
+    R = torch.zeros((0, 0), dtype=Z.dtype, device=Z.device)
+    return EpisodeOutput(target.sample_id, target.feature_artifact_id, artifact_bundle_id,
+                         R, before, before, "no_adaptation", None, 0, None, None, None, 0.0, ())

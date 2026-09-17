@@ -9,13 +9,14 @@ from eptta.data.io import sha256_file
 from eptta.data.source_manifests import (publish_label_free_manifest, seal_source_manifests,
                                          validate_source_snapshot)
 from eptta.data.approval import approve
-from eptta.errors import ContractError, DataError
+from eptta.errors import ContractError, DataError, NotImplementedStage
 from eptta.models.author import canonical_to_native, class_weights_native, inspect_author_repository
-from eptta.training.artifacts import finalize_training, require_exportable
+from eptta.training.artifacts import finalize_training, launch_frozen_export, require_exportable
 from eptta.training.selection import equal_error_rate, select_source_checkpoint
 from eptta.training.recipe import resolve_training_recipe
 from eptta.training.dispatch import compile_source_job
-from eptta.training.resume import compile_resume_preflight, prepare_child_resume
+from eptta.training.resume import (compare_resume_validation, compile_resume_preflight,
+                                   prepare_child_resume)
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -114,6 +115,26 @@ def test_source_val_eer_and_selection_contract():
         {"epoch": 2, "source_val_eer": 0.1, "checkpoint_ref": "b", "checkpoint_sha256": "b" * 64},
         {"epoch": 1, "source_val_eer": 0.1, "checkpoint_ref": "a", "checkpoint_sha256": "a" * 64}])
     assert chosen["epoch"] == 1
+
+
+def test_legacy_frozen_export_fails_before_writing(tmp_path):
+    output = tmp_path / "legacy-export"
+    with pytest.raises(NotImplementedStage, match="export-frozen-r4"):
+        launch_frozen_export(tmp_path / "unused-finalized.json", output)
+    assert not output.exists()
+
+
+def test_resume_comparison_rejects_checkpoints_missing_exact_state(tmp_path):
+    torch = pytest.importorskip("torch")
+    left, right = tmp_path / "left.pt", tmp_path / "right.pt"
+    torch.save({}, left)
+    torch.save({}, right)
+    left_log, right_log = tmp_path / "left.jsonl", tmp_path / "right.jsonl"
+    _write_jsonl(left_log, [{"epoch": 1}])
+    _write_jsonl(right_log, [{"epoch": 1}])
+    with pytest.raises(DataError, match="misses exact-state fields"):
+        compare_resume_validation("aasist_source", left, right, left_log, right_log,
+                                  tmp_path / "comparison.json")
 
 
 def test_epoch_checkpoints_are_retained_while_last_and_best_advance(tmp_path):

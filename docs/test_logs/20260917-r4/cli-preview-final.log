@@ -1,0 +1,48 @@
+Script started on 2026-09-17 10:16:03+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "PREVIEW",
+  "side_effects": false,
+  "model_id": "aasist_source",
+  "training_run_id": "source-run-91cd36fae7770aca4b51",
+  "finalized_id": "training-final-a095c4459547c47c9481",
+  "selected_epoch": 69,
+  "selected_checkpoint_sha256": "076ca355cec3358c7181769459de27279609ab1cda35f186670bc49e9a1cbf0a",
+  "training_endpoint": {
+    "last_epoch": 79,
+    "global_step": 42320,
+    "completed_epoch_count": 80,
+    "scheduler_horizon_epochs": 100
+  },
+  "migration": {
+    "exact_resume_claim": false,
+    "kind": "approved_parent_to_child",
+    "parent_run_ref": "/media/dell/data/fakedata/eptta_work/training_runs/aasist_source/full-gpu2-b48-001",
+    "plan_id": "ticket1-recovery-20260916",
+    "plan_sha256": "07e5318c87f286f71ec6df4e484431bc317c2ec6ba7b62df7ed01231b01785a6",
+    "purpose": "formal_continuation",
+    "resume_checkpoint_sha256": "d712df099c19e3d0d191065eb7cdbfb84ddae45cd17e84725e8334c7e39c3b19",
+    "resume_patch_sha256": "00aea39322b51c49a70d691d9daa8cad0be99da460a5043f566da1b016e721a7",
+    "resume_recipe_hash": "4fe26f8e2cd71f35db19d8aabe3bd3da90c55b60b9dc8e1faa7dc8a2fe182ec7"
+  },
+  "output": "/media/dell/data/fakeAudioDection/TTA/artifacts/private/r4-aasist-preview-unused",
+  "worker_ref": "/media/dell/data/fakeAudioDection/TTA/workers/baseline_bridge.py",
+  "worker_sha256": "e68ce62a7577a95a8ae2365866820d5e40d3001f6ba58b918e9d2411593cbe4a",
+  "python_executable": "/home/dell/anaconda3/envs/py38/bin/python",
+  "gpu_id": 0,
+  "gpu_hour_cap": 0.5,
+  "atol": 1e-06,
+  "rtol": 1e-05,
+  "roles": {
+    "fit": 128,
+    "source_val": 5654
+  },
+  "forbidden": [
+    "training",
+    "target_scoring",
+    "R5_resource_computation",
+    "SSL_operations"
+  ]
+}
+
+Script done on 2026-09-17 10:16:03+08:00 [COMMAND_EXIT_CODE="0"]

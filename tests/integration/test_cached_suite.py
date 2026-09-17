@@ -37,22 +37,48 @@ def test_cache_to_mechanism_scores_to_seal(tmp_path):
               "fit_snapshot_hash": "b" * 64, "source_val_snapshot_hash": "c" * 64,
               "recipe_hash": "d" * 64, "init_provenance": {"scope": "native_initialization"},
               "task_training_provenance": {"task_weight_origin": "trained_in_project",
-                                             "source_val_selection_sha256": sha256_file(selection)},
+                                             "source_val_selection_sha256": sha256_file(selection),
+                                             "migration": {"exact_resume_claim": False},
+                                             "training_endpoint": {"last_epoch": 79,
+                                               "completed_epoch_count": 80, "scheduler_horizon_epochs": 100}},
               "eval_preprocess_hash": "e" * 64, "class_index_map": {"bonafide": 1, "spoof": 0},
               "head_ref": "linear_head.pt", "embedding_dim": d, "training_status": "FINALIZED",
               "training_phase": "full", "task_weight_origin": "trained_in_project",
-              "source_val_selection_ref": str(selection), "parity_report_ref": "parity.json"}
+              "source_val_selection_ref": str(selection), "parity_report_ref": "parity.json",
+              "model_contract": {"embedding_point": "native_out_layer_input", "freq_aug": False},
+              "score_contract": {"formula": "native_logits[spoof]-native_logits[bonafide]",
+                 "direction": "larger_is_spoof", "output_type": "logit_difference", "unit": "dimensionless"},
+              "numerical_contract": {"atol": 1e-6, "rtol": 1e-5},
+              "r4_validation": {"status": "PASS", "fit_count": 128, "source_val_count": 5654},
+              "export_code_sha256": "f" * 64}
     bundle_path = export / "bundle.json"
-    bundle_path.write_text(json.dumps(bundle))
     (export / "linear_head.pt").write_bytes(b"head")
     (export / "detector_state.pt").write_bytes(b"state")
     (export / "parity.json").write_text(json.dumps({"schema_version": "0.1.0", "status": "PASS",
                                                      "module_modes_stable": True,
                                                      "buffers_stable": True}))
+    for name in ("parity_per_sample.jsonl", "source_val_recompute.json", "fit128_uids.json",
+                 "baseline_bridge.py", "author_training.py"):
+        (export / name).write_bytes(name.encode())
+    (export / "source_val_recompute.json").write_text(json.dumps({
+        "schema_version": "0.1.0", "status": "PASS", "source_val_count": 5654,
+        "reference_vs_export_eer_abs": 0.0, "historical_vs_reference_abs": 0.0,
+        "eer_atol": 1e-12}))
+    (export / "fit128_uids.json").write_text(json.dumps({"count": 128,
+        "class_counts": {"bonafide": 64, "spoof": 64},
+        "attack_ids": ["A01", "A02", "A03", "A04", "A05", "A06"]}))
+    bundle["r4_validation"].update({
+        "fit_uids_sha256": sha256_file(export / "fit128_uids.json"),
+        "parity_sha256": sha256_file(export / "parity.json"),
+        "per_sample_sha256": sha256_file(export / "parity_per_sample.jsonl"),
+        "source_val_recompute_sha256": sha256_file(export / "source_val_recompute.json")})
+    bundle_path.write_text(json.dumps(bundle))
     (export / "export_manifest.json").write_text(json.dumps({"schema_version": "0.1.0",
-        "status": "LOCKED", "immutable": True, "files": {
+        "status": "LOCKED", "immutable": True, "r5_eligible": True, "files": {
             name: sha256_file(export / name) for name in
-            ("detector_state.pt", "linear_head.pt", "parity.json", "bundle.json")}}))
+            ("detector_state.pt", "linear_head.pt", "parity.json", "bundle.json",
+             "parity_per_sample.jsonl", "source_val_recompute.json", "fit128_uids.json",
+             "baseline_bridge.py", "author_training.py")}}))
     resources_dir = tmp_path / "resources"
     write_frozen_resources(resources_dir, "baseline", checkpoint,
         {"U": U.astype("float32"), "w": w.astype("float32"),

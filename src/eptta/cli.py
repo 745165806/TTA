@@ -24,9 +24,12 @@ DATA_COMMANDS = ("inspect-data", "propose-data-contract", "approve-contract", "s
                  "audit-source-snapshot", "audit-target-metadata", "record-exposure")
 TRAINING_COMMANDS = ("resolve-training-recipe", "inspect-model", "train-source",
                      "resume-source", "resume-preflight", "prepare-child-resume",
-                     "finalize-training", "finalize-administrative-child", "export-frozen")
+                     "compare-resume-validation", "finalize-training",
+                     "finalize-administrative-child", "export-frozen", "export-frozen-r4")
 EVALUATION_COMMANDS = ("seal-scores", "evaluate", "evaluate-checkpoint")
-EXECUTION_COMMANDS = ("extract", "merge-cache", "build-artifacts")
+EXECUTION_COMMANDS = ("extract", "merge-cache", "build-artifacts", "prepare-r5-stage1-proposal",
+                      "lock-r5-stage1-proposal", "run-r5-stage1-parity", "run-r5-stage1-k0",
+                      "prepare-r5-stage2-proposal", "lock-r5-stage2-proposal")
 ADAPTATION_COMMANDS = ("run-suite",)
 TASKS = {"source_prepare": "data_build", "source_training": "source_training",
          "frozen_extract": "frozen_extract", "adaptation": "adaptation", "evaluation": "evaluation"}
@@ -146,6 +149,13 @@ def parser():
     prepare_child.add_argument("--purpose", choices=("resume_validation", "formal_continuation"), required=True)
     prepare_child.add_argument("--validation-epochs", type=int, choices=(1, 2))
     prepare_child.add_argument("--validation-report")
+    compare_resume = sub.add_parser("compare-resume-validation", help="compare continuous and restarted epoch states exactly")
+    compare_resume.add_argument("--model-id", choices=("aasist_source", "ssl_aasist_source"), required=True)
+    compare_resume.add_argument("--continuous-checkpoint", required=True)
+    compare_resume.add_argument("--restarted-checkpoint", required=True)
+    compare_resume.add_argument("--continuous-log", required=True)
+    compare_resume.add_argument("--restarted-log", required=True)
+    compare_resume.add_argument("--out", required=True)
     finalize = sub.add_parser("finalize-training", help="select source checkpoint by source_val EER")
     finalize.add_argument("--run", required=True)
     finalize.add_argument("--out", required=True)
@@ -154,10 +164,16 @@ def parser():
     admin_finalize.add_argument("--plan-sha256", required=True)
     admin_finalize.add_argument("--validation-report", required=True)
     admin_finalize.add_argument("--out", required=True)
-    export_frozen = sub.add_parser("export-frozen", help="export and parity-check a finalized source detector")
+    export_frozen = sub.add_parser("export-frozen", help="legacy exporter; explicitly blocked by the R4 contract")
     export_frozen.add_argument("--training-manifest", required=True)
     export_frozen.add_argument("--out", required=True)
     export_frozen.add_argument("--worker-python")
+    export_r4 = sub.add_parser("export-frozen-r4", help="AASIST R4 independent real-data parity and gated frozen publication")
+    export_r4.add_argument("--training-manifest", required=True)
+    export_r4.add_argument("--out", required=True, help="new R4 run directory; never overwritten")
+    export_r4.add_argument("--worker-python")
+    export_r4.add_argument("--gpu-id", type=int, default=0)
+    export_r4.add_argument("--dry-run", action="store_true", help="read-only identity-bound preview; does not start CUDA")
     seal = sub.add_parser("seal-scores", help="immutably seal label-free method scores")
     seal.add_argument("--run", required=True)
     evaluate = sub.add_parser("evaluate", help="join labels only after score sealing")
@@ -196,6 +212,35 @@ def parser():
     artifacts.add_argument("--plan", required=True)
     artifacts.add_argument("--cache-index", required=True)
     artifacts.add_argument("--out", required=True)
+    r5_proposal = sub.add_parser("prepare-r5-stage1-proposal", help="write a review-only R5 small-cache proposal; never lock or execute")
+    r5_proposal.add_argument("--plan", required=True)
+    r5_proposal.add_argument("--plan-sha256", required=True)
+    r5_proposal.add_argument("--bundle", required=True)
+    r5_proposal.add_argument("--snapshot", required=True)
+    r5_proposal.add_argument("--out", required=True)
+    r5_lock = sub.add_parser("lock-r5-stage1-proposal", help="publish LOCKED extraction plans after explicit review")
+    r5_lock.add_argument("--proposal", required=True)
+    r5_lock.add_argument("--proposal-sha256", required=True)
+    r5_parity = sub.add_parser("run-r5-stage1-parity", help="re-encode deterministic views and verify cache read-back parity")
+    r5_parity.add_argument("--plan", required=True)
+    r5_parity.add_argument("--role", choices=("fit", "cal0", "select"), required=True)
+    r5_parity.add_argument("--cache", required=True)
+    r5_parity.add_argument("--out", required=True)
+    r5_parity.add_argument("--worker-python")
+    r5_k0 = sub.add_parser("run-r5-stage1-k0", help="verify the resource-free K=0 EP entrypoint against the frozen path")
+    r5_k0.add_argument("--bundle", required=True)
+    r5_k0.add_argument("--cache", required=True)
+    r5_k0.add_argument("--role", choices=("fit", "cal0", "select"), required=True)
+    r5_k0.add_argument("--out", required=True)
+    r5_stage2 = sub.add_parser("prepare-r5-stage2-proposal", help="fix the full-cache + source-resource proposal; never lock or execute")
+    r5_stage2.add_argument("--plan", required=True)
+    r5_stage2.add_argument("--plan-sha256", required=True)
+    r5_stage2.add_argument("--bundle", required=True)
+    r5_stage2.add_argument("--snapshot", required=True)
+    r5_stage2.add_argument("--out", required=True)
+    r5_lock2 = sub.add_parser("lock-r5-stage2-proposal", help="publish LOCKED full-cache plans after explicit review")
+    r5_lock2.add_argument("--proposal", required=True)
+    r5_lock2.add_argument("--proposal-sha256", required=True)
     for name, (_, options) in STUBS.items():
         cmd = sub.add_parser(name, help="reserved for L4-L6; raises NOT_IMPLEMENTED_STAGE")
         for option in options.split():
@@ -377,6 +422,11 @@ def _training_command(args, cfg):
                                     args.checkpoint, args.worker, args.run_output,
                                     args.purpose, args.validation_epochs,
                                     args.validation_report), 0
+    if args.command == "compare-resume-validation":
+        from eptta.training.resume import compare_resume_validation
+        return compare_resume_validation(args.model_id, args.continuous_checkpoint,
+                                         args.restarted_checkpoint, args.continuous_log,
+                                         args.restarted_log, args.out), 0
     if args.command == "finalize-training":
         from eptta.training.artifacts import finalize_training
         return finalize_training(args.run, args.out), 0
@@ -388,6 +438,15 @@ def _training_command(args, cfg):
         from eptta.training.artifacts import launch_frozen_export
         return launch_frozen_export(args.training_manifest, args.out,
                                     python_executable=args.worker_python), 0
+    if args.command == "export-frozen-r4":
+        from eptta.training.r4 import compile_r4_preview, launch_r4_export
+        if args.dry_run:
+            return compile_r4_preview(args.training_manifest, args.out,
+                                      python_executable=args.worker_python,
+                                      gpu_id=args.gpu_id), 0
+        return launch_r4_export(args.training_manifest, args.out,
+                                python_executable=args.worker_python,
+                                gpu_id=args.gpu_id), 0
     raise EPTTAError("unknown training command: " + args.command)
 
 
@@ -410,6 +469,28 @@ def _evaluation_command(args, cfg):
 
 
 def _execution_command(args, cfg):
+    if args.command == "prepare-r5-stage1-proposal":
+        from eptta.execution.r5_proposal import prepare_r5_stage1_proposal
+        return prepare_r5_stage1_proposal(args.plan, args.plan_sha256, args.bundle,
+                                          args.snapshot, args.out), 0
+    if args.command == "lock-r5-stage1-proposal":
+        from eptta.execution.r5_stage1 import lock_stage1_proposal
+        return lock_stage1_proposal(args.proposal, args.proposal_sha256), 0
+    if args.command == "run-r5-stage1-parity":
+        from eptta.execution.r5_stage1 import compile_parity_job, launch_parity
+        job, worker = compile_parity_job(args.plan, args.role, args.cache, args.out)
+        report = launch_parity(job, worker, args.worker_python)
+        return report, 0
+    if args.command == "run-r5-stage1-k0":
+        from eptta.execution.r5_stage1 import run_k0_verification
+        return run_k0_verification(args.bundle, args.cache, args.role, args.out), 0
+    if args.command == "prepare-r5-stage2-proposal":
+        from eptta.execution.r5_stage2 import prepare_r5_stage2_proposal
+        return prepare_r5_stage2_proposal(args.plan, args.plan_sha256, args.bundle,
+                                          args.snapshot, args.out), 0
+    if args.command == "lock-r5-stage2-proposal":
+        from eptta.execution.r5_stage2 import lock_r5_stage2_proposal
+        return lock_r5_stage2_proposal(args.proposal, args.proposal_sha256), 0
     if args.command == "build-artifacts":
         if cfg["runtime"]["environment"] != "remote":
             from eptta.errors import PermissionDenied

@@ -37,6 +37,11 @@ class FrozenModelBundle:
     task_weight_origin: str
     source_val_selection_ref: str
     parity_report_ref: str
+    model_contract: Mapping[str, Any]
+    score_contract: Mapping[str, Any]
+    numerical_contract: Mapping[str, Any]
+    r4_validation: Mapping[str, Any]
+    export_code_sha256: str
 
     def __post_init__(self):
         if self.schema_version != "0.1.0":
@@ -52,6 +57,27 @@ class FrozenModelBundle:
         if not all((self.training_run_id, self.task_training_provenance,
                     self.source_val_selection_ref, self.parity_report_ref)):
             raise ContractError("training/selection/parity evidence is required")
+        require_hash(self.export_code_sha256, "export_code_sha256")
+        if self.model_id == "aasist_source":
+            migration = self.task_training_provenance.get("migration")
+            if not isinstance(migration, Mapping) or migration.get("exact_resume_claim") is not False:
+                raise ContractError("approved nonexact parent-to-child lineage must remain disclosed")
+            endpoint = self.task_training_provenance.get("training_endpoint")
+            if not isinstance(endpoint, Mapping) or endpoint.get("last_epoch") != 79 or endpoint.get(
+                    "completed_epoch_count") != 80 or endpoint.get("scheduler_horizon_epochs") != 100:
+                raise ContractError("AASIST R4 bundle must bind the approved epoch79/80-epoch endpoint and 100-epoch scheduler horizon")
+        if self.score_contract != {"formula": "native_logits[spoof]-native_logits[bonafide]",
+                                   "direction": "larger_is_spoof", "output_type": "logit_difference",
+                                   "unit": "dimensionless"}:
+            raise ContractError("frozen score contract changed")
+        if self.model_contract.get("embedding_point") != "native_out_layer_input" or self.model_contract.get(
+                "freq_aug") is not False:
+            raise ContractError("frozen embedding/augmentation contract is invalid")
+        if self.numerical_contract.get("atol") != 1e-6 or self.numerical_contract.get("rtol") != 1e-5:
+            raise ContractError("R4 numerical tolerance contract changed")
+        if self.r4_validation.get("status") != "PASS" or self.r4_validation.get(
+                "source_val_count") != 5654 or self.r4_validation.get("fit_count") != 128:
+            raise ContractError("real R4 validation evidence is incomplete")
         if set(self.class_index_map) != {"bonafide", "spoof"} or any(type(v) is not int for v in self.class_index_map.values()) or set(self.class_index_map.values()) != {0, 1}:
             raise ContractError("class index map must be bijective")
         if type(self.embedding_dim) is not int or self.embedding_dim < 1:

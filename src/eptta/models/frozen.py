@@ -1,10 +1,13 @@
 """Read-only eligibility checks for production frozen detector exports."""
+import math
 from pathlib import Path
 
-from eptta.config.schema import read_document
+from eptta.config.schema import check, read_document
 from eptta.data.io import sha256_file
 from eptta.errors import ContractError, DataError
 from eptta.models.contracts import FrozenModelBundle
+
+R4_EER_ATOL = 1e-12
 
 
 def _contained_file(root, relative, field):
@@ -30,6 +33,7 @@ def verify_frozen_export(bundle_ref):
     """
     bundle_path = Path(bundle_ref).resolve()
     bundle = read_document(bundle_path)
+    check(bundle, "frozen_model_bundle")
     try:
         FrozenModelBundle(**bundle)
     except TypeError as exc:
@@ -39,10 +43,13 @@ def verify_frozen_export(bundle_ref):
     manifest_path = _contained_file(root, "export_manifest.json", "export_manifest")
     manifest = read_document(manifest_path)
     if (manifest.get("schema_version") != "0.1.0" or manifest.get("status") != "LOCKED" or
-            manifest.get("immutable") is not True or not isinstance(manifest.get("files"), dict)):
+            manifest.get("immutable") is not True or manifest.get("r5_eligible") is not True or
+            not isinstance(manifest.get("files"), dict)):
         raise ContractError("frozen export manifest is not a LOCKED immutable v0.1.0 document")
     required_files = {"bundle.json", "detector_state.pt", bundle["head_ref"],
-                      bundle["parity_report_ref"]}
+                      bundle["parity_report_ref"], "parity_per_sample.jsonl",
+                      "source_val_recompute.json", "fit128_uids.json", "baseline_bridge.py",
+                      "author_training.py"}
     if not required_files.issubset(manifest["files"]):
         raise DataError("frozen export manifest omits a required artifact")
     for relative, digest in manifest["files"].items():
@@ -57,6 +64,28 @@ def verify_frozen_export(bundle_ref):
     if (parity.get("schema_version") != "0.1.0" or parity.get("status") != "PASS" or
             parity.get("module_modes_stable") is not True or parity.get("buffers_stable") is not True):
         raise ContractError("R5 requires frozen wrapper/head parity PASS with stable modes/buffers")
+    r4 = bundle["r4_validation"]
+    evidence = {"fit_uids_sha256": "fit128_uids.json", "parity_sha256": bundle["parity_report_ref"],
+                "per_sample_sha256": "parity_per_sample.jsonl",
+                "source_val_recompute_sha256": "source_val_recompute.json"}
+    for field, relative in evidence.items():
+        if r4.get(field) != manifest["files"].get(relative):
+            raise DataError("R4 validation evidence hash mismatch: %s" % field)
+    recompute = read_document(_contained_file(root, "source_val_recompute.json",
+                                              "source_val_recompute"))
+    numeric = [recompute.get("reference_vs_export_eer_abs"),
+               recompute.get("historical_vs_reference_abs"),
+               recompute.get("eer_atol", R4_EER_ATOL)]
+    bounded = (all(type(value) in (int, float) and math.isfinite(value) for value in numeric) and
+               numeric[2] == R4_EER_ATOL and numeric[0] <= numeric[2] and numeric[1] <= numeric[2])
+    if (recompute.get("schema_version") != "0.1.0" or recompute.get("status") != "PASS" or
+            recompute.get("source_val_count") != r4.get("source_val_count") or not bounded):
+        raise ContractError("R4 source_val EER recompute evidence is not a bounded PASS")
+    fit_evidence = read_document(_contained_file(root, "fit128_uids.json", "fit128_uids"))
+    if (fit_evidence.get("count") != 128 or fit_evidence.get("class_counts") !=
+            {"bonafide": 64, "spoof": 64} or fit_evidence.get("attack_ids") !=
+            ["A01", "A02", "A03", "A04", "A05", "A06"]):
+        raise ContractError("R4 fit evidence lacks the fixed balanced six-attack coverage")
 
     selection_path = Path(bundle["source_val_selection_ref"]).resolve()
     if not selection_path.is_file():

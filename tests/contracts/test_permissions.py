@@ -124,9 +124,18 @@ def test_resume_cannot_inject_external_or_changed_snapshot():
 
 def bundle():
     return FrozenModelBundle("0.1.0", "aasist_source", "fixture_baseline", "a" * 64, "fixture_run", "b" * 64,
-                             "c" * 64, "d" * 64, {"native": True}, {"fixture_only": True}, "e" * 64,
+                             "c" * 64, "d" * 64, {"native": True},
+                             {"fixture_only": True, "migration": {"exact_resume_claim": False},
+                              "training_endpoint": {"last_epoch": 79, "completed_epoch_count": 80,
+                                                    "scheduler_horizon_epochs": 100}}, "e" * 64,
                              {"bonafide": 1, "spoof": 0}, "fixture_head", 7, "FINALIZED", "full",
-                             "trained_in_project", "fixture_selection", "fixture_parity")
+                             "trained_in_project", "fixture_selection", "fixture_parity",
+                             {"embedding_point": "native_out_layer_input", "freq_aug": False},
+                             {"formula": "native_logits[spoof]-native_logits[bonafide]",
+                              "direction": "larger_is_spoof", "output_type": "logit_difference",
+                              "unit": "dimensionless"},
+                             {"atol": 1e-6, "rtol": 1e-5},
+                             {"status": "PASS", "fit_count": 128, "source_val_count": 5654}, "f" * 64)
 
 
 @pytest.mark.parametrize("changes", [{"training_phase": "smoke"}, {"training_status": "RUNNING"},

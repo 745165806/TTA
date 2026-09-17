@@ -1,0 +1,15 @@
+Script started on 2026-09-17 10:13:16+08:00 [<not executed on terminal>]
+{
+  "schema_version": "0.1.0",
+  "status": "PASS",
+  "r5_eligible": true,
+  "bundle_id": "baseline-d1f0d91901c73eb5027c",
+  "bundle_ref": "/media/dell/data/fakeAudioDection/TTA/artifacts/private/r4-aasist-20260917-v4/published_bundle/bundle.json",
+  "bundle_sha256": "d774f714c8a2b6ecdbe7147cb06d5d96e6563500f1b7eb8ec4224b8406319684",
+  "export_manifest_sha256": "8cd0c21d3d89b46dbf4d07f86df29bce8e18803b952ed58d5bb6441264210c56",
+  "parity_report_sha256": "69e51113d322308b4bbb1e8d76610725740490ec2a361133b2b2147a58df56f7",
+  "gpu_hours": 0.01811005887556045,
+  "gpu_hour_cap": 0.5
+}
+
+Script done on 2026-09-17 10:14:26+08:00 [COMMAND_EXIT_CODE="0"]

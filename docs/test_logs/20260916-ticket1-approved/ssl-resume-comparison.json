@@ -1,0 +1,38 @@
+{
+  "comparison": "continuous_vs_process_restart_exact_epoch_boundary",
+  "continuous_checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/artifacts/private/ticket1-recovery-20260916/validation/ssl-continuous-v5/checkpoints/epoch-0092.pt",
+  "continuous_checkpoint_sha256": "a2166b4f4000b4d4fa270c72d06adc5ef62440c863f9fcadf0c46fcb1192ab61",
+  "differences": {
+    "model_state": "model_state.GAT_layer_S.att_proj.bias",
+    "optimizer_state": "optimizer_state.state.0.exp_avg",
+    "train_log": "last_train_log_record.epoch_checkpoint_sha256"
+  },
+  "epoch": 92,
+  "exact_fields": [
+    "model_state",
+    "optimizer_state",
+    "scheduler_state",
+    "scaler_state",
+    "rng_states",
+    "epoch",
+    "global_step",
+    "sampler_state",
+    "recipe_hash",
+    "fit_snapshot_hash",
+    "source_val_snapshot_hash",
+    "architecture",
+    "patch",
+    "class_index_map",
+    "initialization",
+    "training_seed",
+    "task_weight_origin"
+  ],
+  "global_step": 49197,
+  "last_train_log_exact": false,
+  "model_id": "ssl_aasist_source",
+  "restarted_checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/artifacts/private/ticket1-recovery-20260916/validation/ssl-restart-stage2-v5/checkpoints/epoch-0092.pt",
+  "restarted_checkpoint_sha256": "1e1d0ee71c36ceb5bb320c3432ae4050e5d901fdc50b6dd32069f2ec15d6f18a",
+  "sample_and_augmentation_identity": "exact_state_and_epoch_seeded_sampler_contract",
+  "schema_version": "0.1.0",
+  "status": "FAIL"
+}
