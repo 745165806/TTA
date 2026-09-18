@@ -58,14 +58,26 @@ class FrozenModelBundle:
                     self.source_val_selection_ref, self.parity_report_ref)):
             raise ContractError("training/selection/parity evidence is required")
         require_hash(self.export_code_sha256, "export_code_sha256")
-        if self.model_id == "aasist_source":
-            migration = self.task_training_provenance.get("migration")
-            if not isinstance(migration, Mapping) or migration.get("exact_resume_claim") is not False:
-                raise ContractError("approved nonexact parent-to-child lineage must remain disclosed")
-            endpoint = self.task_training_provenance.get("training_endpoint")
-            if not isinstance(endpoint, Mapping) or endpoint.get("last_epoch") != 79 or endpoint.get(
-                    "completed_epoch_count") != 80 or endpoint.get("scheduler_horizon_epochs") != 100:
-                raise ContractError("AASIST R4 bundle must bind the approved epoch79/80-epoch endpoint and 100-epoch scheduler horizon")
+        provenance = self.task_training_provenance
+        migration = provenance.get("migration")
+        if migration is not None and (not isinstance(migration, Mapping) or
+                                      migration.get("exact_resume_claim") is not False):
+            raise ContractError("nonexact migration lineage must remain explicitly disclosed")
+        endpoint = provenance.get("training_endpoint")
+        if not isinstance(endpoint, Mapping):
+            raise ContractError("frozen bundle must bind its actual training endpoint")
+        for name in ("last_epoch", "completed_epoch_count", "scheduler_horizon_epochs"):
+            if type(endpoint.get(name)) is not int or endpoint[name] < 0:
+                raise ContractError("training endpoint contains an invalid %s" % name)
+        if endpoint["completed_epoch_count"] != endpoint["last_epoch"] + 1:
+            raise ContractError("training endpoint epoch count is inconsistent")
+        legacy_r4 = self.r4_validation.get("parity_policy") is None
+        if (legacy_r4 and self.model_id == "aasist_source" and
+                (endpoint["last_epoch"] != 79 or endpoint["completed_epoch_count"] != 80 or
+                 endpoint["scheduler_horizon_epochs"] != 100)):
+            raise ContractError("legacy AASIST R4 bundle must retain its epoch79 endpoint")
+        if migration is None and provenance.get("completion_evidence") != "locked_recipe_endpoint_or_approved_stop":
+            raise ContractError("from-scratch training requires locked endpoint/stop evidence")
         if self.score_contract != {"formula": "native_logits[spoof]-native_logits[bonafide]",
                                    "direction": "larger_is_spoof", "output_type": "logit_difference",
                                    "unit": "dimensionless"}:
@@ -75,9 +87,15 @@ class FrozenModelBundle:
             raise ContractError("frozen embedding/augmentation contract is invalid")
         if self.numerical_contract.get("atol") != 1e-6 or self.numerical_contract.get("rtol") != 1e-5:
             raise ContractError("R4 numerical tolerance contract changed")
-        if self.r4_validation.get("status") != "PASS" or self.r4_validation.get(
-                "source_val_count") != 5654 or self.r4_validation.get("fit_count") != 128:
+        if (self.r4_validation.get("status") != "PASS" or
+                type(self.r4_validation.get("source_val_count")) is not int or
+                self.r4_validation["source_val_count"] < 1 or
+                type(self.r4_validation.get("fit_count")) is not int or
+                self.r4_validation["fit_count"] < 2):
             raise ContractError("real R4 validation evidence is incomplete")
+        if legacy_r4 and (self.r4_validation["source_val_count"] != 5654 or
+                          self.r4_validation["fit_count"] != 128):
+            raise ContractError("legacy real R4 validation evidence is incomplete")
         if set(self.class_index_map) != {"bonafide", "spoof"} or any(type(v) is not int for v in self.class_index_map.values()) or set(self.class_index_map.values()) != {0, 1}:
             raise ContractError("class index map must be bijective")
         if type(self.embedding_dim) is not int or self.embedding_dim < 1:

@@ -8,6 +8,7 @@ from eptta.evaluation.metrics import binary_metrics
 from eptta.evaluation.checkpoint import compile_checkpoint_evaluation
 from eptta.evaluation.seal import evaluate_sealed, seal_scores
 from eptta.errors import ContractError, DataError
+from eptta.data.io import sha256_file
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,6 +33,11 @@ def test_t20_metrics_and_labels_only_after_seal(tmp_path):
              "score_before": before, "status": "ok", "method_id": "ep_tta"}
             for i, (score, before) in enumerate([(-2, 2), (-1, -1), (1, -1), (2, 2)])]
     write_jsonl(run / "scores.jsonl", rows)
+    (run / "expected_ids.json").write_text(json.dumps([str(i) for i in range(4)]))
+    (run / "run.json").write_text(json.dumps({"expected_ids_ref": "expected_ids.json",
+        "expected_ids_sha256": sha256_file(run / "expected_ids.json"), "expected_sample_count": 4,
+        "scores_sha256": sha256_file(run / "scores.jsonl"), "feature_cache_key": "fixture",
+        "artifact_bundle_id": "fixture", "fallback_rate_max": 0.0}))
     labels = tmp_path / "labels.jsonl"
     write_jsonl(labels, [{"schema_version": "0.1.0", "sample_id": str(i), "canonical_label": i // 2}
                          for i in range(4)])
@@ -51,6 +57,11 @@ def test_score_seal_rejects_target_annotations(tmp_path):
     run = tmp_path / "run"
     run.mkdir()
     write_jsonl(run / "scores.jsonl", [{"sample_id": "x", "score": 0.0, "canonical_label": 1}])
+    (run / "expected_ids.json").write_text(json.dumps(["x"]))
+    (run / "run.json").write_text(json.dumps({"expected_ids_ref": "expected_ids.json",
+        "expected_ids_sha256": sha256_file(run / "expected_ids.json"), "expected_sample_count": 1,
+        "scores_sha256": sha256_file(run / "scores.jsonl"), "feature_cache_key": "fixture",
+        "artifact_bundle_id": "fixture", "fallback_rate_max": 0.0}))
     with pytest.raises(DataError, match="forbidden"):
         seal_scores(run)
 

@@ -1,0 +1,20 @@
+command: env PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python scripts/make_plans.py target --config configs/experiment.private.json --selection /tmp/nonexistent-selection.json --out /tmp/eptta-target-should-not-exist
+started_at: 2026-09-18T10:34:49+08:00
+Traceback (most recent call last):
+  File "/media/dell/data/fakeAudioDection/TTA/scripts/make_plans.py", line 362, in <module>
+    raise SystemExit(main())
+  File "/media/dell/data/fakeAudioDection/TTA/scripts/make_plans.py", line 354, in main
+    result = target(args.config, args.selection, args.out)
+  File "/media/dell/data/fakeAudioDection/TTA/scripts/make_plans.py", line 216, in target
+    cfg, selection_value = _config(config_ref), read_json(selection_ref)
+  File "/media/dell/data/fakeAudioDection/TTA/src/eptta/data/io.py", line 24, in read_json
+    return read_document(path)
+  File "/media/dell/data/fakeAudioDection/TTA/src/eptta/config/schema.py", line 51, in read_document
+    return loads(Path(path).read_text(encoding="utf-8"))
+  File "/home/dell/anaconda3/envs/py310/lib/python3.10/pathlib.py", line 1134, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+  File "/home/dell/anaconda3/envs/py310/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nonexistent-selection.json'
+exit_code: 1
+finished_at: 2026-09-18T10:34:50+08:00

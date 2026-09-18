@@ -82,10 +82,25 @@ def verify_frozen_export(bundle_ref):
             recompute.get("source_val_count") != r4.get("source_val_count") or not bounded):
         raise ContractError("R4 source_val EER recompute evidence is not a bounded PASS")
     fit_evidence = read_document(_contained_file(root, "fit128_uids.json", "fit128_uids"))
-    if (fit_evidence.get("count") != 128 or fit_evidence.get("class_counts") !=
-            {"bonafide": 64, "spoof": 64} or fit_evidence.get("attack_ids") !=
-            ["A01", "A02", "A03", "A04", "A05", "A06"]):
-        raise ContractError("R4 fit evidence lacks the fixed balanced six-attack coverage")
+    policy = r4.get("parity_policy")
+    if policy is None:  # read-only verification of the historical ASV2019 bundle
+        if (fit_evidence.get("count") != 128 or fit_evidence.get("class_counts") !=
+                {"bonafide": 64, "spoof": 64} or fit_evidence.get("attack_ids") !=
+                ["A01", "A02", "A03", "A04", "A05", "A06"]):
+            raise ContractError("legacy R4 evidence lacks its fixed ASV2019 six-attack coverage")
+    else:
+        budget = policy.get("per_class_budget")
+        counts = fit_evidence.get("class_counts", {})
+        if (type(budget) is not int or budget < 1 or fit_evidence.get("count") != 2 * budget or
+                counts != {"bonafide": budget, "spoof": budget}):
+            raise ContractError("R4 parity sample budget/class balance differs from the approved policy")
+        expected_attacks = policy.get("expected_attack_ids")
+        actual_attacks = fit_evidence.get("attack_ids")
+        if expected_attacks is not None and actual_attacks != expected_attacks:
+            raise ContractError("R4 attack coverage differs from the source-data audit policy")
+        if expected_attacks is None and fit_evidence.get("coverage_claim") not in (
+                "metadata_unavailable_weaker_coverage", "observed_generator_groups"):
+            raise ContractError("unknown attack metadata requires an explicit weaker coverage claim")
 
     selection_path = Path(bundle["source_val_selection_ref"]).resolve()
     if not selection_path.is_file():

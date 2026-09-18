@@ -1,0 +1,26 @@
+command: /home/dell/anaconda3/envs/py310/bin/python -m pytest -q
+started_at: 2026-09-18T10:43:36+08:00
+........................................................................ [ 24%]
+.............................F...................s...................... [ 48%]
+........................................................................ [ 73%]
+........................................................................ [ 97%]
+......                                                                   [100%]
+=================================== FAILURES ===================================
+___________ test_stage1_selection_rejects_missing_real_attack_field ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-dell/pytest-182/test_stage1_selection_rejects_0')
+
+    def test_stage1_selection_rejects_missing_real_attack_field(tmp_path):
+        rows, metadata = _fixture(tmp_path, missing_attack=True)
+>       with pytest.raises(Exception, match="metadata is missing"):
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'metadata is missing'
+E         Actual message: "'<' not supported between instances of 'NoneType' and 'str'"
+
+tests/contracts/test_r5_stage1.py:45: AssertionError
+=========================== short test summary info ============================
+SKIPPED [1] tests/contracts/test_review_regressions.py:186: could not import 'soundfile': No module named 'soundfile'
+FAILED tests/contracts/test_r5_stage1.py::test_stage1_selection_rejects_missing_real_attack_field
+1 failed, 292 passed, 1 skipped in 4.85s
+exit_code: 1
+finished_at: 2026-09-18T10:43:42+08:00

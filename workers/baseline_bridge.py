@@ -445,7 +445,8 @@ def _apply_numerical_mode(mode):
             raise ValueError("legacy numerical mode must contain a boolean tf32 flag")
         matmul = cudnn = mode["tf32"]
     else:
-        if set(mode) != {"dtype", "tf32_matmul", "tf32_cudnn", "block_units"} or any(
+        allowed = {"dtype", "tf32_matmul", "tf32_cudnn", "block_units", "input_condition"}
+        if not set(mode) <= allowed or not {"dtype", "tf32_matmul", "tf32_cudnn", "block_units"} <= set(mode) or any(
                 type(mode[name]) is not bool for name in ("tf32_matmul", "tf32_cudnn")):
             raise ValueError("numerical mode must bind boolean TF32 matmul/cuDNN flags")
         matmul, cudnn = mode["tf32_matmul"], mode["tf32_cudnn"]
@@ -456,6 +457,25 @@ def _apply_numerical_mode(mode):
     if actual != {"tf32_matmul": matmul, "tf32_cudnn": cudnn}:
         raise RuntimeError("PyTorch did not apply the locked TF32 numerical mode")
     return actual
+
+
+def _apply_condition(waveform, sample_id, condition):
+    """Apply a deterministic input condition (AWGN) with an independent RNG namespace."""
+    import torch
+    if not condition:
+        return waveform
+    if condition.get("kind") != "awgn":
+        raise ValueError("unsupported input condition kind")
+    if type(condition.get("snr_db")) not in (int, float) or type(condition.get("seed")) is not int:
+        raise ValueError("input condition must bind snr_db and integer seed")
+    seed_text = "%s\0%s\0%s\0%s\0%s" % (condition["seed"], condition.get("namespace", ""),
+                                        condition.get("purpose", "input_condition"), sample_id, "input_condition")
+    seed = int(hashlib.sha256(seed_text.encode()).hexdigest()[:16], 16) % (2 ** 63 - 1)
+    generator = torch.Generator(device="cpu").manual_seed(seed)
+    noise = torch.randn(waveform.shape, generator=generator, dtype=waveform.dtype)
+    signal_rms = waveform.square().mean().sqrt().clamp_min(torch.finfo(waveform.dtype).tiny)
+    noise_rms = noise.square().mean().sqrt().clamp_min(torch.finfo(waveform.dtype).tiny)
+    return waveform + noise * (signal_rms / noise_rms) * (10.0 ** (-float(condition["snr_db"]) / 20.0))
 
 
 def extract(job):
@@ -569,6 +589,8 @@ def extract(job):
                 if row["input_sha256"] is not None and sha256_file(audio_path) != row["input_sha256"]:
                     raise ValueError("audio content changed after manifest: %s" % row["sample_id"])
                 waveform = torch.from_numpy(load_audio(audio_path))
+                waveform = _apply_condition(waveform, row["sample_id"],
+                                            job["numerical_mode"].get("input_condition"))
                 views = _views(waveform, row["sample_id"], job["probe"]).to(device)
                 embedding, _logits = adapter.forward(views, freq_aug=False)
                 block.append(embedding.detach().cpu().numpy())

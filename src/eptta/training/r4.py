@@ -85,13 +85,13 @@ def _prepare_manifests(source_job, run_root):
         raise DataError("locked source manifest changed")
     fit_rows = list(iter_jsonl(fit_manifest))
     val_rows = list(iter_jsonl(val_manifest))
-    if len(fit_rows) != 25380 or len(val_rows) != 5654:
-        raise ContractError("R4 requires locked fit=25380/source_val=5654 counts")
     fit_ids = {row["sample_id"] for row in fit_rows}
     snapshot_root = fit_manifest.parent.parent
     snapshot = read_json(snapshot_root / "snapshot.json")
-    if snapshot.get("status") != "LOCKED" or snapshot.get("role_counts", {}).get("source_val") != 5654:
-        raise ContractError("source snapshot is not the locked R4 snapshot")
+    role_counts = snapshot.get("role_counts", {})
+    if (snapshot.get("status") != "LOCKED" or role_counts.get("fit") != len(fit_rows) or
+            role_counts.get("source_val") != len(val_rows)):
+        raise ContractError("source manifests do not match the locked snapshot role counts")
     metadata = {}
     for row in iter_jsonl(snapshot_root / snapshot["canonical_ref"]):
         if row["sample_id"] in fit_ids:
@@ -110,7 +110,13 @@ def _prepare_manifests(source_job, run_root):
         label = int(row["canonical_label"])
         stratum = enriched["attack_id"] if label == 1 else enriched["speaker_id"]
         strata[label][stratum].append(enriched)
-    selected = _round_robin_select(strata[0], 64) + _round_robin_select(strata[1], 64)
+    policy = source_job["execution"].get("parity_policy", {})
+    budget = policy.get("per_class_budget", 64)
+    if type(budget) is not int or budget < 1:
+        raise ContractError("parity per-class budget must be a positive integer")
+    if any(sum(len(rows) for rows in strata[label].values()) < budget for label in (0, 1)):
+        raise ContractError("source snapshot cannot meet the approved parity budget without repeats")
+    selected = _round_robin_select(strata[0], budget) + _round_robin_select(strata[1], budget)
     selected.sort(key=lambda row: _hash_order(row["sample_id"]))
 
     def unlabeled(row):
@@ -122,10 +128,20 @@ def _prepare_manifests(source_job, run_root):
     val_view = contracts / "source_val.unlabeled.jsonl"
     _jsonl_new(fit_view, [unlabeled(row) for row in selected])
     _jsonl_new(val_view, [unlabeled(row) for row in val_rows])
-    fit_evidence = {"schema_version": "0.1.0", "status": "LOCKED", "rule":
-                    "64 canonical bonafide + 64 canonical spoof; deterministic seed13 hash order; round-robin speaker/attack strata; alternating smallest/largest source-file byte lengths; no scores",
-                    "count": 128, "class_counts": {"bonafide": 64, "spoof": 64},
-                    "attack_ids": sorted({row["attack_id"] for row in selected if row["canonical_label"] == 1}),
+    expected_attacks = policy.get("expected_attack_ids")
+    actual_attacks = sorted({row["attack_id"] for row in selected
+                             if row["canonical_label"] == 1 and row["attack_id"] is not None})
+    if expected_attacks is not None and actual_attacks != expected_attacks:
+        raise ContractError("parity sample does not cover the approved attack/group set")
+    coverage_claim = ("observed_generator_groups" if actual_attacks else
+                      "metadata_unavailable_weaker_coverage")
+    fit_evidence = {"schema_version": "0.2.0", "status": "LOCKED", "rule":
+                    "balanced canonical classes; approved budget; deterministic seed13 hash order; round-robin audited groups; no scores or repeated IDs",
+                    "count": 2 * budget, "class_counts": {"bonafide": budget, "spoof": budget},
+                    "parity_policy": {"per_class_budget": budget,
+                                      "expected_attack_ids": expected_attacks},
+                    "coverage_claim": coverage_claim,
+                    "attack_ids": actual_attacks,
                     "speaker_count": len({row["speaker_id"] for row in selected}),
                     "audio_bytes_min": min(row["audio_bytes"] for row in selected),
                     "audio_bytes_max": max(row["audio_bytes"] for row in selected),
@@ -147,45 +163,60 @@ def _prepare_manifests(source_job, run_root):
 
 def _identity(finalized_ref):
     finalized = require_exportable(finalized_ref)
-    if finalized.get("model_id") != "aasist_source" or finalized.get("selected_epoch") != 69:
-        raise ContractError("this R4 entrypoint is restricted to the finalized AASIST epoch69 selection")
+    if finalized.get("model_id") != "aasist_source":
+        raise ContractError("R4 currently supports only the independently verified AASIST source path")
     checkpoint = Path(finalized["selected_checkpoint_ref"])
-    if checkpoint.name != "epoch-0069.pt" or finalized["selected_checkpoint_sha256"] != (
-            "076ca355cec3358c7181769459de27279609ab1cda35f186670bc49e9a1cbf0a"):
-        raise ContractError("immutable selected AASIST checkpoint identity changed")
     run_dir = checkpoint.parent.parent
     run = read_json(run_dir / "run.json")
     job = read_json(run_dir / "source_train_job.json")
-    migration = read_json(run_dir / "migration_manifest.json")
+    migration_path = run_dir / "migration_manifest.json"
+    migration = read_json(migration_path) if migration_path.is_file() else None
     last = read_json(run_dir / "checkpoints/last.pt.json")
-    metrics = list(iter_jsonl(run_dir / "metrics.jsonl"))
+    metrics_path = run_dir / "metrics.jsonl"
+    metrics_hash = sha256_file(metrics_path)
+    if metrics_hash != finalized.get("metrics_sha256") or metrics_hash != run.get("metrics_sha256"):
+        raise ContractError("finalized selection metrics changed after training")
+    selected_sidecar = read_json(str(checkpoint) + ".json")
+    if (selected_sidecar.get("epoch") != finalized["selected_epoch"] or
+            selected_sidecar.get("checkpoint_sha256") not in (None, finalized["selected_checkpoint_sha256"])):
+        raise ContractError("selected checkpoint sidecar disagrees with finalized identity")
+    metrics = list(iter_jsonl(metrics_path))
     chosen = select_source_checkpoint(metrics)
-    if (chosen["epoch"] != 69 or chosen["checkpoint_sha256"] != finalized["selected_checkpoint_sha256"] or
+    if (chosen["epoch"] != finalized["selected_epoch"] or
+            chosen["checkpoint_sha256"] != finalized["selected_checkpoint_sha256"] or
             run.get("training_run_id") != finalized.get("training_run_id")):
         raise ContractError("finalized selection disagrees with the immutable run evidence")
-    if (run.get("migration", {}).get("exact_resume_claim") is not False or
-            last.get("epoch") != 79 or last.get("global_step") != 42320 or
-            job["execution"]["training"].get("max_epochs") != 80 or
-            job["execution"]["training"].get("scheduler_horizon_epochs") != 100 or
-            migration.get("execution_end_epoch") != 80):
-        raise ContractError("approved nonexact endpoint/scheduler evidence changed")
+    training = job["execution"]["training"]
+    max_epochs = training.get("max_epochs")
+    endpoint_ok = (type(max_epochs) is int and max_epochs > 0 and last.get("epoch") + 1 == max_epochs)
+    approved_stop = finalized.get("approved_stop")
+    if not endpoint_ok and not isinstance(approved_stop, dict):
+        raise ContractError("training completion lacks the locked recipe endpoint or an approved stop rule")
+    if migration is not None:
+        if run.get("migration", {}).get("exact_resume_claim") is not False:
+            raise ContractError("historical nonexact migration disclosure changed")
+        if migration.get("execution_end_epoch") != last.get("epoch") + 1:
+            raise ContractError("migration endpoint disagrees with the completed training log")
     return finalized, run_dir, run, job, migration, last
 
 
 def compile_r4_preview(finalized_ref, output, worker_ref=None, python_executable=None, gpu_id=0):
     finalized, run_dir, run, source_job, migration, last = _identity(finalized_ref)
     worker = Path(worker_ref) if worker_ref else Path(__file__).parents[3] / "workers/baseline_bridge.py"
+    parity_budget = source_job["execution"].get("parity_policy", {}).get("per_class_budget", 64)
+    source_val_count = sum(1 for _ in iter_jsonl(source_job["source_job"]["source_val"]["manifest_ref"]))
     return {"schema_version": "0.1.0", "status": "PREVIEW", "side_effects": False,
             "model_id": "aasist_source", "training_run_id": finalized["training_run_id"],
-            "finalized_id": finalized["finalized_id"], "selected_epoch": 69,
+            "finalized_id": finalized["finalized_id"], "selected_epoch": finalized["selected_epoch"],
             "selected_checkpoint_sha256": finalized["selected_checkpoint_sha256"],
             "training_endpoint": {"last_epoch": last["epoch"], "global_step": last["global_step"],
-                                  "completed_epoch_count": 80, "scheduler_horizon_epochs": 100},
-            "migration": run["migration"], "output": str(Path(output).resolve()),
+                                  "completed_epoch_count": last["epoch"] + 1,
+                                  "scheduler_horizon_epochs": source_job["execution"]["training"]["scheduler_horizon_epochs"]},
+            "migration": run.get("migration"), "output": str(Path(output).resolve()),
             "worker_ref": str(worker.resolve()), "worker_sha256": sha256_file(worker),
             "python_executable": python_executable or sys.executable, "gpu_id": gpu_id,
             "gpu_hour_cap": GPU_HOUR_CAP, "atol": ATOL, "rtol": RTOL,
-            "roles": {"fit": 128, "source_val": 5654},
+            "roles": {"fit": parity_budget * 2, "source_val": source_val_count},
             "forbidden": ["training", "target_scoring", "R5_resource_computation", "SSL_operations"]}
 
 
@@ -238,7 +269,8 @@ def launch_r4_export(finalized_ref, output, worker_ref=None, python_executable=N
         raise ContractError("R4 parity did not pass; candidate remains diagnostic only")
     source_rows = [row for row in iter_jsonl(validation / "per_sample.jsonl")
                    if row.get("phase") == "source_val_full"]
-    if len(source_rows) != 5654 or len({row["sample_id"] for row in source_rows}) != 5654:
+    source_val_count = len(paths["val_ids"])
+    if len(source_rows) != source_val_count or len({row["sample_id"] for row in source_rows}) != source_val_count:
         raise DataError("source_val parity output coverage is incomplete")
     source_by_id = {row["sample_id"]: row for row in source_rows}
     ordered = [source_by_id[sample_id] for sample_id in paths["val_ids"]]
@@ -254,7 +286,7 @@ def launch_r4_export(finalized_ref, output, worker_ref=None, python_executable=N
                  "historical_raw_eer": historical, "historical_percent": historical * 100.0,
                  "reference_recomputed_eer": reference_eer, "export_recomputed_eer": export_eer,
                  **eer_differences, "eer_atol": EER_ATOL,
-                 "source_val_count": 5654,
+                 "source_val_count": source_val_count,
                  "source_val_ids_sha256": hashlib.sha256("\n".join(paths["val_ids"]).encode()).hexdigest(),
                  "full_coverage_no_drop_last": True, "checkpoint_reselection": False}
     write_json_new(run_root / "source_val_recompute.json", recompute)
@@ -269,17 +301,26 @@ def launch_r4_export(finalized_ref, output, worker_ref=None, python_executable=N
         shutil.copy2(validation / "per_sample.jsonl", temporary / "parity_per_sample.jsonl")
         shutil.copy2(run_root / "source_val_recompute.json", temporary / "source_val_recompute.json")
         shutil.copy2(run_root / "contracts/fit128_uids.json", temporary / "fit128_uids.json")
+        endpoint = {"last_epoch": last["epoch"], "global_step": last["global_step"],
+                    "completed_epoch_count": last["epoch"] + 1,
+                    "scheduler_horizon_epochs": source_job["execution"]["training"]["scheduler_horizon_epochs"]}
         provenance = {"finalized_id": finalized["finalized_id"], "task_weight_origin": "trained_in_project",
                       "source_val_selection_sha256": sha256_file(finalized_ref),
                       "training_patch_sha256": finalized["patch"]["combined_sha256"],
                       "training_code_sha256": finalized["patch"]["combined_sha256"],
-                      "training_seed": run["training_seed"], "migration": run["migration"],
-                      "parent_lineage": {"parent_run_ref": run["migration"]["parent_run_ref"],
-                                         "resume_checkpoint_sha256": run["migration"]["resume_checkpoint_sha256"]},
-                      "training_endpoint": {"last_epoch": 79, "global_step": 42320,
-                                            "completed_epoch_count": 80, "scheduler_horizon_epochs": 100},
-                      "selection": {"rule": finalized["selection_rule"], "selected_epoch": 69,
-                                    "allowed_roles": ["source_val"], "candidate_epochs": [12, 13, 14, 37, 65, 69]}}
+                      "training_seed": run["training_seed"], "training_endpoint": endpoint,
+                      "selection": {"rule": finalized["selection_rule"],
+                                    "selected_epoch": finalized["selected_epoch"],
+                                    "allowed_roles": ["source_val"],
+                                    "candidate_epochs": sorted({row["epoch"] for row in iter_jsonl(
+                                        run_dir / "metrics.jsonl")})}}
+        if migration is not None:
+            provenance["migration"] = run["migration"]
+            provenance["parent_lineage"] = {
+                "parent_run_ref": run["migration"]["parent_run_ref"],
+                "resume_checkpoint_sha256": run["migration"]["resume_checkpoint_sha256"]}
+        else:
+            provenance["completion_evidence"] = "locked_recipe_endpoint_or_approved_stop"
         bundle = {"schema_version": "0.1.0", "model_id": "aasist_source",
                   "baseline_id": "baseline-" + content_hash({"checkpoint": finalized["selected_checkpoint_sha256"],
                                                                "head": sha256_file(temporary / "linear_head.pt"),
@@ -309,7 +350,9 @@ def launch_r4_export(finalized_ref, output, worker_ref=None, python_executable=N
                   "numerical_contract": {"device": "CUDA", "dtype": "float32", "amp": False,
                                          "atol": ATOL, "rtol": RTOL,
                                          "tf32_matmul": parity["tf32_matmul"], "tf32_cudnn": parity["tf32_cudnn"]},
-                  "r4_validation": {"status": "PASS", "fit_count": 128, "source_val_count": 5654,
+                  "r4_validation": {"status": "PASS", "fit_count": paths["fit_evidence"]["count"],
+                                    "source_val_count": source_val_count,
+                                    "parity_policy": paths["fit_evidence"]["parity_policy"],
                                     "fit_uids_sha256": sha256_file(temporary / "fit128_uids.json"),
                                     "parity_sha256": sha256_file(temporary / "parity.json"),
                                     "per_sample_sha256": sha256_file(temporary / "parity_per_sample.jsonl"),

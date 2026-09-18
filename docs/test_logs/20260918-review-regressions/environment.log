@@ -1,0 +1,32 @@
+2026-09-18T10:30:35+08:00
+Linux dell-Precision-7960-Tower 6.8.0-138-generic #138~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Aug  7 13:43:15 UTC  x86_64 x86_64 x86_64 GNU/Linux
+/usr/bin/python3
+Python 3.10.12
+d96ce5302eb03823346f798cf2084317285d2b28
+ M src/eptta/adaptation/adapter.py
+ M src/eptta/cache/reader.py
+ M src/eptta/cli.py
+ M src/eptta/data/preprocess.py
+ M src/eptta/data/source_manifests.py
+ M src/eptta/evaluation/seal.py
+ M src/eptta/execution/extract.py
+ M src/eptta/execution/r5_proposal.py
+ M src/eptta/execution/r5_stage2.py
+ M src/eptta/execution/r6.py
+ M src/eptta/execution/suite.py
+ M src/eptta/models/contracts.py
+ M src/eptta/models/frozen.py
+ M src/eptta/training/r4.py
+ M src/eptta/training/selection.py
+ M tests/unit/test_evaluation.py
+ M workers/baseline_bridge.py
+ M workers/compat/author_training.py
+ M workers/r5_parity_bridge.py
+ M workers/source_train_bridge.py
+?? docs/R6_D1_REPORT.md
+?? docs/test_logs/20260918-review-regressions/
+?? scripts/log.sh
+?? scripts/make_plans.py
+?? src/eptta/execution/r6_d1.py
+?? tests/contracts/test_review_regressions.py
+?? tests/unit/test_r6_d1.py

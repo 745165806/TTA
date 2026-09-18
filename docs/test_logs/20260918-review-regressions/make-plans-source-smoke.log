@@ -1,0 +1,6 @@
+command: env PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python scripts/make_plans.py source --config configs/experiment.private.json --out /tmp/eptta-make-plans-source-evidence
+started_at: 2026-09-18T10:54:38+08:00
+1616ec0e5868b7e11184cc134733a22fbafb2cf369abc6c595332cdffb4a671f
+{"review_ref": "/tmp/eptta-make-plans-source-evidence/review.json", "review_sha256": "1616ec0e5868b7e11184cc134733a22fbafb2cf369abc6c595332cdffb4a671f", "status": "PROPOSED"}
+exit_code: 0
+finished_at: 2026-09-18T10:54:40+08:00

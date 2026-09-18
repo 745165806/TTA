@@ -1,0 +1,12 @@
+command: env PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python scripts/make_plans.py target --config configs/experiment.private.json --selection /tmp/eptta-selection-smoke.json --out /tmp/eptta-target-should-not-exist
+started_at: 2026-09-18T10:35:12+08:00
+Traceback (most recent call last):
+  File "/media/dell/data/fakeAudioDection/TTA/scripts/make_plans.py", line 362, in <module>
+    raise SystemExit(main())
+  File "/media/dell/data/fakeAudioDection/TTA/scripts/make_plans.py", line 354, in main
+    result = target(args.config, args.selection, args.out)
+  File "/media/dell/data/fakeAudioDection/TTA/scripts/make_plans.py", line 222, in target
+    raise ContractError("BLOCKED_RESOURCE: experiment target.snapshots is empty")
+eptta.errors.ContractError: BLOCKED_RESOURCE: experiment target.snapshots is empty
+exit_code: 1
+finished_at: 2026-09-18T10:35:13+08:00

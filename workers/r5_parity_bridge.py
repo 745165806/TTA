@@ -22,6 +22,7 @@ _safe_audio_path = baseline_bridge._safe_audio_path
 sha256_file = baseline_bridge.sha256_file
 write_json = baseline_bridge.write_json
 load_audio = baseline_bridge.load_audio
+_apply_condition = baseline_bridge._apply_condition
 
 
 def _stats(values):
@@ -179,6 +180,7 @@ def parity(job):
             t0 = time.monotonic()
             waveform = torch.from_numpy(load_audio(audio_path))
             decode_seconds += time.monotonic() - t0
+            waveform = _apply_condition(waveform, sample_id, job["numerical_mode"].get("input_condition"))
             t0 = time.monotonic()
             views = _views(waveform, sample_id, probe).to(device)
             view_seconds += time.monotonic() - t0

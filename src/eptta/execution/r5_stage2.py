@@ -31,22 +31,26 @@ def _unlabeled(row):
 
 def prepare_r5_stage2_proposal(plan_ref, expected_plan_sha256, bundle_ref, snapshot_ref, output):
     plan_path, bundle_path, snapshot_root = Path(plan_ref), Path(bundle_ref), Path(snapshot_ref)
-    if expected_plan_sha256 != R5_PLAN_SHA256 or sha256_file(plan_path) != R5_PLAN_SHA256:
+    if sha256_file(plan_path) != expected_plan_sha256:
         raise ContractError("R5 source-preparation plan SHA-256 changed")
-    if sha256_file(bundle_path) != BUNDLE_SHA256:
-        raise ContractError("only the approved R4 v4 bundle may enter this proposal")
-    if sha256_file(bundle_path.parent / "export_manifest.json") != EXPORT_MANIFEST_SHA256:
-        raise ContractError("R4 v4 export manifest changed")
+    legacy = plan_path.suffix.lower() != ".json"
+    plan = {} if legacy else read_json(plan_path)
+    bundle_sha256 = sha256_file(bundle_path)
+    export_sha256 = sha256_file(bundle_path.parent / "export_manifest.json")
+    if not legacy and (plan.get("bundle_sha256") != bundle_sha256 or
+                       plan.get("export_manifest_sha256") != export_sha256):
+        raise ContractError("R5 plan does not approve this frozen bundle/export")
     bundle, _manifest, _parity, _selection = verify_frozen_export(bundle_path)
-    if bundle["baseline_id"] != "baseline-d1f0d91901c73eb5027c" or bundle[
-            "selected_checkpoint_sha256"] != "076ca355cec3358c7181769459de27279609ab1cda35f186670bc49e9a1cbf0a":
-        raise ContractError("R4 v4 identity mismatch")
     snapshot = read_json(snapshot_root / "snapshot.json")
-    if (snapshot.get("status") != "LOCKED" or snapshot.get("snapshot_id") !=
-            "snapshot-5731a8d70a8b8fa4997d" or snapshot.get("canonical_sha256") != SNAPSHOT_SHA256 or
-            sha256_file(snapshot_root / snapshot["canonical_ref"]) != SNAPSHOT_SHA256):
+    snapshot_sha256 = snapshot.get("canonical_sha256")
+    if (snapshot.get("status") != "LOCKED" or sha256_file(snapshot_root / snapshot["canonical_ref"]) !=
+            snapshot_sha256 or (not legacy and plan.get("source_snapshot_sha256") != snapshot_sha256)):
         raise ContractError("approved source snapshot identity changed")
-    data_roots = {"asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"}
+    data_roots = ({"asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"} if legacy else
+                  plan.get("data_roots"))
+    if not isinstance(data_roots, dict) or not data_roots:
+        raise ContractError("R5 plan must bind reviewed data_roots")
+    role_counts = ROLE_COUNTS if legacy else snapshot.get("role_counts", {})
     worker = Path(__file__).parents[3] / "workers/baseline_bridge.py"
     parity_worker = Path(__file__).parents[3] / "workers/r5_parity_bridge.py"
     probe = {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05}
@@ -60,7 +64,7 @@ def prepare_r5_stage2_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
             if sha256_file(manifest) != expected:
                 raise DataError(role + " manifest changed")
             rows = list(iter_jsonl(manifest))
-            if len(rows) != ROLE_COUNTS[role] or len({row["sample_id"] for row in rows}) != len(rows):
+            if len(rows) != role_counts.get(role) or len({row["sample_id"] for row in rows}) != len(rows):
                 raise DataError(role + " full manifest count/unique mismatch")
             unlabeled_path = temporary / (role + ".unlabeled.jsonl")
             label_path = temporary / (role + ".labels.jsonl")
@@ -108,7 +112,8 @@ def prepare_r5_stage2_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
                           "calibration_cache_ref": str((destination / "caches/cal0/shard-00000-of-00001").resolve()),
                           "calibration_labels_ref": str((destination / "cal0.labels.jsonl").resolve()),
                           "calibration_labels_sha256": role_records["cal0"]["labels_sha256"],
-                          "source_snapshot_hash": SNAPSHOT_SHA256, "rank": 8, "alpha_cal": 0.05,
+                          "source_snapshot_hash": snapshot_sha256, "rank": plan.get("rank", 8),
+                          "alpha_cal": plan.get("alpha_cal", 0.05),
                           "anchor_per_class": 128, "seed": 13, "random_seeds": [13, 29, 47],
                           "treatment_families": ["noise", "fir"], "samples_per_group": 64,
                           "pair_seed": 13, "margin_bins": 4, "margin_epsilon": 1e-6,
@@ -141,13 +146,13 @@ def prepare_r5_stage2_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
             out_text + "/caches/fit/shard-00000-of-00001 --out " + out_text + "/resources")
         proposal = {"schema_version": "0.1.0", "status": "PROPOSED", "approval_required": True,
                     "locks_published": False, "proposal_id": "r5-stage2-full-20260917",
-                    "parent_plan_ref": str(plan_path.resolve()), "parent_plan_sha256": R5_PLAN_SHA256,
-                    "stage1_lock_sha256": STAGE1_LOCK_SHA256,
-                    "bundle_ref": str(bundle_path.resolve()), "bundle_sha256": BUNDLE_SHA256,
-                    "bundle_id": bundle["baseline_id"], "export_manifest_sha256": EXPORT_MANIFEST_SHA256,
+                    "parent_plan_ref": str(plan_path.resolve()), "parent_plan_sha256": expected_plan_sha256,
+                    "stage1_lock_sha256": plan.get("stage1_lock_sha256", STAGE1_LOCK_SHA256),
+                    "bundle_ref": str(bundle_path.resolve()), "bundle_sha256": bundle_sha256,
+                    "bundle_id": bundle["baseline_id"], "export_manifest_sha256": export_sha256,
                     "checkpoint_sha256": bundle["selected_checkpoint_sha256"], "training_seed": 13,
                     "source_snapshot_ref": str(snapshot_root.resolve()),
-                    "source_snapshot_sha256": SNAPSHOT_SHA256,
+                    "source_snapshot_sha256": snapshot_sha256,
                     "worker_ref": str(worker.resolve()), "worker_sha256": sha256_file(worker),
                     "parity_worker_ref": str(parity_worker.resolve()),
                     "parity_worker_sha256": sha256_file(parity_worker),
@@ -168,7 +173,7 @@ def prepare_r5_stage2_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
     return {"schema_version": "0.1.0", "status": "PROPOSED", "approval_required": True,
             "proposal_ref": str((destination / "proposal.json").resolve()),
             "proposal_sha256": sha256_file(destination / "proposal.json"),
-            "sample_counts": dict(ROLE_COUNTS), "gpu_started": False, "locks_published": False}
+            "sample_counts": dict(role_counts), "gpu_started": False, "locks_published": False}
 
 
 def lock_r5_stage2_proposal(proposal_ref, expected_sha256):

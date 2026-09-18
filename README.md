@@ -1,6 +1,6 @@
 # EP-TTA v0.1.0
 
-本项目以 `docs/DESIGN.md` 为唯一主合同。当前已完成 L0–L3，并实现了 L4 源训练/恢复/选模/冻结接口、pickle-free 特征缓存、P0/P1 机制对照和 published-port 审计门。真实 GPU 训练、SSL 初始化核验、冻结 parity、目标适配和论文实验仍未运行。
+本项目以 `docs/DESIGN.md` 为唯一主合同。当前已实现源训练/冻结、pickle-free 特征缓存、统一 suite 派发、严格分数封存，以及 `select-methods / freeze / report`。2026-09-18 的审批、数值回退、最终诊断、通用 AASIST R4、小样本采样与计划生成修复见 [最新回归报告](docs/REVIEW_REGRESSION_REPORT_20260918.md)。新 GPU 训练、SSL-AASIST parity、新目标适配和论文结论仍未运行。
 
 主规范：[DESIGN.md](docs/DESIGN.md)；实际进展：[IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md)；命令与证据：[TEST_REPORT.md](docs/TEST_REPORT.md)。项目、包和自有 schema 版本均为 `0.1.0`，方法 ID 为 `ep_tta`。
 
@@ -13,12 +13,13 @@ Python >= 3.10。基础 CLI 无强制第三方依赖；提供的 `.yaml` 使用 
 ```bash
 PYTHONPATH=src python -m eptta.cli --version
 PYTHONPATH=src python -m eptta.cli --profile local_dev validate --level structure --stage development
-python -m pytest -q
+/home/dell/anaconda3/envs/py310/bin/python -m pytest -q
+PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python scripts/make_plans.py --help
 ```
 
 基础配置校验不访问任何数据、权重、占位路径或网络。`local_dev` profile 调用真实数据 I/O 会失败；真实 inventory/staging 必须显式选择 remote profile 与私有路径绑定。所有发布命令拒绝覆盖已有输出。
 
-数据 CLI 已实现 `prepare-labels / validate-labels`、`inspect-data → propose-data-contract → approve-contract → stage-data → propose-splits → build-manifests → seal-source-manifests`，以及 `ingest-delta / commit-snapshot / refresh-plan`。`approve-contract` 要求单独人工审核并绑定 payload hash。源训练入口为 `inspect-model / resolve-training-recipe / train-source / resume-source / finalize-training / export-frozen`；每一步单独调用，smoke 不自动续跑 full。
+数据 CLI 已实现 `prepare-labels / validate-labels`、`inspect-data → propose-data-contract → approve-contract → stage-data → propose-splits → build-manifests → seal-source-manifests`，以及 `ingest-delta / commit-snapshot / refresh-plan`。源训练入口保持 `train-source / export-frozen-r4`，执行入口保持 `extract / build-artifacts / run-suite / seal-scores / evaluate`。`select-methods / freeze / report` 已补齐，不增加同义入口。`scripts/make_plans.py` 只生成 PROPOSED 配置并由独立 `lock` 子命令按 review SHA-256 批准。
 
 ## 已实现范围
 
@@ -27,7 +28,7 @@ python -m pytest -q
 - `src/eptta/training`、`src/eptta/models` 与 `workers/`：固定两套作者 commit/hash，native 类别映射，AASIST/SSL-AASIST 构造，语义加权 CE，单卡/DDP worker，完整 source_val EER、last/best、RNG/采样器恢复、finalize/export parity。SSL 只接受显式通用前端初始化。
 - `src/eptta/cache`、`execution`：冻结特征分块 `.npy`、`allow_pickle=False`、精确 ID 覆盖、原子发布/合并和 label-free extraction job。
 - `src/eptta/adaptation`、`offline`、`baselines`：主 EP、批量 sum 梯度，以及 frozen/multiview/static、目标×保持六格、L2/logit/Fisher、response/PCA/random U、固定源 R、17 点 scalar、no-projection/source-CE。五项 published port 仅有审计合同且显式阻塞。
-- `tests`：D/S/T/C 合同、缓存、机制、评价封存、训练产物和原数学参考。2026-09-14 在现有 Python 3.10/PyTorch 环境最新执行为 206 passed。
+- `tests`：D/S/T/C 合同、缓存、机制、评价封存、训练产物和原数学参考。2026-09-18 完整 CPU 执行为 293 passed、1 skipped；真实 GPU 为 NOT_RUN。
 
 ## 数据和模型边界
 

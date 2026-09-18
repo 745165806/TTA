@@ -52,14 +52,15 @@ def select_source_checkpoint(records):
     candidates = []
     seen_epochs = set()
     for record in records:
-        if set(record) < {"epoch", "source_val_eer", "checkpoint_ref", "checkpoint_sha256"}:
+        required = {"epoch", "source_val_eer", "checkpoint_ref", "checkpoint_sha256"}
+        if not required.issubset(record):
             raise ContractError("selection record is missing checkpoint evidence")
         epoch = record["epoch"]
         eer = record["source_val_eer"]
         if type(epoch) is not int or epoch < 0 or epoch in seen_epochs:
             raise ContractError("selection epochs must be unique nonnegative integers")
-        if not isinstance(eer, (int, float)) or not math.isfinite(eer):
-            raise ContractError("source_val EER must be finite")
+        if type(eer) not in (int, float) or not math.isfinite(eer) or not 0 <= eer <= 1:
+            raise ContractError("source_val EER must be finite and in [0,1]")
         seen_epochs.add(epoch)
         candidates.append(record)
     if not candidates:

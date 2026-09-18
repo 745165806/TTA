@@ -66,7 +66,8 @@ def _unlabeled(row):
                                       "input_sha256", "split_role")}
 
 
-def _select_role(role, manifest_rows, metadata, data_roots, fixed_ids=None):
+def _select_role(role, manifest_rows, metadata, data_roots, fixed_ids=None, per_class=64,
+                 expected_attacks=("A01", "A02", "A03", "A04", "A05", "A06")):
     by_id = {row["sample_id"]: row for row in manifest_rows}
     if len(by_id) != len(manifest_rows):
         raise DataError("duplicate source manifest UID")
@@ -84,8 +85,9 @@ def _select_role(role, manifest_rows, metadata, data_roots, fixed_ids=None):
                          "attack_id": item.get("generator_id"), "audio_bytes": path.stat().st_size})
     enriched_by_id = {row["sample_id"]: row for row in enriched}
     if fixed_ids is not None:
-        if len(fixed_ids) != 128 or len(set(fixed_ids)) != 128 or not set(fixed_ids).issubset(enriched_by_id):
-            raise ContractError("R4 fit128 cannot be reused as the R5 fit proposal")
+        if (len(fixed_ids) != 2 * per_class or len(set(fixed_ids)) != len(fixed_ids) or
+                not set(fixed_ids).issubset(enriched_by_id)):
+            raise ContractError("R4 parity sample cannot be reused as the R5 fit proposal")
         selected = [enriched_by_id[sample_id] for sample_id in fixed_ids]
     else:
         groups = {0: defaultdict(list), 1: defaultdict(list)}
@@ -93,42 +95,53 @@ def _select_role(role, manifest_rows, metadata, data_roots, fixed_ids=None):
             label = int(row["canonical_label"])
             key = row["speaker_id"] if label == 0 else row["attack_id"]
             if not key:
-                raise DataError("required speaker/attack metadata is missing")
+                if expected_attacks is not None:
+                    raise DataError("required speaker/attack metadata is missing")
+                key = "metadata-unavailable:" + row["sample_id"]
             groups[label][key].append(row)
-        selected = _round_robin(groups[0], 64) + _round_robin(groups[1], 64)
+        selected = _round_robin(groups[0], per_class) + _round_robin(groups[1], per_class)
         selected.sort(key=lambda row: _order(row["sample_id"]))
     counts = {"bonafide": sum(row["canonical_label"] == 0 for row in selected),
               "spoof": sum(row["canonical_label"] == 1 for row in selected)}
     attacks = sorted({row["attack_id"] for row in selected if row["canonical_label"] == 1})
-    if counts != {"bonafide": 64, "spoof": 64} or attacks != ["A01", "A02", "A03", "A04", "A05", "A06"]:
-        raise ContractError("R5 small proposal lacks balanced six-attack coverage")
+    if counts != {"bonafide": per_class, "spoof": per_class}:
+        raise ContractError("R5 small proposal lacks the approved balanced parity budget")
+    if expected_attacks is not None and attacks != list(expected_attacks):
+        raise ContractError("R5 small proposal differs from approved attack/group coverage")
     return selected
 
 
 def prepare_r5_stage1_proposal(plan_ref, expected_plan_sha256, bundle_ref, snapshot_ref, output):
     plan_path, bundle_path, snapshot_root = Path(plan_ref), Path(bundle_ref), Path(snapshot_ref)
-    if expected_plan_sha256 != R5_PLAN_SHA256 or sha256_file(plan_path) != R5_PLAN_SHA256:
+    if sha256_file(plan_path) != expected_plan_sha256:
         raise ContractError("R5 source-preparation plan SHA-256 changed")
-    if sha256_file(bundle_path) != BUNDLE_SHA256:
-        raise ContractError("only the approved R4 v4 bundle may enter this proposal")
-    if sha256_file(bundle_path.parent / "export_manifest.json") != EXPORT_MANIFEST_SHA256:
-        raise ContractError("R4 v4 export manifest changed")
+    legacy = plan_path.suffix.lower() != ".json"
+    plan = {} if legacy else read_json(plan_path)
+    bundle_sha256 = sha256_file(bundle_path)
+    export_sha256 = sha256_file(bundle_path.parent / "export_manifest.json")
+    if not legacy and (plan.get("bundle_sha256") != bundle_sha256 or
+                       plan.get("export_manifest_sha256") != export_sha256):
+        raise ContractError("R5 plan does not approve this frozen bundle/export")
     bundle, _manifest, _parity, _selection = verify_frozen_export(bundle_path)
-    if bundle["baseline_id"] != "baseline-d1f0d91901c73eb5027c" or bundle[
-            "selected_checkpoint_sha256"] != "076ca355cec3358c7181769459de27279609ab1cda35f186670bc49e9a1cbf0a":
-        raise ContractError("R4 v4 identity mismatch")
     snapshot = read_json(snapshot_root / "snapshot.json")
-    if (snapshot.get("status") != "LOCKED" or snapshot.get("snapshot_id") !=
-            "snapshot-5731a8d70a8b8fa4997d" or snapshot.get("canonical_sha256") != SNAPSHOT_SHA256 or
-            sha256_file(snapshot_root / snapshot["canonical_ref"]) != SNAPSHOT_SHA256):
+    snapshot_sha256 = snapshot.get("canonical_sha256")
+    if (snapshot.get("status") != "LOCKED" or sha256_file(snapshot_root / snapshot["canonical_ref"]) !=
+            snapshot_sha256 or (not legacy and plan.get("source_snapshot_sha256") != snapshot_sha256)):
         raise ContractError("approved source snapshot identity changed")
     canonical = {role: {} for role in ROLES}
     for row in iter_jsonl(snapshot_root / snapshot["canonical_ref"]):
         if row.get("split_role") in canonical:
             canonical[row["split_role"]][row["sample_id"]] = row
-    data_roots = {"asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"}
+    data_roots = ({"asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"} if legacy else
+                  plan.get("data_roots"))
+    if not isinstance(data_roots, dict) or not data_roots:
+        raise ContractError("R5 plan must bind reviewed data_roots")
     r4_fit = read_json(bundle_path.parent / "fit128_uids.json")
     fixed_fit_ids = [item["sample_id"] for item in r4_fit["uids"]]
+    policy = bundle["r4_validation"].get("parity_policy") or {
+        "per_class_budget": 64, "expected_attack_ids": ["A01", "A02", "A03", "A04", "A05", "A06"]}
+    per_class = policy["per_class_budget"]
+    expected_attacks = policy.get("expected_attack_ids")
     destination = Path(output).resolve()
     worker = Path(__file__).parents[3] / "workers/baseline_bridge.py"
     probe = {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05}
@@ -142,17 +155,19 @@ def prepare_r5_stage1_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
                 raise DataError(role + " manifest changed")
             rows = list(iter_jsonl(manifest))
             selected = _select_role(role, rows, canonical[role], data_roots,
-                                    fixed_fit_ids if role == "fit" else None)
+                                    fixed_fit_ids if role == "fit" else None, per_class, expected_attacks)
             unlabeled_path = temporary / (role + ".unlabeled.jsonl")
             evidence_path = temporary / (role + ".selection.json")
             plan_path_out = temporary / (role + ".extraction.proposal.json")
             _jsonl_new(unlabeled_path, [_unlabeled(row) for row in selected])
             evidence = {"schema_version": "0.1.0", "status": "PROPOSED",
-                        "coordinator_only_annotations": True, "role": role, "count": 128,
+                        "coordinator_only_annotations": True, "role": role, "count": 2 * per_class,
                         "selection_rule": ("reuse_R4_v4_fit128_exact_UID_order" if role == "fit" else
                             "64_per_class; metadata_only; seed13 UID hash order; bonafide speaker and spoof generator_id strata; alternating source-file byte-length extremes; no scores"),
-                        "class_counts": {"bonafide": 64, "spoof": 64},
-                        "attack_field": "generator_id", "attack_ids": ["A01", "A02", "A03", "A04", "A05", "A06"],
+                        "class_counts": {"bonafide": per_class, "spoof": per_class},
+                        "attack_field": "generator_id",
+                        "attack_ids": sorted({row["attack_id"] for row in selected
+                                              if row["canonical_label"] == 1 and row["attack_id"] is not None}),
                         "speaker_count": len({row["speaker_id"] for row in selected}),
                         "audio_bytes_min": min(row["audio_bytes"] for row in selected),
                         "audio_bytes_max": max(row["audio_bytes"] for row in selected),
@@ -168,7 +183,7 @@ def prepare_r5_stage1_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
                           "probe": probe, "numerical_mode": numerical,
                           "output_root": str((destination / "caches" / role).resolve())}
             write_json_new(plan_path_out, extraction)
-            role_records[role] = {"purpose": purpose, "count": 128,
+            role_records[role] = {"purpose": purpose, "count": 2 * per_class,
                                   "unlabeled_manifest_ref": unlabeled_path.name,
                                   "unlabeled_manifest_sha256": sha256_file(unlabeled_path),
                                   "selection_evidence_ref": evidence_path.name,
@@ -184,11 +199,11 @@ def prepare_r5_stage1_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
                     "--worker-python /home/dell/anaconda3/envs/py38/bin/python") for role in ROLES}
         proposal = {"schema_version": "0.1.0", "status": "PROPOSED", "approval_required": True,
                     "locks_published": False, "proposal_id": "r5-stage1-aasist-small-20260917",
-                    "parent_plan_ref": str(Path(plan_ref).resolve()), "parent_plan_sha256": R5_PLAN_SHA256,
-                    "bundle_ref": str(bundle_path.resolve()), "bundle_sha256": BUNDLE_SHA256,
-                    "bundle_id": bundle["baseline_id"], "export_manifest_sha256": EXPORT_MANIFEST_SHA256,
+                    "parent_plan_ref": str(Path(plan_ref).resolve()), "parent_plan_sha256": expected_plan_sha256,
+                    "bundle_ref": str(bundle_path.resolve()), "bundle_sha256": bundle_sha256,
+                    "bundle_id": bundle["baseline_id"], "export_manifest_sha256": export_sha256,
                     "checkpoint_sha256": bundle["selected_checkpoint_sha256"], "training_seed": 13,
-                    "source_snapshot_ref": str(snapshot_root.resolve()), "source_snapshot_sha256": SNAPSHOT_SHA256,
+                    "source_snapshot_ref": str(snapshot_root.resolve()), "source_snapshot_sha256": snapshot_sha256,
                     "worker_ref": str(worker.resolve()), "worker_sha256": sha256_file(worker),
                     "views": ["identity", "deterministic_noise", "deterministic_fir"],
                     "view_index": {"z0": 0, "identity": 0, "deterministic_noise": 1,
@@ -216,5 +231,5 @@ def prepare_r5_stage1_proposal(plan_ref, expected_plan_sha256, bundle_ref, snaps
     return {"schema_version": "0.1.0", "status": "PROPOSED", "approval_required": True,
             "proposal_ref": str((destination / "proposal.json").resolve()),
             "proposal_sha256": sha256_file(destination / "proposal.json"),
-            "sample_counts": {role: 128 for role in ROLES}, "gpu_started": False,
+            "sample_counts": {role: 2 * per_class for role in ROLES}, "gpu_started": False,
             "formal_cache_written": False, "locks_published": False}

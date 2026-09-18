@@ -13,10 +13,7 @@ from eptta.errors import EPTTAError, NotImplementedStage
 STUBS = {
     "preflight": ("source_training", "plan stage out"),
     "bind-artifacts": ("frozen_extract", "bundle paths-template out"),
-    "select-methods": ("adaptation", "metrics plan out"),
-    "freeze": ("adaptation", "plan selection out"),
     "resume": ("adaptation", "run"),
-    "report": ("evaluation", "run out"),
 }
 DATA_COMMANDS = ("inspect-data", "propose-data-contract", "approve-contract", "stage-data",
                  "propose-splits", "build-manifests", "ingest-delta", "commit-snapshot", "refresh-plan",
@@ -26,12 +23,13 @@ TRAINING_COMMANDS = ("resolve-training-recipe", "inspect-model", "train-source",
                      "resume-source", "resume-preflight", "prepare-child-resume",
                      "compare-resume-validation", "finalize-training",
                      "finalize-administrative-child", "export-frozen", "export-frozen-r4")
-EVALUATION_COMMANDS = ("seal-scores", "evaluate", "evaluate-checkpoint")
+EVALUATION_COMMANDS = ("seal-scores", "evaluate", "evaluate-checkpoint", "report")
 EXECUTION_COMMANDS = ("extract", "merge-cache", "build-artifacts", "prepare-r5-stage1-proposal",
                       "lock-r5-stage1-proposal", "run-r5-stage1-parity", "run-r5-stage1-k0",
                       "prepare-r5-stage2-proposal", "lock-r5-stage2-proposal",
-                      "prepare-r6-proposal", "lock-r6-proposal", "run-r6")
-ADAPTATION_COMMANDS = ("run-suite",)
+                      "prepare-r6-proposal", "lock-r6-proposal", "run-r6",
+                      "prepare-r6-d1-proposal", "lock-r6-d1-proposal", "run-r6-d1", "r6-d1-keep")
+ADAPTATION_COMMANDS = ("run-suite", "select-methods", "freeze")
 TASKS = {"source_prepare": "data_build", "source_training": "source_training",
          "frozen_extract": "frozen_extract", "adaptation": "adaptation", "evaluation": "evaluation"}
 
@@ -206,9 +204,20 @@ def parser():
     suite = sub.add_parser("run-suite", help="run label-free registered methods from a frozen feature cache")
     suite.add_argument("--plan", required=True)
     suite.add_argument("--suite-id", required=True)
-    suite.add_argument("--phase", choices=("select", "confirmatory"), required=True)
+    suite.add_argument("--phase", choices=("select", "confirmatory", "audit"), required=True)
     suite.add_argument("--run-output", required=True)
     suite.add_argument("--frozen-spec")
+    select = sub.add_parser("select-methods", help="select source-only method configurations from sealed metrics")
+    select.add_argument("--metrics", required=True)
+    select.add_argument("--plan", required=True)
+    select.add_argument("--out", required=True)
+    freeze = sub.add_parser("freeze", help="freeze source-selected configurations for approved targets")
+    freeze.add_argument("--plan", required=True)
+    freeze.add_argument("--selection", required=True)
+    freeze.add_argument("--out", required=True)
+    report_parser = sub.add_parser("report", help="render registered run/evaluation records without rescoring")
+    report_parser.add_argument("--run", required=True)
+    report_parser.add_argument("--out", required=True)
     artifacts = sub.add_parser("build-artifacts", help="build source-only U/M/tau/Fisher/static-R resources")
     artifacts.add_argument("--plan", required=True)
     artifacts.add_argument("--cache-index", required=True)
@@ -255,6 +264,24 @@ def parser():
     r6_run = sub.add_parser("run-r6", help="score the full select cache, seal and evaluate all R6 methods")
     r6_run.add_argument("--proposal", required=True)
     r6_run.add_argument("--out", required=True)
+    d1_prop = sub.add_parser("prepare-r6-d1-proposal", help="fix the R6-D1 diagnostic proposal; never lock or execute")
+    d1_prop.add_argument("--bundle", required=True)
+    d1_prop.add_argument("--resources", required=True)
+    d1_prop.add_argument("--c0-cache", required=True)
+    d1_prop.add_argument("--select-labels", required=True)
+    d1_prop.add_argument("--out", required=True)
+    d1_lock = sub.add_parser("lock-r6-d1-proposal", help="publish the LOCKED R6-D1 proposal after review")
+    d1_lock.add_argument("--proposal", required=True)
+    d1_lock.add_argument("--proposal-sha256", required=True)
+    d1_run = sub.add_parser("run-r6-d1", help="score the 8 D1 rows over one condition cache")
+    d1_run.add_argument("--proposal", required=True)
+    d1_run.add_argument("--cache", required=True)
+    d1_run.add_argument("--condition", required=True)
+    d1_run.add_argument("--out", required=True)
+    d1_keep = sub.add_parser("r6-d1-keep", help="compute keep-term reachability bounds per anchor")
+    d1_keep.add_argument("--resources", required=True)
+    d1_keep.add_argument("--bundle", required=True)
+    d1_keep.add_argument("--out", required=True)
     for name, (_, options) in STUBS.items():
         cmd = sub.add_parser(name, help="reserved for L4-L6; raises NOT_IMPLEMENTED_STAGE")
         for option in options.split():
@@ -468,6 +495,9 @@ def _evaluation_command(args, cfg):
     if args.command == "seal-scores":
         from eptta.evaluation.seal import seal_scores
         return seal_scores(args.run), 0
+    if args.command == "report":
+        from eptta.evaluation.seal import build_report
+        return build_report(args.run, args.out), 0
     if cfg["runtime"]["environment"] != "remote":
         from eptta.errors import PermissionDenied
         raise PermissionDenied("real evaluation labels require the remote profile")
@@ -515,6 +545,25 @@ def _execution_command(args, cfg):
     if args.command == "run-r6":
         from eptta.execution.r6 import run_r6
         return run_r6(args.proposal, args.out), 0
+    if args.command == "prepare-r6-d1-proposal":
+        from eptta.execution.r6_d1 import prepare_d1_proposal
+        return prepare_d1_proposal(args.bundle, args.resources, args.c0_cache, args.select_labels, args.out), 0
+    if args.command == "lock-r6-d1-proposal":
+        from eptta.execution.r6_d1 import lock_d1_proposal
+        return lock_d1_proposal(args.proposal, args.proposal_sha256), 0
+    if args.command == "run-r6-d1":
+        from eptta.execution.r6_d1 import run_d1_matrix
+        return run_d1_matrix(args.proposal, args.cache, args.condition, args.out), 0
+    if args.command == "r6-d1-keep":
+        from eptta.data.io import write_json_new
+        from eptta.execution.r6_d1 import analyze_keep_reachability
+        from eptta.models.frozen import verify_frozen_export
+        from eptta.offline.artifacts import load_frozen_resources
+        bundle, _, _, _ = verify_frozen_export(args.bundle)
+        resources, _, _ = load_frozen_resources(args.resources, bundle)
+        report = analyze_keep_reachability(resources, 0.2, 0.1)
+        write_json_new(args.out, report)
+        return report, 0
     if args.command == "build-artifacts":
         if cfg["runtime"]["environment"] != "remote":
             from eptta.errors import PermissionDenied
@@ -538,7 +587,11 @@ def _execution_command(args, cfg):
 
 
 def _adaptation_command(args, cfg):
-    from eptta.execution.suite import run_suite
+    from eptta.execution.suite import freeze_selection, run_suite, select_methods
+    if args.command == "select-methods":
+        return select_methods(args.metrics, args.plan, args.out), 0
+    if args.command == "freeze":
+        return freeze_selection(args.plan, args.selection, args.out), 0
     return run_suite(args.plan, args.suite_id, args.phase, args.run_output, args.frozen_spec), 0
 
 

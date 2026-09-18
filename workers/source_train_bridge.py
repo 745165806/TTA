@@ -593,6 +593,7 @@ def execute(job, resume_checkpoint=None):
                       "epoch_checkpoint_ref": epoch_ref,
                       "epoch_checkpoint_sha256": epoch_hash,
                       "last_checkpoint_sha256": epoch_hash}
+            record["sampler_coverage"] = sampler.disclosure()
             append_jsonl(log_path, record)
             if improved:
                 append_jsonl(metrics_path, {"epoch": epoch, "source_val_eer": validation["source_val_eer"],
@@ -612,6 +613,8 @@ def execute(job, resume_checkpoint=None):
                "patch": patch,
                "initialization": source.get("initialization"), "training_seed": source["training_seed"],
                "task_weight_origin": "trained_in_project", "world_size": world,
+               "sampler_coverage": sampler.disclosure(),
+               "exact_resume_claim": False if job.get("migration") else "requires_identity_and_state_validation",
                "metrics_ref": "metrics.jsonl", "metrics_sha256": sha256_file(metrics_path),
                "train_log_ref": "train_log.jsonl", "train_log_sha256": sha256_file(log_path),
                "elapsed_seconds": time.time() - started}

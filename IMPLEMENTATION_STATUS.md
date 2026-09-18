@@ -1,6 +1,6 @@
 # EP-TTA v0.1.0 实际实现状态
 
-日期：2026-09-15。项目整体：**IN_PROGRESS**。L0–L5 工程接口、冻结 cache 与机制对照已实现并通过当前 Linux 合成验收；远程 R0 已实测完成。R1 raw/label/group/preprocess 已由 `mm` 批准并发布 lock，121,461 条 staging 已完成；split proposal 已审计但尚未单独批准。无自有任务权重，未启动 GPU 训练或适配实验。
+日期：2026-09-18。项目整体：**IN_PROGRESS**。审批/角色消费门禁、统一 suite 派发、数值回退、最终诊断、通用 AASIST R4、小样本采样、选择/冻结/报告和 review-only 计划生成已修复。现有 ASV2019 R4/R5 工件保持只读；没有启动新训练、GPU 适配或目标评价。最新证据见 [REVIEW_REGRESSION_REPORT_20260918.md](docs/REVIEW_REGRESSION_REPORT_20260918.md)。
 
 版本：项目 / 包 / 配置 / 自有合同均 `0.1.0`。本目录未创建 Git commit 或发布 tag；可追溯输入使用文件 SHA-256 清单。
 
@@ -15,7 +15,7 @@
 | L3 数据接入与增量 | PASS（接口与统一标签构建） | 多格式 adapter、ALLM 兼容统一标签、显式 label/group、staging、分组 split proposal、人工 lock、不可变 snapshot、delta/reconcile/refresh、preprocess cache identity | `tests/contracts/test_data_l3.py`、`tests/contracts/test_unified_labels.py`；全套 173 passed；真实 group/preprocess/split 合同仍未 LOCKED |
 | L4 源模型训练链 | IMPLEMENTED / DEFERRED_REMOTE | 两套作者 commit/hash、factory、语义类别映射、source worker、DDP、source_val EER、checkpoint/resume/finalize/export parity | AASIST 本地真实结构 `[1,160]→[1,2]`；SSL/训练/恢复/export 待远程资源核验 |
 | L5 缓存、机制与评价 | IMPLEMENTED_SYNTHETIC_VERIFIED | R4→R5 冻结门禁、按 purpose/role 的 pickle-free 分块 cache、P0/P1、offline U/M/tau/Fisher/static R、confirmatory 计划 hash、score/coverage seal、按类翻转指标 | 211 项合成测试通过；真实 feature/score 未产生；published 五项仅审计合同 |
-| L6 调度与部署 | PARTIAL | source/extract worker、单卡/DDP 启动、分片 merge、source artifacts/cache suite 与远程 runbook | 不自动 SSH/下载；preflight/select-methods/freeze/resume/report 仍显式 NOT_IMPLEMENTED |
+| L6 调度与部署 | PARTIAL | source/extract worker、分片 merge、source artifacts/cache suite；`select-methods/freeze/report` 与 review-only `make_plans.py` 已实现 | 不自动 SSH/下载/训练；目标 snapshots 与 published ports 仍阻塞 |
 
 真实命令、退出码、环境、失败修复与跳过原因见 [TEST_REPORT.md](docs/TEST_REPORT.md)。最新门禁证据目录为 [docs/test_logs/20260915-r5-r9-gates](docs/test_logs/20260915-r5-r9-gates)；此前 R0/R1、L3/L4 与本地证据均原样保留。
 
@@ -41,8 +41,8 @@
 
 - R0 资源与数据只读盘点：PASS。实测 4×RTX A6000（每卡 49140 MiB）、NV4 配对拓扑、125 GiB RAM、数据盘可用 1.2 TiB；py310/py38 均可见四卡。ASV2019 inventory、源码和统一标签 hash 已记录。详见 `docs/REMOTE_R0_R4_20260914.md`。
 - R1 数据/来源/预处理/划分审核：PARTIAL / BLOCKED_CONTRACT。审核人 `mm` 已明确批准并发布 raw/label/group/preprocess lock。staging `staging-71275b8662b3509ce95a` 含 121,461 条，parse error、label conflict、quarantine 均为 0。split proposal `e07ddd4d…941db` 已完成全覆盖/分组审计；等待独立 split 批准，因此仍无正式 DatasetSnapshot。
-- R2 源模型 smoke、R3 自主正式训练、R4 冻结导出：NOT_RUN。
-- R5 特征与 U/M/tau0、R6 先导/基线、R7 封存、R8 确认性评分、R9 评价：NOT_RUN。入口现强制复核 full/in-project/source_val selection hash/frozen parity PASS；源缓存只允许 `source_prepare→fit/cal0`，select 与 confirmatory 角色分离；confirmatory 计划必须逐字节 hash 匹配封存文件。真实总成本、GPU 峰值、端到端编码成本和五项 published-port 仍未运行/未核验。
+- 历史 AASIST R2–R5：已有只读 full 训练选择、R4 bundle、R5 fit/cal0/select cache 与源资源；其报告和负结果保持原样。新 seed/新 source 的小型真实 AASIST 导出验收仍 NOT_RUN，SSL-AASIST parity 仍 NOT_RUN。
+- 本补丁后的 R6/R7/R8/R9：NOT_RUN。入口现强制复核 approval、manifest role/scope、cache identity、精确 ID seal 与 fallback 门限；select 与 confirmatory 角色分离。真实总成本、GPU 峰值、端到端编码成本、新目标结果和五项 published-port 仍未运行/未核验。
 - R-data 增量接入：NOT_RUN。
 - 所有真实模型/数据/实验输出、效果指标和科学假设 H1–H7：未获得结果；不得宣称支持。
 

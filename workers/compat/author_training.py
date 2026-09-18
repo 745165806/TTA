@@ -171,11 +171,17 @@ class ManifestDataset(object):
                     raise ValueError("duplicate ID or invalid label in %s" % role)
                 if row["root_key"] not in data_roots:
                     raise ValueError("unbound data root: %s" % row["root_key"])
+                root = os.path.realpath(data_roots[row["root_key"]])
+                audio_path = os.path.realpath(os.path.join(root, row["audio_relpath"]))
+                if os.path.commonpath((root, audio_path)) != root:
+                    raise ValueError("audio_relpath escapes its approved data root")
                 seen.add(row["sample_id"])
-                row["audio_path"] = os.path.join(data_roots[row["root_key"]], row["audio_relpath"])
+                row["audio_path"] = audio_path
                 self.rows.append(row)
         if not self.rows:
             raise ValueError("empty %s manifest" % role)
+        if {row["canonical_label"] for row in self.rows} != {0, 1}:
+            raise ValueError("%s manifest must contain both canonical classes" % role)
 
     def __len__(self):
         return len(self.rows)
@@ -208,20 +214,38 @@ class EpochShardSampler(object):
         self.epoch = epoch
 
     def indices(self):
+        if self.size <= 0:
+            raise ValueError("empty training set")
         order = list(range(self.size))
         random.Random(self.seed + self.epoch).shuffle(order)
         unit = self.world_size * self.batch_size
-        if self.world_size > 1:
-            if self.policy == "shuffle_drop_global_tail":
-                order = order[:(len(order) // unit) * unit]
-            elif self.policy == "shuffle_repeat_to_even":
-                needed = (-len(order)) % unit
-                order += order[:needed]
-            else:
-                raise ValueError("DDP requires explicit drop/repeat sampler policy")
-        elif self.policy not in ("shuffle_keep_tail", "shuffle_drop_global_tail"):
-            raise ValueError("unsupported single-process sampler policy")
+        if self.policy == "shuffle_drop_global_tail":
+            order = order[:(len(order) // unit) * unit]
+            if not order:
+                raise ValueError("drop-tail training policy leaves no complete global batch")
+        elif self.policy == "shuffle_repeat_to_even":
+            needed = (-len(order)) % unit
+            if needed:
+                repeats = (needed + len(order) - 1) // len(order)
+                order += (order * repeats)[:needed]
+        elif self.policy != "shuffle_keep_tail" or self.world_size != 1:
+            raise ValueError("unsupported sampler policy for this world size")
         return order[self.rank::self.world_size]
+
+    def disclosure(self):
+        """Report global repeats/drops without pretending to be a unique full pass."""
+        unit = self.world_size * self.batch_size
+        if self.policy == "shuffle_repeat_to_even":
+            repeated = (-self.size) % unit
+            dropped = 0
+        elif self.policy == "shuffle_drop_global_tail":
+            repeated = 0
+            dropped = self.size % unit
+        else:
+            repeated = dropped = 0
+        return {"source_sample_count": self.size, "repeated_sample_count": repeated,
+                "dropped_sample_count": dropped,
+                "unique_complete_pass": repeated == 0 and dropped == 0}
 
 
 def canonical_to_native_tensor(labels, class_index_map):

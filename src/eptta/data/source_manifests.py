@@ -85,7 +85,7 @@ def seal_source_manifests(snapshot_ref, output):
     return validated
 
 
-def publish_label_free_manifest(snapshot_ref, role, output):
+def publish_label_free_manifest(snapshot_ref, role, output, status="LOCKED"):
     """Create an immutable inference view; labels remain only in sidecars."""
     if role not in ROLES or role in ("unassigned", "quarantine"):
         raise DataError("invalid inference role")
@@ -102,15 +102,17 @@ def publish_label_free_manifest(snapshot_ref, role, output):
         seen.add(row["sample_id"])
         rows.append({key: row[key] for key in ("schema_version", "sample_id", "root_key",
                                                 "audio_relpath", "input_sha256", "split_role")})
+    if status not in ("PROPOSED", "LOCKED"):
+        raise DataError("inference manifest status must be PROPOSED or LOCKED")
     with AtomicDirectory(output) as temporary:
         manifest = temporary / (role + ".jsonl")
         with manifest.open("x", encoding="utf-8") as stream:
             for row in rows:
                 stream.write(json.dumps(row, sort_keys=True, separators=(",", ":")) + "\n")
-        result = {"schema_version": "0.1.0", "status": "LOCKED", "role": role,
+        result = {"schema_version": "0.1.0", "status": status, "role": role,
                   "source_snapshot_hash": metadata["canonical_sha256"],
                   "source_role_manifest_sha256": expected, "manifest_ref": manifest.name,
                   "manifest_sha256": sha256_file(manifest), "sample_count": len(rows),
-                  "labels_in_manifest": False, "immutable": True}
+                  "labels_in_manifest": False, "immutable": status == "LOCKED"}
         write_json_new(temporary / "inference_manifest.json", result)
     return result

@@ -1,0 +1,11 @@
+command: env PYTHONPATH=src /home/dell/anaconda3/envs/py38/bin/python -c import\ tempfile\;\ from\ pathlib\ import\ Path\;\ import\ numpy\ as\ np\,\ soundfile\ as\ sf\;\ from\ eptta.data.preprocess\ import\ derive_16k_wav\;\ root=Path\(tempfile.mkdtemp\(prefix=\"eptta-resample-\"\)\)\;\ source=root/\"source.wav\"\;\ output=root/\"derived.wav\"\;\ log=root/\"lineage.json\"\;\ sf.write\(source\,np.linspace\(-.2\,.2\,800\,dtype=np.float32\)\,8000\)\;\ result=derive_16k_wav\(source\,output\,\"parent\"\,log\)\;\ audio\,rate=sf.read\(output\)\;\ assert\ rate==16000\ and\ len\(audio\)\>800\ and\ result\[\"derived_sample_rate_hz\"\]==16000\;\ print\(\"RESAMPLE_SMOKE_PASS\"\,len\(audio\)\,rate\)
+started_at: 2026-09-18T10:31:41+08:00
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/media/dell/data/fakeAudioDection/TTA/src/eptta/data/__init__.py", line 3, in <module>
+    from eptta.data.contracts import CanonicalRecord, ContractIssue, LabelMapping, RawRecord
+  File "/media/dell/data/fakeAudioDection/TTA/src/eptta/data/contracts.py", line 6, in <module>
+    @dataclass(frozen=True, slots=True)
+TypeError: dataclass() got an unexpected keyword argument 'slots'
+exit_code: 1
+finished_at: 2026-09-18T10:31:41+08:00

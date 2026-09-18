@@ -17,8 +17,9 @@ def compile_inference_job(plan_ref, worker_slot, worker_count):
     required = {"schema_version", "status", "purpose", "input_role", "frozen_bundle_ref",
                 "manifest_ref", "manifest_sha256", "data_roots", "probe", "numerical_mode",
                 "output_root"}
-    if set(plan) != required or plan["schema_version"] != "0.1.0" or plan["status"] != "LOCKED":
-        raise ContractError("inference plan must be a strict LOCKED v0.1.0 document")
+    if (set(plan) != required or plan["schema_version"] not in ("0.1.0", "0.2.0") or
+            plan["status"] != "LOCKED"):
+        raise ContractError("inference plan must be a strict LOCKED v0.1.0/v0.2.0 document")
     if type(worker_slot) is not int or type(worker_count) is not int or not 0 <= worker_slot < worker_count:
         raise ContractError("invalid extraction worker shard")
     manifest = Path(plan["manifest_ref"])
