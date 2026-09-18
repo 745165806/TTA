@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.1.0",
+  "selected_on_role": "select",
+  "source_select": {
+    "manifest": "data/manifests/asv2019_la/inference/select.jsonl",
+    "cache": "outputs/source/cache-select",
+    "labels": "data/manifests/asv2019_la/labels/select.jsonl",
+    "scope_id": "asvspoof2019_la/source/select",
+    "output_root": "outputs/source/select-runs",
+    "threshold": null,
+    "threshold_source": null,
+    "fallback_rate_max": 0.01,
+    "seed": 13
+  },
+  "candidates": [
+    {
+      "family": "ep_tta",
+      "method": {
+        "method_id": "ep_tta",
+        "config": {"steps": 3, "lr": 0.01, "rho": 0.2, "gamma": 0.1, "lambda_keep": 1.0},
+        "params": {}
+      },
+      "rank_order": [3, 0.01]
+    }
+  ],
+  "output": "outputs/source/selection.json"
+}

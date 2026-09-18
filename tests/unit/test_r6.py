@@ -3,7 +3,7 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from eptta.adaptation.types import EPConfig, FrozenResources, TargetViews
-from eptta.execution.r6 import compute_diagnostics, grid_candidates, verify_k_gradient
+from eptta.execution.diagnostics import compute_diagnostics, grid_candidates, verify_k_gradient
 
 
 def _fixture(dtype=torch.float64):

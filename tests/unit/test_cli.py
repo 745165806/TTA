@@ -4,10 +4,10 @@ from pathlib import Path
 import pytest
 
 from eptta import __version__, SCHEMA_VERSION
-from eptta.cli import (ADAPTATION_COMMANDS, DATA_COMMANDS, EVALUATION_COMMANDS, EXECUTION_COMMANDS,
-                       STUBS, TRAINING_COMMANDS, main)
-from eptta.registry import get_spec
+from eptta.cli import main
+from eptta.config.schema import read_document
 from eptta.errors import EPTTAError
+from eptta.research import COMMANDS, load_config
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -17,47 +17,97 @@ def test_versions():
     assert 'version = "0.1.0"' in (ROOT / "pyproject.toml").read_text()
 
 
-@pytest.mark.parametrize("cmd", [None, *STUBS, *DATA_COMMANDS, *TRAINING_COMMANDS,
-                                  *EVALUATION_COMMANDS, *EXECUTION_COMMANDS, *ADAPTATION_COMMANDS,
-                                  "validate", "plan"])
-def test_all_help(cmd):
+@pytest.mark.parametrize("cmd", [None, *COMMANDS])
+def test_six_daily_entries_have_help(cmd):
     with pytest.raises(SystemExit) as exc:
         main(([cmd] if cmd else []) + ["--help"])
     assert exc.value.code == 0
 
 
-@pytest.mark.parametrize("cmd", list(STUBS))
-def test_real_commands_never_succeed(cmd, capsys, monkeypatch):
-    monkeypatch.chdir(ROOT)
-    assert main([cmd]) == 2
-    result = json.loads(capsys.readouterr().out)
-    assert result["code"] == "NOT_IMPLEMENTED_STAGE"
-    assert result["execution_ready"] is False
+def test_old_approval_commands_are_not_exposed():
+    choices = main.__globals__["parser"]()._subparsers._group_actions[0].choices
+    assert set(choices) == set(COMMANDS)
+    assert not {"approve-contract", "seal-scores", "lock-r5-stage1-proposal"} & set(choices)
 
 
-def test_local_profile_cannot_read_real_data(capsys, monkeypatch, tmp_path):
-    monkeypatch.chdir(ROOT)
-    assert main(["inspect-data", "--datasets", "asvspoof2019_la", "--out", str(tmp_path / "inventory")]) == 2
-    result = json.loads(capsys.readouterr().out)
-    assert result["code"] == "PERMISSION_DENIED"
-    assert not (tmp_path / "inventory").exists()
+def test_prepare_data_reuses_assignments_and_writes_label_free_target(tmp_path, capsys):
+    manifest = tmp_path / "input.csv"
+    manifest.write_text(
+        "id,path,label,group,role\n"
+        "a,a.wav,bonafide,s1,fit\n"
+        "b,b.wav,spoof,s2,target_test\n",
+        encoding="utf-8")
+    config = tmp_path / "prepare.yaml"
+    output = tmp_path / "prepared"
+    config.write_text(json.dumps({
+        "schema_version": "0.1.0", "command": "prepare-data",
+        "dataset": {"dataset_id": "fixture", "release": "r1", "subset": "eval",
+                    "manifest": str(manifest)},
+        "columns": {"sample_id": "id", "audio_relpath": "path", "label": "label",
+                    "group_id": "group", "split_role": "role"},
+        "label_map": {"bonafide": 0, "spoof": 1},
+        "split": {"reuse_existing": True, "seed": 13}, "output": str(output)}))
+    assert main(["prepare-data", "--config", str(config)]) == 0
+    assert json.loads(capsys.readouterr().out)["status"] == "READY"
+    target = (output / "manifests" / "target_test.jsonl").read_text()
+    assert "canonical_label" not in target and "spoof" not in target
 
 
-def test_plan_is_preview_and_no_overwrite(tmp_path, monkeypatch):
-    monkeypatch.chdir(ROOT)
-    dest = tmp_path / "plan.json"
-    args = ["plan", "--experiment", "configs/experiments/source_pilot.yaml", "--task", "source_prepare", "--out", str(dest), "--dry-run"]
-    assert main(args) == 0
-    original = dest.read_bytes()
-    data = json.loads(original)
-    assert data["status"] == "PREVIEW_ONLY" and not data["execution_ready"]
-    assert all(n["status"] == "NOT_RUN" for n in data["nodes"])
-    assert main(args) == 2
-    assert dest.read_bytes() == original
+def test_prepare_data_rejects_unknown_fields(tmp_path, capsys):
+    config = tmp_path / "bad.yaml"
+    config.write_text(json.dumps({"schema_version": "0.1.0", "command": "prepare-data",
+                                  "mystery": True}))
+    assert main(["prepare-data", "--config", str(config)]) == 2
+    assert "unknown top-level" in json.loads(capsys.readouterr().out)["message"]
 
 
-def test_unknown_method_and_registered_todo():
-    with pytest.raises(EPTTAError):
-        get_spec("methods", "made_up")
-    assert get_spec("methods", "tent_audio_ep")["implementation_status"] == "CONTRACT_ONLY_BLOCKED_AUDIT"
-    assert get_spec("models", "ssl_aasist_source")["source_training_required"] is True
+def test_config_reader_rejects_duplicate_keys_and_nonfinite_json(tmp_path):
+    duplicate = tmp_path / "duplicate.json"
+    duplicate.write_text('{"command":"prepare-data","command":"run-tta"}')
+    with pytest.raises(EPTTAError, match="duplicate key"):
+        read_document(duplicate)
+    nonfinite = tmp_path / "nonfinite.json"
+    nonfinite.write_text('{"threshold":NaN}')
+    with pytest.raises(EPTTAError, match="non-finite"):
+        read_document(nonfinite)
+
+
+def test_prepare_data_rejects_unknown_nested_field(tmp_path, capsys):
+    config = tmp_path / "nested.yaml"
+    config.write_text(json.dumps({
+        "schema_version": "0.1.0", "command": "prepare-data",
+        "dataset": {"dataset_id": "fixture", "release": "r1", "subset": "train",
+                    "manifest": "/missing", "guessed_label": True},
+        "columns": {"sample_id": "id", "audio_relpath": "path", "label": "label",
+                    "group_id": "group"},
+        "label_map": {"bonafide": 0, "spoof": 1},
+        "split": {"reuse_existing": True, "seed": 13}, "output": str(tmp_path / "out")}))
+    assert main(["prepare-data", "--config", str(config)]) == 2
+    assert "unknown=['guessed_label']" in json.loads(capsys.readouterr().out)["message"]
+
+
+def test_prepare_data_rejects_unfilled_semantic_placeholder(tmp_path, capsys):
+    config = tmp_path / "placeholder.yaml"
+    config.write_text(json.dumps({
+        "schema_version": "0.1.0", "command": "prepare-data",
+        "dataset": {"dataset_id": "fixture", "release": "r1",
+                    "subset": "REPLACE_WITH_EXPLICIT_SCOPE", "manifest": "/missing"},
+        "columns": {"sample_id": "id", "audio_relpath": "path", "label": "label",
+                    "group_id": "group"},
+        "label_map": {"bonafide": 0, "spoof": 1},
+        "split": {"reuse_existing": True, "seed": 13}, "output": str(tmp_path / "out")}))
+    assert main(["prepare-data", "--config", str(config)]) == 2
+    assert "replace its REPLACE_WITH_ placeholder" in json.loads(capsys.readouterr().out)["message"]
+
+
+def test_local_path_map_is_bound_but_not_persisted(tmp_path):
+    config = tmp_path / "config.json"
+    paths = tmp_path / "paths.json"
+    config.write_text(json.dumps({
+        "schema_version": "0.1.0", "command": "train-source",
+        "recipe": "@path:recipe", "phase": "smoke", "output": "out"}))
+    paths.write_text(json.dumps({"schema_version": "0.1.0", "paths": {
+        "recipe": "/private/recipe.json", "unrelated_secret_path": "/private/secret"}}))
+    resolved = load_config(config, "train-source", paths)
+    assert resolved["recipe"] == "/private/recipe.json"
+    assert "paths" not in resolved and "unrelated_secret_path" not in str(resolved)

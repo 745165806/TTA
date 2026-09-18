@@ -111,27 +111,27 @@
     "tent_audio_ep": {
       "comparison_track": "published_port",
       "route": "waveform_update",
-      "implementation_status": "CONTRACT_ONLY_BLOCKED_AUDIT"
+      "implementation_status": "NOT_IMPLEMENTED"
     },
     "sar_audio_ep": {
       "comparison_track": "published_port",
       "route": "waveform_update",
-      "implementation_status": "CONTRACT_ONLY_BLOCKED_AUDIT"
+      "implementation_status": "NOT_IMPLEMENTED"
     },
     "memo_audio_ep_full": {
       "comparison_track": "published_port",
       "route": "waveform_update",
-      "implementation_status": "CONTRACT_ONLY_BLOCKED_AUDIT"
+      "implementation_status": "NOT_IMPLEMENTED"
     },
     "eata_audio_ep": {
       "comparison_track": "published_port",
       "route": "waveform_update",
-      "implementation_status": "CONTRACT_ONLY_BLOCKED_AUDIT"
+      "implementation_status": "NOT_IMPLEMENTED"
     },
     "t2a_audio_ep": {
       "comparison_track": "published_port",
       "route": "waveform_update",
-      "implementation_status": "CONTRACT_ONLY_BLOCKED_AUDIT"
+      "implementation_status": "NOT_IMPLEMENTED"
     }
   }
 }

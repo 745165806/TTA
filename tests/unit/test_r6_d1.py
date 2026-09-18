@@ -3,7 +3,7 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from eptta.adaptation.types import FrozenResources
-from eptta.execution.r6_d1 import analyze_keep_reachability, d1_methods
+from eptta.execution.diagnostics import analyze_keep_reachability, d1_methods
 
 
 def _resources():

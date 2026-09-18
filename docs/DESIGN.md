@@ -1,5 +1,7 @@
 # EP-TTA：AI Coding 设计与实施方案 v0.1.0
 
+> **2026-09-18 运行说明**：本文继续作为数学、数据角色、算法和指标语义的科学依据。文中的 reviewer、人工审批、`PROPOSED → LOCKED`、项目业务 SHA/内容摘要/指纹链、阶段 ticket、双 Python bridge、exposure ledger、独立 score seal 及“仅 L0–L2/后续入口必须失败”等治理条款已废弃，不再是日常实验前提；即使后文历史段落仍展示旧字段，也不得恢复为代码或门禁。当前六命令工作流和实际参数以根目录 `README.md` 与 `configs/research/` 为准；本说明不改变本文的科学约束。
+
 ## 本机开发 · 远程数据接入与自主训练 · Ubuntu 双卡 A6000 · 适应、基线与实验验收
 
 > **日期**：2026-09-13  
@@ -26,7 +28,7 @@
 
 **唯一默认推进顺序**：本机接口与数学开发 → 远程资源盘点 → 协议/标签/预处理/来源分组审核 → 训练前封存划分 → 自行训练源检测器 → 源验证集选 checkpoint → 冻结和导出 → 特征缓存 → EP-TTA 与基线先导 → 封存 → 最终评价。
 
-**第一轮 AI Coding 只完成 L0–L2。** 不要求一次写完所有训练器和25项方法；但源模型训练与远程数据插件属于必须规划并实现的主流程，不是“可选的预训练权重缺失回退”。
+历史首轮的 L0–L2 阶段限制已经结束。未实现方法仍必须明确记录为 `NOT_IMPLEMENTED/NOT_RUN`，不得以 toy 或 frozen 分数冒充。
 
 ---
 
@@ -55,7 +57,7 @@
 | 停止/回退 | 固定 K；只对规定的数值异常回退原分数 | 不按预测变化、熵或审核结果回退 |
 | 并行 | 多个独立 R；不做跨样本/跨卡梯度归约 | 串行、批量、分片结果对应 |
 | 比较身份 | 机制对照、已发表算法移植和原论文结果分开 | `comparison_track`、审计表 |
-| 源模型 | 鉴伪任务参数由本项目训练；SSL通用预训练参数与任务参数分开 | 训练run、数据快照、初始化来源、checkpoint hash |
+| 源模型 | 鉴伪任务参数由本项目训练；SSL通用预训练参数与任务参数分开 | 训练run、数据划分、初始化来源、具体epoch checkpoint路径 |
 | 数据接入 | 真实格式须经远程审核；未核验字段不能变成假默认值 | contract状态；raw→canonical映射与拒绝记录 |
 | 增量数据 | 不重划已有ID；新来源冲突先隔离；产物按依赖失效 | snapshot diff、来源组冲突和血缘审计 |
 | 环境 | 本机不需要数据、权重、CUDA 或服务器连接 | 本机 profile 禁止真实 I/O/自动 SSH |
@@ -137,7 +139,7 @@ H7 是扩展，不要求现有 Codecfake 数据天然满足所需来源匹配。
 
 核心工程的 Python 语法基线为3.10及以上；现有 fairseq/检测器环境可能更旧，**不能默认在旧环境安装并导入整个新核心包**。为此增加独立进程桥接（subprocess bridge）：核心 CLI 解析配置和产生无标签作业 JSON，调用已选 `EPTTA_BASELINE_PY workers/baseline_bridge.py --job ...`；旧环境只加载其兼容的模型/解码/处理模块，通过 `.npy/.npz + JSON` 写回结果。
 
-bridge 及其兼容模块以 Python 3.7可解析语法为最低合同，不使用`list[str]`、`Tensor | None`、match/case或核心包依赖；核心通过子进程退出码/日志/产物hash验收，而不是跨环境传递可微Tensor。源模型训练与完整模型更新基线的前向、反向、优化器和检查点操作全部在同一所属worker环境完成，不通过IPC“传梯度”。bridge应一次加载模型、处理多个块，不每条音频启动进程。
+训练、提取、适应、评价和测试统一在 Python 3.10 的 `tta` conda 环境运行。保留的 worker 只用于正常多进程/DDP 和故障隔离，必须使用 `sys.executable`；不得选择第二个解释器或跨环境传递可微Tensor。worker应一次加载模型、处理多个块，不每条音频启动进程。
 
 本地基础 CLI、配置/清单模块使用轻依赖和延迟导入（lazy import）；没有 torch 时仍可做结构检查，张量测试标 `NOT_RUN`。真实版本组合由远程导入与前向验收后生成 lock，不把“最新版本”写成已验证兼容。源码不得自动更改驱动、系统 Python 或系统 CUDA。
 
@@ -159,7 +161,7 @@ select → 适应方法参数；cal1(可选) → 管线固定后的tau_j
 
 `source_val`只负责源模型早停/epoch选择；`select`负责EP与基线参数选择，两者职责不同。`cal0`用于tau0和锚点定义，不是从未访问的评价数据。所有角色在源训练前划定；样本量不足时提交明确的合并角色建议和独立性限制，不在代码中自动合并。
 
-任何节点写出父节点hash。更换源checkpoint后，U、头、锚点、阈值、Fisher、固定适应器和相应特征/分数不能继续按旧bundle使用；无需为每个TTA超参数重新训练源模型。
+任何节点写出父节点的明确 run/epoch/config/data 引用。更换源checkpoint后，U、头、锚点、阈值、Fisher、固定适应器和相应特征/分数不能继续按旧bundle使用；无需为每个TTA超参数重新训练源模型。
 
 ---
 
@@ -195,7 +197,7 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
 | 初始与新增划分 | `SplitPlanner`、`IncrementalReconciler` | split plan、快照diff、冲突清单 | 新数据先隔离，不自动重划 |
 | 模型训练配方 | `TrainingRecipeResolver`、作者commit与patch | `training_recipe.lock.json` | 架构测试可做；完整训练需锁定 |
 
-外部合同状态为`UNRESOLVED → PROPOSED → APPROVED → LOCKED`。探测程序可以提出列映射或预处理候选，**不能自行将推测当已核验**。批准需有检查记录、抽样证据、检查者和时间；这属于项目流程记录，不是密码学信任证明。纯本机结构验证允许这些字段为`null`；真实运行的`validate --stage ...`只检查该阶段必需的已选合同，并一次列出未解决项。
+当前实现使用一份普通 dataset 配置和显式 manifest。探测结果可以帮助填写列映射或预处理配置，但不能把推测当成真实值；必需字段缺失时直接报告数据错误。这里早期版本使用过提案、批准和锁定状态，现已废弃，不能重新作为运行门禁。
 
 ### 3.3 原始记录→规范记录→分组快照→推理输入
 
@@ -206,24 +208,24 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
   → RawRecord + 原文件位置/行号/原字段 + 解析问题
   → CanonicalRecord + 映射依据/标签策略/来源质量
   → StagingSnapshot（暂未分配角色）
-  → 不可变DatasetSnapshot + 已审核角色分配
+  → 不可覆盖的DatasetSnapshot + 明确角色分配
   → SourceTrainManifest / SourceEvalManifest / TargetInputManifest
 ```
 
 规范主清单仅供数据构建、源训练和评价侧读取。下例为**模拟fixture**，不是服务器格式或已核验样本：
 
 ```json
-{"schema_version":"0.1.0","sample_id":"opaque-sample-001","dataset_id":"asvspoof2019_la","dataset_release":null,"snapshot_id":"fixture-snapshot","root_key":"asvspoof2019_la_train","audio_relpath":"example/path.flac","raw_record_ref":{"file_key":"protocol_fixture","row":1},"original_label":"bonafide","canonical_label":0,"label_policy_id":"source_authenticity","label_mapping_status":"verified_fixture_only","official_split":"train","split_role":"fit","source_group_id":"fixture-group-001","group_quality":"synthetic_fixture","speaker_id":null,"generator_id":null,"generator_family":null,"parent_id":null,"treatment_id":"identity","codec_id":null,"input_sha256":null,"status":"fixture_only"}
+{"schema_version":"0.1.0","sample_id":"opaque-sample-001","sample_index":0,"dataset_id":"asvspoof2019_la","dataset_release":null,"snapshot_id":"fixture-snapshot","root_key":"asvspoof2019_la_train","audio_relpath":"example/path.flac","raw_record_ref":{"file_key":"protocol_fixture","row":1},"original_label":"bonafide","canonical_label":0,"label_policy_id":"source_authenticity","label_mapping_status":"verified_fixture_only","official_split":"train","split_role":"fit","source_group_id":"fixture-group-001","group_quality":"synthetic_fixture","speaker_id":null,"generator_id":null,"generator_family":null,"parent_id":null,"treatment_id":"identity","codec_id":null,"status":"fixture_only"}
 ```
 
 `StagingSnapshot`允许`split_role=unassigned/quarantine`，仅供审核和划分，不允许进入训练或适应。`DatasetSnapshot`经审核发布后才绑定科学角色；角色校验按阶段区分，避免还没有规范数据就要求先给出split plan的循环依赖。
 
 真实的无标签或不能识别标签记录使用`canonical_label=null`并标原因。标签缺失不等于真实。训练只允许标签明确且角色合规的记录；预先声明的无标签评分可以使用null标签，但不可生成EER、FPR等需标签指标。研究方新造的模拟文件必须留`fixture_only`，禁止混进正式snapshot。
 
-推理清单投影为下列结构；示例hash为占位，真实执行前替换：
+推理清单投影为下列结构：
 
 ```json
-{"schema_version":"0.1.0","sample_id":"opaque-sample-001","root_key":"asvspoof2021_df","audio_relpath":"example/path.flac","input_sha256":null,"decode_profile_id":"ssl_aasist_eval_unit","probe_profile_id":"probe_default"}
+{"schema_version":"0.1.0","sample_id":"opaque-sample-001","sample_index":0,"root_key":"asvspoof2021_df","audio_relpath":"example/path.flac","split_role":"target_test"}
 ```
 
 剥离目标标签、原始协议行、生成器/说话人、处理强度、原始干净音频路径和父指针。适应核只接收本条`features + opaque ID + 固定源context`，不接收root或整个manifest；I/O进程可以看路径，但不得以路径类别分支选择方法。
@@ -236,7 +238,7 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
 
 `RawContract`须记录：`format / encoding / delimiter / header / columns或json_paths / record_id / audio_path_rule / label_field / allowed_values / missing_policy`。某数据需要从目录推导信息时，只能使用经过审核的规则，记录来源；不能把“目录名字含fake”作为未经批准的label规则。
 
-`LabelMapper`必须保留`original_label、canonical_label、mapping_reason、policy_id、policy_hash`。检查一对多映射冲突、未映射值、同一内容真假冲突及映射覆盖比例。输出`parse_errors.jsonl、label_conflicts.jsonl、quarantine.jsonl`；不能用`except: continue`丢弃失败数据。严格模式有错误就阻塞；允许隔离后缩小范围时，必须重新批准清单并报告排除分布。
+`LabelMapper`必须保留`original_label、canonical_label、mapping_reason、policy_id`及明确配置引用。检查一对多映射冲突、未映射值、同一内容真假冲突及映射覆盖比例；不能用`except: continue`丢弃失败数据。存在错误时报告具体行和字段；允许隔离后缩小范围时，必须生成新manifest并报告排除分布。
 
 `PreprocessPolicy`区分：
 
@@ -248,7 +250,7 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
 
 16 kHz、64600样点是参考作者代码的**候选默认**，不是对远程原始格式的断言。[R1,R16–R17] 编码入口若需要该长度，应由已锁定的profile实现；禁止不同方法各自裁剪成不同内容。训练随机裁剪与推理确定性裁剪可以不同，但必须分别写入配方。静音、坏音频、多声道、超长/超短、削波和原始归一化状态要有明确处理与统计。
 
-物化预处理文件是可选加速模式：输出到`work/derived_audio/<profile_hash>/`，保留原始父hash和profile；默认按需解码，评估CPU/I/O后再决定物化。更改预处理不得复用旧数值缓存。
+物化预处理文件是可选加速模式：输出到显式命名且不可覆盖的`work/derived_audio/<run_id>/`，记录输入manifest和完整profile；默认按需解码，评估CPU/I/O后再决定物化。更改预处理不得复用旧数值缓存。
 
 ### 3.5 训练前划分、角色权限与选模隔离
 
@@ -273,9 +275,9 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
 
 **这里的增量是数据管理（incremental data ingestion），不是EP测试时持续学习。** EP仍每条重置，不因后来加入数据而使用跨条记忆。
 
-接口采用`inspect → parse → normalize → deduplicate → reconcile → propose → approve → commit_snapshot`，其中只读阶段不修改已封存产物。
+接口采用`inspect → parse → normalize → reconcile → write_manifest`，整个流程不修改已存在的 manifest 或 assignment。
 
-1. **只处理新增或变化条目**。记录`arrival_batch_id、source_release、file_checksum、raw_contract_hash`；相同文件hash和同一协议记录重复导入应幂等（idempotent）。路径移动只更新资源绑定，不产生重复样本。
+1. **只处理明确的新条目**。记录`arrival_batch_id、source_release`和显式 sample ID；导入前检查 ID/路径冲突。项目不计算内容摘要，因此不能自动识别内容相同但 ID/路径不同的副本，也不能检测同名文件被外部原地替换。
 2. **既有分配保持稳定**。旧snapshot的成员、label、组和角色不可覆写；新snapshot以`parent_snapshot_id`记录父子关系，不对全量数据再次随机划分。新组才按已审核规则分配；默认新数据进入`unassigned/quarantine`，不是默认进入fit。
 3. **已知组新增派生样本**。原则上继承已批准的组角色，但新增数据集的角色权限与组角色冲突时隔离，不跨集自动放宽权限。例如新外部测试别名实际指向fit来源，就不能把它算独立外测。
 4. **新证据合并旧组时**。若新映射发现fit与target_test、source_val或cal0实际同源，标记`lineage_conflict`；不自动搬动旧样本。封存实验登记潜在泄漏及受影响产物，停止相应强独立性声明；另建经审核的新方案。
@@ -288,11 +290,11 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
 | fit新增但暂不重训 | 已冻结实验完整bundle | 新数据仅在新计划中待用；不自动污染旧U/M |
 | fit新增并重训 | 原始音频与无关解码缓存 | 新checkpoint→全部模型相关特征/头/U/M/阈值等 |
 | source_val改变 | 不受影响的原始数据 | 选模范围和checkpoint选择重新审计；需新训练/选择run身份 |
-| 只改路径 | 内容和数值缓存 | 安全路径解析、资源hash和存在性 |
+| 只改路径 | 明确确认仍属同一固定工件时的数值缓存 | 安全路径解析、普通来源字段和存在性 |
 | 只改标签 | 数值条件相同的冻结分数/特征 | 角色/任务映射；依赖标签的源产物或指标 |
 | 改decode/probe | 不变原始音频 | 受影响视图与特征及后继产物 |
 
-提交snapshot使用临时目录→校验→原子发布，输出`added/unchanged/duplicate/conflict/quarantined/relabeled`计数和hash；失败不出现半成品active清单。别名索引、来源组与父子关系放CPU/磁盘索引，不需要加载GPU。
+写manifest使用临时目录→校验→原子发布，输出`added/unchanged/duplicate/conflict/quarantined/relabeled`计数；失败不出现半成品active清单。别名索引、来源组与父子关系放CPU/磁盘索引，不需要加载GPU。
 
 ### 3.7 Codecfake_Xie的独立任务语义
 
@@ -312,7 +314,7 @@ ASVspoof 2021区分LA/PA/DF，提供keys和来源映射入口；WaveFake真假�
 | `ssl_aasist_frozen_frontend` | 同源结构的受限训练变体 | 通用SSL前端固定，后端/头初始化 | 可作为资源受限先导；必须独立model_id，不替代联合微调主配方 |
 | 后续其他检测器 | `ModelFactory + TrainingRecipe`插件 | 显式声明pretrained/random部分 | 同样要求自有训练记录与可追溯checkpoint |
 
-**允许**下载/挂载可信的通用语音预训练权重作为初始化，但须显式配置、授权和核验hash；**不允许**将作者提供的`best_SSL_model*.pth`、现成AASIST鉴伪权重等当成本项目已训练模型。主实验默认`allow_external_task_checkpoint=false`。自己训练得到的中断checkpoint允许恢复；不得将resume接口用作不明任务权重注入。
+**允许**研究者显式挂载可信的通用语音预训练权重作为初始化，并记录来源与具体固定路径；**不允许**将作者提供的`best_SSL_model*.pth`、现成AASIST鉴伪权重等当成本项目已训练模型。主实验默认`allow_external_task_checkpoint=false`。自己训练得到且恢复字段完整的checkpoint允许恢复；不得将resume接口用作不明任务权重注入。
 
 “自行训练SSL-AASIST”不等于从零预训练大型XLS-R。原SSL-AASIST研究使用通用SSL前端并进行任务微调；AASIST作者仓库也提供训练入口。[R1,R16–R17] 两者分开记录`pretraining_provenance`和`task_training_provenance`。现阶段这些任务均为`TODO`，不存在已完成权重。
 
@@ -342,7 +344,7 @@ resolve-training-recipe → validate fit/source_val permissions → init-model
 
 `fit`可以有随机增强，随机性按training seed/epoch/sample/augmentation实例控制并记录；保存训练抽样实际来源与重复/丢弃政策。训练日志包含step、epoch、train loss、source_val loss/EER、LR、梯度/溢出、训练时长、每卡显存、样本覆盖和checkpoint选择原因。不得把`select/cal0/audit`用于反向、训练早停或隐藏的checkpoint筛选。
 
-**检查点（checkpoint）**至少包含：model state、optimizer/scheduler、AMP scaler（启用时）、epoch/global step、随机数状态、sampler/数据顺序状态、训练配方hash、架构commit和patch hash、数据snapshot/split/preprocess/label policy hash、class index map、初始化来源和训练seed。每个完成验证的epoch必须写入独立且不可覆盖的`checkpoints/epoch-NNNN.pt`及hash sidecar，不自动裁剪；`last.pt`用于恢复，`best.pt`用于操作便利，两者是指向相应epoch内容的原子别名。选模记录和导出必须引用不可变epoch路径及其确定hash，不使用可变`last/best/latest`路径作为科学身份。
+**检查点（checkpoint）**至少包含：完整 model state、optimizer/scheduler、AMP scaler（启用时）、epoch/global step、随机数状态、sampler/数据顺序状态、普通训练配置、架构来源、具体数据/split/preprocess引用、class index map、初始化来源和训练seed。每个完成的epoch写入独立且不可覆盖的`checkpoints/epoch_XXXX.pt`；`last.pt`用于恢复，`best.pt`用于操作便利，两者是原子别名。选模记录和导出引用具体 epoch 路径，不把可变别名作为后续缓存的唯一依据。
 
 恢复默认保证同一配方和相同数据快照下的**epoch边界恢复**；step级恢复须实现并测试sampler、增强和worker状态，否则明确记为非逐步等价恢复。fit成员改变或代码改变不能用`resume-exact`，需新run和显式warm-start记录。不要把近似恢复写成位级可重复保证。
 
@@ -350,7 +352,7 @@ resolve-training-recipe → validate fit/source_val permissions → init-model
 
 ### 3.11 冻结导出与EP接入
 
-训练完成后生成只读`FrozenModelBundle`，包含`model_id、baseline_id、selected_checkpoint_sha256、training_run_id、fit/source_val_snapshot_hash、recipe_hash、init_provenance、eval_preprocess_hash、class_index_map、head、embedding_dim`。该产物通过审计后才允许构建U、M、tau0和目标特征。
+训练完成后生成只读`FrozenModelBundle`，包含`model_id、baseline_id、具体epoch checkpoint路径、training_run_id、fit/source_val引用、recipe引用、init_provenance、eval_preprocess、class_index_map、head、embedding_dim`。结构、来源和冻结前后数值 parity 通过后才允许构建U、M、tau0和目标特征。
 
 适应位置为**最后线性层的实际输入**。若`logits=zWᵀ+b`，导出`w=W_fake−W_real`、`b0=b_fake−b_real`。比较同一自有checkpoint在原架构前向、wrapper、导出线性头和R=0路径的logits/分数一致性。不用重新训练的线性探针代替原分类头，也不默认将1024维SSL帧输出当作最终语句嵌入。
 
@@ -670,9 +672,9 @@ ep-tta/
 │   ├── baselines/{registry,static,scalar,dispatch}.py
 │   ├── baselines/ports/{tent,sar,memo,eata,t2a}.py
 │   ├── cache/{schema,keys,writer,reader,merge,recovery}.py
-│   ├── execution/{plan,preflight,scheduler,locks,extract,score,seal}.py
+│   ├── execution/{extract,suite,diagnostics}.py
 │   ├── evaluation/{join,metrics,flips,bootstrap,audit,report}.py
-│   └── utils/{hashing,atomic,logging,versions}.py
+│   └── utils/{atomic,logging,versions}.py
 ├── workers/
 │   ├── source_train_bridge.py     # 自行训练/验证/恢复/选模，不导入目标评价器
 │   ├── baseline_bridge.py         # 自有checkpoint冻结推理入口，不导入eptta核心
@@ -777,7 +779,7 @@ class PublishedPort(Protocol):
 
 profile 只能改运行/权限项，paths 只能改位置，method 只能指定注册算法与其允许参数。未知键、重复键、非法覆盖直接失败。YAML Loader 必须检测重复 key，而不是依赖默认“后者覆盖前者”。枚举值和每次覆盖的来源写入 `resolved_config.json`。
 
-本机shape-only验证允许未填真实路径和未批准合同；远程实运行按stage仅检查**选中**资源的必需字段。data inspection不要求已训练checkpoint；source training不要求U/M；EP评分必须有finalized自有frozen bundle。输出 help/plan 不导入大模型、不联网。
+配置解析可保留明确占位；实际命令只检查当前任务所选资源的必需字段并拒绝未填占位。数据准备不要求已训练checkpoint；source training不要求U/M；EP评分必须有自有训练且 parity 通过的frozen bundle。输出 `--help` 不导入大模型、不联网。
 
 <a id="s7-training"></a>
 ### 7.6 数据与训练插件接口：先实现协议，不猜真实文件
@@ -793,7 +795,7 @@ from typing import Any, Iterable, Mapping, Protocol
 class RawRecord:
     record_ref: str
     fields: Mapping[str, Any]
-    source_file_sha256: str
+    source_file_ref: str
 
 @dataclass(frozen=True)
 class ContractIssue:
@@ -1118,7 +1120,7 @@ $EPTTA_WORK_ROOT/
 
 只支持字面`${ENV_NAME}`展开，不执行shell表达式。未选择的数据和可选SSL初始化允许未设置；选用AASIST时不强制要求XLS-R。`local_dev`永远不解引用真实路径。
 
-`deployment/remote.env.example`列上述变量及`EPTTA_CORE_PY`；都留空或标`/replace/...`。真实.env和私有paths不进Git。数据/协议/通用初始化只读；train/checkpoint输出可写，不复用同一个根作为输入和覆盖目标。
+私有 paths 文件只列数据、作者仓库、初始化和输出位置，不选择 Python 解释器。真实.env和私有paths不进Git。数据/协议/通用初始化只读；train/checkpoint输出可写，不复用同一个根作为输入和覆盖目标。
 
 ### 8.4 模型与数据 registry
 
@@ -1381,14 +1383,12 @@ provenance:
   group_quality: unknown
   speaker_field: null
   generator_field: null
-approval:
-  reviewer: null
-  report_ref: null
-  raw_schema_hash: null
-  approved_at: null
+validation:
+  required_fields_checked: false
+  sample_mapping_checked: false
 ```
 
-此模板的null不能在加载时替换成“看起来像官方格式”的默认列。`inspect-data`的候选列只写proposed文件；审核后的lock才供parse命令使用。server上如果已有用户转换后的CSV或label文本，新增adapter配置，不要求还原成作者目录树。
+此模板的null不能在加载时替换成“看起来像官方格式”的默认列。候选列必须由研究者写入普通 dataset 配置并通过路径、ID、label 和 group 检查后使用。server上如果已有用户转换后的CSV或label文本，新增adapter配置，不要求还原成作者目录树。
 
 ### 8.8 预处理与增量划分模板
 
@@ -1420,13 +1420,11 @@ quality:
 materialization:
   mode: on_demand
   output_root_key: work
-lock_hash: null
 ```
 
 ```yaml
 schema_version: "0.1.0"
 split_policy_id: source_and_external
-status: UNRESOLVED
 seed: 13
 role_candidates: [fit, source_val, select, cal0, audit, control_test, target_test]
 ratios: null
@@ -1444,10 +1442,9 @@ incremental:
   relabel_policy: append_correction_event
   automatic_retrain: false
   automatic_resplit: false
-approval_ref: null
 ```
 
-可用`schema_version=0.1.0`配合不同snapshot/contract hash表示不同数据内容；**数据到达一次不需要把项目release虚增一次**。raw mapping/recipe产生真实语义变化时写变更记录与新hash，不沿用旧批准状态。
+不同数据版本使用不同、不可覆盖的 manifest/assignment 路径和普通 run ID；**数据到达一次不需要把项目release虚增一次**。raw mapping/recipe发生真实语义变化时写变更记录并创建新工件，不覆盖旧工件。
 
 <a id="s8-training"></a>
 ### 8.9 源模型训练计划和配方模板
@@ -1593,7 +1590,7 @@ N=3 默认 `identity + additive_noise + mild_fir_eq`；可选 RIR 必须独立�
 
 禁止无记录地逐视图峰值归一化或硬裁剪；记录长度、RMS、实测 SNR、峰值与范围溢出。处理强度和类别无关。噪声或增益被前处理完全消除时记录零响应，不作为有效新证据。
 
-种子由 `SHA256(probe_seed, opaque_sample_id, input_sha256, probe_profile_hash, view_index)` 截取得到。不使用 Python `hash()`，不含进程号、GPU号、顺序、方法名、标签或攻击类型。所有方法共享同一 N 个视图。
+种子由固定整数 `sample_index、probe_seed、epoch、view_index、namespace` 经过项目定义的整数混合器得到。不使用 Python `hash()`、全局随机消费顺序、进程号、GPU号、方法名、标签或攻击类型。所有方法共享同一 N 个视图。`sample_index`随 assignment 持久化；这一迁移改变旧摘要派生的随机序列，但不改变采样分布。
 
 主版禁止强去噪、神经重建、变声、词语删除和声源分离作为默认 probe；这些操作可能改变任务标签或取证信息，需另设研究。
 
@@ -1617,23 +1614,17 @@ k=\lceil(1-\alpha)n\rceil,\qquad \tau_0=s_{(k)},\quad 0<\alpha<1.
 
 按实际 d 规划：`feature_bytes=units*N*d*4`。例如仅在 d=160、N=3 时，100万条约1.79GiB 特征；该算术不包括索引、多种子、失败块或模型，也不宣称真实样本量。波形、SSL帧缓存不属于默认产物。
 
-缓存 key 至少包含：输入内容hash、自有baseline/selected_checkpoint/线性头身份、wrapper数值版本、锁定decode/probe、seed、dtype和数值模式；另存所属snapshot/split/label-policy的血缘，不把路径当数据身份。改变 r、rho、gamma、K、loss 权重或 M 抽样**不重跑冻结编码器**；改变 U 的输入源池只重估其依赖资源。
+缓存只属于明确 run 和具体 epoch。创建时记录 source_run_id、具体 epoch checkpoint 路径、dataset/split、输入manifest、完整 decode/probe、seed、dtype、数值模式及有序 sample IDs；消费时比较这些普通字段以及实际 ID/shape/dtype/有限值。改变 r、rho、gamma、K、loss 权重或 M 抽样**不重跑冻结编码器**；改变 U 的输入源池只重估其依赖资源。
 
-### 9.5 三类 hash，避免迁移路径使所有缓存失效
+### 9.5 显式工件引用与局限
 
-| hash | 包含 | 用途 |
-|---|---|---|
-| `scientific_hash` | 方法、数据角色/ID、标签策略、目标/约束/参数、视图规则 | 比较身份与封存 |
-| `numerical_hash` | 权重、wrapper、解码/精度/算子约定、实际内容 hash | 判断数值缓存兼容 |
-| `resource_hash` | 路径、设备、worker、分片布局、环境快照 | 执行与恢复审计 |
-
-更换绝对路径不改变相同内容的 sample_id 或 probe seed。layout 改变只重建索引，不将同一数值块误认成新科学实验。环境和设备差异也可能影响数值，不能仅因语义 hash 相同跳过跨环境 parity。
+项目不计算内容摘要，也不自动跨运行发现缓存。跨运行复用只能显式给出 `cache_ref`，并通过普通来源字段、精确 ID 集合和数组元数据检查；输入模型、预处理、视图、划分或数值实现变化时使用新 run/cache 目录。没有内容比对时不能自动识别同名文件被外部原地替换，这一局限依靠固定工件和禁止覆盖的操作纪律管理，不另建审计系统。
 
 ### 9.6 原子提交与恢复
 
-先生成固定输入 ID 清单，`layout_shard=stable_hash(id)%num_layout_shards`，默认32个逻辑分片；物理 worker 只是领取这些分片，不把 GPU 数写入样本随机性。
+先生成固定输入 ID 清单和持久化 `sample_index`；分片按该清单的固定位置切片。物理 worker 只是领取分片，不把 GPU 数写入样本随机性。
 
-每个 worker 独占一个块，写 `*.partial` → flush/fsync/close → 计算 hash → 同文件系统原子 rename → 最后提交 sidecar。sidecar 包含预计/实际行数、ID集合校验、形状、dtype、N、父资源 hash。只有 sidecar和数据校验共同通过才是完成。
+每个 worker 独占一个块，写 `*.partial` → flush/fsync/close → 同文件系统原子 rename → 最后提交 sidecar。sidecar 包含预计/实际行数、精确ID集合、形状、dtype、N和父资源的明确路径/配置引用。只有 sidecar和数据校验共同通过才是完成。
 
 恢复只跳过已验证完成块；未完成块重新计算。合并只合并索引，并检查每个预期 ID 恰出现一次且有全部视图。不能默认用会补齐重复样本的训练 sampler。禁止并发写同一 HDF5/同一 mmap 区间。
 
@@ -1687,26 +1678,22 @@ R0检查GPU/驱动、Python/PyTorch/CUDA、CPU/内存、数据与工作盘读写
 | 更新中非有限但原分数有限 | 本条回退原分数，R清零 | `fallback_numeric`，保留在主指标 |
 | 批量非有限 | 固定输入串行重放隔离 | 只处理失败条，计重放成本 |
 | 原音频/原特征/原分数非法 | 不伪造分数；保留ID和错误 | `invalid_input`，全run覆盖不完整 |
-| 配置、标签越权、hash不匹配 | run级错误，立即停止 | `FAIL`，不得视为坏样本忽略 |
+| 配置、标签越权、普通来源字段或ID不匹配 | run级错误，立即停止 | `FAIL`，不得视为坏样本忽略 |
 | published筛选为空 | 按已审计原规则不更新/返回合法分数 | `no_selected_update`、选择率0 |
 
 更新后锚点 loss 大、预测翻转或可疑分数降低，均不是主法的数值回退条件。它们可能是真实失败，必须进入分析。最终分数如果有限但效果不好不能重跑不同参数再覆盖。
 
 ### 10.5 运行快照与恢复命令
 
-核心调度进程与其模型worker分开记录PID、环境和错误；GPU显存归属以实际模型worker为准。每个作业路径形如 `runs/<experiment_id>/<run_id>/`，run_id由封存配置hash与启动随机/时间标识生成，所有方法分目录但共享协议ID。禁止覆盖已存在run。
+核心调度进程与其模型worker分开记录PID、环境和错误；GPU显存归属以实际模型worker为准。每个作业路径形如 `runs/<experiment_id>/<run_id>/`，run_id由时间戳与随机短标识生成，仅是名称。所有方法分目录但共享协议ID，禁止覆盖已存在run。
 
 ```text
-run_manifest.json       # 全部hash、父产物、环境、访问权限
-resolved_config.json    # 覆盖完成后的唯一配置
-job_status.json         # 状态、心跳、完成块、失败ID
-scores/                 # 每method每shard无标签分数
-scores.seal.json        # 评分完成、不可更改的hash清单
-coverage.json
-runtime.json
-traces/                 # 只保存预登记诊断ID，不持有计算图
-metrics/                # 由独立评价命令生成
-report.md
+config.yaml             # 展开后的实验配置
+meta.json               # run/model/cache/data引用、环境和代码版本
+scores.csv              # 无标签评分阶段原子生成
+expected_ids.json       # 评分预期ID集合
+metrics.json            # 独立评价命令生成
+log.txt
 ```
 
 `resume --run` 只能恢复相同科学/数值配置的未完成作业；参数、精度或方法变化创建新run。恢复不重新选择方法或阈值。共享缓存只读，半成品不能被下游方法使用。
@@ -1791,7 +1778,7 @@ episodic正确实现时，改变顺序或把同一批ID组成不同真假比例*
 
 进入 E3 前生成 `preregistration.json`：数据ID/版本/标签策略、全部方法、已选参数与种子、checkpoint训练和选择范围、U/M/头/阈值、cell划分、处理和视图、主指标/置信区间、允许失败策略及主张接受条件。
 
-`freeze` 输出 token 为此文档hash的引用，不是密码。确认性评分命令必须携带该token，参数不符拒绝。这种工程封存不是公共预注册或防恶意篡改证明，只提供本项目可追溯边界。
+进入最终测试前把方法、参数、seed、具体 epoch、源资源和 selection 来源保存为普通配置。确认性评分必须与保存的 source-select 选择完全一致；这不是密码学封存，也不允许看目标结果后反复改方法。
 
 确认结果不理想也保留。修改设计后建立新探索实验；已经看过的目标集标为已访问，不能继续称为全新封存检验。必须先完成分数再由独立进程读取目标标签；运行期不看目标指标调迭代/阈值。
 
@@ -1808,7 +1795,7 @@ episodic正确实现时，改变顺序或把同一批ID组成不同真假比例*
 
 ### 12.1 分数文件与标签后置
 
-每行至少：`sample_id, method_id, score_before, score_after, status, steps_completed, r_fro, keep_active_fraction_final, runtime_ref, scientific_hash, numerical_hash`。没有R的方法这些R字段为null，不填0伪装发生过适应。trace独立保存，不把大型张量写入CSV。
+每行至少：`sample_id, method_id, score_before, score_after, status, steps_completed, r_fro, keep_active_fraction_final, runtime_ref`。没有R的方法这些R字段为null，不填0伪装发生过适应。trace独立保存，不把大型张量写入CSV。
 
 评价 join 要求预期ID唯一、无重复、无越界、无未声明缺失；同源派生的ID差异由mapping说明。`fallback_numeric`用原分数计入，不能删；`invalid_input`无分数时标不完整并报告每类覆盖及共同有效集比较，不用交集指标替代完整率。
 
@@ -1897,10 +1884,10 @@ H_y=\frac{\#\{y_i=y,\hat y_{0,i}=y,\hat y_{m,i}\ne y\}}{n_y},
 | C02 | 配置重复键、未知键、非法覆盖/角色 | fail-fast |
 | C03 | 标签防火墙：改变目标sidecar不改变score | 视为协议错误，不继续结果 |
 | C04 | 同源跨角色与历史checkpoint访问审计 | 限定主张或重新划分，不能静默忽略 |
-| C05 | 相同ID/输入hash视图跨顺序/worker/方法相同 | 修复随机键 |
+| C05 | 相同持久sample_index视图跨顺序/worker/方法相同 | 修复整数随机键 |
 | C06 | wrapper/导出头/R0与原模型一致 | 停止真实实验 |
 | C07 | E0/h0参数、mode和buffer冻结 | 修复隐式train或统计更新 |
-| C08 | cache hash与形状/身份、重定位、失效 | 拒绝错缓存 |
+| C08 | cache普通来源字段、形状、dtype、有限值和精确ID | 拒绝错缓存 |
 | C09 | 进程中断、partial、原子提交、缺片/重复 | 恢复完整清单；不删除难样本 |
 | C10 | 数值失败单条隔离、冻结回退、覆盖统计 | 无效不得记为正确 |
 | C11 | published-port梯度路径/完整重置；core↔bridge协议与旧语法解析 | 不宣称复现完成 |
@@ -1916,7 +1903,7 @@ H_y=\frac{\#\{y_i=y,\hat y_{0,i}=y,\hat y_{m,i}\ne y\}}{n_y},
 
 | ID | 必测合同 | 关键反例/验收 |
 |---|---|---|
-| D01 | 本机未解析null不阻塞结构开发 | shape-only可过；真实train/score必须拒绝缺必需lock |
+| D01 | 配置模板允许明确占位 | 实际train/score必须拒绝未填必需字段 |
 | D02 | 多格式原始协议 | CSV/TSV/空白分隔/JSONL、带/无表头模拟fixture；不猜列 |
 | D03 | 标签映射 | 相反0/1、未知标签、空值、同内容冲突；未映射不能默认spoof |
 | D04 | source_val与select分离 | 训练job含select/cal0/target引用必须失败 |
@@ -1958,31 +1945,31 @@ L0–L2完成先报告，不自动做真实训练。L4可以与L5并行开发，
 | 阶段 | 前置 | 执行内容 | 放行条件 |
 |---|---|---|---|
 | R0 环境/资源盘点 | 所需本机接口 | 数据root、协议、通用初始化、代码、环境与GPU/磁盘 | 只查选中资源；不要求已训练任务checkpoint |
-| R1 数据合同与划分 | L3/R0 | layout/label/预处理/来源审核，生成snapshot和训练前split lock | D系列真实核验；train/source_val/cal/test边界明确 |
+| R1 数据准备与划分 | L3/R0 | layout/label/预处理/来源检查，生成manifest和保存assignment | D系列真实核验；train/source_val/cal/test边界明确 |
 | R2 架构/训练smoke | L4/R1 | 自行建模、native标签、完整train step、恢复、显存预检 | S01–S08；smoke不能导出正式底座 |
-| R3 自主正式训练 | R2/已批准recipe | AASIST工程参考与SSL-AASIST主配方；source_val选checkpoint | 训练manifest、完整日志、自有权重FINALIZED |
+| R3 自主正式训练 | R2/完整recipe | AASIST工程参考与SSL-AASIST主配方；source_val选checkpoint | 训练manifest、完整日志、自有权重和具体epoch |
 | R4 冻结导出 | R3 | frozen bundle、线性头、wrapper/mode/buffer parity | C06–C07/S09；无外部任务权重替代 |
-| R5 特征与源资源 | R4 | 单卡/双卡缓存预检、分片恢复，U/tau0/M/Fisher | 正确数值、完整ID与资源hash |
+| R5 特征与源资源 | R4 | 单卡/双卡缓存预检、分片恢复，U/tau0/M/Fisher | 正确数值、完整ID与明确资源引用 |
 | R6 源先导与方法移植 | R5/L5 | smoke→机制比较→五项已有算法 | 真实激活/收缩/负结果；每项日志与权限 |
-| R7 参数封存 | R6 | select结果、方法完成状况、preregistration | 不在目标上挑模型/超参 |
-| R8 确认性评分 | R7 | A–D、预选外部集；先score seal再读label | 覆盖完整、类别/来源主张受证据支持 |
+| R7 参数保存 | R6 | select结果、方法完成状况、最终测试前配置 | 不在目标上挑模型/超参 |
+| R8 确认性评分 | R7 | A–D、预选外部集；先完成scores再读label | 覆盖完整、类别/来源主张受证据支持 |
 | R9 汇总 | R8 | 指标/翻转/区间/成本/失败分析 | 可由分数重建Markdown报告 |
-| R-data 新批到达 | L3，独立于run | 增量盘点→diff→来源/label冲突→批准新snapshot | 不自动重训、不覆盖已封存实验 |
+| R-data 新批到达 | L3，独立于run | 增量盘点→diff→来源/label冲突→写新manifest | 不自动重训、不覆盖已完成实验 |
 
 R6若静态/标量已解释全部收益，可停止复杂化并报告；五项已有方法未完成时不能宣布完整竞争性验证。训练未收敛或只能跑AASIST先导时，明确底座范围与未完成SSL任务，不以下载作者checkpoint跳过。
 
 ### 13.6 阶段交付格式与初始状态
 
-`IMPLEMENTATION_STATUS.md`按L/R/D/S/T/C任务ID记录：状态、文件、实际命令、退出码、日志、输入hash/commit、未执行项及原因。首次所有实现任务`TODO`，远程核验`DEFERRED_REMOTE`或`NOT_RUN`；项目整体`NOT_STARTED`。
+`IMPLEMENTATION_STATUS.md`只保留简短迁移说明；实际命令、退出码和未执行原因在当次交付中如实列出。Git commit 可作普通来源记录，不作为批准令牌或内容一致性证明。
 
 `PASS`必须来自后续实际执行，不继承本对话任何草稿检查为项目代码已通过。每完成一个任务更新状态，不在文档初始化时填满完成日期。
 
 ---
 
 <a id="s14"></a>
-## 14. CLI 与远程命令合同
+## 14. 历史 CLI 草案（已废弃）
 
-**以下命令是 Coding 工具需要实现并测试的接口，不是本文件已经提供的可直接安装软件。** 所有命令支持 `--help`；全局选项 `--config / --profile / --paths` 位于子命令之前。`--profile`使用ID，由`configs/profiles/<id>.yaml`解析。
+> 本节以下内容仅保存 v0.1 的设计演进，不是当前接口、验收要求或运行前提。当前仅使用 README 中的六个日常入口；不得依据本节恢复审批、阶段状态、双 Python、seal 或摘要门禁。
 
 ### 14.1 CLI合同：接口需要开发，不是现成命令
 
@@ -2174,9 +2161,9 @@ finalized_source_training → frozen_bundle与parity
 ---
 
 <a id="s15"></a>
-## 15. 可直接复制给 AI Coding 工具的启动指令
+## 15. 历史 AI Coding 指令（已废弃，不得执行）
 
-### 15.1 本机首次执行：只完成L0–L2
+### 15.1 历史首次执行范围
 
 ```text
 请读取 docs/DESIGN.md（EP-TTA v0.1.0），从尚未开始的项目建立实现。
@@ -2246,7 +2233,7 @@ finalized_source_training → frozen_bundle与parity
 ---
 
 <a id="s16"></a>
-## 16. v0.1.0首版初始化、风险与交付定义
+## 16. v0.1.0 历史初始化记录（非当前门禁）
 
 ### 16.1 版本与初始状态
 

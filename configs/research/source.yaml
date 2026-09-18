@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.1.0",
+  "command": "prepare-source",
+  "frozen_bundle": "@path:frozen_bundle",
+  "roles": {
+    "fit": {
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests/asv2019_la/inference/fit.jsonl",
+      "purpose": "source_prepare",
+      "data_roots": {"asvspoof2019_la": "@path:asv2019_audio_root"},
+      "probe": {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05},
+      "numerical_mode": {"dtype": "float32", "tf32_matmul": false, "tf32_cudnn": false, "block_units": 256},
+      "cache": "outputs/source/cache-fit",
+      "workers": 1,
+      "reuse": true
+    },
+    "cal0": {
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests/asv2019_la/inference/cal0.jsonl",
+      "purpose": "source_prepare",
+      "data_roots": {"asvspoof2019_la": "@path:asv2019_audio_root"},
+      "probe": {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05},
+      "numerical_mode": {"dtype": "float32", "tf32_matmul": false, "tf32_cudnn": false, "block_units": 256},
+      "cache": "outputs/source/cache-cal0",
+      "workers": 1,
+      "reuse": true
+    },
+    "select": {
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests/asv2019_la/inference/select.jsonl",
+      "purpose": "select",
+      "data_roots": {"asvspoof2019_la": "@path:asv2019_audio_root"},
+      "probe": {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05},
+      "numerical_mode": {"dtype": "float32", "tf32_matmul": false, "tf32_cudnn": false, "block_units": 256},
+      "cache": "outputs/source/cache-select",
+      "workers": 1,
+      "reuse": true
+    }
+  },
+  "artifact_plan": "configs/research/source_resources.yaml",
+  "fit_cache": "outputs/source/cache-fit",
+  "resources_output": "outputs/source/resources",
+  "selection": "configs/research/source_selection.yaml",
+  "output": "outputs/source/prepare-source-run"
+}

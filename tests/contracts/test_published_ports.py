@@ -10,17 +10,17 @@ from pathlib import Path
 
 @pytest.mark.parametrize("method_id", sorted(PORT_IDS))
 def test_unverified_published_ports_fail_explicitly(method_id):
-    audit = PublishedPortAudit(method_id, "BLOCKED_AUDIT", None, None, None, None, (), None,
+    audit = PublishedPortAudit(method_id, "NOT_IMPLEMENTED", None, None, None, None, (), None,
                                "per_sample", False, None, ())
-    with pytest.raises(NotImplementedStage, match="BLOCKED_AUDIT"):
+    with pytest.raises(NotImplementedStage, match="NOT_IMPLEMENTED"):
         require_verified_port(audit)
 
 
 def test_comparison_group_rejects_checkpoint_advantage():
-    group = ComparisonGroup("group", "baseline-a", "a" * 64)
-    group.validate_run({"baseline_id": "baseline-a", "selected_checkpoint_sha256": "a" * 64})
+    group = ComparisonGroup("group", "baseline-a", "/run/checkpoints/epoch_0001.pt")
+    group.validate_run({"baseline_id": "baseline-a", "checkpoint_ref": "/run/checkpoints/epoch_0001.pt"})
     with pytest.raises(ContractError, match="same frozen"):
-        group.validate_run({"baseline_id": "baseline-b", "selected_checkpoint_sha256": "b" * 64})
+        group.validate_run({"baseline_id": "baseline-b", "checkpoint_ref": "/run/checkpoints/epoch_0002.pt"})
 
 
 def test_every_registered_method_has_the_complete_contract_fields():

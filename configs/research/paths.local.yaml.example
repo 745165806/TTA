@@ -1,0 +1,13 @@
+{
+  "schema_version": "0.1.0",
+  "paths": {
+    "asv2019_manifest": "REPLACE_WITH_LOCAL_PROTOCOL_DERIVED_MANIFEST",
+    "asv2019_audio_root": "REPLACE_WITH_LOCAL_AUDIO_ROOT",
+    "aasist_recipe": "REPLACE_WITH_LOCAL_RESOLVED_READY_AASIST_RECIPE",
+    "ssl_aasist_recipe": "REPLACE_WITH_LOCAL_RESOLVED_READY_SSL_AASIST_RECIPE",
+    "frozen_bundle": "REPLACE_WITH_EXISTING_OR_NEW_FROZEN_BUNDLE_JSON",
+    "aasist_repository": "REPLACE_WITH_LOCAL_AASIST_REPOSITORY",
+    "ssl_aasist_repository": "REPLACE_WITH_LOCAL_SSL_AASIST_REPOSITORY",
+    "generic_ssl_initialization": "REPLACE_WITH_GENERIC_SSL_FRONTEND_CHECKPOINT"
+  }
+}

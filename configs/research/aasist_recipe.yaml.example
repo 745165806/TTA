@@ -1,0 +1,60 @@
+{
+  "schema_version": "0.2.0",
+  "status": "READY",
+  "payload": {
+    "model_id": "aasist_source",
+    "class_index_map": {"spoof": 0, "bonafide": 1},
+    "bindings": {
+      "source": {
+        "roles": {
+          "fit": {
+            "manifest_ref": "REPLACE_WITH_PREPARED_FIT_MANIFEST",
+            "dataset_id": "asvspoof2019_la"
+          },
+          "source_val": {
+            "manifest_ref": "REPLACE_WITH_PREPARED_SOURCE_VAL_MANIFEST",
+            "dataset_id": "asvspoof2019_la"
+          }
+        }
+      },
+      "architecture": {
+        "model_id": "aasist_source",
+        "repository_ref": "REPLACE_WITH_LOCAL_AASIST_REPOSITORY",
+        "repository_revision": "a04c9863f63d44471dde8a6abcb3b082b07cd1d1"
+      },
+      "initialization": null,
+      "preprocess": {
+        "decode": "soundfile_float32_mono_mean_require_16khz",
+        "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample_index",
+        "eval_unit": "repeat_or_crop_first_64600"
+      },
+      "data_roots": {
+        "asvspoof2019_la": "REPLACE_WITH_LOCAL_AUDIO_ROOT"
+      }
+    },
+    "optimizer": "adam",
+    "lr": 0.0001,
+    "max_epochs": 80,
+    "scheduler": "cosine_author_audited",
+    "scheduler_horizon_epochs": 80,
+    "loss": "weighted_categorical_cross_entropy",
+    "class_weights_by_name": {"bonafide": 0.9, "spoof": 0.1},
+    "sampler_policy": "shuffle_drop_global_tail",
+    "augmentation_recipe_ref": "none_author_freq_aug_false",
+    "trainable_scope": "all_native_trainable_parameters",
+    "weight_decay": 0.0001,
+    "runtime": {
+      "strategy": "single_process",
+      "world_size": 1,
+      "physical_gpu_ids": [],
+      "per_gpu_batch_size": 48,
+      "validation_batch_size": 48,
+      "grad_accum_steps": 1,
+      "precision": "float32",
+      "num_workers": 4,
+      "training_seed": 13,
+      "smoke_epochs": 1,
+      "allow_cpu": false
+    }
+  }
+}

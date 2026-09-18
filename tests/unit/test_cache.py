@@ -5,10 +5,11 @@ from eptta.cache import CacheIdentity, FeatureCache, FeatureCacheWriter, merge_f
 from eptta.errors import DataError
 
 
-def identity(checkpoint="b" * 64):
-    return CacheIdentity("a" * 64, "baseline-a", checkpoint, "c" * 64,
-                         "wrapper-v1", "d" * 64, "e" * 64, 13, "float32",
-                         {"tf32": False, "device": "cpu"})
+def identity(checkpoint="/runs/source/checkpoints/epoch_0001.pt"):
+    return CacheIdentity("cache-1", "source-run-1", checkpoint, "fixture", "select",
+                         "/data/select.jsonl", {"sample_rate": 16000},
+                         {"num_views": 3}, 13, "float32",
+                         {"tf32_matmul": False, "tf32_cudnn": False, "dtype": "float32"})
 
 
 def test_cache_roundtrip_is_pickle_free_and_exact(tmp_path):
@@ -30,7 +31,13 @@ def test_cache_rejects_missing_duplicate_and_changed_checkpoint(tmp_path):
     with FeatureCacheWriter(tmp_path / "identity", identity(), ["a"], 1, 2) as writer:
         writer.add(["a"], np.ones((1, 1, 2), dtype=np.float32))
     with pytest.raises(DataError, match="identity"):
-        FeatureCache(tmp_path / "identity", identity("f" * 64))
+        FeatureCache(tmp_path / "identity", identity("/runs/source/checkpoints/epoch_0002.pt"))
+
+
+def test_cache_rejects_nonfinite_values(tmp_path):
+    with pytest.raises(DataError, match="non-finite"):
+        with FeatureCacheWriter(tmp_path / "nan", identity(), ["a"], 1, 2) as writer:
+            writer.add(["a"], np.array([[[np.nan, 0.0]]], dtype=np.float32))
 
 
 def test_cache_shards_merge_with_exact_coverage(tmp_path):

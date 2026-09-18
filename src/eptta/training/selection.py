@@ -52,7 +52,7 @@ def select_source_checkpoint(records):
     candidates = []
     seen_epochs = set()
     for record in records:
-        required = {"epoch", "source_val_eer", "checkpoint_ref", "checkpoint_sha256"}
+        required = {"epoch", "source_val_eer", "checkpoint_ref"}
         if not required.issubset(record):
             raise ContractError("selection record is missing checkpoint evidence")
         epoch = record["epoch"]

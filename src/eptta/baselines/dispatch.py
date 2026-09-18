@@ -10,11 +10,11 @@ from eptta.baselines.registry import get_method_contract
 class ComparisonGroup:
     comparison_group_id: str
     baseline_id: str
-    selected_checkpoint_sha256: str
+    checkpoint_ref: str
 
     def validate_run(self, metadata):
         if metadata.get("baseline_id") != self.baseline_id or metadata.get(
-                "selected_checkpoint_sha256") != self.selected_checkpoint_sha256:
+                "checkpoint_ref") != self.checkpoint_ref:
             raise ContractError("all compared methods must share the same frozen source checkpoint")
 
 

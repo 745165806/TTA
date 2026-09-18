@@ -8,6 +8,7 @@ class CandidatePlugin:
     notes: tuple[str, ...]
     contract_required: bool = True
 
-    def propose_contract(self, inventory):
-        return {"dataset_id": self.dataset_id, "status": "PROPOSED", "adapter_candidates": self.adapter_ids,
-                "notes": self.notes, "observations": inventory, "auto_approved": False}
+    def describe(self, inventory):
+        return {"dataset_id": self.dataset_id, "adapter_candidates": self.adapter_ids,
+                "notes": self.notes, "observations": inventory,
+                "requires_explicit_dataset_config": self.contract_required}

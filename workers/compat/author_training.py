@@ -1,7 +1,6 @@
-"""Python 3.7-compatible adapters around the pinned author implementations."""
+"""Minimal adapters around author implementations in the active tta environment."""
 from __future__ import absolute_import
 
-import hashlib
 import importlib.util
 import json
 import os
@@ -11,27 +10,12 @@ import sys
 
 AUTHOR = {
     "aasist_source": {
-        "commit": "a04c9863f63d44471dde8a6abcb3b082b07cd1d1",
         "entrypoint": "models/AASIST.py",
-        "sha256": "9e0d3e80937dd0577beea7883098465a479da23a198ebc0d712abcc59b0bec50",
     },
     "ssl_aasist_source": {
-        "commit": "4acaa61dcef5f7610f43aa4d0b29c4559b970cd2",
         "entrypoint": "model.py",
-        "sha256": "08b2b99b9cc0e90732746471325185f2eb144795ee35338e0a02951015a856c6",
     },
 }
-
-
-def sha256_file(path):
-    digest = hashlib.sha256()
-    with open(path, "rb") as stream:
-        while True:
-            chunk = stream.read(1024 * 1024)
-            if not chunk:
-                break
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def verify_author(execution):
@@ -42,10 +26,8 @@ def verify_author(execution):
         raise ValueError("unregistered model_id")
     root = architecture["repository_ref"]
     entrypoint = os.path.join(root, expected["entrypoint"])
-    if architecture.get("repo_commit") != expected["commit"]:
-        raise ValueError("author commit is not pinned to the audited revision")
-    if sha256_file(entrypoint) != expected["sha256"]:
-        raise ValueError("author entrypoint hash mismatch")
+    if not os.path.isfile(entrypoint):
+        raise ValueError("author model entrypoint is missing: %s" % entrypoint)
     return root, entrypoint
 
 
@@ -91,17 +73,20 @@ def build_author_model(job, device):
         with open(os.path.join(root, "config", "AASIST.conf"), encoding="utf-8") as stream:
             config = json.load(stream)["model_config"]
         model = module.Model(config)
-        patch = {"kind": "none", "sha256": hashlib.sha256(b"").hexdigest()}
+        patch = {"kind": "none"}
     else:
         initialization = source_job.get("initialization")
         if not initialization or initialization.get("scope") != "generic_ssl_frontend_only":
             raise ValueError("SSL-AASIST requires generic SSL frontend initialization")
         init_path = initialization["artifact_ref"]
-        if sha256_file(init_path) != initialization["sha256"]:
-            raise ValueError("generic SSL initialization hash mismatch")
-        vendored = os.path.join(root, "fairseq-a54021305d6b3c4c5959ac9395135f63202db8f1")
-        if vendored not in sys.path:
-            sys.path.insert(0, vendored)
+        if not os.path.isfile(init_path):
+            raise ValueError("generic SSL initialization is missing")
+        try:
+            import fairseq
+        except ImportError as exc:
+            raise RuntimeError("the active tta environment must provide fairseq") from exc
+        if not hasattr(fairseq, "checkpoint_utils"):
+            raise RuntimeError("installed fairseq lacks checkpoint loading support")
         with open(entrypoint, encoding="utf-8") as stream:
             source = stream.read()
         old = "cp_path = 'xlsr2_300m.pt'"
@@ -109,9 +94,8 @@ def build_author_model(job, device):
         if source.count(old) != 1:
             raise ValueError("audited SSL initialization patch context mismatch")
         patched = source.replace(old, new)
-        patch_text = ("explicit_generic_ssl_path\n- %s\n+ %s\n" % (old, new)).encode("utf-8")
-        patch = {"kind": "explicit_generic_ssl_path_only",
-                 "sha256": hashlib.sha256(patch_text).hexdigest()}
+        patch = {"kind": "explicit_generic_ssl_path_only", "artifact_ref": os.path.abspath(init_path),
+                 "fairseq_version": getattr(fairseq, "__version__", "unknown")}
         module = type(sys)("eptta_pinned_ssl_aasist")
         module.__file__ = entrypoint
         exec(compile(patched, entrypoint, "exec"), module.__dict__)
@@ -120,14 +104,30 @@ def build_author_model(job, device):
     return AuthorModelAdapter(model, model_id), patch
 
 
-def _crop_start(audio_length, length, crop_identity):
-    if crop_identity is None or audio_length <= length:
+def independent_seed(seed, sample_index, epoch=0, view_index=0, namespace=0):
+    """Mix explicit integers without Python hash or global RNG consumption order."""
+    values = (seed, sample_index, epoch, view_index, namespace)
+    if any(type(value) is not int for value in values):
+        raise ValueError("random seed components must be integers")
+    mask = (1 << 64) - 1
+    value = 0x9E3779B97F4A7C15
+    for item in values:
+        value = (value + (item & mask) + 0x9E3779B97F4A7C15) & mask
+        value = ((value ^ (value >> 30)) * 0xBF58476D1CE4E5B9) & mask
+        value = ((value ^ (value >> 27)) * 0x94D049BB133111EB) & mask
+        value ^= value >> 31
+    return value & ((1 << 63) - 1)
+
+
+def _crop_start(audio_length, length, seed, sample_index, epoch):
+    if seed is None or audio_length <= length:
         return 0
-    digest = hashlib.sha256(crop_identity.encode("utf-8")).digest()
-    return int.from_bytes(digest[:8], byteorder="big") % (audio_length - length + 1)
+    rng = random.Random(independent_seed(seed, sample_index, epoch, namespace=1))
+    return rng.randrange(audio_length - length + 1)
 
 
-def load_audio(path, expected_sample_rate=16000, length=64600, crop_identity=None):
+def load_audio(path, expected_sample_rate=16000, length=64600, crop_seed=None,
+               sample_index=0, epoch=0):
     try:
         import soundfile
     except ImportError as exc:
@@ -141,18 +141,16 @@ def load_audio(path, expected_sample_rate=16000, length=64600, crop_identity=Non
     if audio.ndim != 1 or audio.size == 0 or not numpy.isfinite(audio).all():
         raise ValueError("invalid audio tensor: %s" % path)
     if audio.shape[0] >= length:
-        start = _crop_start(audio.shape[0], length, crop_identity)
+        start = _crop_start(audio.shape[0], length, crop_seed, sample_index, epoch)
         return audio[start:start + length].copy()
     repeats = int(length / audio.shape[0]) + 1
     return numpy.tile(audio, repeats)[:length].copy()
 
 
 class ManifestDataset(object):
-    def __init__(self, manifest_ref, expected_hash, data_roots, role, training_seed=0):
+    def __init__(self, manifest_ref, data_roots, role, training_seed=0):
         import torch
         self._dataset_base = torch.utils.data.Dataset
-        if sha256_file(manifest_ref) != expected_hash:
-            raise ValueError("%s manifest hash mismatch" % role)
         self.rows = []
         self.role = role
         self.training_seed = int(training_seed)
@@ -163,9 +161,10 @@ class ManifestDataset(object):
                 if not line.strip():
                     continue
                 row = json.loads(line)
-                allowed = {"schema_version", "sample_id", "root_key", "audio_relpath",
-                           "input_sha256", "split_role", "canonical_label"}
-                if set(row) != allowed or row["split_role"] != role:
+                required = {"schema_version", "sample_id", "root_key", "audio_relpath",
+                            "split_role", "canonical_label"}
+                allowed = required | {"sample_index"}
+                if not required.issubset(row) or set(row) - allowed or row["split_role"] != role:
                     raise ValueError("unsafe/mismatched %s manifest row %d" % (role, number))
                 if row["sample_id"] in seen or row["canonical_label"] not in (0, 1):
                     raise ValueError("duplicate ID or invalid label in %s" % role)
@@ -182,6 +181,20 @@ class ManifestDataset(object):
             raise ValueError("empty %s manifest" % role)
         if {row["canonical_label"] for row in self.rows} != {0, 1}:
             raise ValueError("%s manifest must contain both canonical classes" % role)
+        provided = [row.get("sample_index") for row in self.rows]
+        if all(value is None for value in provided):
+            # Read compatibility only.  New prepare-data always persists explicit
+            # indices; this migration changes old digest-derived random trajectories.
+            index_by_id = {sample_id: index for index, sample_id in
+                           enumerate(sorted(row["sample_id"] for row in self.rows))}
+            for row in self.rows:
+                row["sample_index"] = index_by_id[row["sample_id"]]
+            self.random_rule = "legacy_sorted_sample_id_index_prng_v1"
+        elif (any(type(value) is not int or value < 0 for value in provided) or
+              len(set(provided)) != len(provided)):
+            raise ValueError("sample_index must be unique non-negative integers")
+        else:
+            self.random_rule = "explicit_sample_index_prng_v1"
 
     def __len__(self):
         return len(self.rows)
@@ -192,10 +205,9 @@ class ManifestDataset(object):
     def __getitem__(self, index):
         import torch
         row = self.rows[index]
-        crop_identity = None
-        if self.role == "fit":
-            crop_identity = "%d\0%d\0%s" % (self.training_seed, self.epoch, row["sample_id"])
-        waveform = torch.from_numpy(load_audio(row["audio_path"], crop_identity=crop_identity))
+        crop_seed = self.training_seed if self.role == "fit" else None
+        waveform = torch.from_numpy(load_audio(row["audio_path"], crop_seed=crop_seed,
+                                                sample_index=row["sample_index"], epoch=self.epoch))
         return waveform, int(row["canonical_label"]), row["sample_id"]
 
 

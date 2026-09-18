@@ -11,49 +11,49 @@
         "control_test",
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
+      "dataset_config_status": "REQUIRED",
       "adapter": "asvspoof2019_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "implementation_status": "MANIFEST_ADAPTER_AVAILABLE"
     },
     "asvspoof2021_df": {
       "roles": [
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
+      "dataset_config_status": "REQUIRED",
       "adapter": "asvspoof2021_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "implementation_status": "MANIFEST_ADAPTER_AVAILABLE"
     },
     "asvspoof2021_la": {
       "roles": [
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
+      "dataset_config_status": "REQUIRED",
       "adapter": "asvspoof2021_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "implementation_status": "MANIFEST_ADAPTER_AVAILABLE"
     },
     "wavefake": {
       "roles": [
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
+      "dataset_config_status": "REQUIRED",
       "adapter": "wavefake_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "implementation_status": "MANIFEST_ADAPTER_AVAILABLE"
     },
     "codecfake_xie": {
       "roles": [
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
+      "dataset_config_status": "REQUIRED",
       "adapter": "codecfake_xie_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "implementation_status": "MANIFEST_ADAPTER_AVAILABLE"
     },
     "in_the_wild": {
       "roles": [
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
+      "dataset_config_status": "REQUIRED",
       "adapter": "in_the_wild_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "implementation_status": "MANIFEST_ADAPTER_AVAILABLE"
     }
   }
 }

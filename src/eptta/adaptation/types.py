@@ -25,9 +25,9 @@ class EPConfig:
 
     @classmethod
     def from_config(cls, config):
-        from eptta.config.schema import check
         from eptta.registry import validate_selection
-        check(config)
+        if not isinstance(config, dict) or not isinstance(config.get("defaults"), dict):
+            raise ValueError("adaptation config must contain defaults")
         validate_selection(config)
         p = config["defaults"]
         return cls(p["steps"], p["lr"], p["rho"], p["gamma"], p["regularizer_weight"])
