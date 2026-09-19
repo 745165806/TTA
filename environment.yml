@@ -12,7 +12,7 @@ dependencies:
   - numpy=1.26.4
   - scipy=1.13
   - pyyaml=6.0
-  - soundfile=0.12
+  - pysoundfile=0.12.1
   - librosa=0.10.2
   - tensorboardx=2.5
   - cffi
