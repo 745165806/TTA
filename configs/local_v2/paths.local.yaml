@@ -1,0 +1,4 @@
+schema_version: "0.1.0"
+paths:
+  asv2019_manifest: "data/input_v2/asv2019_la_protocol_v2.csv"
+  asv2019_audio_root: "/media/dell/data/fakedata/asvspoof2019/LA"
