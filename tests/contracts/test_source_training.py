@@ -88,6 +88,9 @@ def test_epoch_checkpoint_contains_full_reload_and_resume_state(tmp_path):
                            "initialization": None, "training_seed": 13},
            "execution": {"architecture": {"model_id": "fixture"},
                          "class_index_map": {"spoof": 0, "bonafide": 1},
+                         "training": {"optimizer": "adam", "max_epochs": 3},
+                         "runtime": {"world_size": 1, "precision": "float32"},
+                         "preprocess": {"decode": "fixture"},
                          "random_rule": "explicit_sample_index_prng_v1"}}
     path = tmp_path / "epoch_0000.pt"
     worker.save_checkpoint(str(path), model, optimizer, scheduler, scaler, 0, 5, job,
@@ -98,7 +101,8 @@ def test_epoch_checkpoint_contains_full_reload_and_resume_state(tmp_path):
     value = torch.load(path, map_location="cpu")
     assert set(value["model_state"]) == set(model.state_dict())
     assert {"optimizer_state", "scheduler_state", "scaler_state", "rng_states",
-            "sampler_state", "best_metric", "best_epoch"}.issubset(value)
+            "sampler_state", "best_metric", "best_epoch", "training", "runtime",
+            "preprocess"}.issubset(value)
     clone = torch.nn.Sequential(torch.nn.Linear(3, 4), torch.nn.BatchNorm1d(4), torch.nn.Linear(4, 2))
     clone.load_state_dict(value["model_state"], strict=True)
     for left, right in zip(model.state_dict().values(), clone.state_dict().values()):

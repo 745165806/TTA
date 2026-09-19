@@ -25,6 +25,8 @@ def parser():
         command.add_argument("--paths", help="optional local paths YAML/JSON (not committed)")
         if name == "train-source":
             command.add_argument("--resume", help="complete checkpoint to resume in the configured run directory")
+            command.add_argument("--stop-after-epoch", type=int,
+                                 help="exit cleanly after saving this epoch (resume testing/maintenance)")
     evaluate_parser = sub.add_parser(
         "evaluate", help="align complete scores with labels and compute metrics independently")
     evaluate_parser.add_argument("--run", required=True)
@@ -50,6 +52,10 @@ def main(argv=None):
             config = load_config(args.config, args.command, args.paths)
             if args.command == "train-source" and args.resume:
                 config["resume"] = args.resume
+            if args.command == "train-source" and args.stop_after_epoch is not None:
+                if args.resume:
+                    raise ValueError("--stop-after-epoch is only valid when starting a new run")
+                config["stop_after_epoch"] = args.stop_after_epoch
             function = {"prepare-data": prepare_data, "train-source": train_source,
                         "prepare-source": prepare_source, "run-tta": run_tta}[args.command]
             result = function(config)

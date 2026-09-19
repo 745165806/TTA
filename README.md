@@ -44,13 +44,25 @@ python -m eptta.cli train-source \
   --paths configs/research/paths.local.yaml
 ```
 
-`phase` 可为 `smoke` 或 `full`。完整续训使用：
+`phase` 可为 `smoke` 或 `full`。
+
+仓库同时提供互不覆盖的 smoke/full 配置：`aasist.yaml` 与
+`aasist_full.yaml`，以及 `ssl_aasist.yaml` 与 `ssl_aasist_full.yaml`。例如启动
+AASIST 完整训练：
 
 ```bash
 python -m eptta.cli train-source \
-  --config configs/research/aasist.yaml \
+  --config configs/research/aasist_full.yaml \
+  --paths configs/research/paths.local.yaml
+```
+
+完整续训使用：
+
+```bash
+python -m eptta.cli train-source \
+  --config configs/research/aasist_full.yaml \
   --paths configs/research/paths.local.yaml \
-  --resume outputs/source/aasist/checkpoints/last.pt
+  --resume outputs/source/aasist-full-asvspoof2019train-random/checkpoints/last.pt
 ```
 
 每个 epoch 原子写入不可覆盖的 `checkpoints/epoch_XXXX.pt`。它保存完整 `model.state_dict()`（参数与持久 buffer），并同时保存 optimizer、scheduler、AMP scaler、epoch/global_step、best 指标、RNG、必要 sampler/DDP 状态，因此当前实现的 epoch 文件是可续训全状态超集。`last.pt` 指向最新完整状态，`best.pt` 指向 source_val 最优的具体 epoch；`history.csv` 记录逐 epoch 指标。

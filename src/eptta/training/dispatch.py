@@ -123,7 +123,7 @@ def _save_run_provenance(output, job):
             (output / "author_code.diff").write_bytes(completed.stdout)
 
 
-def launch_source_job(job):
+def launch_source_job(job, stop_after_epoch=None):
     output = Path(job["source_job"]["output_dir"])
     if output.exists():
         raise ContractError("new training output already exists; use --resume for this run")
@@ -134,7 +134,12 @@ def launch_source_job(job):
     worker = Path(__file__).parents[3] / "workers/source_train_bridge.py"
     if not worker.is_file():
         raise ResourceError("source training worker is missing")
-    completed = subprocess.run(_command(job, worker, ["train", "--job", str(job_path)]),
+    tail = ["train", "--job", str(job_path)]
+    if stop_after_epoch is not None:
+        if type(stop_after_epoch) is not int or stop_after_epoch < 0:
+            raise ContractError("stop_after_epoch must be a non-negative integer")
+        tail.extend(["--stop-after-epoch", str(stop_after_epoch)])
+    completed = subprocess.run(_command(job, worker, tail),
                                check=False, env=_environment(job))
     if completed.returncode:
         raise ResourceError("source training worker failed with exit code %d" % completed.returncode)

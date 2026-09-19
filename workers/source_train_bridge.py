@@ -14,6 +14,10 @@ import sys
 import tempfile
 import time
 
+# Required by torch deterministic CUDA GEMM.  This is set before this worker
+# imports torch or initializes CUDA.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "compat"))
 from author_training import (ManifestDataset, EpochShardSampler, build_author_model,
@@ -140,6 +144,9 @@ def seed_all(seed, rank):
     torch.manual_seed(seed + rank)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed + rank)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.use_deterministic_algorithms(True)
 
 
 def make_loader(dataset, sampler, batch_size, workers):
@@ -382,6 +389,9 @@ def save_checkpoint(path, model, optimizer, scheduler, scaler, epoch, global_ste
              "initialization": source.get("initialization"), "training_seed": source["training_seed"],
              "task_weight_origin": "trained_in_project",
              "random_rule": job["execution"]["random_rule"],
+             "training": job["execution"]["training"],
+             "runtime": job["execution"]["runtime"],
+             "preprocess": job["execution"]["preprocess"],
              "resume_kind": "complete"}
     temporary = path + ".partial"
     torch.save(value, temporary)
@@ -410,7 +420,7 @@ def build_optimizer(model, job, steps_per_epoch):
     return optimizer, scheduler
 
 
-def execute(job, resume_checkpoint=None):
+def execute(job, resume_checkpoint=None, stop_after_epoch=None):
     import torch
     validate_job(job)
     verify_preprocess(job)
@@ -441,7 +451,7 @@ def execute(job, resume_checkpoint=None):
         checkpoint = torch.load(resume_checkpoint, map_location="cpu")
         required_resume = {"model_state", "optimizer_state", "scheduler_state", "scaler_state",
                            "epoch", "global_step", "best_metric", "best_epoch", "rng_states",
-                           "sampler_state", "random_rule", "run_id"}
+                           "sampler_state", "random_rule", "run_id", "training", "runtime", "preprocess"}
         if checkpoint.get("schema_version") != "0.3.0" or required_resume - set(checkpoint):
             raise ValueError("checkpoint is evaluation/warm-start only; full resume state or new random rule is missing")
         if checkpoint.get("random_rule") != execution["random_rule"]:
@@ -454,6 +464,9 @@ def execute(job, resume_checkpoint=None):
                               ("class_index_map", execution["class_index_map"]),
                               ("initialization", source.get("initialization")),
                               ("training_seed", source["training_seed"]),
+                              ("training", execution["training"]),
+                              ("runtime", execution["runtime"]),
+                              ("preprocess", execution["preprocess"]),
                               ("task_weight_origin", "trained_in_project")):
             if checkpoint.get(key) != expected:
                 raise ValueError("resume rejected: %s changed" % key)
@@ -483,10 +496,14 @@ def execute(job, resume_checkpoint=None):
     max_epochs = int(execution["training"]["max_epochs"])
     if phase == "smoke":
         max_epochs = min(max_epochs, int(runtime.get("smoke_epochs", 1)))
+    if stop_after_epoch is not None:
+        if type(stop_after_epoch) is not int or not start_epoch <= stop_after_epoch < max_epochs:
+            raise ValueError("stop-after epoch must be within the epochs this process would run")
     log_path = os.path.join(output, "train_log.jsonl")
     metrics_path = os.path.join(output, "metrics.jsonl")
     history_path = os.path.join(output, "history.csv")
     started = time.time()
+    completed_epoch = start_epoch - 1
     for epoch in range(start_epoch, max_epochs):
         sampler.set_epoch(epoch)
         fit.set_epoch(epoch)
@@ -542,8 +559,12 @@ def execute(job, resume_checkpoint=None):
                 "best_epoch": best_epoch, "epoch_checkpoint_ref": epoch_ref})
         if world > 1:
             torch.distributed.barrier()
+        completed_epoch = epoch
+        if stop_after_epoch is not None and epoch == stop_after_epoch:
+            break
     if rank == 0:
-        run = {"schema_version": "0.3.0", "status": "TRAINED", "phase": phase,
+        status = "TRAINED" if completed_epoch + 1 == max_epochs else "INTERRUPTED"
+        run = {"schema_version": "0.3.0", "status": status, "phase": phase,
                "training_run_id": source["run_id"], "model_id": source["model_id"],
                "recipe_ref": source["recipe_ref"], "fit": source["fit"],
                "source_val": source["source_val"],
@@ -569,6 +590,7 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     train = sub.add_parser("train")
     train.add_argument("--job", required=True)
+    train.add_argument("--stop-after-epoch", type=int)
     resume = sub.add_parser("resume")
     resume.add_argument("--run", required=True)
     resume.add_argument("--checkpoint", required=True)
@@ -577,7 +599,7 @@ def main(argv=None):
         with open(args.job, encoding="utf-8") as stream:
             job = json.load(stream)
         ACTIVE_OUTPUT = job.get("source_job", {}).get("output_dir")
-        execute(job)
+        execute(job, stop_after_epoch=args.stop_after_epoch)
     else:
         job_path = os.path.join(args.run, "source_train_job.json")
         with open(job_path, encoding="utf-8") as stream:

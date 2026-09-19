@@ -31,7 +31,7 @@ COMMANDS = ("prepare-data", "train-source", "prepare-source", "run-tta", "evalua
 COMMON = {"schema_version", "command", "paths"}
 TOP_LEVEL = {
     "prepare-data": COMMON | {"dataset", "columns", "label_map", "split", "output"},
-    "train-source": COMMON | {"recipe", "phase", "output", "resume"},
+    "train-source": COMMON | {"recipe", "phase", "output", "resume", "stop_after_epoch"},
     "prepare-source": COMMON | {"frozen_bundle", "training_run", "frozen_output",
                                 "gpu_id", "roles", "artifact_plan", "fit_cache",
                                 "resources_output", "selection", "output"},
@@ -387,14 +387,14 @@ def prepare_data(config):
 def train_source(config):
     from eptta.training.dispatch import compile_source_job, launch_resume_job, launch_source_job
     _require_fields(config, {"schema_version", "command", "recipe", "phase", "output"},
-                    {"resume", "paths"}, "train-source config")
+                    {"resume", "paths", "stop_after_epoch"}, "train-source config")
     if config["phase"] not in ("smoke", "full"):
         raise ContractError("training phase must be smoke or full")
     if config.get("resume"):
         result = launch_resume_job(config["output"], config["resume"])
     else:
         job = compile_source_job(config["recipe"], config["phase"], config["output"])
-        result = launch_source_job(job)
+        result = launch_source_job(job, config.get("stop_after_epoch"))
     return result
 
 
