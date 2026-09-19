@@ -18,6 +18,25 @@ AUTHOR = {
 }
 
 
+def _merge_legacy_audio_task_config(original, dc, cfg, remove_missing, removed):
+    """Discard unsupported legacy XLS-R task fields before task setup.
+
+    Old checkpoints carry pretraining data/evaluation options that are absent
+    from fairseq 0.12.2's ``AudioPretrainingConfig``.  They do not define model
+    layers or weights.  Restrict cleanup to that task dataclass and record every
+    removed field; model configuration and state loading remain untouched.
+    """
+    fields = getattr(dc, "__dataclass_fields__", {})
+    if type(dc).__name__ == "AudioPretrainingConfig":
+        unsupported = sorted(set(cfg.keys()) - set(fields))
+        from omegaconf import open_dict
+        with open_dict(cfg):
+            for key in unsupported:
+                del cfg[key]
+        removed.extend("task." + key for key in unsupported)
+    return original(dc, cfg, remove_missing=remove_missing)
+
+
 def verify_author(execution):
     architecture = execution["architecture"]
     model_id = architecture["model_id"]
@@ -94,12 +113,22 @@ def build_author_model(job, device):
         if source.count(old) != 1:
             raise ValueError("audited SSL initialization patch context mismatch")
         patched = source.replace(old, new)
-        patch = {"kind": "explicit_generic_ssl_path_only", "artifact_ref": os.path.abspath(init_path),
-                 "fairseq_version": getattr(fairseq, "__version__", "unknown")}
+        removed_legacy_fields = []
+        original_task_merge = fairseq.tasks.merge_with_parent
+        def compatible_task_merge(dc, cfg, remove_missing=False):
+            return _merge_legacy_audio_task_config(
+                original_task_merge, dc, cfg, remove_missing, removed_legacy_fields)
+        fairseq.tasks.merge_with_parent = compatible_task_merge
         module = type(sys)("eptta_pinned_ssl_aasist")
         module.__file__ = entrypoint
-        exec(compile(patched, entrypoint, "exec"), module.__dict__)
-        model = module.Model(None, device)
+        try:
+            exec(compile(patched, entrypoint, "exec"), module.__dict__)
+            model = module.Model(None, device)
+        finally:
+            fairseq.tasks.merge_with_parent = original_task_merge
+        patch = {"kind": "explicit_generic_ssl_path_only", "artifact_ref": os.path.abspath(init_path),
+                 "fairseq_version": getattr(fairseq, "__version__", "unknown"),
+                 "removed_legacy_config_fields": removed_legacy_fields}
     model.to(device)
     return AuthorModelAdapter(model, model_id), patch
 

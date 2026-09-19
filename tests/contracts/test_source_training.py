@@ -35,6 +35,27 @@ def test_integer_random_rule_is_repeatable_and_epoch_sample_specific():
     assert module._crop_start(211007, 64600, None, 7, 0) == 0
 
 
+def test_ssl_legacy_audio_task_compat_removes_only_unsupported_task_fields():
+    module = _author()
+    omegaconf = pytest.importorskip("omegaconf")
+
+    class AudioPretrainingConfig:
+        __dataclass_fields__ = {"data": object()}
+
+    cfg = omegaconf.OmegaConf.create(
+        {"data": "/unused", "multiple_train_files": True, "eval_wer": False})
+    removed = []
+
+    def original(_dc, value, remove_missing=False):
+        assert remove_missing is False
+        return value
+
+    result = module._merge_legacy_audio_task_config(
+        original, AudioPretrainingConfig(), cfg, False, removed)
+    assert dict(result) == {"data": "/unused"}
+    assert removed == ["task.eval_wer", "task.multiple_train_files"]
+
+
 def test_epoch_paths_and_aliases_keep_all_epochs(tmp_path):
     worker = _worker()
     checkpoints = tmp_path / "checkpoints"
