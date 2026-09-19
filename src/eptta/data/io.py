@@ -1,22 +1,10 @@
 """Small deterministic JSON/JSONL and atomic-output helpers."""
-import hashlib
 import json
 import os
 import tempfile
 from pathlib import Path
 
 from eptta.errors import DataError, EPTTAError
-
-
-def sha256_file(path, chunk_size=1024 * 1024):
-    digest = hashlib.sha256()
-    with Path(path).open("rb") as stream:
-        while True:
-            chunk = stream.read(chunk_size)
-            if not chunk:
-                break
-            digest.update(chunk)
-    return digest.hexdigest()
 
 
 def read_json(path):

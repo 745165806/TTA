@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "command": "run-tta",
+  "run_name": "control_test_ep",
+  "output_root": "outputs",
+  "role": "control_test",
+  "scope_id": "REPLACE_WITH_EXPLICIT_DATASET_RELEASE_SUBSET_SCOPE",
+  "input_manifest": "data/manifests/asv2019_la/inference/control_test.jsonl",
+  "feature_cache": "outputs/cache/control-test-explicit-run",
+  "extraction": {
+    "dataset_id": "asvspoof2019_la",
+    "data_roots": {"asvspoof2019_la": "@path:asv2019_audio_root"},
+    "probe": {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05},
+    "numerical_mode": {"dtype": "float32", "tf32_matmul": false, "tf32_cudnn": false, "block_units": 256},
+    "workers": 1
+  },
+  "resources": "outputs/source/resources",
+  "frozen_bundle": "@path:frozen_bundle",
+  "method": {
+    "method_id": "ep_tta",
+    "config": {"steps": 3, "lr": 0.01, "rho": 0.2, "gamma": 0.1, "lambda_keep": 1.0},
+    "params": {}
+  },
+  "threshold": null,
+  "threshold_source": null,
+  "fallback_rate_max": 0.01,
+  "selection_source": "outputs/source/selection.json",
+  "seed": 13
+}

@@ -1,9 +1,8 @@
-"""Hash-bound descriptions of the two unmodified author architectures."""
+"""Descriptions of the two author architectures and native class semantics."""
 from dataclasses import dataclass
 from pathlib import Path
 import subprocess
 
-from eptta.data.io import sha256_file
 from eptta.errors import ContractError, ResourceError
 
 
@@ -13,7 +12,6 @@ class AuthorArchitecture:
     repository: str
     commit: str
     entrypoint: str
-    entrypoint_sha256: str
     class_index_map: dict
     embedding_dim: int
     initialization_scope: str
@@ -23,12 +21,10 @@ ARCHITECTURES = {
     "aasist_source": AuthorArchitecture(
         "aasist_source", "https://github.com/clovaai/aasist.git",
         "a04c9863f63d44471dde8a6abcb3b082b07cd1d1", "models/AASIST.py",
-        "9e0d3e80937dd0577beea7883098465a479da23a198ebc0d712abcc59b0bec50",
         {"spoof": 0, "bonafide": 1}, 160, "native_initialization"),
     "ssl_aasist_source": AuthorArchitecture(
         "ssl_aasist_source", "https://github.com/TakHemlata/SSL_Anti-spoofing.git",
         "4acaa61dcef5f7610f43aa4d0b29c4559b970cd2", "model.py",
-        "08b2b99b9cc0e90732746471325185f2eb144795ee35338e0a02951015a856c6",
         {"spoof": 0, "bonafide": 1}, 160, "generic_ssl_frontend_only"),
 }
 
@@ -51,13 +47,11 @@ def inspect_author_repository(model_id, repository_ref):
                                 capture_output=True, text=True).stdout.strip()
     except (OSError, subprocess.CalledProcessError) as exc:
         raise ResourceError("cannot identify author repository commit: %s" % root) from exc
-    digest = sha256_file(entrypoint)
-    if commit != spec.commit or digest != spec.entrypoint_sha256:
-        raise ContractError("author source identity mismatch for %s" % model_id)
-    return {"schema_version": "0.1.0", "status": "VERIFIED", "model_id": model_id,
+    # The Git revision is recorded for provenance but is not an execution token.
+    return {"schema_version": "0.2.0", "status": "AVAILABLE", "model_id": model_id,
             "repository_ref": str(root.resolve()), "repository": spec.repository,
             "repo_commit": commit, "entrypoint": spec.entrypoint,
-            "entrypoint_sha256": digest, "class_index_map": dict(spec.class_index_map),
+            "class_index_map": dict(spec.class_index_map),
             "embedding_dim": spec.embedding_dim, "initialization_scope": spec.initialization_scope}
 
 

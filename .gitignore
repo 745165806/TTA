@@ -7,6 +7,7 @@ dist/
 .venv/
 .env
 *.private.*
+configs/research/paths.local.yaml
 *.pt
 *.pth
 *.ckpt
@@ -33,8 +34,9 @@ plans/
 /runs/
 /reports/
 /logs/
+/outputs/
 
-# Large generated tensor/model files. Real artifacts are referenced by path + hash.
+# Large generated tensor/model files. Real artifacts are referenced by explicit run/epoch paths.
 *.npy
 *.npz
 *.safetensors

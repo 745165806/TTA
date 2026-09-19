@@ -1,11 +1,10 @@
-"""Explicit capability boundaries; no ambient target manifest in adaptation."""
+"""Small scientific capability and path boundaries."""
 from dataclasses import dataclass, fields
 from pathlib import Path, PurePosixPath, PureWindowsPath
 
-from eptta.config.schema import check
-from eptta.config.validate import check_contract, content_hash
 from eptta.data.contracts import LabelMapping
 from eptta.errors import ContractError, PermissionDenied
+
 
 ROLES = frozenset({"fit", "source_val", "select", "cal0", "audit", "control_test", "target_test", "cal1"})
 
@@ -19,7 +18,6 @@ def safe_relative(path):
 
 
 def resolve_under_root(root, relative):
-    """For future authorized I/O only; detects symlinks escaping a real root."""
     root_path = Path(root).resolve()
     resolved = (root_path / safe_relative(relative)).resolve()
     if not resolved.is_relative_to(root_path):
@@ -31,15 +29,18 @@ def resolve_under_root(root, relative):
 class TargetInputManifest:
     schema_version: str
     sample_id: str
+    sample_index: int
     root_key: str
     audio_relpath: str
-    input_sha256: str | None
-    decode_profile_id: str
-    probe_profile_id: str
+    split_role: str
 
     def __post_init__(self):
-        if self.schema_version != "0.1.0":
+        if self.schema_version not in ("0.1.0", "0.2.0"):
             raise ContractError("invalid target manifest version")
+        if type(self.sample_index) is not int or self.sample_index < 0:
+            raise ContractError("sample_index must be a non-negative integer")
+        if self.split_role not in ROLES:
+            raise ContractError("unknown split role")
         safe_relative(self.audio_relpath)
 
     @classmethod
@@ -50,33 +51,27 @@ class TargetInputManifest:
 
 
 def project_target(record):
-    """Trusted data-building boundary. Deliberate whitelist, never forwarding raw metadata."""
     return TargetInputManifest.from_dict({field.name: record[field.name] for field in fields(TargetInputManifest)})
 
 
 class ExplicitLabelMapper:
-    """Minimal contract primitive. Production protocol parsing remains L3.
-
-    Raw numeric values require an explicit string representation in the reviewed
-    mapping; None and bool are never coerced to labels.
-    """
-    def map_label(self, value, approved_policy):
-        check(approved_policy, "label")
-        issues = check_contract(approved_policy, "label", "label")
-        if issues:
-            raise ContractError("; ".join(i.message for i in issues))
-        policy = approved_policy["payload"]
+    def map_label(self, value, policy):
+        required = {"policy_id", "raw_to_canonical", "unknown_policy"}
+        if not isinstance(policy, dict) or required - set(policy):
+            raise ContractError("label policy is incomplete")
         mapped = None
         if type(value) in (str, int):
             mapped = policy["raw_to_canonical"].get(str(value))
+        if mapped is not None and mapped not in (0, 1):
+            raise ContractError("canonical label must be 0 or 1")
         if mapped is None and policy["unknown_policy"] == "error":
-            raise ContractError(f"unmapped raw label: {value!r}")
+            raise ContractError("unmapped raw label: %r" % value)
         return LabelMapping(value, mapped, "explicit_mapping" if mapped is not None else "quarantine_unmapped",
-                            policy["policy_id"], content_hash(policy))
+                            policy["policy_id"])
 
 
 def require_role(role, purpose):
     allowed = {"source_gradient": {"fit"}, "source_selection": {"source_val"},
                "source_resources": {"fit"}, "threshold": {"cal0"}, "method_selection": {"select"}}
     if purpose not in allowed or role not in allowed[purpose]:
-        raise PermissionDenied(f"{role} is forbidden for {purpose}")
+        raise PermissionDenied("%s is forbidden for %s" % (role, purpose))

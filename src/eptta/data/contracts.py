@@ -7,7 +7,6 @@ from typing import Any, Iterable, Mapping, Protocol
 class RawRecord:
     record_ref: str
     fields: Mapping[str, Any]
-    source_file_sha256: str
     source_file: str = ""
     source_row: int | None = None
     protocol_context: Mapping[str, Any] | None = None
@@ -28,7 +27,6 @@ class LabelMapping:
     canonical_label: int | None
     mapping_reason: str
     policy_id: str
-    policy_hash: str
 
 
 @dataclass(frozen=True, slots=True)
@@ -44,7 +42,6 @@ class CanonicalRecord:
     original_label: str | int | None
     canonical_label: int | None
     label_policy_id: str
-    label_policy_hash: str
     label_mapping_status: str
     official_split: str | None
     split_role: str
@@ -56,12 +53,9 @@ class CanonicalRecord:
     parent_id: str | None = None
     treatment_id: str = "identity"
     codec_id: str | None = None
-    input_sha256: str | None = None
     status: str = "staged"
     arrival_batch_id: str | None = None
     source_release: str | None = None
-    source_file_sha256: str | None = None
-    raw_contract_hash: str | None = None
 
 
 class LabelMapper(Protocol):

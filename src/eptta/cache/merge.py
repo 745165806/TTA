@@ -9,8 +9,7 @@ def merge_feature_caches(shard_refs, output, expected_ids):
     if not shards:
         raise DataError("no cache shards to merge")
     identity = shards[0].index["identity"]
-    key = shards[0].index["cache_key"]
-    if any(shard.index["cache_key"] != key or shard.index["identity"] != identity for shard in shards[1:]):
+    if any(shard.index["identity"] != identity for shard in shards[1:]):
         raise DataError("cache shards have different scientific/numerical/resource identities")
     from eptta.cache.keys import CacheIdentity
     cache_identity = CacheIdentity(**identity)

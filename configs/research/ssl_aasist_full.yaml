@@ -1,0 +1,7 @@
+{
+  "schema_version": "0.1.0",
+  "command": "train-source",
+  "recipe": "@path:ssl_aasist_recipe",
+  "phase": "full",
+  "output": "outputs/source/ssl-aasist-full-asvspoof2019train-random"
+}

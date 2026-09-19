@@ -1,1 +1,1 @@
-"""Hash-bound worker jobs and local orchestration."""
+"""Explicit-reference worker jobs and local orchestration."""

@@ -3,7 +3,6 @@ from pathlib import Path
 
 from eptta.data.adapters.base import protocol_context
 from eptta.data.contracts import RawRecord
-from eptta.data.io import sha256_file
 from eptta.errors import ContractError, DataError
 
 
@@ -11,7 +10,6 @@ class DelimitedAdapter:
     """Parse headered/headerless CSV, TSV, or whitespace under an explicit contract."""
     def iter_file(self, path, payload):
         source = Path(path)
-        digest = sha256_file(source)
         encoding = payload["encoding"]
         delimiter = payload["delimiter"]
         columns = payload["columns"]
@@ -53,4 +51,4 @@ class DelimitedAdapter:
                             fields[logical] = row[source_column]
                 except IndexError as exc:
                     raise DataError(f"short row at {source}:{row_number}") from exc
-                yield RawRecord(f"{source}:{row_number}", fields, digest, str(source), row_number, context)
+                yield RawRecord(f"{source}:{row_number}", fields, str(source), row_number, context)

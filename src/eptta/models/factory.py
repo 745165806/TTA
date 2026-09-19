@@ -20,9 +20,9 @@ class PinnedAuthorFactory:
 
     def build(self, architecture_lock, initialization=None, device="cpu"):
         verified = self.inspect()
-        if architecture_lock.get("repo_commit") != verified["repo_commit"] or architecture_lock.get(
-                "entrypoint_sha256") != verified["entrypoint_sha256"]:
-            raise ContractError("architecture lock does not match pinned author source")
+        if (architecture_lock.get("repository_ref") != verified["repository_ref"] or
+                architecture_lock.get("entrypoint") != verified["entrypoint"]):
+            raise ContractError("architecture reference does not match the inspected author source")
         if initialization is not None and type(initialization) is not InitializationRef:
             raise ContractError("initialization must use the typed generic-only contract")
         if self.model_id == "aasist_source" and initialization is not None:
@@ -35,7 +35,7 @@ class PinnedAuthorFactory:
         spec.loader.exec_module(module)
         job = {"source_job": {"model_id": self.model_id,
                               "initialization": None if initialization is None else {
-                                  "artifact_ref": initialization.artifact_ref, "sha256": initialization.sha256,
+                                  "artifact_ref": initialization.artifact_ref,
                                   "scope": initialization.scope,
                                   "pretraining_provenance": initialization.pretraining_provenance}},
                "execution": {"architecture": verified}}

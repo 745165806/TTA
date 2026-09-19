@@ -10,8 +10,8 @@ eptta_log_environment() {
   {
     date --iso-8601=seconds
     uname -a
-    command -v python3 || true
-    python3 --version 2>&1 || true
+    command -v python || true
+    python --version 2>&1 || true
     git rev-parse HEAD 2>&1 || true
     git status --short 2>&1 || true
   } >"${output}"

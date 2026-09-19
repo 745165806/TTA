@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Permission-minimal source training worker (Python 3.7 syntax compatible)."""
+"""Permission-minimal source training worker in the active tta environment."""
 from __future__ import absolute_import, print_function
 
 import argparse
 import contextlib
-import hashlib
+import csv
 import json
 import math
 import os
@@ -14,10 +14,14 @@ import sys
 import tempfile
 import time
 
+# Required by torch deterministic CUDA GEMM.  This is set before this worker
+# imports torch or initializes CUDA.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, "compat"))
 from author_training import (ManifestDataset, EpochShardSampler, build_author_model,
-                             canonical_to_native_tensor, sha256_file)
+                             canonical_to_native_tensor)
 
 ACTIVE_OUTPUT = None
 
@@ -47,24 +51,33 @@ def append_jsonl(path, value):
         os.fsync(stream.fileno())
 
 
+def append_history(path, value):
+    fields = ["epoch", "global_step", "train_weighted_loss_numerator", "train_sample_count",
+              "source_val_loss", "source_val_eer", "source_val_count", "lr", "improved",
+              "best_epoch", "epoch_checkpoint_ref"]
+    exists = os.path.isfile(path)
+    with open(path, "a", encoding="utf-8", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields)
+        if not exists:
+            writer.writeheader()
+        writer.writerow({key: value[key] for key in fields})
+        stream.flush()
+        os.fsync(stream.fileno())
+
+
 def validate_job(job):
-    allowed_envelope = {"schema_version", "job_type", "source_job", "execution"}
-    if "migration" in job:
-        allowed_envelope.add("migration")
-    if set(job) != allowed_envelope:
+    if set(job) != {"schema_version", "job_type", "source_job", "execution"}:
         raise ValueError("source worker envelope has unknown fields")
-    if job["schema_version"] != "0.1.0" or job["job_type"] != "source_train":
+    if job["schema_version"] != "0.3.0" or job["job_type"] != "source_train":
         raise ValueError("source worker job version/type mismatch")
     source = job["source_job"]
-    allowed = {"schema_version", "job_type", "model_id", "recipe_lock_ref", "recipe_hash",
-               "fit", "source_val", "initialization", "output_dir", "training_seed", "phase", "resume"}
+    allowed = {"schema_version", "job_type", "run_id", "model_id", "recipe_ref",
+               "fit", "source_val", "initialization", "output_dir", "training_seed", "phase"}
     if set(source) != allowed:
         raise ValueError("source job has forbidden fields")
     if source["fit"]["role"] != "fit" or source["source_val"]["role"] != "source_val":
         raise ValueError("worker accepts fit/source_val only")
-    serialized = json.dumps({"source_job": source,
-                             "data_roots": job["execution"].get("data_roots"),
-                             "manifest_hashes": job["execution"].get("manifest_hashes")},
+    serialized = json.dumps({"source_job": source, "data_roots": job["execution"].get("data_roots")},
                             sort_keys=True).lower()
     for forbidden in ("target_test", "control_test", '"select"', '"audit"', '"cal0"', '"cal1"'):
         if forbidden in serialized:
@@ -75,83 +88,26 @@ def validate_job(job):
     horizon = training.get("scheduler_horizon_epochs", training.get("max_epochs"))
     if type(horizon) is not int or horizon < int(training["max_epochs"]):
         raise ValueError("scheduler horizon must be an integer >= max_epochs")
-    migration = job.get("migration")
-    if migration is not None:
-        required = {"kind", "plan_id", "plan_sha256", "parent_run_ref",
-                    "resume_checkpoint_sha256", "resume_recipe_hash",
-                    "resume_patch_sha256", "exact_resume_claim", "purpose"}
-        if set(migration) != required:
-            raise ValueError("parent/child migration has unknown fields")
-        if migration["kind"] != "approved_parent_to_child" or migration["exact_resume_claim"] is not False:
-            raise ValueError("migration must disclose a non-exact parent/child identity")
-        for key in ("plan_sha256", "resume_checkpoint_sha256", "resume_recipe_hash",
-                    "resume_patch_sha256"):
-            value = migration.get(key)
-            if not isinstance(value, str) or len(value) != 64:
-                raise ValueError("migration %s must be a SHA-256" % key)
-        if migration["purpose"] not in ("resume_validation", "formal_continuation"):
-            raise ValueError("unsupported migration purpose")
-        if training.get("scheduler") not in (None, "none") and "scheduler_horizon_epochs" not in training:
-            raise ValueError("scheduled migration must bind the parent scheduler horizon")
-    expected_augmentation = ("none_author_freq_aug_false" if source["model_id"] == "aasist_source"
-                             else "none_project_deviation_requires_review")
-    if training.get("augmentation_recipe_ref") != expected_augmentation:
+    expected_augmentation = ({"none_author_freq_aug_false"} if source["model_id"] == "aasist_source"
+                             else {"none_project_freq_aug_false",
+                                   "none_project_deviation_requires_review"})
+    if training.get("augmentation_recipe_ref") not in expected_augmentation:
         raise ValueError("unimplemented/unreviewed source augmentation recipe")
     if training.get("loss") != "weighted_categorical_cross_entropy":
         raise ValueError("worker only implements the audited semantic weighted CE")
 
 
-def verify_training_orchestration(job):
-    identity = job["execution"].get("training_orchestration")
-    if not isinstance(identity, dict) or set(identity) != {"payload", "patch_sha256"}:
-        raise ValueError("training orchestration patch identity is missing")
-    payload = identity["payload"]
-    required = {"kind", "author_training_entrypoint", "author_training_sha256",
-                "project_worker_ref", "project_worker_sha256", "project_compat_ref",
-                "project_compat_sha256", "allowed_roles", "forbidden_roles",
-                "author_eval_path_disabled"}
-    if set(payload) != required:
-        raise ValueError("training orchestration patch identity has unknown fields")
-    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"),
-                         ensure_ascii=False, allow_nan=False).encode("utf-8")
-    if hashlib.sha256(encoded).hexdigest() != identity["patch_sha256"]:
-        raise ValueError("training orchestration patch hash mismatch")
-    if payload["kind"] != "project_source_worker_replaces_author_train_eval_orchestration":
-        raise ValueError("unreviewed training orchestration kind")
-    if payload["allowed_roles"] != ["fit", "source_val"] or payload["author_eval_path_disabled"] is not True:
-        raise ValueError("author eval access is not disabled")
-    expected_forbidden = ["select", "cal0", "audit", "control_test", "target_test", "cal1"]
-    if payload["forbidden_roles"] != expected_forbidden:
-        raise ValueError("training orchestration forbidden-role policy mismatch")
-    architecture = job["execution"]["architecture"]
-    author_training = os.path.join(architecture["repository_ref"], payload["author_training_entrypoint"])
-    for path_key, hash_key, expected_path in (
-            ("project_worker_ref", "project_worker_sha256", os.path.abspath(__file__)),
-            ("project_compat_ref", "project_compat_sha256",
-             os.path.join(HERE, "compat", "author_training.py")),
-            (None, "author_training_sha256", author_training)):
-        path = expected_path if path_key is None else payload[path_key]
-        if os.path.abspath(path) != os.path.abspath(expected_path) or sha256_file(path) != payload[hash_key]:
-            raise ValueError("training orchestration source changed: %s" % expected_path)
-    return identity
-
-
 def verify_preprocess(job):
-    path = job["execution"]["preprocess_ref"]
-    with open(path, encoding="utf-8") as stream:
-        contract = json.load(stream)
-    if contract.get("status") != "LOCKED" or not contract.get("approval"):
-        raise ValueError("source preprocess contract is not LOCKED")
-    payload_text = json.dumps(contract["payload"], sort_keys=True, separators=(",", ":"),
-                              ensure_ascii=False, allow_nan=False).encode("utf-8")
-    digest = hashlib.sha256(payload_text).hexdigest()
-    if digest != job["execution"]["preprocess_hash"] or digest != contract["approval"].get("content_sha256"):
-        raise ValueError("source preprocess contract hash mismatch")
+    payload = job["execution"]["preprocess"]
+    if not isinstance(payload, dict):
+        raise ValueError("source preprocess config must be a mapping")
     expected = {"decode": "soundfile_float32_mono_mean_require_16khz",
-                "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample",
+                "train_unit": ("repeat_or_random_crop_64600_seed_epoch_sample",
+                               "repeat_or_random_crop_64600_seed_epoch_sample_index"),
                 "eval_unit": "repeat_or_crop_first_64600"}
-    if any(contract["payload"].get(key) != value for key, value in expected.items()):
-        raise ValueError("worker does not implement the locked decode/unit profile")
+    if (payload.get("decode") != expected["decode"] or payload.get("train_unit") not in expected["train_unit"] or
+            payload.get("eval_unit") != expected["eval_unit"]):
+        raise ValueError("worker does not implement the configured decode/unit profile")
 
 
 def setup_distributed(runtime):
@@ -188,6 +144,9 @@ def seed_all(seed, rank):
     torch.manual_seed(seed + rank)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed + rank)
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cudnn.deterministic = True
+    torch.use_deterministic_algorithms(True)
 
 
 def make_loader(dataset, sampler, batch_size, workers):
@@ -340,7 +299,7 @@ def validate(model, adapter, loader, device, job):
     # The caller restores train/eval state explicitly for the next epoch.
     return {"source_val_loss": numerator / denominator, "source_val_eer": eer(scores, labels),
             "source_val_count": len(ids),
-            "source_val_ids_sha256": hashlib.sha256("\n".join(ids).encode("utf-8")).hexdigest(),
+            "source_val_ids": sorted(ids),
             "module_modes_before_validation": before_modes}
 
 
@@ -371,7 +330,7 @@ def restore_rng_state(state):
 def epoch_checkpoint_path(checkpoints, epoch):
     if not isinstance(epoch, int) or isinstance(epoch, bool) or epoch < 0:
         raise ValueError("checkpoint epoch must be a non-negative integer")
-    return os.path.join(checkpoints, "epoch-%04d.pt" % epoch)
+    return os.path.join(checkpoints, "epoch_%04d.pt" % epoch)
 
 
 def _atomic_link_or_copy(source, destination):
@@ -398,11 +357,11 @@ def _atomic_link_or_copy(source, destination):
 def publish_checkpoint_alias(source, destination):
     """Atomically advance a mutable convenience alias without changing epoch history."""
     _atomic_link_or_copy(source, destination)
-    _atomic_link_or_copy(source + ".json", destination + ".json")
 
 
 def save_checkpoint(path, model, optimizer, scheduler, scaler, epoch, global_step, job,
-                    patch, rank, world, sampler):
+                    model_patch, rank, world, sampler, train_result, validation,
+                    best_eer, best_epoch):
     import torch
     local_rng = rng_state(rank)
     all_rng = [None for _ in range(world)]
@@ -412,32 +371,32 @@ def save_checkpoint(path, model, optimizer, scheduler, scaler, epoch, global_ste
         all_rng[0] = local_rng
     if rank != 0:
         return None
-    if os.path.exists(path) or os.path.exists(path + ".json"):
+    if os.path.exists(path):
         raise ValueError("immutable epoch checkpoint already exists: %s" % path)
     source = job["source_job"]
-    value = {"schema_version": "0.1.0", "model_state": unwrap(model).state_dict(),
+    value = {"schema_version": "0.3.0", "model_state": unwrap(model).state_dict(),
              "optimizer_state": optimizer.state_dict(),
              "scheduler_state": scheduler.state_dict() if scheduler else None,
              "scaler_state": scaler.state_dict(), "epoch": epoch, "global_step": global_step,
+             "best_metric": float(best_eer), "best_epoch": int(best_epoch),
+             "train_metrics": train_result, "source_val_metrics": validation,
              "rng_states": all_rng, "sampler_state": {"epoch": sampler.epoch, "policy": sampler.policy,
                                                         "world_size": world},
-             "recipe_hash": source["recipe_hash"],
-             "fit_snapshot_hash": source["fit"]["snapshot_hash"],
-             "source_val_snapshot_hash": source["source_val"]["snapshot_hash"],
-             "architecture": job["execution"]["architecture"], "patch": patch,
+             "run_id": source["run_id"], "recipe_ref": source["recipe_ref"],
+             "fit": source["fit"], "source_val": source["source_val"],
+             "architecture": job["execution"]["architecture"], "model_patch": model_patch,
              "class_index_map": job["execution"]["class_index_map"],
              "initialization": source.get("initialization"), "training_seed": source["training_seed"],
-             "task_weight_origin": "trained_in_project"}
+             "task_weight_origin": "trained_in_project",
+             "random_rule": job["execution"]["random_rule"],
+             "training": job["execution"]["training"],
+             "runtime": job["execution"]["runtime"],
+             "preprocess": job["execution"]["preprocess"],
+             "resume_kind": "complete"}
     temporary = path + ".partial"
     torch.save(value, temporary)
     os.replace(temporary, path)
-    digest = sha256_file(path)
-    sidecar = {key: value[key] for key in ("schema_version", "epoch", "global_step", "recipe_hash",
-               "fit_snapshot_hash", "source_val_snapshot_hash", "architecture", "patch",
-               "class_index_map", "initialization", "training_seed", "task_weight_origin")}
-    sidecar["checkpoint_sha256"] = digest
-    atomic_json(path + ".json", sidecar)
-    return digest
+    return path
 
 
 def build_optimizer(model, job, steps_per_epoch):
@@ -461,25 +420,21 @@ def build_optimizer(model, job, steps_per_epoch):
     return optimizer, scheduler
 
 
-def execute(job, resume_checkpoint=None):
+def execute(job, resume_checkpoint=None, stop_after_epoch=None):
     import torch
     validate_job(job)
     verify_preprocess(job)
-    orchestration_patch = verify_training_orchestration(job)
     source = job["source_job"]
     execution = job["execution"]
     runtime = execution["runtime"]
     rank, world, local_rank, device = setup_distributed(runtime)
     seed_all(source["training_seed"], rank)
     roots = execution["data_roots"]
-    fit = ManifestDataset(source["fit"]["manifest_ref"], execution["manifest_hashes"]["fit"], roots, "fit",
-                          source["training_seed"])
-    val = ManifestDataset(source["source_val"]["manifest_ref"], execution["manifest_hashes"]["source_val"], roots, "source_val")
+    fit = ManifestDataset(source["fit"]["manifest_ref"], roots, "fit", source["training_seed"])
+    val = ManifestDataset(source["source_val"]["manifest_ref"], roots, "source_val")
+    if fit.random_rule != execution["random_rule"]:
+        raise ValueError("new training requires explicit sample_index in the fit manifest")
     adapter, model_patch = build_author_model(job, device)
-    patch_payload = {"model_construction": model_patch, "training_orchestration": orchestration_patch}
-    patch_encoded = json.dumps(patch_payload, sort_keys=True, separators=(",", ":"),
-                               ensure_ascii=False, allow_nan=False).encode("utf-8")
-    patch = {"payload": patch_payload, "combined_sha256": hashlib.sha256(patch_encoded).hexdigest()}
     model = adapter.model
     if world > 1:
         model = torch.nn.parallel.DistributedDataParallel(model, device_ids=[local_rank] if device.type == "cuda" else None)
@@ -491,40 +446,34 @@ def execute(job, resume_checkpoint=None):
     optimizer, scheduler = build_optimizer(model, job, steps_per_epoch)
     precision = runtime["precision"]
     scaler = torch.cuda.amp.GradScaler(enabled=precision == "float16" and device.type == "cuda")
-    start_epoch, global_step, best_eer = 0, 0, float("inf")
+    start_epoch, global_step, best_eer, best_epoch = 0, 0, float("inf"), -1
     if resume_checkpoint:
-        with open(resume_checkpoint + ".json", encoding="utf-8") as stream:
-            resume_sidecar = json.load(stream)
-        if sha256_file(resume_checkpoint) != resume_sidecar.get("checkpoint_sha256"):
-            raise ValueError("exact resume checkpoint hash mismatch")
-        # RNG tensors must remain CPU ByteTensors for torch.set_rng_state.  Loading
-        # the whole payload directly onto CUDA silently moves them and makes a
-        # valid legacy checkpoint unrestorable.  State-dict loaders move model and
-        # optimizer tensors to their parameter devices as needed.
         checkpoint = torch.load(resume_checkpoint, map_location="cpu")
-        migration = job.get("migration")
-        expected_recipe = migration["resume_recipe_hash"] if migration else source["recipe_hash"]
-        for key, expected in (("recipe_hash", expected_recipe),
-                              ("fit_snapshot_hash", source["fit"]["snapshot_hash"]),
-                              ("source_val_snapshot_hash", source["source_val"]["snapshot_hash"])):
+        required_resume = {"model_state", "optimizer_state", "scheduler_state", "scaler_state",
+                           "epoch", "global_step", "best_metric", "best_epoch", "rng_states",
+                           "sampler_state", "random_rule", "run_id", "training", "runtime", "preprocess"}
+        if checkpoint.get("schema_version") != "0.3.0" or required_resume - set(checkpoint):
+            raise ValueError("checkpoint is evaluation/warm-start only; full resume state or new random rule is missing")
+        if checkpoint.get("random_rule") != execution["random_rule"]:
+            raise ValueError("legacy digest-derived crop sequence cannot be exactly resumed; start a new run")
+        for key, expected in (("run_id", source["run_id"]), ("recipe_ref", source["recipe_ref"]),
+                              ("fit", source["fit"]), ("source_val", source["source_val"])):
             if checkpoint.get(key) != expected:
                 raise ValueError("resume rejected: %s changed" % key)
         for key, expected in (("architecture", execution["architecture"]),
                               ("class_index_map", execution["class_index_map"]),
                               ("initialization", source.get("initialization")),
                               ("training_seed", source["training_seed"]),
+                              ("training", execution["training"]),
+                              ("runtime", execution["runtime"]),
+                              ("preprocess", execution["preprocess"]),
                               ("task_weight_origin", "trained_in_project")):
             if checkpoint.get(key) != expected:
                 raise ValueError("resume rejected: %s changed" % key)
-        if migration:
-            if sha256_file(resume_checkpoint) != migration["resume_checkpoint_sha256"]:
-                raise ValueError("migration resume checkpoint is not the approved immutable input")
-            if checkpoint.get("patch", {}).get("combined_sha256") != migration["resume_patch_sha256"]:
-                raise ValueError("migration resume patch identity changed")
         if checkpoint["sampler_state"]["world_size"] != world:
             raise ValueError("exact resume rejected: DDP world size changed")
-        if not migration and checkpoint.get("patch") != patch:
-            raise ValueError("exact resume rejected: training patch identity changed")
+        if checkpoint.get("model_patch") != model_patch:
+            raise ValueError("exact resume rejected: model construction patch changed")
         unwrap(model).load_state_dict(checkpoint["model_state"])
         optimizer.load_state_dict(checkpoint["optimizer_state"])
         if scheduler and checkpoint["scheduler_state"] is not None:
@@ -533,6 +482,8 @@ def execute(job, resume_checkpoint=None):
         restore_rng_state(checkpoint["rng_states"][rank])
         start_epoch = checkpoint["epoch"] + 1
         global_step = checkpoint["global_step"]
+        best_eer = float(checkpoint["best_metric"])
+        best_epoch = int(checkpoint["best_epoch"])
     output = source["output_dir"]
     checkpoints = os.path.join(output, "checkpoints")
     os.makedirs(checkpoints, exist_ok=True)
@@ -545,14 +496,14 @@ def execute(job, resume_checkpoint=None):
     max_epochs = int(execution["training"]["max_epochs"])
     if phase == "smoke":
         max_epochs = min(max_epochs, int(runtime.get("smoke_epochs", 1)))
+    if stop_after_epoch is not None:
+        if type(stop_after_epoch) is not int or not start_epoch <= stop_after_epoch < max_epochs:
+            raise ValueError("stop-after epoch must be within the epochs this process would run")
     log_path = os.path.join(output, "train_log.jsonl")
     metrics_path = os.path.join(output, "metrics.jsonl")
-    if resume_checkpoint and os.path.isfile(metrics_path):
-        with open(metrics_path, encoding="utf-8") as stream:
-            previous = [json.loads(line) for line in stream if line.strip()]
-        if previous:
-            best_eer = min(float(item["source_val_eer"]) for item in previous)
+    history_path = os.path.join(output, "history.csv")
     started = time.time()
+    completed_epoch = start_epoch - 1
     for epoch in range(start_epoch, max_epochs):
         sampler.set_epoch(epoch)
         fit.set_epoch(epoch)
@@ -575,10 +526,12 @@ def execute(job, resume_checkpoint=None):
             torch.distributed.broadcast_object_list(values, src=0)
             validation = values[0]
         improved = validation["source_val_eer"] < best_eer
-        best_eer = min(best_eer, validation["source_val_eer"])
+        if improved:
+            best_eer, best_epoch = validation["source_val_eer"], epoch
         epoch_path = epoch_checkpoint_path(checkpoints, epoch)
-        epoch_hash = save_checkpoint(epoch_path, model, optimizer, scheduler, scaler, epoch,
-                                     global_step, job, patch, rank, world, sampler)
+        save_checkpoint(epoch_path, model, optimizer, scheduler, scaler, epoch, global_step,
+                        job, model_patch, rank, world, sampler, train_result, validation,
+                        best_eer, best_epoch)
         if rank == 0:
             publish_checkpoint_alias(epoch_path, os.path.join(checkpoints, "last.pt"))
             if improved:
@@ -588,38 +541,43 @@ def execute(job, resume_checkpoint=None):
                       "source_val_loss": validation["source_val_loss"],
                       "source_val_eer": validation["source_val_eer"],
                       "source_val_count": validation["source_val_count"],
-                      "source_val_ids_sha256": validation["source_val_ids_sha256"],
+                      "source_val_ids": validation["source_val_ids"],
                       "lr": optimizer.param_groups[0]["lr"], "improved": improved,
-                      "epoch_checkpoint_ref": epoch_ref,
-                      "epoch_checkpoint_sha256": epoch_hash,
-                      "last_checkpoint_sha256": epoch_hash}
+                      "best_epoch": best_epoch, "epoch_checkpoint_ref": epoch_ref}
             record["sampler_coverage"] = sampler.disclosure()
             append_jsonl(log_path, record)
-            if improved:
-                append_jsonl(metrics_path, {"epoch": epoch, "source_val_eer": validation["source_val_eer"],
-                             "checkpoint_ref": epoch_ref, "checkpoint_sha256": epoch_hash})
+            append_jsonl(metrics_path, {"epoch": epoch, "source_val_eer": validation["source_val_eer"],
+                                        "checkpoint_ref": epoch_ref})
+            append_history(history_path, {
+                "epoch": epoch, "global_step": global_step,
+                "train_weighted_loss_numerator": train_result["weighted_loss_numerator"],
+                "train_sample_count": train_result["sample_count"],
+                "source_val_loss": validation["source_val_loss"],
+                "source_val_eer": validation["source_val_eer"],
+                "source_val_count": validation["source_val_count"],
+                "lr": optimizer.param_groups[0]["lr"], "improved": improved,
+                "best_epoch": best_epoch, "epoch_checkpoint_ref": epoch_ref})
         if world > 1:
             torch.distributed.barrier()
+        completed_epoch = epoch
+        if stop_after_epoch is not None and epoch == stop_after_epoch:
+            break
     if rank == 0:
-        identity = hashlib.sha256((source["recipe_hash"] + source["fit"]["snapshot_hash"] +
-                                   source["source_val"]["snapshot_hash"] + str(source["training_seed"])).encode()).hexdigest()
-        run_status = "VALIDATED" if phase == "resume_validation" else "TRAINED"
-        run = {"schema_version": "0.1.0", "status": run_status, "phase": phase,
-               "execution_channel": "production", "training_run_id": "source-run-" + identity[:20],
-               "model_id": source["model_id"], "recipe_ref": source["recipe_lock_ref"],
-               "recipe_hash": source["recipe_hash"], "fit_snapshot_hash": source["fit"]["snapshot_hash"],
-               "source_val_snapshot_hash": source["source_val"]["snapshot_hash"],
+        status = "TRAINED" if completed_epoch + 1 == max_epochs else "INTERRUPTED"
+        run = {"schema_version": "0.3.0", "status": status, "phase": phase,
+               "training_run_id": source["run_id"], "model_id": source["model_id"],
+               "recipe_ref": source["recipe_ref"], "fit": source["fit"],
+               "source_val": source["source_val"],
                "architecture": execution["architecture"], "class_index_map": execution["class_index_map"],
-               "patch": patch,
+               "model_patch": model_patch,
                "initialization": source.get("initialization"), "training_seed": source["training_seed"],
                "task_weight_origin": "trained_in_project", "world_size": world,
                "sampler_coverage": sampler.disclosure(),
-               "exact_resume_claim": False if job.get("migration") else "requires_identity_and_state_validation",
-               "metrics_ref": "metrics.jsonl", "metrics_sha256": sha256_file(metrics_path),
-               "train_log_ref": "train_log.jsonl", "train_log_sha256": sha256_file(log_path),
+               "random_rule": execution["random_rule"], "exact_resume_supported": True,
+               "best_epoch": best_epoch, "best_metric": best_eer,
+               "metrics_ref": "metrics.jsonl", "history_ref": "history.csv",
+               "train_log_ref": "train_log.jsonl",
                "elapsed_seconds": time.time() - started}
-        if job.get("migration"):
-            run["migration"] = job["migration"]
         atomic_json(os.path.join(output, "run.json"), run)
     if world > 1:
         torch.distributed.barrier()
@@ -632,6 +590,7 @@ def main(argv=None):
     sub = parser.add_subparsers(dest="command", required=True)
     train = sub.add_parser("train")
     train.add_argument("--job", required=True)
+    train.add_argument("--stop-after-epoch", type=int)
     resume = sub.add_parser("resume")
     resume.add_argument("--run", required=True)
     resume.add_argument("--checkpoint", required=True)
@@ -640,7 +599,7 @@ def main(argv=None):
         with open(args.job, encoding="utf-8") as stream:
             job = json.load(stream)
         ACTIVE_OUTPUT = job.get("source_job", {}).get("output_dir")
-        execute(job)
+        execute(job, stop_after_epoch=args.stop_after_epoch)
     else:
         job_path = os.path.join(args.run, "source_train_job.json")
         with open(job_path, encoding="utf-8") as stream:

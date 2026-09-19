@@ -10,9 +10,14 @@ def _top_eigenspace(second_moment, rank):
 
 
 def _sample_mix(seed, group, position):
-    import hashlib
-    digest = hashlib.sha256(("%d\0%s\0%d" % (seed, group, position)).encode()).digest()
-    return int.from_bytes(digest[:8], byteorder="big")
+    if type(group) is not int or type(position) is not int:
+        raise ValueError("source sampling requires integer group/sample indices")
+    mask = (1 << 64) - 1
+    value = (seed + 0x9E3779B97F4A7C15 * (group + 1) +
+             0xBF58476D1CE4E5B9 * (position + 1)) & mask
+    value = ((value ^ (value >> 30)) * 0xBF58476D1CE4E5B9) & mask
+    value = ((value ^ (value >> 27)) * 0x94D049BB133111EB) & mask
+    return value ^ (value >> 31)
 
 
 def balanced_response_subspace(views, labels, groups, rank, treatment_families,
@@ -51,10 +56,11 @@ def balanced_response_subspace(views, labels, groups, rank, treatment_families,
             for pos in positions.tolist():
                 by_group.setdefault(group_array[pos], []).append(pos)
             sampled = []
-            for group, members in by_group.items():
+            for group_index, group in enumerate(sorted(by_group)):
+                members = by_group[group]
                 if len(members) < samples_per_group:
                     raise ValueError("source group %r has fewer than samples_per_group units" % group)
-                order = sorted(members, key=lambda p: _sample_mix(pair_seed, group, p))[:samples_per_group]
+                order = sorted(members, key=lambda p: _sample_mix(pair_seed, group_index, p))[:samples_per_group]
                 sampled.extend(order)
             cell_delta = deltas[np.asarray(sampled, dtype=np.int64), family_index].astype(np.float64)
             moment = cell_delta.T @ cell_delta / cell_delta.shape[0]

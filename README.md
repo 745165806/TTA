@@ -1,43 +1,144 @@
-# EP-TTA v0.1.0
+# EP-TTA
 
-本项目以 `docs/DESIGN.md` 为唯一主合同。当前已实现源训练/冻结、pickle-free 特征缓存、统一 suite 派发、严格分数封存，以及 `select-methods / freeze / report`。2026-09-18 的审批、数值回退、最终诊断、通用 AASIST R4、小样本采样与计划生成修复见 [最新回归报告](docs/REVIEW_REGRESSION_REPORT_20260918.md)。新 GPU 训练、SSL-AASIST parity、新目标适配和论文结论仍未运行。
+本仓库保留原有 AASIST / SSL-AASIST、源资源、EP 更新、baseline 与评价语义，把日常流程收敛为：准备数据 → 训练或复用源模型 → 准备源资源并选参 → 无标签 TTA → 独立评价 → 汇总。数学、数据角色和泄漏边界见 [docs/DESIGN.md](docs/DESIGN.md)。历史审批记录仍可读，但 reviewer、锁定状态、阶段提案、人工 SHA 和 score seal 均不再是执行前提。
 
-主规范：[DESIGN.md](docs/DESIGN.md)；实际进展：[IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md)；命令与证据：[TEST_REPORT.md](docs/TEST_REPORT.md)。项目、包和自有 schema 版本均为 `0.1.0`，方法 ID 为 `ep_tta`。
-
-## 本机使用
-
-Python >= 3.10。基础 CLI 无强制第三方依赖；提供的 `.yaml` 使用 JSON 语法（YAML 的子集），标准库即可读取。普通 YAML 需要显式安装的 PyYAML，加载时拒绝重复键、未知键和非法覆盖。PyTorch 仅由数值模块延迟导入；本轮没有安装依赖。
-
-在项目根目录执行：
+## 安装：唯一 `tta` 环境
 
 ```bash
-PYTHONPATH=src python -m eptta.cli --version
-PYTHONPATH=src python -m eptta.cli --profile local_dev validate --level structure --stage development
-/home/dell/anaconda3/envs/py310/bin/python -m pytest -q
-PYTHONPATH=src /home/dell/anaconda3/envs/py310/bin/python scripts/make_plans.py --help
+conda env create -f environment.yml
+conda activate tta
+python -m pip install -e .
+python -m eptta.cli --help
+python -m pytest -q
 ```
 
-基础配置校验不访问任何数据、权重、占位路径或网络。`local_dev` profile 调用真实数据 I/O 会失败；真实 inventory/staging 必须显式选择 remote profile 与私有路径绑定。所有发布命令拒绝覆盖已有输出。
+训练、特征提取、TTA、评价和测试均使用当前 `tta` 环境的 `python`；子进程使用 `sys.executable`。仓库不会自动下载数据/权重、SSH、安装 CUDA 或修改已有环境。
 
-数据 CLI 已实现 `prepare-labels / validate-labels`、`inspect-data → propose-data-contract → approve-contract → stage-data → propose-splits → build-manifests → seal-source-manifests`，以及 `ingest-delta / commit-snapshot / refresh-plan`。源训练入口保持 `train-source / export-frozen-r4`，执行入口保持 `extract / build-artifacts / run-suite / seal-scores / evaluate`。`select-methods / freeze / report` 已补齐，不增加同义入口。`scripts/make_plans.py` 只生成 PROPOSED 配置并由独立 `lock` 子命令按 review SHA-256 批准。
+`environment.yml` 固定的是依据作者依赖和本机现状整理的单环境候选配方。SSL adapter 明确使用该环境安装的 fairseq 0.12.2，不再切换到作者目录内另一套 Python/fairseq 环境。当前机器没有名为 `tta` 的环境，因此尚未完成两套真实模型在该配方下的权重加载、前向、反向与 CUDA 联合验证；详见“验证范围”。
 
-## 已实现范围
+私有路径写入不提交的本地文件，例如：
 
-- `src/eptta/config`：严格 schema、分层解析、来源记录、独立源训练预览解析、七阶段校验；`configs` 包含模型/数据/方法 registry 及 null 合同模板。
-- `src/eptta/data`：CSV/TSV/空白分隔/JSON/JSONL/sidecar，显式列与 JSON path；标签映射、协议上下文到安全相对音频路径、来源组、隔离诊断、staging/split/snapshot、增量与预处理/cache 身份。六个 registry 数据 ID 均有候选插件，但真实合同仍逐数据集审核。
-- `src/eptta/training`、`src/eptta/models` 与 `workers/`：固定两套作者 commit/hash，native 类别映射，AASIST/SSL-AASIST 构造，语义加权 CE，单卡/DDP worker，完整 source_val EER、last/best、RNG/采样器恢复、finalize/export parity。SSL 只接受显式通用前端初始化。
-- `src/eptta/cache`、`execution`：冻结特征分块 `.npy`、`allow_pickle=False`、精确 ID 覆盖、原子发布/合并和 label-free extraction job。
-- `src/eptta/adaptation`、`offline`、`baselines`：主 EP、批量 sum 梯度，以及 frozen/multiview/static、目标×保持六格、L2/logit/Fisher、response/PCA/random U、固定源 R、17 点 scalar、no-projection/source-CE。五项 published port 仅有审计合同且显式阻塞。
-- `tests`：D/S/T/C 合同、缓存、机制、评价封存、训练产物和原数学参考。2026-09-18 完整 CPU 执行为 293 passed、1 skipped；真实 GPU 为 NOT_RUN。
+```bash
+cp configs/research/paths.local.yaml.example configs/research/paths.local.yaml
+```
 
-## 数据和模型边界
+实验配置中的 `@path:key` 从 `--paths` 文件读取；`${ENV_NAME}` 做显式环境变量展开。缺失路径、未设置变量和 `REPLACE_WITH_...` 占位都会在实际使用时明确报错。
 
-`0=bonafide, 1=spoof`，`score > tau` 判 spoof。目标标签、攻击 ID、干净父音频、历史和整体统计不进入 TargetViews；源锚点标签仅允许来自 fit。训练允许 fit 梯度与 source_val 选模，不能接受 select/cal0/test 引用。
+## 1. 准备数据
 
-`/media/dell/data/fakedata` 的私有路径绑定保存在被 Git 忽略的 `configs/paths.fakedata.private.yaml`，本机统一标签源说明保存在同样被忽略的 `configs/unified_labels.fakedata.private.json`，生成包写入 Git 忽略的 `fakedata/`。ASVspoof 2019 LA 的只读观测候选位于 `configs/data_contracts/asvspoof2019_la.observed.yaml.example`，仍为 PROPOSED；它不是审核结论。统一标签包可供数据检查和后续 loader 使用，但其中 `split_role=unassigned`，不能替代 group/split/preprocess 的正式审核。`UNRESOLVED → PROPOSED → LOCKED` 必须有 reviewer、带时区时间、报告、抽样证据和 payload hash。
+```bash
+python -m eptta.cli prepare-data \
+  --config configs/research/asv2019.yaml \
+  --paths configs/research/paths.local.yaml
+```
 
-SSL-AASIST / AASIST 鉴伪权重由本项目后续在远程 Ubuntu 双 A6000 自行训练。允许经授权审核的通用 SSL 前端预训练初始化；不允许用作者的任务 checkpoint 替代源训练。smoke、未 finalized、外部/合成任务权重均不能作为正式 frozen bundle。
+输入必须是显式 CSV/JSONL manifest，不根据目录名猜标签、group、release 或 subset。必需列为 `sample_id`、`audio_relpath`、label、group；已有 `split_role` 原样复用，也可用 `split.assignments` 显式引用上次生成的 `assignments.csv`。既有 role 和 `sample_index` 保持不变；仅对尚无 assignment 的新 group，按排序后的 group 列表、固定 seed 和独立整数 PRNG 分配一次，并为新样本追加 index。已有划分和 ID 不会重建。
 
-## 当前启动边界
+输出包括完整 `manifest.csv`、角色 manifest、无标签 `inference/<role>.jsonl`、独立 labels/groups 和 `summary.json`。TTA 只接收无标签 inference 视图。
 
-当前统一 label pack 已完成，但正式 group/preprocess/split lock 与 DatasetSnapshot 尚未发布，所以不能直接执行训练。按 [REMOTE_RUNBOOK.md](docs/REMOTE_RUNBOOK.md) 完成 snapshot 和 recipe 审核后，先跑 AASIST smoke；通过远程显存、覆盖、checkpoint 读写和完整 source_val 验证后，再单独启动 full。SSL 还必须补通用 XLS-R 文件绑定。不得以作者任务 checkpoint 或 toy 回退越过该步骤。
+## 2. 训练或复用源模型
+
+```bash
+python -m eptta.cli train-source \
+  --config configs/research/aasist.yaml \
+  --paths configs/research/paths.local.yaml
+```
+
+`phase` 可为 `smoke` 或 `full`。
+
+仓库同时提供互不覆盖的 smoke/full 配置：`aasist.yaml` 与
+`aasist_full.yaml`，以及 `ssl_aasist.yaml` 与 `ssl_aasist_full.yaml`。例如启动
+AASIST 完整训练：
+
+```bash
+python -m eptta.cli train-source \
+  --config configs/research/aasist_full.yaml \
+  --paths configs/research/paths.local.yaml
+```
+
+完整续训使用：
+
+```bash
+python -m eptta.cli train-source \
+  --config configs/research/aasist_full.yaml \
+  --paths configs/research/paths.local.yaml \
+  --resume outputs/source/aasist-full-asvspoof2019train-random/checkpoints/last.pt
+```
+
+每个 epoch 原子写入不可覆盖的 `checkpoints/epoch_XXXX.pt`。它保存完整 `model.state_dict()`（参数与持久 buffer），并同时保存 optimizer、scheduler、AMP scaler、epoch/global_step、best 指标、RNG、必要 sampler/DDP 状态，因此当前实现的 epoch 文件是可续训全状态超集。`last.pt` 指向最新完整状态，`best.pt` 指向 source_val 最优的具体 epoch；`history.csv` 记录逐 epoch 指标。
+
+旧 checkpoint 可继续评价或作为新运行初始化。若缺 optimizer/RNG 等恢复字段，或来自旧 SHA 派生裁剪规则，只能标为 warm start，不能宣称 exact resume。已有文件不会被批量转换或覆盖。
+
+## 3. 准备源资源并选择参数
+
+```bash
+python -m eptta.cli prepare-source \
+  --config configs/research/source.yaml \
+  --paths configs/research/paths.local.yaml
+```
+
+该入口复用冻结导出、特征提取、U/anchors/margins/Fisher/static-R、cal0 校准和 source-only select 实现，只构建当前配置所需资源。既有 frozen bundle 或缓存需显式引用；缓存必须声明具体 source run、不可变 epoch checkpoint、dataset/role、manifest、完整预处理/视图配置、seed、dtype/数值模式，并通过精确 ID、shape、dtype 和有限值检查。缺失资源不会补零。
+
+项目不再计算内容摘要，也不自动跨运行寻找“相同”缓存。程序因此不能识别被外部原地替换、但路径与普通元数据保持不变的文件；依赖不可覆盖的 epoch/cache 目录和显式 `cache_ref` 操作纪律。输入语义变化时创建新目录。
+
+## 4. 无标签 TTA
+
+```bash
+python -m eptta.cli run-tta \
+  --config configs/research/control_test_ep.yaml \
+  --paths configs/research/paths.local.yaml
+```
+
+`run-tta` 不接受 labels 参数，也不会打开目标标签文件。EP 仍逐样本 reset；K=0、投影、损失、baseline、数值诊断和预设回退率限制保持不变。未知方法/错误配置不会伪装成数值回退，未实现 port 仍是 `NOT_RUN`。
+
+普通输出为：
+
+```text
+outputs/<run_name>/
+  config.yaml
+  meta.json
+  scores.csv
+  metrics.json       # evaluate 后生成
+  log.txt
+```
+
+`meta.json` 记录 run ID、具体模型/cache/data 路径、seed、环境、方法和选参来源。脏工作区另存 `code.diff`；Git commit 仅是来源记录，不是执行令牌。
+
+## 5. 独立评价
+
+```bash
+python -m eptta.cli evaluate \
+  --run outputs/control_test_ep \
+  --labels data/manifests/asv2019_la/labels/control_test.jsonl
+```
+
+评分阶段先原子生成 `scores.csv`，评价阶段才读取 labels。评价要求 scores、expected IDs 和 label IDs 集合精确相等，并检查重复 ID 与 NaN/Inf；不通过 inner join 丢样本。固定阈值来自 cal0 记录，不用目标标签重新校准。EER 只在评价时按定义扫描；缺 tDCF/minDCF 所需输入时明确标不可用。
+
+## 6. 汇总已有结果
+
+```bash
+python -m eptta.cli report --runs outputs --out outputs/summary.csv
+```
+
+`report` 只汇总已有 `metrics.json`，不重新评分，也不根据最终测试结果选择方法。
+
+## 科学边界与随机规则迁移
+
+- `0=bonafide, 1=spoof`，分数越大越偏 spoof；source native 类别映射不变。
+- fit/source_val/source-select/cal0/control_test/target_test 的用途保持分离，audit/cal1 按既有协议保留。
+- TTA 不接收目标标签、攻击、干净父音频、目标整体统计或跨样本历史；`sample_id` 只关联结果。
+- 新训练裁剪与视图由持久化的整数 `sample_index`、seed、epoch、view 编号和 namespace 驱动独立 PRNG，不依赖读取顺序或全局 RNG；源响应子空间的组内抽样同样改用排序后的 group index、样本位置和整数 seed。各自的采样范围/分布和后续数学不变。
+- 这些规则会改变旧 SHA 派生的裁剪、视图和源响应抽样序列，因此新旧训练轨迹与重建的 U 不保证逐位一致。已有 checkpoint/明确归属的源资源可只读评价；旧运行若无逐视图/抽样记录，不能恢复原序列或宣称 exact resume。使用新规则重建源资源时必须写入新目录。
+- 模型结构、损失、预处理操作/增强分布、EP 数学、数据角色和指标定义未因该迁移改变。
+
+## 验证范围
+
+轻量测试命令为：
+
+```bash
+python -m pytest -q
+```
+
+它不访问网络、远程数据或 CUDA，覆盖 EP reference/梯度/投影、K=0、逐样本 reset、serial/batch、标签方向、指标边界、group 隔离、TTA 标签隔离、显式缓存归属、精确 ID、数值回退以及 epoch checkpoint 重载/续训状态合同。
+
+当前交付没有创建 `tta` 环境，也没有执行真实 AASIST/SSL-AASIST 权重加载、GPU 前向/反向、完整训练、全量缓存或目标集评价。轻量工程测试通过不代表单环境依赖已在服务器验证，更不代表论文方法有效。

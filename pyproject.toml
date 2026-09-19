@@ -5,14 +5,24 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ep-tta"
 version = "0.1.0"
-description = "EP-TTA contracts, reviewed data interfaces, and episodic adaptation core"
-requires-python = ">=3.10"
-dependencies = []
+description = "Episodic test-time adaptation research workflow for audio anti-spoofing"
+requires-python = ">=3.10,<3.11"
+dependencies = [
+  "numpy>=1.26,<2",
+  "scipy>=1.13,<1.14",
+  "PyYAML>=6,<7",
+  "torch>=2.1,<2.2",
+  "torchaudio>=2.1,<2.2",
+  "soundfile>=0.12,<0.14",
+]
 
 [project.optional-dependencies]
-yaml = ["PyYAML>=6"]
-core = ["torch>=2", "numpy>=1.21"]
-test = ["pytest>=7"]
+author-models = [
+  "fairseq==0.12.2",
+  "librosa>=0.10,<0.11",
+  "tensorboardX==2.5",
+]
+test = ["pytest>=9,<10"]
 
 [project.scripts]
 eptta = "eptta.cli:main"
@@ -21,7 +31,7 @@ eptta = "eptta.cli:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-eptta = ["schemas/*.json", "catalogs/*.json"]
+eptta = ["catalogs/*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "tests/reference"]

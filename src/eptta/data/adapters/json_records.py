@@ -3,14 +3,12 @@ from pathlib import Path
 
 from eptta.data.adapters.base import field_by_path, protocol_context
 from eptta.data.contracts import RawRecord
-from eptta.data.io import sha256_file
 from eptta.errors import DataError
 
 
 class JsonRecordsAdapter:
     def iter_file(self, path, payload):
         source = Path(path)
-        digest = sha256_file(source)
         with source.open(encoding=payload["encoding"]) as stream:
             if payload["format"] == "json":
                 try:
@@ -34,4 +32,4 @@ class JsonRecordsAdapter:
             if not isinstance(value, dict):
                 raise DataError(f"JSON record must be object at {source}:{index}")
             fields = {logical: field_by_path(value, path) for logical, path in payload["json_paths"].items()}
-            yield RawRecord(f"{source}:{index}", fields, digest, str(source), index, context)
+            yield RawRecord(f"{source}:{index}", fields, str(source), index, context)

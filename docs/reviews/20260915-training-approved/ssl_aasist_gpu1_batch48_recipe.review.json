@@ -1,7 +1,0 @@
-{
-  "accepted": true,
-  "reviewer": "mm",
-  "approved_at": "2026-09-15T19:56:22+08:00",
-  "report_ref": "/media/dell/data/fakeAudioDection/TTA/docs/REMOTE_R0_R4_20260914.md",
-  "sample_evidence_ref": "/media/dell/data/fakedata/eptta_work/training_runs/ssl_aasist_source/smoke-gpu1-001/source_train_job.json"
-}

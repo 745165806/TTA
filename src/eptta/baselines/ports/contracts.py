@@ -1,4 +1,4 @@
-"""No-formula-guessing gate for published audio TTA ports."""
+"""No-formula-guessing status for published audio TTA ports."""
 from dataclasses import dataclass
 from typing import Mapping
 
@@ -16,7 +16,7 @@ class PublishedPortAudit:
     repository: str | None
     repo_commit: str | None
     license_ref: str | None
-    patch_sha256: str | None
+    patch_ref: str | None
     updated_parameter_names: tuple[str, ...]
     normalization_policy: str | None
     reset_policy: str
@@ -27,15 +27,15 @@ class PublishedPortAudit:
     def __post_init__(self):
         if self.method_id not in PORT_IDS or self.reset_policy != "per_sample" or self.target_history:
             raise ContractError("episodic published port identity/reset/history contract mismatch")
-        if self.status not in ("BLOCKED_AUDIT", "VERIFIED"):
+        if self.status not in ("NOT_IMPLEMENTED", "VERIFIED"):
             raise ContractError("invalid published port audit status")
         if self.status == "VERIFIED" and not all((self.repository, self.repo_commit, self.license_ref,
-                                                   self.patch_sha256, self.updated_parameter_names,
+                                                   self.patch_ref, self.updated_parameter_names,
                                                    self.normalization_policy, self.parity_report_ref)):
             raise ContractError("VERIFIED port lacks source/license/patch/parameter/parity evidence")
 
 
 def require_verified_port(audit):
     if type(audit) is not PublishedPortAudit or audit.status != "VERIFIED":
-        raise NotImplementedStage("published port remains BLOCKED_AUDIT; no substitute formula is allowed")
+        raise NotImplementedStage("published port remains NOT_IMPLEMENTED; no substitute formula is allowed")
     return audit
