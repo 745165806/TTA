@@ -1,0 +1,19 @@
+{
+  "baseline_id": "source-20260919T083403Z-8057e8:epoch_0066",
+  "comparison_group_id": "frozen",
+  "methods": [
+    {
+      "fallback_count": 0,
+      "method_id": "frozen",
+      "run_ref": "frozen",
+      "status": "SCORED",
+      "valid_for_comparison": true
+    }
+  ],
+  "phase": "confirmatory",
+  "schema_version": "0.3.0",
+  "status": "SCORED",
+  "suite_id": "frozen",
+  "target_labels_read": false,
+  "valid_for_comparison": true
+}

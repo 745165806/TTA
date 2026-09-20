@@ -1,0 +1,4 @@
+run_name,role,method_id,selection_source,count,eer,auroc,fpr,fnr,threshold,status
+ep_tta,control_test,ep_tta,outputs_v2/aasist/selection.json,71237,0.02080217539089055,0.9976286155232973,0.0327668252889191,0.007529507529507529,-6.133878707885742,EVALUATED
+frozen,control_test,frozen,outputs_v2/aasist/selection.json,71237,0.02080217539089055,0.9976288219712368,0.0327668252889191,0.007529507529507529,-6.133878707885742,EVALUATED
+multiview_mean,control_test,multiview_mean,outputs_v2/aasist/selection.json,71237,0.02305813844275384,0.9972078980341282,0.03956492182188987,0.007185122569737954,-6.133878707885742,EVALUATED

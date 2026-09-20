@@ -1,0 +1,40 @@
+{
+  "architecture": {
+    "class_index_map": {
+      "bonafide": 1,
+      "spoof": 0
+    },
+    "embedding_dim": 160,
+    "entrypoint": null,
+    "model_id": "ssl_aasist_source",
+    "repository_ref": "/media/dell/data/fakeAudioDection/SSL_Anti-spoofing",
+    "repository_revision": "4acaa61dcef5f7610f43aa4d0b29c4559b970cd2"
+  },
+  "bundle_fields": {
+    "class_index_map": {
+      "bonafide": 1,
+      "spoof": 0
+    },
+    "embedding_dim": 160,
+    "epoch": 7,
+    "preprocess": {
+      "decode": "soundfile_float32_mono_mean_require_16khz",
+      "eval_unit": "repeat_or_crop_first_64600",
+      "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample_index"
+    },
+    "source_run_id": "source-20260919T083421Z-a61b23",
+    "source_val_selection_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/finalized.json",
+    "training_phase": "full"
+  },
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+  "fixture_audio_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_7614232.flac",
+  "initialization": {
+    "artifact_ref": "/media/dell/data/fakeAudioDection/pretrained-model/xlsr2_300m.pt",
+    "pretraining_provenance": "upstream XLS-R 300M generic wav2vec 2.0 frontend checkpoint; local user-provided artifact",
+    "scope": "generic_ssl_frontend_only"
+  },
+  "job_type": "frozen_export",
+  "model_id": "ssl_aasist_source",
+  "output_dir": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen",
+  "schema_version": "0.3.0"
+}

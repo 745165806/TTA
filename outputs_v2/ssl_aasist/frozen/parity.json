@@ -1,0 +1,11 @@
+{
+  "atol": 1e-05,
+  "author_head_max_abs": 0.0,
+  "buffers_stable": true,
+  "fixture_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_train/flac/LA_T_7614232.flac",
+  "head_score_max_abs": 4.76837158203125e-07,
+  "module_modes_stable": true,
+  "rtol": 1e-05,
+  "schema_version": "0.3.0",
+  "status": "PASS"
+}

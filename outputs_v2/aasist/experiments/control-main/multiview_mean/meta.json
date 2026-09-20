@@ -1,0 +1,41 @@
+{
+  "cache_ref": "outputs_v2/aasist/cache-control_test",
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/aasist-full-asvspoof2019train-random/checkpoints/epoch_0066.pt",
+  "code": {
+    "commit": "e5217e7b4ad17877a259da9cea8e8985f4eb8669",
+    "dirty": true,
+    "status": "M outputs_v2/nightly/REPORT.md\n M outputs_v2/nightly/configs/ssl_aasist/A_freeze.json\n M outputs_v2/nightly/run.log\n?? README_tta_helpers.md\n?? configs/local_v2/aasist_control_main/\n?? configs/local_v2/source_ssl_aasist_gpu1.yaml\n?? configs/local_v2/source_ssl_aasist_resume.yaml\n?? outputs_v2/aasist/cache-control_test.shards/\n?? outputs_v2/aasist/cache-control_test/\n?? outputs_v2/aasist/experiments/\n?? outputs_v2/nightly/model-ssl_aasist.status.json\n?? outputs_v2/nightly/pipeline-ssl_aasist.log\n?? outputs_v2/ssl_aasist/\n?? tta_experiments.py\n?? tta_run_generated.sh"
+  },
+  "code_snapshot_ref": "code_snapshot",
+  "data_ref": "data/manifests_v2/asv2019_la/inference/control_test.jsonl",
+  "environment": {
+    "packages": {
+      "PyYAML": "6.0.3",
+      "fairseq": "0.12.2",
+      "librosa": null,
+      "numpy": "1.26.4",
+      "scipy": "1.13.0",
+      "soundfile": "0.12.1",
+      "tensorboardX": null,
+      "torch": "2.1.0+cu121",
+      "torchaudio": "2.1.0+cu121"
+    },
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "python": "3.10.20"
+  },
+  "method": {
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.01,
+      "rho": 0.2,
+      "steps": 0
+    },
+    "method_id": "multiview_mean",
+    "params": {}
+  },
+  "run_id": "run-20260920T120655Z-e1881e",
+  "schema_version": "0.2.0",
+  "seed": 13,
+  "selection_source": "outputs_v2/aasist/selection.json"
+}

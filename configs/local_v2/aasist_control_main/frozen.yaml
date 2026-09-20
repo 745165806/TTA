@@ -1,0 +1,47 @@
+{
+  "schema_version": "0.1.0",
+  "command": "run-tta",
+  "run_name": "frozen",
+  "output_root": "outputs_v2/aasist/experiments/control-main",
+  "role": "control_test",
+  "scope_id": "asvspoof2019_la/ASVspoof2019-LA/train-fit__dev-sourceval-cal0-select__eval-controltest-v2/control_test",
+  "input_manifest": "data/manifests_v2/asv2019_la/inference/control_test.jsonl",
+  "feature_cache": "outputs_v2/aasist/cache-control_test",
+  "extraction": {
+    "dataset_id": "asvspoof2019_la",
+    "data_roots": {
+      "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+    },
+    "probe": {
+      "num_views": 3,
+      "seed": 13,
+      "noise_snr_db": 30.0,
+      "fir_side_gain": 0.05
+    },
+    "numerical_mode": {
+      "dtype": "float32",
+      "tf32_matmul": false,
+      "tf32_cudnn": false,
+      "block_units": 256
+    },
+    "workers": 1
+  },
+  "resources": "outputs_v2/aasist/resources",
+  "frozen_bundle": "outputs_v2/aasist/frozen/bundle.json",
+  "method": {
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.01,
+      "rho": 0.2,
+      "steps": 0
+    },
+    "method_id": "frozen",
+    "params": {}
+  },
+  "threshold": null,
+  "threshold_source": null,
+  "fallback_rate_max": 0.01,
+  "selection_source": "outputs_v2/aasist/selection.json",
+  "seed": 13
+}

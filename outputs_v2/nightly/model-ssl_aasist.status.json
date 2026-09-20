@@ -1,0 +1,12 @@
+{
+  "model": "ssl_aasist",
+  "problems": [],
+  "state": "CACHE_RESOURCES",
+  "steps": {
+    "freeze": {
+      "detail": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+      "ok": true
+    }
+  },
+  "updated_at": "2026-09-20 19:03:01"
+}

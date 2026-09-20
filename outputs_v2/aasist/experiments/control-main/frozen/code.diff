@@ -1,0 +1,108 @@
+diff --git a/outputs_v2/nightly/REPORT.md b/outputs_v2/nightly/REPORT.md
+index 0c3d430..17a0de3 100644
+--- a/outputs_v2/nightly/REPORT.md
++++ b/outputs_v2/nightly/REPORT.md
+@@ -1,35 +1,48 @@
+ # Nightly TTA Report
+ 
+-_auto-updated 2026-09-20 10:19:35_
+-
+-## Runner
+-- pid: 1866425
+-- started: 2026-09-20 00:18:56
+-- path: `/media/dell/data/fakeAudioDection/TTA/local/nightly_tta_runner.py`
++_regenerated at 2026-09-20 18:58:36_
+ 
+ ## CPU pytest
+-- {"status": "PASS", "summary": "115 passed in 3.78s"}
++- status: PASS (115 passed in 3.78s)
+ 
+-## In-the-Wild acceptance
+-- {"status": "PASS", "sample_count": 31779, "class_counts": {"0": 19963, "1": 11816}, "speaker_count": 54, "audio_missing": 0, "header_problem_count": 0}
++## In-the-Wild
++- status: PASS, sample_count=31779, class_counts(0=bonafide/1=spoof)={'0': 19963, '1': 11816}, speakers=54, audio_missing=0, header_problems=0
+ 
+-## Models
+-### aasist
++## Model: aasist
+ - pipeline state: DONE
+-- target metrics:
+-  - asv2019_control_test/ep_tta: EER=2.0802% AUROC=0.9976286155232973 FPR=0.0327668252889191 FNR=0.007529507529507529
+-  - asv2019_control_test/frozen: EER=2.0802% AUROC=0.9976288219712368 FPR=0.0327668252889191 FNR=0.007529507529507529
+-  - asv2019_control_test/multiview_mean: EER=2.3058% AUROC=0.9972078980341282 FPR=0.03956492182188987 FNR=0.007185122569737954
+-  - asv2021_df_eval/ep_tta: EER=23.1825% AUROC=0.8372201238361254 FPR=0.4677516981639653 FNR=0.027131790413035897
+-  - asv2021_df_eval/frozen: EER=23.1825% AUROC=0.8372201294075976 FPR=0.4677516981639653 FNR=0.027137570102820682
+-  - asv2021_df_eval/multiview_mean: EER=23.4044% AUROC=0.8356804971166445 FPR=0.4897437621897908 FNR=0.018626013613096005
+-  - asv2021_la_eval/ep_tta: EER=12.7970% AUROC=0.9229207710361276 FPR=0.41475431965442766 FNR=0.002452009598080384
+-  - asv2021_la_eval/frozen: EER=12.8037% AUROC=0.9228771860031342 FPR=0.4148218142548596 FNR=0.0024295140971805637
+-  - asv2021_la_eval/multiview_mean: EER=13.2829% AUROC=0.9183379704155011 FPR=0.4186015118790497 FNR=0.0023095380923815237
+-  - in_the_wild/ep_tta: EER=39.2095% AUROC=0.6596918479111882 FPR=0.8892951961128087 FNR=0.0026235612728503725
+-  - in_the_wild/frozen: EER=39.2095% AUROC=0.6596926088822886 FPR=0.8892951961128087 FNR=0.0026235612728503725
+-  - in_the_wild/multiview_mean: EER=39.7089% AUROC=0.6529899563515456 FPR=0.8937033511997194 FNR=0.002369668246445498
+-### ssl_aasist
+-- training: state=TRAINING run_status=None current_epoch=66 last_metrics_epoch=None process_running=True
+-- pipeline state: WAITING_TRAINING
++- freeze: OK bundle.json
++- cache+resources: OK
++- source selection: OK
++- source-select candidate verify: checked=11 ok=True problems=[]
++- source-select EER (on select):
++  - ep_tta: EER=1.0735%
++  - frozen: EER=1.0735%
++  - multiview_mean: EER=1.1561%
++- selected epoch: 66, source_val EER=0.0000%
++- target metrics (EER ratio & %, AUROC, fixed-threshold FPR/FNR):
++  - asv2019_control_test (role=control_test):
++    - EP: EER=0.0208 (2.0802%), AUROC=0.997629, FPR=0.032767, FNR=0.007530, threshold=-6.133879
++    - Frozen: EER=0.0208 (2.0802%), AUROC=0.997629, FPR=0.032767, FNR=0.007530, threshold=-6.133879
++    - Multiview Mean: EER=0.0231 (2.3058%), AUROC=0.997208, FPR=0.039565, FNR=0.007185, threshold=-6.133879
++  - asv2021_df_eval (role=target_test):
++    - EP: EER=0.2318 (23.1825%), AUROC=0.837220, FPR=0.467752, FNR=0.027132, threshold=-6.133879
++    - Frozen: EER=0.2318 (23.1825%), AUROC=0.837220, FPR=0.467752, FNR=0.027138, threshold=-6.133879
++    - Multiview Mean: EER=0.2340 (23.4044%), AUROC=0.835680, FPR=0.489744, FNR=0.018626, threshold=-6.133879
++  - asv2021_la_eval (role=target_test):
++    - EP: EER=0.1280 (12.7970%), AUROC=0.922921, FPR=0.414754, FNR=0.002452, threshold=-6.133879
++    - Frozen: EER=0.1280 (12.8037%), AUROC=0.922877, FPR=0.414822, FNR=0.002430, threshold=-6.133879
++    - Multiview Mean: EER=0.1328 (13.2829%), AUROC=0.918338, FPR=0.418602, FNR=0.002310, threshold=-6.133879
++  - in_the_wild (role=target_test):
++    - EP: EER=0.3921 (39.2095%), AUROC=0.659692, FPR=0.889295, FNR=0.002624, threshold=-6.133879
++    - Frozen: EER=0.3921 (39.2095%), AUROC=0.659693, FPR=0.889295, FNR=0.002624, threshold=-6.133879
++    - Multiview Mean: EER=0.3971 (39.7089%), AUROC=0.652990, FPR=0.893703, FNR=0.002370, threshold=-6.133879
++
++## Model: ssl_aasist
++- pipeline state: CACHE_RESOURCES
++- freeze: OK bundle.json
++- selected epoch: 7, source_val EER=0.0000%
++
++## Notes
++- EER is reported both as ratio and percent. Score direction: larger = spoof. Labels: 0=bonafide, 1=spoof.
++- tDCF/minDCF are unavailable (no official ASV scores/protocol inputs); not fabricated.
+ 
+diff --git a/outputs_v2/nightly/configs/ssl_aasist/A_freeze.json b/outputs_v2/nightly/configs/ssl_aasist/A_freeze.json
+index 2c62f00..7551b8c 100644
+--- a/outputs_v2/nightly/configs/ssl_aasist/A_freeze.json
++++ b/outputs_v2/nightly/configs/ssl_aasist/A_freeze.json
+@@ -1,7 +1,7 @@
+ {
+   "command": "prepare-source",
+   "frozen_output": "outputs_v2/ssl_aasist/frozen",
+-  "gpu_id": 1,
++  "gpu_id": 3,
+   "schema_version": "0.1.0",
+   "training_run": "outputs/source/ssl-aasist-full-asvspoof2019train-random"
+ }
+diff --git a/outputs_v2/nightly/run.log b/outputs_v2/nightly/run.log
+index f0e13fb..74700ad 100644
+--- a/outputs_v2/nightly/run.log
++++ b/outputs_v2/nightly/run.log
+@@ -41,3 +41,10 @@
+ [2026-09-20 08:50:19] [aasist] ===== pipeline done =====
+ [2026-09-20 10:19:35] finalizing: window_open=False all_terminal=False any_running=False
+ [2026-09-20 10:19:35] ===== nightly runner exit =====
++[2026-09-20 18:55:55] [ssl_aasist] ===== pipeline start =====
++[2026-09-20 18:55:56] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/ssl_aasist/A_freeze.json
++[2026-09-20 18:56:44] [ssl_aasist] freeze export OK -> /media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json
++[2026-09-20 18:56:44] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/ssl_aasist/B_cache_resources.json
++[2026-09-20 19:03:01] [ssl_aasist] ===== pipeline start =====
++[2026-09-20 19:03:01] [ssl_aasist] frozen bundle already exists; skipping freeze
++[2026-09-20 19:03:01] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/ssl_aasist/B_cache_resources.json

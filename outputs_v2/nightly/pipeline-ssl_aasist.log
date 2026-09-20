@@ -1,0 +1,7 @@
+[2026-09-20 18:55:55] [ssl_aasist] ===== pipeline start =====
+[2026-09-20 18:55:56] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/ssl_aasist/A_freeze.json
+[2026-09-20 18:56:44] [ssl_aasist] freeze export OK -> /media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json
+[2026-09-20 18:56:44] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/ssl_aasist/B_cache_resources.json
+[2026-09-20 19:03:01] [ssl_aasist] ===== pipeline start =====
+[2026-09-20 19:03:01] [ssl_aasist] frozen bundle already exists; skipping freeze
+[2026-09-20 19:03:01] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/ssl_aasist/B_cache_resources.json
