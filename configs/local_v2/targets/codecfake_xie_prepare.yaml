@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "command": "prepare-data",
+  "dataset": {
+    "dataset_id": "codecfake_xie",
+    "release": "Codecfake-Xie",
+    "subset": "official-test-available-audio",
+    "manifest": "data/source_manifests_v2/codecfake_xie_target.csv",
+    "audio_root": "/media/dell/data/fakedata/Codecfake_Xie/extracted/test",
+    "root_key": "codecfake_xie"
+  },
+  "columns": {
+    "sample_id": "sample_id",
+    "audio_relpath": "audio_relpath",
+    "label": "label",
+    "group_id": "source_group_id",
+    "split_role": "split_role"
+  },
+  "label_map": {
+    "0": 0,
+    "1": 1,
+    "bonafide": 0,
+    "spoof": 1
+  },
+  "split": {
+    "reuse_existing": true,
+    "seed": 13
+  },
+  "output": "data/manifests_v2/codecfake_xie"
+}
