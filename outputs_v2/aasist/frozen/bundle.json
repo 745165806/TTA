@@ -1,0 +1,25 @@
+{
+  "baseline_id": "source-20260919T083403Z-8057e8:epoch_0066",
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/aasist-full-asvspoof2019train-random/checkpoints/epoch_0066.pt",
+  "class_index_map": {
+    "bonafide": 1,
+    "spoof": 0
+  },
+  "detector_state_ref": "detector_state.pt",
+  "embedding_dim": 160,
+  "epoch": 66,
+  "head_ref": "linear_head.pt",
+  "initialization": null,
+  "model_id": "aasist_source",
+  "parity_report_ref": "parity.json",
+  "preprocess": {
+    "decode": "soundfile_float32_mono_mean_require_16khz",
+    "eval_unit": "repeat_or_crop_first_64600",
+    "train_unit": "repeat_or_random_crop_64600_seed_epoch_sample_index"
+  },
+  "schema_version": "0.3.0",
+  "source_run_id": "source-20260919T083403Z-8057e8",
+  "source_val_selection_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/aasist-full-asvspoof2019train-random/finalized.json",
+  "task_weight_origin": "trained_in_project",
+  "training_phase": "full"
+}

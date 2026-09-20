@@ -1,0 +1,101 @@
+{
+  "families": {
+    "ep_tta": {
+      "eer": 0.010734929810074319,
+      "family": "ep_tta",
+      "method": {
+        "config": {
+          "gamma": 0.1,
+          "lambda_keep": 1.0,
+          "lr": 0.003,
+          "rho": 0.2,
+          "steps": 1
+        },
+        "method_id": "ep_tta",
+        "params": {}
+      },
+      "metrics_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/select-runs/select-ep_tta-02/metrics.json",
+      "rank_order": [
+        1,
+        0.003
+      ]
+    },
+    "frozen": {
+      "eer": 0.010734929810074319,
+      "family": "frozen",
+      "method": {
+        "config": {
+          "gamma": 0.1,
+          "lambda_keep": 1.0,
+          "lr": 0.01,
+          "rho": 0.2,
+          "steps": 0
+        },
+        "method_id": "frozen",
+        "params": {}
+      },
+      "metrics_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/select-runs/select-frozen-00/metrics.json",
+      "rank_order": [
+        0
+      ]
+    },
+    "multiview_mean": {
+      "eer": 0.011560693641618497,
+      "family": "multiview_mean",
+      "method": {
+        "config": {
+          "gamma": 0.1,
+          "lambda_keep": 1.0,
+          "lr": 0.01,
+          "rho": 0.2,
+          "steps": 0
+        },
+        "method_id": "multiview_mean",
+        "params": {}
+      },
+      "metrics_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/select-runs/select-multiview_mean-01/metrics.json",
+      "rank_order": [
+        0
+      ]
+    }
+  },
+  "methods": [
+    {
+      "config": {
+        "gamma": 0.1,
+        "lambda_keep": 1.0,
+        "lr": 0.003,
+        "rho": 0.2,
+        "steps": 1
+      },
+      "method_id": "ep_tta",
+      "params": {}
+    },
+    {
+      "config": {
+        "gamma": 0.1,
+        "lambda_keep": 1.0,
+        "lr": 0.01,
+        "rho": 0.2,
+        "steps": 0
+      },
+      "method_id": "frozen",
+      "params": {}
+    },
+    {
+      "config": {
+        "gamma": 0.1,
+        "lambda_keep": 1.0,
+        "lr": 0.01,
+        "rho": 0.2,
+        "steps": 0
+      },
+      "method_id": "multiview_mean",
+      "params": {}
+    }
+  ],
+  "schema_version": "0.2.0",
+  "selected_on_role": "select",
+  "selection_plan_ref": "/media/dell/data/fakeAudioDection/TTA/configs/local_v2/source_selection_aasist.yaml",
+  "status": "SELECTED"
+}

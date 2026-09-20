@@ -1,0 +1,23 @@
+{
+  "audio_header_checked": 31779,
+  "audio_missing": 0,
+  "audio_root": "/media/dell/data/fakedata/release_in_the_wild",
+  "class_counts_canonical": {
+    "0": 19963,
+    "1": 11816
+  },
+  "class_counts_raw_meta": {
+    "bona-fide": 19963,
+    "spoof": 11816
+  },
+  "elapsed_seconds": 2.6,
+  "full_decode_status": "HEADER_CHECK_ONLY; full decode performed by running prep process (see nightly run log for PID 1833191 observation)",
+  "group_count": 54,
+  "header_problem_count": 0,
+  "header_problems_sample": [],
+  "notes": [],
+  "problems": [],
+  "sample_count": 31779,
+  "speaker_count": 54,
+  "status": "PASS"
+}

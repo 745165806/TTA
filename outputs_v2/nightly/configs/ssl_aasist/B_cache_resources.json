@@ -1,0 +1,79 @@
+{
+  "artifact_plan": "configs/local_v2/source_resources.yaml",
+  "command": "prepare-source",
+  "fit_cache": "outputs_v2/ssl_aasist/cache-fit",
+  "frozen_bundle": "outputs_v2/ssl_aasist/frozen/bundle.json",
+  "resources_output": "outputs_v2/ssl_aasist/resources",
+  "roles": {
+    "cal0": {
+      "cache": "outputs_v2/ssl_aasist/cache-cal0",
+      "data_roots": {
+        "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+      },
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests_v2/asv2019_la/inference/cal0.jsonl",
+      "numerical_mode": {
+        "block_units": 256,
+        "dtype": "float32",
+        "tf32_cudnn": false,
+        "tf32_matmul": false
+      },
+      "probe": {
+        "fir_side_gain": 0.05,
+        "noise_snr_db": 30.0,
+        "num_views": 3,
+        "seed": 13
+      },
+      "purpose": "source_prepare",
+      "reuse": true,
+      "workers": 1
+    },
+    "fit": {
+      "cache": "outputs_v2/ssl_aasist/cache-fit",
+      "data_roots": {
+        "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+      },
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests_v2/asv2019_la/inference/fit.jsonl",
+      "numerical_mode": {
+        "block_units": 256,
+        "dtype": "float32",
+        "tf32_cudnn": false,
+        "tf32_matmul": false
+      },
+      "probe": {
+        "fir_side_gain": 0.05,
+        "noise_snr_db": 30.0,
+        "num_views": 3,
+        "seed": 13
+      },
+      "purpose": "source_prepare",
+      "reuse": true,
+      "workers": 1
+    },
+    "select": {
+      "cache": "outputs_v2/ssl_aasist/cache-select",
+      "data_roots": {
+        "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+      },
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests_v2/asv2019_la/inference/select.jsonl",
+      "numerical_mode": {
+        "block_units": 256,
+        "dtype": "float32",
+        "tf32_cudnn": false,
+        "tf32_matmul": false
+      },
+      "probe": {
+        "fir_side_gain": 0.05,
+        "noise_snr_db": 30.0,
+        "num_views": 3,
+        "seed": 13
+      },
+      "purpose": "select",
+      "reuse": true,
+      "workers": 1
+    }
+  },
+  "schema_version": "0.1.0"
+}

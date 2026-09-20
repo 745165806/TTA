@@ -1,0 +1,220 @@
+{
+  "metrics": [
+    {
+      "auroc": 0.9976286155232973,
+      "count": 71237,
+      "eer_pct": 2.0802,
+      "eer_ratio": 0.02080217539089055,
+      "fallback_rate": null,
+      "fnr": 0.007529507529507529,
+      "fpr": 0.0327668252889191,
+      "method": "ep_tta",
+      "role": "control_test",
+      "status": "EVALUATED",
+      "target": "asv2019_control_test",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.9976288219712368,
+      "count": 71237,
+      "eer_pct": 2.0802,
+      "eer_ratio": 0.02080217539089055,
+      "fallback_rate": null,
+      "fnr": 0.007529507529507529,
+      "fpr": 0.0327668252889191,
+      "method": "frozen",
+      "role": "control_test",
+      "status": "EVALUATED",
+      "target": "asv2019_control_test",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.9972078980341282,
+      "count": 71237,
+      "eer_pct": 2.3058,
+      "eer_ratio": 0.02305813844275384,
+      "fallback_rate": null,
+      "fnr": 0.007185122569737954,
+      "fpr": 0.03956492182188987,
+      "method": "multiview_mean",
+      "role": "control_test",
+      "status": "EVALUATED",
+      "target": "asv2019_control_test",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.8372201238361254,
+      "count": 533928,
+      "eer_pct": 23.1825,
+      "eer_ratio": 0.2318246015199408,
+      "fallback_rate": null,
+      "fnr": 0.027131790413035897,
+      "fpr": 0.4677516981639653,
+      "method": "ep_tta",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "asv2021_df_eval",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.8372201294075976,
+      "count": 533928,
+      "eer_pct": 23.1825,
+      "eer_ratio": 0.2318246015199408,
+      "fallback_rate": null,
+      "fnr": 0.027137570102820682,
+      "fpr": 0.4677516981639653,
+      "method": "frozen",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "asv2021_df_eval",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.8356804971166445,
+      "count": 533928,
+      "eer_pct": 23.4044,
+      "eer_ratio": 0.23404398412805166,
+      "fallback_rate": null,
+      "fnr": 0.018626013613096005,
+      "fpr": 0.4897437621897908,
+      "method": "multiview_mean",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "asv2021_df_eval",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.9229207710361276,
+      "count": 148176,
+      "eer_pct": 12.797,
+      "eer_ratio": 0.12796976241900648,
+      "fallback_rate": null,
+      "fnr": 0.002452009598080384,
+      "fpr": 0.41475431965442766,
+      "method": "ep_tta",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "asv2021_la_eval",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.9228771860031342,
+      "count": 148176,
+      "eer_pct": 12.8037,
+      "eer_ratio": 0.12803725701943844,
+      "fallback_rate": null,
+      "fnr": 0.0024295140971805637,
+      "fpr": 0.4148218142548596,
+      "method": "frozen",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "asv2021_la_eval",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.9183379704155011,
+      "count": 148176,
+      "eer_pct": 13.2829,
+      "eer_ratio": 0.132829373650108,
+      "fallback_rate": null,
+      "fnr": 0.0023095380923815237,
+      "fpr": 0.4186015118790497,
+      "method": "multiview_mean",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "asv2021_la_eval",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.6596918479111882,
+      "count": 31779,
+      "eer_pct": 39.2095,
+      "eer_ratio": 0.39209546377792825,
+      "fallback_rate": null,
+      "fnr": 0.0026235612728503725,
+      "fpr": 0.8892951961128087,
+      "method": "ep_tta",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "in_the_wild",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.6596926088822886,
+      "count": 31779,
+      "eer_pct": 39.2095,
+      "eer_ratio": 0.39209546377792825,
+      "fallback_rate": null,
+      "fnr": 0.0026235612728503725,
+      "fpr": 0.8892951961128087,
+      "method": "frozen",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "in_the_wild",
+      "threshold": -6.133878707885742
+    },
+    {
+      "auroc": 0.6529899563515456,
+      "count": 31779,
+      "eer_pct": 39.7089,
+      "eer_ratio": 0.39708869329722407,
+      "fallback_rate": null,
+      "fnr": 0.002369668246445498,
+      "fpr": 0.8937033511997194,
+      "method": "multiview_mean",
+      "role": "target_test",
+      "status": "EVALUATED",
+      "target": "in_the_wild",
+      "threshold": -6.133878707885742
+    }
+  ],
+  "model": "aasist",
+  "problems": [],
+  "state": "DONE",
+  "steps": {
+    "cache_resources": {
+      "detail": "",
+      "ok": true
+    },
+    "freeze": {
+      "detail": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/frozen/bundle.json",
+      "ok": true
+    },
+    "selection": {
+      "detail": "",
+      "ok": true
+    },
+    "source_select_verify": {
+      "checked": 11,
+      "ok": true,
+      "problems": []
+    },
+    "target_configs": {
+      "count": 12
+    }
+  },
+  "targets": {
+    "asv2019_control_test": {
+      "ep_tta": "done",
+      "frozen": "done",
+      "multiview_mean": "done"
+    },
+    "asv2021_df_eval": {
+      "ep_tta": "done",
+      "frozen": "done",
+      "multiview_mean": "done"
+    },
+    "asv2021_la_eval": {
+      "ep_tta": "done",
+      "frozen": "done",
+      "multiview_mean": "done"
+    },
+    "in_the_wild": {
+      "ep_tta": "done",
+      "frozen": "done",
+      "multiview_mean": "done"
+    }
+  },
+  "updated_at": "2026-09-20 01:37:02"
+}

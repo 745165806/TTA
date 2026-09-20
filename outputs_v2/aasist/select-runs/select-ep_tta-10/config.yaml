@@ -1,0 +1,28 @@
+{
+  "command": "run-tta",
+  "fallback_rate_max": 0.01,
+  "feature_cache": "outputs_v2/aasist/cache-select",
+  "frozen_bundle": "outputs_v2/aasist/frozen/bundle.json",
+  "input_manifest": "data/manifests_v2/asv2019_la/inference/select.jsonl",
+  "method": {
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.03,
+      "rho": 0.2,
+      "steps": 5
+    },
+    "method_id": "ep_tta",
+    "params": {}
+  },
+  "output_root": "outputs_v2/aasist/select-runs",
+  "resources": "outputs_v2/aasist/resources",
+  "role": "select",
+  "run_name": "select-ep_tta-10",
+  "schema_version": "0.1.0",
+  "scope_id": "asvspoof2019_la/dev/select_v2",
+  "seed": 13,
+  "selection_source": null,
+  "threshold": -6.133878707885742,
+  "threshold_source": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/resources/resources.json#scalars.tau0"
+}

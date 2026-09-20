@@ -1,0 +1,47 @@
+{
+  "command": "run-tta",
+  "extraction": {
+    "data_roots": {
+      "asvspoof2021_df": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval"
+    },
+    "dataset_id": "asvspoof2021_df",
+    "numerical_mode": {
+      "block_units": 256,
+      "dtype": "float32",
+      "tf32_cudnn": false,
+      "tf32_matmul": false
+    },
+    "probe": {
+      "fir_side_gain": 0.05,
+      "noise_snr_db": 30.0,
+      "num_views": 3,
+      "seed": 13
+    },
+    "workers": 1
+  },
+  "fallback_rate_max": 0.01,
+  "feature_cache": "outputs_v2/aasist/cache-target-asv2021_df_eval",
+  "frozen_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/frozen/bundle.json",
+  "input_manifest": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+  "method": {
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.01,
+      "rho": 0.2,
+      "steps": 0
+    },
+    "method_id": "frozen",
+    "params": {}
+  },
+  "output_root": "outputs_v2/aasist/target-runs/asv2021_df_eval",
+  "resources": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/resources",
+  "role": "target_test",
+  "run_name": "frozen",
+  "schema_version": "0.1.0",
+  "scope_id": "asvspoof2021_df/eval/target_test",
+  "seed": 13,
+  "selection_source": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/selection.json",
+  "threshold": null,
+  "threshold_source": null
+}

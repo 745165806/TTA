@@ -1,0 +1,43 @@
+[2026-09-20 00:18:04] ===== nightly runner start (pid=1866022) =====
+[2026-09-20 00:18:04] pytest result recorded: 115 passed in 3.78s
+[2026-09-20 00:18:04] ITW acceptance recorded: PASS
+[2026-09-20 00:18:56] ===== nightly runner start (pid=1866425) =====
+[2026-09-20 00:18:56] pytest result recorded: 115 passed in 3.78s
+[2026-09-20 00:18:56] ITW acceptance recorded: PASS
+[2026-09-20 01:37:02] [aasist] training TRAINED; launching pipeline on GPU0
+[2026-09-20 01:37:02] [aasist] pipeline launched (detached), log=/media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/pipeline-aasist.log
+[2026-09-20 01:37:02] [aasist] ===== pipeline start =====
+[2026-09-20 01:37:02] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/A_freeze.json
+[2026-09-20 01:37:05] [aasist] freeze export OK -> /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/frozen/bundle.json
+[2026-09-20 01:37:05] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/B_cache_resources.json
+[2026-09-20 01:53:39] [aasist] cache+resources OK
+[2026-09-20 01:53:39] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli prepare-source --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/C_selection.json
+[2026-09-20 01:58:36] [aasist] source selection OK -> /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/selection.json
+[2026-09-20 01:58:36] [aasist] source-select verification: checked=11 ok=True
+[2026-09-20 01:58:36] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2019_control_test__frozen.json
+[2026-09-20 02:35:13] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2019_control_test/frozen --labels data/manifests_v2/asv2019_la/labels/control_test.jsonl
+[2026-09-20 02:35:14] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2019_control_test__multiview_mean.json
+[2026-09-20 02:36:02] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2019_control_test/multiview_mean --labels data/manifests_v2/asv2019_la/labels/control_test.jsonl
+[2026-09-20 02:36:03] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2019_control_test__ep_tta.json
+[2026-09-20 02:37:51] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2019_control_test/ep_tta --labels data/manifests_v2/asv2019_la/labels/control_test.jsonl
+[2026-09-20 02:37:52] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/in_the_wild__frozen.json
+[2026-09-20 02:54:29] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/in_the_wild/frozen --labels data/manifests_v2/in_the_wild/labels/target_test.jsonl
+[2026-09-20 02:54:29] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/in_the_wild__multiview_mean.json
+[2026-09-20 02:54:51] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/in_the_wild/multiview_mean --labels data/manifests_v2/in_the_wild/labels/target_test.jsonl
+[2026-09-20 02:54:52] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/in_the_wild__ep_tta.json
+[2026-09-20 02:55:41] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/in_the_wild/ep_tta --labels data/manifests_v2/in_the_wild/labels/target_test.jsonl
+[2026-09-20 02:55:41] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2021_la_eval__frozen.json
+[2026-09-20 04:07:16] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2021_la_eval/frozen --labels data/manifests_v2/asv2021_la_eval/labels/target_test.jsonl
+[2026-09-20 04:07:21] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2021_la_eval__multiview_mean.json
+[2026-09-20 04:09:03] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2021_la_eval/multiview_mean --labels data/manifests_v2/asv2021_la_eval/labels/target_test.jsonl
+[2026-09-20 04:09:05] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2021_la_eval__ep_tta.json
+[2026-09-20 04:12:49] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2021_la_eval/ep_tta --labels data/manifests_v2/asv2021_la_eval/labels/target_test.jsonl
+[2026-09-20 04:12:50] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2021_df_eval__frozen.json
+[2026-09-20 08:30:13] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2021_df_eval/frozen --labels data/manifests_v2/asv2021_df_eval/labels/target_test.jsonl
+[2026-09-20 08:30:18] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2021_df_eval__multiview_mean.json
+[2026-09-20 08:36:30] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2021_df_eval/multiview_mean --labels data/manifests_v2/asv2021_df_eval/labels/target_test.jsonl
+[2026-09-20 08:36:36] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli run-tta --config /media/dell/data/fakeAudioDection/TTA/outputs_v2/nightly/configs/aasist/targets/asv2021_df_eval__ep_tta.json
+[2026-09-20 08:50:13] RUN: /home/dell/anaconda3/envs/tta/bin/python -m eptta.cli evaluate --run /media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/asv2021_df_eval/ep_tta --labels data/manifests_v2/asv2021_df_eval/labels/target_test.jsonl
+[2026-09-20 08:50:19] [aasist] ===== pipeline done =====
+[2026-09-20 10:19:35] finalizing: window_open=False all_terminal=False any_running=False
+[2026-09-20 10:19:35] ===== nightly runner exit =====

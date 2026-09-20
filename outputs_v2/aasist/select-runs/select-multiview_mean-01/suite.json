@@ -1,0 +1,19 @@
+{
+  "baseline_id": "source-20260919T083403Z-8057e8:epoch_0066",
+  "comparison_group_id": "select-multiview_mean-01",
+  "methods": [
+    {
+      "fallback_count": 0,
+      "method_id": "multiview_mean",
+      "run_ref": "multiview_mean",
+      "status": "SCORED",
+      "valid_for_comparison": true
+    }
+  ],
+  "phase": "select",
+  "schema_version": "0.3.0",
+  "status": "SCORED",
+  "suite_id": "select-multiview_mean-01",
+  "target_labels_read": false,
+  "valid_for_comparison": true
+}

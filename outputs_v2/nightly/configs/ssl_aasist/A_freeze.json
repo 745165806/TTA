@@ -1,0 +1,7 @@
+{
+  "command": "prepare-source",
+  "frozen_output": "outputs_v2/ssl_aasist/frozen",
+  "gpu_id": 1,
+  "schema_version": "0.1.0",
+  "training_run": "outputs/source/ssl-aasist-full-asvspoof2019train-random"
+}

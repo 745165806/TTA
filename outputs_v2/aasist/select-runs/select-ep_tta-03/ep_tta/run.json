@@ -1,0 +1,32 @@
+{
+  "artifact_bundle_id": "source-20260919T083403Z-8057e8:epoch_0066:source-resources",
+  "baseline_id": "source-20260919T083403Z-8057e8:epoch_0066",
+  "cache_id": "cache-20260919T174734Z-c33a23",
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/aasist-full-asvspoof2019train-random/checkpoints/epoch_0066.pt",
+  "cost": {
+    "elapsed_seconds": 17.465954834478907,
+    "feature_extraction_included": false,
+    "objective_evaluations": 11723,
+    "runtime_ref": "runtime.jsonl",
+    "scope": "cache_adaptation_only",
+    "steps_completed": 11723
+  },
+  "coverage_fraction": 1.0,
+  "diagnostics_ref": "diagnostics.jsonl",
+  "events_ref": "events.jsonl",
+  "expected_ids_ref": "expected_ids.json",
+  "expected_sample_count": 11723,
+  "fallback_count": 0,
+  "fallback_rate": 0.0,
+  "fallback_rate_max": 0.01,
+  "method_id": "ep_tta",
+  "phase": "select",
+  "reset_policy": "per_sample",
+  "sample_count": 11723,
+  "schema_version": "0.3.0",
+  "scores_ref": "scores.jsonl",
+  "status": "SCORED",
+  "suite_id": "select-ep_tta-03",
+  "target_labels_read": false,
+  "valid_for_comparison": true
+}

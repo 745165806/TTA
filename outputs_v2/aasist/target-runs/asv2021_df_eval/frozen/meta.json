@@ -1,0 +1,41 @@
+{
+  "cache_ref": "outputs_v2/aasist/cache-target-asv2021_df_eval",
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/aasist-full-asvspoof2019train-random/checkpoints/epoch_0066.pt",
+  "code": {
+    "commit": "20d95129603b8e8ac68221a0433a0614429c2a13",
+    "dirty": true,
+    "status": "?? outputs_v2/"
+  },
+  "code_snapshot_ref": "code_snapshot",
+  "data_ref": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+  "environment": {
+    "packages": {
+      "PyYAML": "6.0.3",
+      "fairseq": "0.12.2",
+      "librosa": null,
+      "numpy": "1.26.4",
+      "scipy": "1.13.0",
+      "soundfile": "0.12.1",
+      "tensorboardX": null,
+      "torch": "2.1.0+cu121",
+      "torchaudio": "2.1.0+cu121"
+    },
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "python": "3.10.20"
+  },
+  "method": {
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.01,
+      "rho": 0.2,
+      "steps": 0
+    },
+    "method_id": "frozen",
+    "params": {}
+  },
+  "run_id": "run-20260920T003012Z-0cf5da",
+  "schema_version": "0.2.0",
+  "seed": 13,
+  "selection_source": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/selection.json"
+}

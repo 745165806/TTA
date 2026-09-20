@@ -1,0 +1,35 @@
+# Nightly TTA Report
+
+_auto-updated 2026-09-20 10:19:35_
+
+## Runner
+- pid: 1866425
+- started: 2026-09-20 00:18:56
+- path: `/media/dell/data/fakeAudioDection/TTA/local/nightly_tta_runner.py`
+
+## CPU pytest
+- {"status": "PASS", "summary": "115 passed in 3.78s"}
+
+## In-the-Wild acceptance
+- {"status": "PASS", "sample_count": 31779, "class_counts": {"0": 19963, "1": 11816}, "speaker_count": 54, "audio_missing": 0, "header_problem_count": 0}
+
+## Models
+### aasist
+- pipeline state: DONE
+- target metrics:
+  - asv2019_control_test/ep_tta: EER=2.0802% AUROC=0.9976286155232973 FPR=0.0327668252889191 FNR=0.007529507529507529
+  - asv2019_control_test/frozen: EER=2.0802% AUROC=0.9976288219712368 FPR=0.0327668252889191 FNR=0.007529507529507529
+  - asv2019_control_test/multiview_mean: EER=2.3058% AUROC=0.9972078980341282 FPR=0.03956492182188987 FNR=0.007185122569737954
+  - asv2021_df_eval/ep_tta: EER=23.1825% AUROC=0.8372201238361254 FPR=0.4677516981639653 FNR=0.027131790413035897
+  - asv2021_df_eval/frozen: EER=23.1825% AUROC=0.8372201294075976 FPR=0.4677516981639653 FNR=0.027137570102820682
+  - asv2021_df_eval/multiview_mean: EER=23.4044% AUROC=0.8356804971166445 FPR=0.4897437621897908 FNR=0.018626013613096005
+  - asv2021_la_eval/ep_tta: EER=12.7970% AUROC=0.9229207710361276 FPR=0.41475431965442766 FNR=0.002452009598080384
+  - asv2021_la_eval/frozen: EER=12.8037% AUROC=0.9228771860031342 FPR=0.4148218142548596 FNR=0.0024295140971805637
+  - asv2021_la_eval/multiview_mean: EER=13.2829% AUROC=0.9183379704155011 FPR=0.4186015118790497 FNR=0.0023095380923815237
+  - in_the_wild/ep_tta: EER=39.2095% AUROC=0.6596918479111882 FPR=0.8892951961128087 FNR=0.0026235612728503725
+  - in_the_wild/frozen: EER=39.2095% AUROC=0.6596926088822886 FPR=0.8892951961128087 FNR=0.0026235612728503725
+  - in_the_wild/multiview_mean: EER=39.7089% AUROC=0.6529899563515456 FPR=0.8937033511997194 FNR=0.002369668246445498
+### ssl_aasist
+- training: state=TRAINING run_status=None current_epoch=66 last_metrics_epoch=None process_running=True
+- pipeline state: WAITING_TRAINING
+

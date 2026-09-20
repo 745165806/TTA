@@ -1,0 +1,47 @@
+{
+  "label_mapping": {
+    "0": "bonafide",
+    "1": "spoof"
+  },
+  "labels_ref": "/media/dell/data/fakeAudioDection/TTA/data/manifests_v2/in_the_wild/labels/target_test.jsonl",
+  "metrics": {
+    "auroc": 0.6596926088822886,
+    "balanced_accuracy": 0.5540406213071705,
+    "count": 31779,
+    "eer": 0.39209546377792825,
+    "fn": 31,
+    "fnr": 0.0026235612728503725,
+    "fp": 17753,
+    "fpr": 0.8892951961128087,
+    "harmful_flip_rate_by_class": {
+      "0": 0.0,
+      "1": 0.0
+    },
+    "harmful_flips": 0,
+    "harmful_flips_by_class": {
+      "0": 0,
+      "1": 0
+    },
+    "helpful_flip_rate_by_class": {
+      "0": 0.0,
+      "1": 0.0
+    },
+    "helpful_flips": 0,
+    "helpful_flips_by_class": {
+      "0": 0,
+      "1": 0
+    },
+    "threshold": -6.133878707885742,
+    "tn": 2210,
+    "tp": 11785,
+    "tpr": 0.9973764387271497
+  },
+  "schema_version": "0.2.0",
+  "score_direction": "larger_is_spoof",
+  "scores_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/target-runs/in_the_wild/frozen/scores.csv",
+  "status": "EVALUATED",
+  "threshold_source": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/resources/resources.json#scalars.tau0",
+  "unavailable_metrics": [
+    "tDCF/minDCF require explicit ASV scores and protocol inputs"
+  ]
+}

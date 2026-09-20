@@ -1,0 +1,7 @@
+{
+  "command": "prepare-source",
+  "frozen_bundle": "outputs_v2/aasist/frozen/bundle.json",
+  "resources_output": "outputs_v2/aasist/resources",
+  "schema_version": "0.1.0",
+  "selection": "configs/local_v2/source_selection_aasist.yaml"
+}

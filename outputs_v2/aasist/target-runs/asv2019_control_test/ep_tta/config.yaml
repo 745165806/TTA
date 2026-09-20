@@ -1,0 +1,47 @@
+{
+  "command": "run-tta",
+  "extraction": {
+    "data_roots": {
+      "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+    },
+    "dataset_id": "asvspoof2019_la",
+    "numerical_mode": {
+      "block_units": 256,
+      "dtype": "float32",
+      "tf32_cudnn": false,
+      "tf32_matmul": false
+    },
+    "probe": {
+      "fir_side_gain": 0.05,
+      "noise_snr_db": 30.0,
+      "num_views": 3,
+      "seed": 13
+    },
+    "workers": 1
+  },
+  "fallback_rate_max": 0.01,
+  "feature_cache": "outputs_v2/aasist/cache-target-asv2019_control_test",
+  "frozen_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/frozen/bundle.json",
+  "input_manifest": "data/manifests_v2/asv2019_la/inference/control_test.jsonl",
+  "method": {
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.003,
+      "rho": 0.2,
+      "steps": 1
+    },
+    "method_id": "ep_tta",
+    "params": {}
+  },
+  "output_root": "outputs_v2/aasist/target-runs/asv2019_control_test",
+  "resources": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/resources",
+  "role": "control_test",
+  "run_name": "ep_tta",
+  "schema_version": "0.1.0",
+  "scope_id": "asvspoof2019_la/eval/control_test_v2",
+  "seed": 13,
+  "selection_source": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/selection.json",
+  "threshold": -6.133878707885742,
+  "threshold_source": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/aasist/resources/resources.json#scalars.tau0"
+}

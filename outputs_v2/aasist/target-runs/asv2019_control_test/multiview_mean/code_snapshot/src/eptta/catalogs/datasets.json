@@ -1,0 +1,59 @@
+{
+  "registry_version": "0.1.0",
+  "datasets": {
+    "asvspoof2019_la": {
+      "roles": [
+        "fit",
+        "source_val",
+        "select",
+        "cal0",
+        "audit",
+        "control_test",
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": "asvspoof2019_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+    },
+    "asvspoof2021_df": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": "asvspoof2021_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+    },
+    "asvspoof2021_la": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": "asvspoof2021_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+    },
+    "wavefake": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": "wavefake_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+    },
+    "codecfake_xie": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": "codecfake_xie_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+    },
+    "in_the_wild": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "UNRESOLVED",
+      "adapter": "in_the_wild_candidate",
+      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+    }
+  }
+}
