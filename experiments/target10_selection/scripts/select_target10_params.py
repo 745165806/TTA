@@ -9,22 +9,22 @@ full grid in one process and writes ``results/param_search.json`` plus the fixed
 config (useful for a single-device run).
 
 Selection metrics (label-free only):
-    entropy      = mean (H(p_before) - H(p_after))
-    consistency  = mean fraction of the 3 probe views agreeing with the majority
-    stability    = mean (1 - std(view_confidences)/0.5)
+    view_reduction          = relative reduction of the EP view objective
+    probability_consistency = 1 - std(sigmoid(view_scores)) / 0.5
+    source_safety           = 1 - source-anchor margin violation fraction
 
 No target label is read from the manifest.
 """
 import argparse
 import json
 import sys
-from pathlib import Path
 
 import yaml
 
 from _common import (CONFIG_DIR, FROZEN_BUNDLE, RESOURCES, CACHE, TARGET10_SELECT, RESULTS_DIR,
-                     RHO, GAMMA, LAMBDA_KEEP, candidates, evaluate_candidate, load_context,
-                     load_select_sample_ids, selection_score, best_key, ROOT)
+                     RHO, GAMMA, LAMBDA_KEEP, METHOD_ID, PROTOCOL_ID, candidates,
+                     evaluate_candidate, load_context, load_select_sample_ids,
+                     selection_score, best_key, ROOT)
 
 
 def main():
@@ -66,8 +66,10 @@ def main():
     if args.group is not None:
         doc = {
             "schema_version": "0.1.0",
+            "protocol_id": PROTOCOL_ID,
             "group": args.group,
             "num_groups": args.num_groups,
+            "method_id": METHOD_ID,
             "selection_data": "target10",
             "labels_read": False,
             "candidates": rows,
@@ -80,16 +82,18 @@ def main():
     best = max(rows, key=best_key)
     search_doc = {
         "schema_version": "0.1.0",
+        "protocol_id": PROTOCOL_ID,
         "experiment": "target10-unsupervised-select",
+        "method_id": METHOD_ID,
         "selection_data": "target10",
         "seed": 2026,
         "target10_manifest": str(TARGET10_SELECT.relative_to(ROOT)),
         "frozen_bundle": str(FROZEN_BUNDLE.relative_to(ROOT)),
         "resources": str(RESOURCES.relative_to(ROOT)),
         "feature_cache": str(CACHE.relative_to(ROOT)),
-        "selection_metrics": ["entropy_reduction", "prediction_consistency", "confidence_stability"],
-        "selection_rule": "argmax mean(normalized_entropy_reduction, consistency, stability); "
-                          "entropy normalized by ln2; tie-break smaller K then smaller lr",
+        "selection_metrics": ["view_reduction", "probability_consistency", "source_safety"],
+        "selection_rule": "argmax mean(view_reduction, probability_consistency, source_safety); "
+                          "tie-break smaller K then smaller lr",
         "labels_read": False,
         "candidates": rows,
         "selected": best,
@@ -105,7 +109,9 @@ def main():
 def _write_config(best):
     config = {
         "schema_version": "0.1.0",
+        "protocol_id": PROTOCOL_ID,
         "experiment": "target10-unsupervised-select",
+        "method_id": METHOD_ID,
         "selection_data": "target10",
         "selection_complete": True,
         "search_forbidden": True,
@@ -113,15 +119,15 @@ def _write_config(best):
         "selected_lr": best["lr"],
         "selected_steps": best["steps"],
         "selection_metrics": {
-            "entropy_reduction": best["entropy"],
-            "prediction_consistency": best["consistency"],
-            "confidence_stability": best["stability"],
+            "view_reduction": best["view_reduction"],
+            "probability_consistency": best["probability_consistency"],
+            "source_safety": best["source_safety"],
         },
         "fixed_method": {
-            "method_id": "ep_tta",
+            "method_id": METHOD_ID,
             "config": {
                 "steps": best["steps"],
-                "lr": best["lr"] if best["lr"] is not None else 0.01,
+                "lr": best["lr"] if best["lr"] is not None else 0.003,
                 "rho": RHO,
                 "gamma": GAMMA,
                 "lambda_keep": LAMBDA_KEEP,

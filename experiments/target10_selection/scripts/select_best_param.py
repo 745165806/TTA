@@ -11,12 +11,12 @@ then smaller lr), and writes:
 """
 import json
 import sys
-from pathlib import Path
 
 import yaml
 
 from _common import (CONFIG_DIR, FROZEN_BUNDLE, RESOURCES, CACHE, RESULTS_DIR, ROOT,
-                     RHO, GAMMA, LAMBDA_KEEP, candidates, best_key, selection_score)
+                     RHO, GAMMA, LAMBDA_KEEP, METHOD_ID, PROTOCOL_ID,
+                     candidates, best_key, selection_score)
 
 
 def main():
@@ -29,6 +29,10 @@ def main():
     seen_groups = []
     for path in group_files:
         doc = json.loads(path.read_text(encoding="utf-8"))
+        if doc.get("protocol_id") != PROTOCOL_ID:
+            print(f"ERROR: {path.name} is stale or from another selection protocol",
+                  file=sys.stderr)
+            sys.exit(1)
         if doc.get("labels_read") is not False:
             print(f"ERROR: {path.name} declares labels_read != false", file=sys.stderr)
             sys.exit(1)
@@ -53,10 +57,12 @@ def main():
 
     best_doc = {
         "schema_version": "0.1.0",
+        "protocol_id": PROTOCOL_ID,
         "experiment": "target10-unsupervised-select",
+        "method_id": METHOD_ID,
         "selection_data": "target10",
-        "selection_rule": "argmax mean(normalized_entropy_reduction, consistency, stability); "
-                          "entropy normalized by ln2; tie-break smaller K then smaller lr",
+        "selection_rule": "argmax mean(view_reduction, probability_consistency, source_safety); "
+                          "tie-break smaller K then smaller lr",
         "labels_read": False,
         "selected": best,
         "candidate_count": len(rows),
@@ -67,10 +73,12 @@ def main():
 
     full_doc = {
         "schema_version": "0.1.0",
+        "protocol_id": PROTOCOL_ID,
         "experiment": "target10-unsupervised-select",
+        "method_id": METHOD_ID,
         "selection_data": "target10",
         "seed": 2026,
-        "selection_metrics": ["entropy_reduction", "prediction_consistency", "confidence_stability"],
+        "selection_metrics": ["view_reduction", "probability_consistency", "source_safety"],
         "selection_rule": best_doc["selection_rule"],
         "labels_read": False,
         "candidates": rows,
@@ -81,7 +89,9 @@ def main():
 
     config = {
         "schema_version": "0.1.0",
+        "protocol_id": PROTOCOL_ID,
         "experiment": "target10-unsupervised-select",
+        "method_id": METHOD_ID,
         "selection_data": "target10",
         "selection_complete": True,
         "search_forbidden": True,
@@ -89,15 +99,15 @@ def main():
         "selected_lr": best["lr"],
         "selected_steps": best["steps"],
         "selection_metrics": {
-            "entropy_reduction": best["entropy"],
-            "prediction_consistency": best["consistency"],
-            "confidence_stability": best["stability"],
+            "view_reduction": best["view_reduction"],
+            "probability_consistency": best["probability_consistency"],
+            "source_safety": best["source_safety"],
         },
         "fixed_method": {
-            "method_id": "ep_tta",
+            "method_id": METHOD_ID,
             "config": {
                 "steps": best["steps"],
-                "lr": best["lr"] if best["lr"] is not None else 0.01,
+                "lr": best["lr"] if best["lr"] is not None else 0.003,
                 "rho": RHO,
                 "gamma": GAMMA,
                 "lambda_keep": LAMBDA_KEEP,

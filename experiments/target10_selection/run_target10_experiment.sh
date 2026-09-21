@@ -144,6 +144,8 @@ fi
 # -----------------------------------------------------------------------------
 echo
 echo "===== Step 2: label-free parameter search ($NUM_GROUPS groups) ====="
+# Never aggregate partial results from the previous 13-candidate protocol.
+rm -f results/search_group_*.json
 PIDS=()
 for i in "${!GPUS[@]}"; do
     gpu="${GPUS[$i]}"

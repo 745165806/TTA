@@ -2,15 +2,14 @@
 
 Kept as a private module inside the experiment directory so the individual
 scripts stay small and use the exact same production adaptation path
-(``run_method("ep_tta", ...)``) as the project's ``run-tta``.
+(``run_method("ep_tta_guarded", ...)``) as the project's ``run-tta``.
 """
 import json
-import math
 from pathlib import Path
 
 import torch
 
-from eptta.adaptation.math import apply_adapter
+from eptta.adaptation.math import apply_adapter, margin_deficit, view_loss
 from eptta.adaptation.types import EPConfig, TargetViews
 from eptta.baselines.dispatch import run_method
 from eptta.cache.reader import FeatureCache
@@ -37,8 +36,10 @@ FORBIDDEN_LABEL_KEYS = frozenset({
     "label", "canonical_label", "original_label", "target", "class", "y", "source_labels",
 })
 
+METHOD_ID = "ep_tta_guarded"
+PROTOCOL_ID = "target10-guarded-v2"
 KS = [0, 1, 3, 5, 10]
-LRS = [1e-5, 5e-5, 1e-4]
+LRS = [0.001, 0.003, 0.01, 0.03, 0.1, 0.3]
 RHO, GAMMA, LAMBDA_KEEP = 0.2, 0.1, 1.0  # fixed EP constants (existing config)
 
 # Existing source-select EP choice (outputs_v2/ssl_aasist/selection.json).
@@ -47,20 +48,11 @@ BASELINE_STEPS = 1
 BASELINE_LR = 0.003
 
 
-def sigmoid(x):
-    return 1.0 / (1.0 + math.exp(-float(x)))
-
-
-def binary_entropy(p):
-    p = min(max(float(p), 1e-12), 1.0 - 1e-12)
-    return -(p * math.log(p) + (1.0 - p) * math.log(1.0 - p))
-
-
 def candidates():
     """K == steps in this codebase (docs/DESIGN.md: "K 步后对原输入视图评分").
 
     K=0 is the frozen identity path (lr/steps irrelevant) and yields a single
-    candidate; K in {1,3,5,10} cross the three learning rates.
+    candidate; K in {1,3,5,10} cross the six learning rates.
     """
     for k in KS:
         if k == 0:
@@ -71,7 +63,11 @@ def candidates():
 
 
 def selection_score(row):
-    return (row["entropy"] / math.log(2.0) + row["consistency"] + row["stability"]) / 3.0
+    return (
+        row["view_reduction"]
+        + row["probability_consistency"]
+        + row["source_safety"]
+    ) / 3.0
 
 
 def best_key(row):
@@ -88,49 +84,83 @@ def load_context():
 
 
 def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
-    """Per-sample episodic TTA over ``sample_ids`` and label-free aggregate metrics."""
-    cfg = EPConfig(steps=cand["K"], lr=cand["lr"] if cand["lr"] is not None else 1e-5,
+    """Run guarded EP and aggregate mechanism-aligned, label-free metrics."""
+    cfg = EPConfig(steps=cand["K"], lr=cand["lr"] if cand["lr"] is not None else 0.003,
                    rho=RHO, gamma=GAMMA, lambda_keep=LAMBDA_KEEP)
-    entropy_sum = consistency_sum = stability_sum = 0.0
+    view_reduction_sum = probability_consistency_sum = source_safety_sum = 0.0
+    r_norm_sum = abs_delta_score_sum = 0.0
+    guard_count = guard_backtracks = guard_reverts = guard_steps = 0
     n = 0
     for sample_id in sample_ids:
         z = torch.from_numpy(features[sample_id])
         target = TargetViews(sample_id, z, cache_id)
-        result = run_method("ep_tta", target, resources, cfg, {})
-
-        p_before = sigmoid(result["score_before"])
-        p_after = sigmoid(result["score"])
-        entropy_sum += binary_entropy(p_before) - binary_entropy(p_after)
+        result = run_method(METHOD_ID, target, resources, cfg, {})
 
         with torch.no_grad():
             R = result["R"].to(z.dtype).to(z.device)
-            view_scores = apply_adapter(z, resources.U, R) @ resources.w + resources.b
-        view_probs = [sigmoid(s) for s in view_scores.detach().cpu().tolist()]
-        votes = [1 if p > 0.5 else 0 for p in view_probs]
-        majority = max(votes.count(0), votes.count(1))
-        consistency_sum += majority / 3.0
-        confidences = [abs(p - 0.5) for p in view_probs]
-        mean_c = sum(confidences) / 3.0
-        std_c = math.sqrt(sum((c - mean_c) ** 2 for c in confidences) / 3.0)
-        stability_sum += max(0.0, min(1.0, 1.0 - std_c / 0.5))
+            adapted_views = apply_adapter(z, resources.U, R)
+
+            before_view = float(view_loss(z))
+            after_view = float(view_loss(adapted_views))
+            relative_reduction = (before_view - after_view) / max(before_view, 1e-12)
+            view_reduction_sum += max(-1.0, min(1.0, relative_reduction))
+
+            view_probs = torch.sigmoid(adapted_views @ resources.w + resources.b)
+            probability_consistency = 1.0 - float(view_probs.std(unbiased=False)) / 0.5
+            probability_consistency_sum += max(
+                0.0, min(1.0, probability_consistency))
+
+            adapted_anchors = apply_adapter(resources.anchors_z, resources.U, R)
+            deficit = margin_deficit(
+                adapted_anchors,
+                resources.w,
+                resources.b,
+                resources.anchors_y,
+                resources.anchors_m0,
+                resources.tau0,
+                cfg.gamma,
+            )
+            scale = max(float(resources.anchors_m0.abs().max()), 1.0)
+            tolerance = 64.0 * torch.finfo(deficit.dtype).eps * scale
+            violation_fraction = float((deficit > tolerance).to(deficit.dtype).mean())
+            source_safety_sum += 1.0 - violation_fraction
+            if violation_fraction:
+                raise RuntimeError("guarded EP emitted an infeasible source-margin state")
+
+            r_norm_sum += float(torch.linalg.vector_norm(R))
+            abs_delta_score_sum += abs(float(result["score"] - result["score_before"]))
+
+        trace = result.get("trace") or []
+        guard_steps += len(trace)
+        guard_count += sum(bool(row["margin_guard_applied"]) for row in trace)
+        guard_backtracks += sum(int(row["margin_guard_backtracks"]) for row in trace)
+        guard_reverts += sum(bool(row["margin_guard_reverted"]) for row in trace)
         n += 1
 
     return {
         "K": cand["K"],
         "lr": cand["lr"],
         "steps": cand["steps"],
-        "entropy": entropy_sum / n,
-        "consistency": consistency_sum / n,
-        "stability": stability_sum / n,
+        "view_reduction": view_reduction_sum / n,
+        "probability_consistency": probability_consistency_sum / n,
+        "source_safety": source_safety_sum / n,
+        "mean_R_norm": r_norm_sum / n,
+        "mean_abs_delta_score": abs_delta_score_sum / n,
+        "margin_guard_count": guard_count,
+        "margin_guard_backtracks": guard_backtracks,
+        "margin_guard_reverts": guard_reverts,
+        "margin_guard_activation_rate": guard_count / guard_steps if guard_steps else 0.0,
+        "margin_guard_backtrack_count": guard_backtracks,
+        "margin_guard_revert_rate": guard_reverts / guard_steps if guard_steps else 0.0,
     }
 
 
-def score_dataset(sample_ids, features, resources, cache_id, cfg):
+def score_dataset(sample_ids, features, resources, cache_id, cfg, method_id=METHOD_ID):
     scores = {}
     for sid in sample_ids:
         z = torch.from_numpy(features[sid])
         target = TargetViews(sid, z, cache_id)
-        result = run_method("ep_tta", target, resources, cfg, {})
+        result = run_method(method_id, target, resources, cfg, {})
         scores[sid] = float(result["score"])
     return scores
 

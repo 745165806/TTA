@@ -29,7 +29,8 @@ from eptta.data.permissions import TargetInputManifest, require_role
 from eptta.errors import EPTTAError
 
 from _common import (MANIFEST_DIR, RESULTS_DIR, ROOT, FROZEN_BUNDLE, RESOURCES, CACHE,
-                     TARGET10, TARGET10_SELECT, TARGET90, FORBIDDEN_LABEL_KEYS, candidates)
+                     TARGET10, TARGET10_SELECT, TARGET90, FORBIDDEN_LABEL_KEYS,
+                     PROTOCOL_ID, candidates)
 
 EXPECTED_TARGET10 = 3178
 EXPECTED_TARGET90 = 28601
@@ -58,6 +59,7 @@ def git(cmd, *args):
 def main():
     failures = []
     report = {}
+    report["protocol_id"] = PROTOCOL_ID
 
     # ---- raw target10 (audit manifest) ----
     raw10 = json.loads(TARGET10.read_text(encoding="utf-8"))

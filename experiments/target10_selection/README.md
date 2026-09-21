@@ -1,11 +1,11 @@
-# Target10 Unsupervised Parameter Selection (isolated experiment)
+# Target10 Guarded-v2 Unsupervised Parameter Selection
 
 完全隔离的新实验：在 In-the-Wild 的 **10% 无标签子集**上做 target adaptation
 parameter selection（禁止读标签），用选出的固定参数测试 **剩余 90%**，并与现有
-source-select EP baseline 对比。
+source-select EP-v0 baseline 对比。当前协议 ID 为 `target10-guarded-v2`。
 
-本实验不修改任何已有代码 / config / checkpoint / results，所有新增内容都在
-`experiments/target10_selection/` 下（见「文件布局」）。分支：`exp-target10-selection`。
+旧 `ep_tta` 保持 EP-v0 语义；新增 `ep_tta_guarded` (EP-v1)。已有 checkpoint、
+缓存和历史结果不会被删除，v0 结果另有归档快照。分支：`exp-target10-selection`。
 
 ## 文件布局
 
@@ -32,22 +32,23 @@ experiments/target10_selection/
 │   ├── run_target10_YYYYMMDD_HHMMSS.log  # 每次运行的完整日志
 │   ├── git_status_before/after.txt       # 运行前后 git 快照
 │   └── git_protected_before/after.txt    # src/ configs/ 保护路径快照
-└── results/
+├── results/
     ├── preflight.json           # 无标签协议预检报告
     ├── search_group_0..3.json   # 各 GPU 分组的候选指标
     ├── best_param.json          # 冻结的最佳参数
-    ├── param_search.json        # 全量候选指标（含熵/一致性/稳定性）
+    ├── param_search.json        # 全量候选指标（含机制信号与 guard 统计）
     ├── target90_result.json     # 选出的固定参数在 target90 上的指标
     ├── baseline_source_select.json  # source-select EP 在 target90 上的指标
     └── comparison.csv           # 两行对比表
+└── archive/v0_20260921/results/ # 旧 13-candidate 协议结果快照
 ```
 
 ## 关键解释（spec 与本代码库的对应）
 
 1. **K ≡ steps**：本代码库的 EP-TTA 只有 `EPConfig(steps=…)` 一个步数参数，
    `docs/DESIGN.md` 明确写「K 步后对原输入视图评分」（K 即自适应步数）。
-   因此候选网格为 `K ∈ {0,1,3,5,10} × lr ∈ {1e-5,5e-5,1e-4}`（K=0=frozen，
-   lr/steps 对 K=0 无意义，故 K=0 只保留一个候选，共 13 组）。输出里 `K` 与
+   因此候选网格为 `K ∈ {0,1,3,5,10} × lr ∈ {0.001,0.003,0.01,0.03,0.1,0.3}`
+   （K=0=frozen，lr/steps 对 K=0 无意义，故 K=0 只保留一个候选，共 25 组）。输出里 `K` 与
    `steps` 记录同一个整数。
 
 2. **minDCF = null**：t-DCF / minDCF 需要 ASV 分数，本流水线不提供
@@ -77,26 +78,27 @@ experiments/target10_selection/
   无 label 字段、无 `source_labels`、所有 `split_role==select`、sample_id/sample_index
   与原始 manifest 完全一致；同时校验 target90（`role==target_test`、`count==28601`）、
   target10∩target90 为空、union==31779、checkpoint/resources/cache 路径、GPU 数量、
-  参数组合数（13）。任一失败立即退出，不启动 GPU 搜索。
-- 参数搜索**只读** `inwild_target10_select.json`，选择指标只有 entropy reduction /
-  prediction consistency / confidence stability（无标签）；禁止 EER/accuracy/AUC/minDCF
+  参数组合数（25）。任一失败立即退出，不启动 GPU 搜索。
+- 参数搜索**只读** `inwild_target10_select.json`，选择指标只有 `view_reduction` /
+  `probability_consistency` / `source_safety`（无 target 标签）；禁止 EER/accuracy/AUC/minDCF
   作为 selection criterion。target90 的 label 仅在 `best_param.json` 冻结后用于最终
   EER/minDCF/AUC/accuracy 评价。
 
 ## 选择指标（全部无标签）
 
-对 target10 每个样本，跑一次 per-sample reset 的 EP（与 `run-tta` 同一条生产路径
-`run_method("ep_tta", …)`），得到 frozen 原始视图分数与自适应后原始视图分数，以及
-3 个 probe 视图的自适应分数，然后聚合：
+对 target10 每个样本，跑一次 per-sample reset 的 guarded EP（生产路径
+`run_method("ep_tta_guarded", …)`），然后聚合：
 
-- **entropy reduction**（熵减）：`mean(H(p_before) − H(p_after))`，二值熵，越大越好。
-- **prediction consistency**（预测一致性）：3 个视图自适应后硬预测中，与多数票一致的
-  比例（`majority/3`）的样本均值，越大越好。
-- **confidence stability**（置信度稳定性）：`mean(1 − std(conf)/0.5)`，
-  `conf = |sigmoid(view_score) − 0.5|`，越大越好。
+- **view_reduction**: `(L_view_before - L_view_after) / max(L_view_before, eps)`，clip 到 `[-1,1]`。
+- **probability_consistency**: `1 - std(sigmoid(score_v)) / 0.5`，clip 到 `[0,1]`；
+  不使用 `score > 0` 的硬投票。
+- **source_safety**: `1 - source_anchor_margin_violation_fraction`；只读 EP 允许的
+  source anchor memory，不读 target label。
 
-选择规则：`argmax mean(entropy_reduction/ln2, consistency, stability)`，
+选择规则：`argmax mean(view_reduction, probability_consistency, source_safety)`，
 并列时先取更小 K 再取更小 lr（确定性）。**全程不读 target10 的 label。**
+每个 candidate 额外记录 `mean_R_norm`、`mean_abs_delta_score` 以及 guard 激活、
+backtrack 和 revert 统计，用于区分「没有更新」与「更新了但无标签信号认为不好」。
 
 ## 复现命令
 
@@ -127,9 +129,9 @@ python scripts/eval_source_select_baseline.py
 python scripts/compare_results.py
 ```
 
-## 结果摘要
+## 历史结果与新协议
 
-- 选择阶段（target10，无标签）：13 个候选中选出 `K=0`（frozen）。
+- 旧选择阶段（target10，无标签）：13 个候选中选出 `K=0`（frozen）。
   由于候选 lr 仅为 1e-5～1e-4，自适应几乎不动分数，所有候选的三个无标签信号
   与 frozen 几乎一致，且自适应使熵略增（entropy_reduction 微小为负），因此
   `argmax` 规则确定性地选择了 K=0。
@@ -142,6 +144,6 @@ python scripts/compare_results.py
   基本等价；这是「10% 无标签选择 + 固定参数」与「source-select EP」在当前 lr
   网格下的诚实结果。
 
-详细候选指标见 `results/param_search.json`（含 entropy / consistency / stability
-与 selection_score）。
-
+这些 v0 结果已复制到 `archive/v0_20260921/results/`。当前 `results/` 仍保留原文件；
+只有完整运行 guarded-v2 后才会生成新的 `best_param.json` / `param_search.json` /
+`comparison.csv`，且新旧 group 文件不能混合聚合。

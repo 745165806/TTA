@@ -24,11 +24,13 @@ def main():
 
     cfg = EPConfig(steps=BASELINE_STEPS, lr=BASELINE_LR, rho=RHO, gamma=GAMMA,
                    lambda_keep=LAMBDA_KEEP)
-    scores = score_dataset(sample_ids, features, resources, cache.cache_id, cfg)
+    scores = score_dataset(
+        sample_ids, features, resources, cache.cache_id, cfg, method_id="ep_tta")
 
     result = {
         "schema_version": "0.1.0",
         "method": BASELINE_METHOD,
+        "method_id": "ep_tta",
         "selection_data": "source-select",
         "K": BASELINE_STEPS,
         "lr": BASELINE_LR,

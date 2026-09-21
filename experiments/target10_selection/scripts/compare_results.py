@@ -9,7 +9,7 @@ import csv
 import json
 import sys
 
-from _common import RESULTS_DIR
+from _common import PROTOCOL_ID, RESULTS_DIR
 
 FIELDS = ["method", "selection_data", "K", "lr", "steps", "EER", "minDCF"]
 
@@ -37,6 +37,10 @@ def main():
 
     sel_doc = json.loads(target90.read_text(encoding="utf-8"))
     base_doc = json.loads(baseline.read_text(encoding="utf-8"))
+    if sel_doc.get("protocol_id") != PROTOCOL_ID:
+        print("ERROR: target90_result.json is stale or from another selection protocol",
+              file=sys.stderr)
+        sys.exit(1)
 
     rows = [row_from(base_doc), row_from(sel_doc)]
     out = RESULTS_DIR / "comparison.csv"
