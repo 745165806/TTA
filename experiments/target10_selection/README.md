@@ -5,7 +5,8 @@ parameter selection（禁止读标签），用选出的固定参数测试 **剩�
 source-select EP-v0 baseline 对比。当前协议 ID 为 `target10-guarded-v2`。
 
 旧 `ep_tta` 保持 EP-v0 语义；新增 `ep_tta_guarded` (EP-v1)。已有 checkpoint、
-缓存和历史结果不会被删除，v0 结果另有归档快照。分支：`exp-target10-selection`。
+缓存和历史结果不会被删除，v0 `results/` 已有完整归档快照。
+分支：`exp-target10-selection`。
 
 ## 文件布局
 
@@ -40,7 +41,7 @@ experiments/target10_selection/
     ├── target90_result.json     # 选出的固定参数在 target90 上的指标
     ├── baseline_source_select.json  # source-select EP 在 target90 上的指标
     └── comparison.csv           # 两行对比表
-└── archive/v0_20260921/results/ # 旧 13-candidate 协议结果快照
+└── archive/v0_20260921/results/ # 旧 13-candidate 协议 results/ 完整快照
 ```
 
 ## 关键解释（spec 与本代码库的对应）
@@ -80,7 +81,8 @@ experiments/target10_selection/
   target10∩target90 为空、union==31779、checkpoint/resources/cache 路径、GPU 数量、
   参数组合数（25）。任一失败立即退出，不启动 GPU 搜索。
 - 参数搜索**只读** `inwild_target10_select.json`，选择指标只有 `view_reduction` /
-  `probability_consistency` / `source_safety`（无 target 标签）；禁止 EER/accuracy/AUC/minDCF
+  `probability_consistency` / `source_margin_retention`（无 target 标签）；禁止
+  EER/accuracy/AUC/minDCF
   作为 selection criterion。target90 的 label 仅在 `best_param.json` 冻结后用于最终
   EER/minDCF/AUC/accuracy 评价。
 
@@ -92,13 +94,21 @@ experiments/target10_selection/
 - **view_reduction**: `(L_view_before - L_view_after) / max(L_view_before, eps)`，clip 到 `[-1,1]`。
 - **probability_consistency**: `1 - std(sigmoid(score_v)) / 0.5`，clip 到 `[0,1]`；
   不使用 `score > 0` 的硬投票。
-- **source_safety**: `1 - source_anchor_margin_violation_fraction`；只读 EP 允许的
-  source anchor memory，不读 target label。
+- **source_margin_retention**: `mean(clamp(margin_after / margin_before, 0, 1))`；
+  作为连续 selection 信号。
+- **source_safety**: `1 - source_anchor_margin_violation_fraction`；保留为 guard 硬断言和诊断，
+  不再加入 selection score。两个 source 量都只读 EP 允许的 source anchor memory。
 
-选择规则：`argmax mean(view_reduction, probability_consistency, source_safety)`，
+选择规则：`argmax mean(view_reduction, probability_consistency, source_margin_retention)`，
 并列时先取更小 K 再取更小 lr（确定性）。**全程不读 target10 的 label。**
 每个 candidate 额外记录 `mean_R_norm`、`mean_abs_delta_score` 以及 guard 激活、
 backtrack 和 revert 统计，用于区分「没有更新」与「更新了但无标签信号认为不好」。
+
+搜索 JSON 保留 `labels_read: false` 以兼容旧 schema，并显式声明
+`target_labels_read: false` 和 `source_labels_used: true`：本方法不是 fully source-free。
+
+当前 group worker 虽由 `CUDA_VISIBLE_DEVICES` 分组，但缓存特征与 source resources 仍在 CPU；
+这里的并行实际是多进程 CPU 搜索。
 
 ## 复现命令
 

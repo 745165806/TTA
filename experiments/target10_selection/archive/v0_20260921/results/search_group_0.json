@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.1.0",
+  "group": 0,
+  "num_groups": 4,
+  "selection_data": "target10",
+  "labels_read": false,
+  "candidates": [
+    {
+      "K": 0,
+      "lr": null,
+      "steps": 0,
+      "entropy": 0.0,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533395909269127,
+      "selection_score": 0.6359394329031937
+    },
+    {
+      "K": 3,
+      "lr": 1e-05,
+      "steps": 3,
+      "entropy": -6.985735317682346e-07,
+      "consistency": 0.9544787077826683,
+      "stability": 0.953339453168147,
+      "selection_score": 0.6359390510407484
+    },
+    {
+      "K": 5,
+      "lr": 5e-05,
+      "steps": 5,
+      "entropy": -5.82978786214759e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533384442965068,
+      "selection_score": 0.6359362471577122
+    },
+    {
+      "K": 10,
+      "lr": 0.0001,
+      "steps": 10,
+      "entropy": -2.333028178582122e-05,
+      "consistency": 0.9544787077826683,
+      "stability": 0.95333500507404,
+      "selection_score": 0.6359266847916244
+    }
+  ]
+}

@@ -36,6 +36,10 @@ def main():
         if doc.get("labels_read") is not False:
             print(f"ERROR: {path.name} declares labels_read != false", file=sys.stderr)
             sys.exit(1)
+        if doc.get("target_labels_read") is not False or doc.get("source_labels_used") is not True:
+            print(f"ERROR: {path.name} has ambiguous target/source label usage",
+                  file=sys.stderr)
+            sys.exit(1)
         seen_groups.append(doc.get("group"))
         rows.extend(doc.get("candidates", []))
 
@@ -61,9 +65,12 @@ def main():
         "experiment": "target10-unsupervised-select",
         "method_id": METHOD_ID,
         "selection_data": "target10",
-        "selection_rule": "argmax mean(view_reduction, probability_consistency, source_safety); "
+        "selection_rule": "argmax mean(view_reduction, probability_consistency, "
+                          "source_margin_retention); "
                           "tie-break smaller K then smaller lr",
         "labels_read": False,
+        "target_labels_read": False,
+        "source_labels_used": True,
         "selected": best,
         "candidate_count": len(rows),
     }
@@ -78,9 +85,12 @@ def main():
         "method_id": METHOD_ID,
         "selection_data": "target10",
         "seed": 2026,
-        "selection_metrics": ["view_reduction", "probability_consistency", "source_safety"],
+        "selection_metrics": ["view_reduction", "probability_consistency",
+                              "source_margin_retention"],
         "selection_rule": best_doc["selection_rule"],
         "labels_read": False,
+        "target_labels_read": False,
+        "source_labels_used": True,
         "candidates": rows,
         "selected": best,
     }
@@ -95,13 +105,16 @@ def main():
         "selection_data": "target10",
         "selection_complete": True,
         "search_forbidden": True,
+        "labels_read": False,
+        "target_labels_read": False,
+        "source_labels_used": True,
         "selected_K": best["K"],
         "selected_lr": best["lr"],
         "selected_steps": best["steps"],
         "selection_metrics": {
             "view_reduction": best["view_reduction"],
             "probability_consistency": best["probability_consistency"],
-            "source_safety": best["source_safety"],
+            "source_margin_retention": best["source_margin_retention"],
         },
         "fixed_method": {
             "method_id": METHOD_ID,

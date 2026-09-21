@@ -35,6 +35,7 @@ from _common import (MANIFEST_DIR, RESULTS_DIR, ROOT, FROZEN_BUNDLE, RESOURCES, 
 EXPECTED_TARGET10 = 3178
 EXPECTED_TARGET90 = 28601
 EXPECTED_TOTAL = 31779
+EXPECTED_CANDIDATES = 25
 SEED = 2026
 TARGET_INPUT_FIELDS = {field.name for field in fields(TargetInputManifest)}
 
@@ -176,6 +177,8 @@ def main():
     report["gpu_count"] = int(torch.cuda.device_count())
     combos = list(candidates())
     report["parameter_combination_count"] = len(combos)
+    if len(combos) != EXPECTED_CANDIDATES:
+        failures.append(f"parameter combination count != {EXPECTED_CANDIDATES}")
 
     # ---- git ----
     report["git_head"] = git("rev-parse", "HEAD")

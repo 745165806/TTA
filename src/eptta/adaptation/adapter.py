@@ -3,7 +3,7 @@ import math
 
 import torch
 
-from eptta.adaptation.math import apply_adapter, margin_deficit, project_frobenius_
+from eptta.adaptation.math import apply_adapter, margin_deficit, margin_tolerance, project_frobenius_
 from eptta.adaptation.objectives import target_objective
 from eptta.adaptation.regularizers import regularizer
 from eptta.adaptation.types import EPConfig
@@ -50,8 +50,7 @@ def _enforce_margin_guard_(parameter, previous, resources, gamma, max_backtracks
     if parameter.ndim != 2 or previous.shape != parameter.shape:
         raise ValueError("margin guard requires matching [r,r] matrices")
 
-    scale = max(float(resources.anchors_m0.abs().max()), 1.0)
-    tolerance = 64.0 * torch.finfo(parameter.dtype).eps * scale
+    tolerance = margin_tolerance(resources, parameter.dtype)
 
     def is_feasible(candidate):
         deficit = margin_deficit(
@@ -165,10 +164,13 @@ def adaptation_diagnostics(result, target, resources, cfg):
     trace = result.get("trace") or []
     gradient_norms = [float(row["regularizer_gradient_norm"])
                       for row in trace if row.get("regularizer_gradient_norm") is not None]
+    violation_tolerance = (margin_tolerance(resources, adapted.dtype)
+                           if result.get("method_id") == "ep_tta_guarded" else 0.0)
     diagnostic = {
         "final_regularizer_loss": final_regularizer,
         "final_margin_loss": float(deficit.square().mean()),
-        "final_margin_violation_fraction": float((deficit > 0).to(adapted.dtype).mean()),
+        "final_margin_violation_fraction": float(
+            (deficit > violation_tolerance).to(adapted.dtype).mean()),
         "min_margin_change": float(changes.min()),
         "max_abs_margin_change": float(changes.abs().max()),
         "projection_count": int(sum(bool(row.get("projection_applied")) for row in trace)),

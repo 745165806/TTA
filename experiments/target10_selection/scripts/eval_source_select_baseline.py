@@ -38,6 +38,8 @@ def main():
         "test_data": "target90",
         "test_count": len(sample_ids),
         "labels_read": True,
+        "target_labels_read": True,
+        "source_labels_used": True,
         "metrics": compute_metrics(scores, labels, threshold),
     }
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

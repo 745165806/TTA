@@ -11,7 +11,9 @@ config (useful for a single-device run).
 Selection metrics (label-free only):
     view_reduction          = relative reduction of the EP view objective
     probability_consistency = 1 - std(sigmoid(view_scores)) / 0.5
-    source_safety           = 1 - source-anchor margin violation fraction
+    source_margin_retention = mean clipped source-margin retention ratio
+
+``source_safety`` remains a hard feasibility diagnostic, not a score term.
 
 No target label is read from the manifest.
 """
@@ -72,6 +74,8 @@ def main():
             "method_id": METHOD_ID,
             "selection_data": "target10",
             "labels_read": False,
+            "target_labels_read": False,
+            "source_labels_used": True,
             "candidates": rows,
         }
         out = RESULTS_DIR / f"search_group_{args.group}.json"
@@ -91,10 +95,14 @@ def main():
         "frozen_bundle": str(FROZEN_BUNDLE.relative_to(ROOT)),
         "resources": str(RESOURCES.relative_to(ROOT)),
         "feature_cache": str(CACHE.relative_to(ROOT)),
-        "selection_metrics": ["view_reduction", "probability_consistency", "source_safety"],
-        "selection_rule": "argmax mean(view_reduction, probability_consistency, source_safety); "
+        "selection_metrics": ["view_reduction", "probability_consistency",
+                              "source_margin_retention"],
+        "selection_rule": "argmax mean(view_reduction, probability_consistency, "
+                          "source_margin_retention); "
                           "tie-break smaller K then smaller lr",
         "labels_read": False,
+        "target_labels_read": False,
+        "source_labels_used": True,
         "candidates": rows,
         "selected": best,
     }
@@ -115,13 +123,16 @@ def _write_config(best):
         "selection_data": "target10",
         "selection_complete": True,
         "search_forbidden": True,
+        "labels_read": False,
+        "target_labels_read": False,
+        "source_labels_used": True,
         "selected_K": best["K"],
         "selected_lr": best["lr"],
         "selected_steps": best["steps"],
         "selection_metrics": {
             "view_reduction": best["view_reduction"],
             "probability_consistency": best["probability_consistency"],
-            "source_safety": best["source_safety"],
+            "source_margin_retention": best["source_margin_retention"],
         },
         "fixed_method": {
             "method_id": METHOD_ID,

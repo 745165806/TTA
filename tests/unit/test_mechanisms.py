@@ -5,7 +5,7 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from eptta.adaptation.adapter import adaptation_diagnostics, run_cache_method
-from eptta.adaptation.math import apply_adapter, margin_deficit
+from eptta.adaptation.math import apply_adapter, margin_deficit, margin_tolerance
 from eptta.adaptation.objectives import marginal_entropy, mean_view_entropy
 from eptta.adaptation.types import EPConfig, FrozenResources, TargetViews
 from eptta.baselines.dispatch import run_method
@@ -134,6 +134,18 @@ def test_guarded_ep_backtracks_margin_violation_without_changing_ep_v0():
     assert diagnostics["margin_guard_backtracks"] == 3
     assert diagnostics["margin_guard_reverts"] == 0
     assert diagnostics["final_margin_violation_fraction"] == 0.0
+
+    tolerance = margin_tolerance(resources, dtype)
+    near_R = torch.zeros_like(guarded["R"])
+    near_R[0, 0] = -(cfg.gamma + tolerance / 2)
+    near_result = dict(guarded, R=near_R, score=float(1 + near_R[0, 0]))
+    near_deficit = margin_deficit(
+        apply_adapter(anchors, U, near_R),
+        w, 0.0, labels, margins, 0.0, cfg.gamma,
+    )
+    assert float(near_deficit.max()) > 0
+    assert adaptation_diagnostics(
+        near_result, target, resources, cfg)["final_margin_violation_fraction"] == 0.0
 
     strict = run_cache_method(
         "ep_tta_guarded", target, resources,

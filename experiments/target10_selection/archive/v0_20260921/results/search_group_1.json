@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1.0",
+  "group": 1,
+  "num_groups": 4,
+  "selection_data": "target10",
+  "labels_read": false,
+  "candidates": [
+    {
+      "K": 1,
+      "lr": 1e-05,
+      "steps": 1,
+      "entropy": -2.322168567284387e-07,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533395447484921,
+      "selection_score": 0.6359393058376842
+    },
+    {
+      "K": 3,
+      "lr": 5e-05,
+      "steps": 3,
+      "entropy": -3.497319748041265e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533389028494043,
+      "selection_score": 0.6359375216887385
+    },
+    {
+      "K": 5,
+      "lr": 0.0001,
+      "steps": 5,
+      "entropy": -1.1661846340513501e-05,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533372976372879,
+      "selection_score": 0.6359330603106911
+    }
+  ]
+}

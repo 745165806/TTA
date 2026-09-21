@@ -9,7 +9,7 @@ from pathlib import Path
 
 import torch
 
-from eptta.adaptation.math import apply_adapter, margin_deficit, view_loss
+from eptta.adaptation.math import apply_adapter, margin_deficit, margin_tolerance, view_loss
 from eptta.adaptation.types import EPConfig, TargetViews
 from eptta.baselines.dispatch import run_method
 from eptta.cache.reader import FeatureCache
@@ -66,7 +66,7 @@ def selection_score(row):
     return (
         row["view_reduction"]
         + row["probability_consistency"]
-        + row["source_safety"]
+        + row["source_margin_retention"]
     ) / 3.0
 
 
@@ -87,7 +87,8 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
     """Run guarded EP and aggregate mechanism-aligned, label-free metrics."""
     cfg = EPConfig(steps=cand["K"], lr=cand["lr"] if cand["lr"] is not None else 0.003,
                    rho=RHO, gamma=GAMMA, lambda_keep=LAMBDA_KEEP)
-    view_reduction_sum = probability_consistency_sum = source_safety_sum = 0.0
+    view_reduction_sum = probability_consistency_sum = 0.0
+    source_safety_sum = source_margin_retention_sum = 0.0
     r_norm_sum = abs_delta_score_sum = 0.0
     guard_count = guard_backtracks = guard_reverts = guard_steps = 0
     n = 0
@@ -111,6 +112,11 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
                 0.0, min(1.0, probability_consistency))
 
             adapted_anchors = apply_adapter(resources.anchors_z, resources.U, R)
+            signs = 2 * resources.anchors_y.to(adapted_anchors.dtype) - 1
+            margins_after = signs * (
+                adapted_anchors @ resources.w + resources.b - resources.tau0)
+            retention = (margins_after / resources.anchors_m0).clamp(min=0.0, max=1.0)
+            source_margin_retention_sum += float(retention.mean())
             deficit = margin_deficit(
                 adapted_anchors,
                 resources.w,
@@ -120,8 +126,7 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
                 resources.tau0,
                 cfg.gamma,
             )
-            scale = max(float(resources.anchors_m0.abs().max()), 1.0)
-            tolerance = 64.0 * torch.finfo(deficit.dtype).eps * scale
+            tolerance = margin_tolerance(resources, deficit.dtype)
             violation_fraction = float((deficit > tolerance).to(deficit.dtype).mean())
             source_safety_sum += 1.0 - violation_fraction
             if violation_fraction:
@@ -143,6 +148,7 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
         "steps": cand["steps"],
         "view_reduction": view_reduction_sum / n,
         "probability_consistency": probability_consistency_sum / n,
+        "source_margin_retention": source_margin_retention_sum / n,
         "source_safety": source_safety_sum / n,
         "mean_R_norm": r_norm_sum / n,
         "mean_abs_delta_score": abs_delta_score_sum / n,
