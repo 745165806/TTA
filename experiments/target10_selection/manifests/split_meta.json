@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "seed": 2026,
+  "ratio": 0.1,
+  "total": 31779,
+  "target10_count": 3178,
+  "target90_count": 28601,
+  "target10_class_counts": {
+    "bonafide": 2029,
+    "spoof": 1149
+  },
+  "target90_class_counts": {
+    "bonafide": 17934,
+    "spoof": 10667
+  },
+  "rng": "numpy.random.default_rng(2026).permutation"
+}

@@ -1,0 +1,3 @@
+method,selection_data,K,lr,steps,EER,minDCF
+source-select EP,source-select,1,0.003,1,0.09473625515780082,
+target10-unsupervised-select EP,target10,0,,0,0.09468049514887922,

@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.1.0",
+  "command": "run-tta",
+  "run_name": "ep_k1_lr0.001_rho0.1",
+  "output_root": "outputs_v2/ssl_aasist/experiments",
+  "role": "select",
+  "scope_id": "asvspoof2019_la/dev/select_v2",
+  "input_manifest": "data/manifests_v2/asv2019_la/inference/select.jsonl",
+  "feature_cache": "outputs_v2/ssl_aasist/cache-select",
+  "resources": "outputs_v2/ssl_aasist/resources",
+  "frozen_bundle": "outputs_v2/ssl_aasist/frozen/bundle.json",
+  "method": {
+    "method_id": "ep_tta",
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.001,
+      "rho": 0.1,
+      "steps": 1
+    },
+    "params": {}
+  },
+  "threshold": null,
+  "threshold_source": null,
+  "fallback_rate_max": 0.01,
+  "selection_source": null,
+  "seed": 13
+}

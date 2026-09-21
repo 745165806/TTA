@@ -1,0 +1,79 @@
+{
+  "schema_version": "0.1.0",
+  "command": "prepare-source",
+  "roles": {
+    "fit": {
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests_v2/asv2019_la/inference/fit.jsonl",
+      "purpose": "source_prepare",
+      "data_roots": {
+        "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+      },
+      "probe": {
+        "num_views": 3,
+        "seed": 13,
+        "noise_snr_db": 30.0,
+        "fir_side_gain": 0.05
+      },
+      "numerical_mode": {
+        "dtype": "float32",
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "block_units": 256
+      },
+      "cache": "outputs_v2/ssl_aasist/cache-fit",
+      "workers": 1,
+      "reuse": true
+    },
+    "cal0": {
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests_v2/asv2019_la/inference/cal0.jsonl",
+      "purpose": "source_prepare",
+      "data_roots": {
+        "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+      },
+      "probe": {
+        "num_views": 3,
+        "seed": 13,
+        "noise_snr_db": 30.0,
+        "fir_side_gain": 0.05
+      },
+      "numerical_mode": {
+        "dtype": "float32",
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "block_units": 256
+      },
+      "cache": "outputs_v2/ssl_aasist/cache-cal0",
+      "workers": 1,
+      "reuse": true
+    },
+    "select": {
+      "dataset_id": "asvspoof2019_la",
+      "manifest": "data/manifests_v2/asv2019_la/inference/select.jsonl",
+      "purpose": "select",
+      "data_roots": {
+        "asvspoof2019_la": "/media/dell/data/fakedata/asvspoof2019/LA"
+      },
+      "probe": {
+        "num_views": 3,
+        "seed": 13,
+        "noise_snr_db": 30.0,
+        "fir_side_gain": 0.05
+      },
+      "numerical_mode": {
+        "dtype": "float32",
+        "tf32_matmul": false,
+        "tf32_cudnn": false,
+        "block_units": 256
+      },
+      "cache": "outputs_v2/ssl_aasist/cache-select",
+      "workers": 1
+    }
+  },
+  "artifact_plan": "configs/local_v2/source_resources.yaml",
+  "fit_cache": "outputs_v2/ssl_aasist/cache-fit",
+  "resources_output": "outputs_v2/ssl_aasist/resources",
+  "selection": "configs/local_v2/source_selection_ssl_aasist.yaml",
+  "frozen_bundle": "outputs_v2/ssl_aasist/frozen/bundle.json"
+}

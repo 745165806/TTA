@@ -1,0 +1,141 @@
+{
+  "schema_version": "0.1.0",
+  "experiment": "target10-unsupervised-select",
+  "selection_data": "target10",
+  "seed": 2026,
+  "selection_metrics": [
+    "entropy_reduction",
+    "prediction_consistency",
+    "confidence_stability"
+  ],
+  "selection_rule": "argmax mean(normalized_entropy_reduction, consistency, stability); entropy normalized by ln2; tie-break smaller K then smaller lr",
+  "labels_read": false,
+  "candidates": [
+    {
+      "K": 0,
+      "lr": null,
+      "steps": 0,
+      "entropy": 0.0,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533395909269127,
+      "selection_score": 0.6359394329031937
+    },
+    {
+      "K": 3,
+      "lr": 1e-05,
+      "steps": 3,
+      "entropy": -6.985735317682346e-07,
+      "consistency": 0.9544787077826683,
+      "stability": 0.953339453168147,
+      "selection_score": 0.6359390510407484
+    },
+    {
+      "K": 5,
+      "lr": 5e-05,
+      "steps": 5,
+      "entropy": -5.82978786214759e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533384442965068,
+      "selection_score": 0.6359362471577122
+    },
+    {
+      "K": 10,
+      "lr": 0.0001,
+      "steps": 10,
+      "entropy": -2.333028178582122e-05,
+      "consistency": 0.9544787077826683,
+      "stability": 0.95333500507404,
+      "selection_score": 0.6359266847916244
+    },
+    {
+      "K": 1,
+      "lr": 1e-05,
+      "steps": 1,
+      "entropy": -2.322168567284387e-07,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533395447484921,
+      "selection_score": 0.6359393058376842
+    },
+    {
+      "K": 3,
+      "lr": 5e-05,
+      "steps": 3,
+      "entropy": -3.497319748041265e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533389028494043,
+      "selection_score": 0.6359375216887385
+    },
+    {
+      "K": 5,
+      "lr": 0.0001,
+      "steps": 5,
+      "entropy": -1.1661846340513501e-05,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533372976372879,
+      "selection_score": 0.6359330603106911
+    },
+    {
+      "K": 1,
+      "lr": 5e-05,
+      "steps": 1,
+      "entropy": -1.1651179565598005e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533393614758328,
+      "selection_score": 0.635938796116201
+    },
+    {
+      "K": 3,
+      "lr": 0.0001,
+      "steps": 3,
+      "entropy": -6.996343026933276e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533382149825731,
+      "selection_score": 0.6359356097252841
+    },
+    {
+      "K": 10,
+      "lr": 1e-05,
+      "steps": 10,
+      "entropy": -2.3312817674981838e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533391323473006,
+      "selection_score": 0.6359381589337746
+    },
+    {
+      "K": 1,
+      "lr": 0.0001,
+      "steps": 1,
+      "entropy": -2.331337853993625e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533391323301547,
+      "selection_score": 0.6359381589010874
+    },
+    {
+      "K": 5,
+      "lr": 1e-05,
+      "steps": 5,
+      "entropy": -1.1651011629332726e-06,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533393614779024,
+      "selection_score": 0.635938796124967
+    },
+    {
+      "K": 10,
+      "lr": 5e-05,
+      "steps": 10,
+      "entropy": -1.1661762075804168e-05,
+      "consistency": 0.9544787077826683,
+      "stability": 0.9533372976207067,
+      "selection_score": 0.6359330603456868
+    }
+  ],
+  "selected": {
+    "K": 0,
+    "lr": null,
+    "steps": 0,
+    "entropy": 0.0,
+    "consistency": 0.9544787077826683,
+    "stability": 0.9533395909269127,
+    "selection_score": 0.6359394329031937
+  }
+}

@@ -1,0 +1,24 @@
+schema_version: 0.1.0
+experiment: target10-unsupervised-select
+selection_data: target10
+selection_complete: true
+search_forbidden: true
+selected_K: 0
+selected_lr: null
+selected_steps: 0
+selection_metrics:
+  entropy_reduction: 0.0
+  prediction_consistency: 0.9544787077826683
+  confidence_stability: 0.9533395909269127
+fixed_method:
+  method_id: ep_tta
+  config:
+    steps: 0
+    lr: 0.01
+    rho: 0.2
+    gamma: 0.1
+    lambda_keep: 1.0
+target90_manifest: experiments/target10_selection/manifests/inwild_target90.json
+frozen_bundle: outputs_v2/ssl_aasist/frozen/bundle.json
+resources: outputs_v2/ssl_aasist/resources
+feature_cache: outputs_v2/ssl_aasist/cache-target-in_the_wild
