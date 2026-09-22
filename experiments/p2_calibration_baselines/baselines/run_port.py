@@ -29,7 +29,7 @@ from eptta.cache.reader import FeatureCache
 from eptta.models.frozen import verify_frozen_export
 from eptta.offline.artifacts import load_frozen_resources
 from baselines.probe import three_view_probe
-from baselines.splits import get_split
+from baselines.splits import get_split, load_split_sample_ids
 from baselines.target_waveform import TargetWaveformDataset
 
 FROZEN_BUNDLE = ROOT / "outputs_v2/ssl_aasist/frozen/bundle.json"
@@ -82,7 +82,10 @@ def main():
 
     dataset = TargetWaveformDataset(split["manifest_ref"], split["data_roots"], role=split["role"],
                                     format=split.get("manifest_format", "jsonl"))
-    rows = dataset.rows
+    # Apply the split-level exclusion (e.g. itw_target90 removes target10 select).
+    valid_ids, _excluded = load_split_sample_ids(args.split)
+    valid_set = set(valid_ids)
+    rows = [r for r in dataset.rows if r["sample_id"] in valid_set]
     if args.limit is not None:
         rows = rows[: args.limit]
 

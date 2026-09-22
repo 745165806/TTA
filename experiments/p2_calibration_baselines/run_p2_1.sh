@@ -1,16 +1,16 @@
 #!/bin/bash
-# P2.1 baseline validation + multi-domain confirmatory launcher.
+# P2.1 baseline validation launcher (TARGET10_ONLY).
+#
+# This launcher runs ONLY the target10 development pilot + aggregate + report.
+# The multi-domain confirmatory is dispatched by a separate launcher:
+#   run_confirmatory.sh <RUN_DIR>
 #
 # Phases:
 #   0  preflight
-#   1  official audit validation
 #   2  unit/integration tests
 #   3  direct waveform/logit/cache parity
 #   4  target10 4-GPU: NormOnly / TENT / SAR / MEMO
 #   5  target10 aggregate + bootstrap
-#   6  port validity gate
-#   8  confirmatory 4-GPU (if valid ports)
-#  10  confirmatory aggregate + bootstrap
 #  11  final report
 set -euo pipefail
 
