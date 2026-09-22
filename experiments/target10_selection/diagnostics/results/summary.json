@@ -1,0 +1,63 @@
+{
+  "schema_version": "0.1.0",
+  "diagnostic": "target10_selection_system_diagnosis",
+  "frozen_k0_equivalent": true,
+  "frozen_eer": 0.09468049514887922,
+  "k0_eer": 0.09468049514887922,
+  "frozen_k0_max_abs_score_diff": 0.0,
+  "adaptation_effective": "WEAK",
+  "grad_norm_summary": {
+    "strongest_searched_D_K10_lr1e-4_mean_grad_norm": 0.09825139583981073,
+    "strongest_searched_D_median_grad_norm": 0.010605945112183691,
+    "strongest_searched_D_max_grad_norm": 1.2511323690414429,
+    "note": "gradients are non-zero (view_variance objective); margin keep gradient ~0"
+  },
+  "update_norm_summary": {
+    "D_total_update_norm_mean": 9.825139390221693e-05,
+    "E_total_update_norm_mean": 0.000294844969995097,
+    "D_relative_rho_update_norm_mean": 0.0004912569695110846,
+    "note": "update norm scales ~ linearly with K*lr; projection at rho=0.2 never activates"
+  },
+  "score_delta_summary": {
+    "D_mean_abs_score_delta": 0.00032199513912200926,
+    "D_max_abs_score_delta": 0.008008956909179688,
+    "E_mean_abs_score_delta": 0.0009661682844161987,
+    "E_max_abs_score_delta": 0.024037837982177734
+  },
+  "flip_rate_summary": {
+    "D_flip_rate": 0.0,
+    "E_flip_rate": 0.0,
+    "note": "hard prediction flip rate is 0 across all 5 configs on 500 samples"
+  },
+  "entropy_summary": {
+    "mean_entropy_before": 0.14045389035354972,
+    "D_mean_entropy_after": 0.14047452298129187,
+    "D_mean_entropy_delta": 2.063262774215973e-05
+  },
+  "objective_summary": {
+    "mean_objective_before": 0.05477495906269178,
+    "D_mean_objective_after": 0.05471800903324038,
+    "mean_keep_before": 0.0,
+    "D_mean_keep_after": 4.95891182750684e-09
+  },
+  "consistency": {
+    "is_hard_label_agreement": true,
+    "frozen_consistency_full_3178": 0.9544787077826209,
+    "reference_constant_from_param_search": 0.9544787077826683,
+    "flip_rate_view_vs_frozen": 0.0,
+    "soft_mean_abs_prob_diff": 0.08457033929253574,
+    "soft_mean_pairwise_js": 0.0377413006612218
+  },
+  "selection_eer_spearman": null,
+  "entropy_eer_spearman": null,
+  "consistency_eer_spearman": null,
+  "stability_eer_spearman": null,
+  "selection_metric_vs_eer_note": "true EER is identical (0.09857072449482504) across all 13 candidates, so every Spearman vs EER is undefined (zero variance in EER)",
+  "true_EER_all_candidates": 0.09857072449482504,
+  "effective_strength_score_spearman": -0.9958705948858224,
+  "effective_strength_eer_spearman": null,
+  "effective_strength_entropy_spearman": -0.9958705948858224,
+  "effective_strength_stability_spearman": -0.9958705948858224,
+  "diagnosis": "MIXED",
+  "diagnosis_primary": "EP updates R (non-zero gradient ~0.098, update norm ~ K*lr), but the effect on scores (~1e-3) and predictions (flip rate 0) is negligible at the searched lr grid, so true EER is invariant across all 13 candidates; consistency is a hard-label agreement metric and therefore has no discriminative power; there is NO evidence of negative adaptation (EER identical), and the selector's K=0 choice is equivalent to frozen (PASS)."
+}
