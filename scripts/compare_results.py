@@ -23,4 +23,3 @@ for root in roots:
             "EER=",
             data["metrics"]["eer"]
         )
-

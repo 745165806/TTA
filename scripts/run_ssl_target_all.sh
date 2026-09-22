@@ -74,4 +74,3 @@ wait
 
 
 echo "SSL target scoring finished"
-

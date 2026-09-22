@@ -100,4 +100,3 @@ for path in paths:
         "margin active samples:",
         np.sum(np.array(active)>0)
     )
-
