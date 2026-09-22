@@ -17,6 +17,7 @@ sys.path.insert(0, str(EXP_DIR))
 
 from baselines.bootstrap import paired_bootstrap, significance
 from baselines import port_validation
+from baselines.provenance import git_commit
 from calibration.common import load_target10
 
 METHODS = {"norm": "NormOnly", "tent": "TENT", "sar": "SAR", "memo": "MEMO"}
@@ -38,9 +39,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pilot-dir", type=str, required=True)
     parser.add_argument("--run-dir", type=str, required=True)
-    parser.add_argument(
-        "--validation-evidence", type=str,
-        default=str(EXP_DIR / "baselines/validation_evidence.json"))
+    parser.add_argument("--validation-evidence", type=str, required=True)
     args = parser.parse_args()
     pilot = Path(args.pilot_dir)
     out_dir = Path(args.run_dir) / "pilot"
@@ -110,7 +109,7 @@ def main():
             audit = port_validation.load_audit(method_id)
             validation = port_validation.compute_evidence_backed_validation(
                 method_id, audit, args.validation_evidence, direct_parity_pass,
-                sample_coverage, numeric_failure, resource_failure)
+                sample_coverage, numeric_failure, resource_failure, git_commit())
             port_valid = validation["PORT_VALID"]
         validations[label] = validation
 

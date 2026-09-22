@@ -29,7 +29,9 @@ from eptta.cache.reader import FeatureCache
 from eptta.models.frozen import verify_frozen_export
 from eptta.offline.artifacts import load_frozen_resources
 from baselines.probe import three_view_probe
-from baselines.locked_config import invoke_locked, load_locked_method
+from baselines.locked_config import (invoke_locked, load_locked_document,
+                                     load_locked_method)
+from baselines.provenance import git_commit
 from baselines.splits import get_split, load_split_sample_ids
 from baselines.target_waveform import TargetWaveformDataset
 
@@ -55,6 +57,7 @@ def main():
 
     try:
         locked = load_locked_method(args.locked_config, args.method)
+        locked_document = load_locked_document(args.locked_config)
     except ValueError as exc:
         parser.error(str(exc))
     split = get_split(args.split)  # raises on unknown split before creating output
@@ -65,10 +68,11 @@ def main():
         raise SystemExit("refusing to overwrite existing run output: %s" % out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     run_config = {
-        "schema_version": "0.1.0",
+        "schema_version": "0.2.0",
+        "git_commit": git_commit(),
         "method": args.method,
         "split": args.split,
-        "locked_config": str(Path(args.locked_config)),
+        "locked_config_content": locked_document,
         "parameters": locked,
     }
     if run_config_path.exists():

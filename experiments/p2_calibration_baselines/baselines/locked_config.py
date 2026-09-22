@@ -4,6 +4,7 @@ from pathlib import Path
 
 
 PUBLISHED_METHODS = ("tent_audio_ep", "sar_audio_ep", "memo_audio_ep_full")
+ALL_METHODS = (*PUBLISHED_METHODS, "norm_only_audio")
 REQUIRED_FIELDS = {
     "tent_audio_ep": ("method", "optimizer", "lr", "steps", "weight_decay"),
     "sar_audio_ep": ("method", "optimizer", "lr", "steps", "rho", "momentum",
@@ -20,17 +21,26 @@ OPTIMIZER_CONTRACTS = {
 }
 
 
-def load_locked_method(path, method_id):
-    """Return a validated method entry, failing closed on malformed input."""
-    if method_id not in REQUIRED_FIELDS:
-        raise ValueError("unsupported locked method: %s" % method_id)
+def load_locked_document(path):
+    """Return the complete validated config as path-independent JSON content."""
     path = Path(path)
     try:
         document = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError("locked config is not readable JSON: %s" % path) from exc
     methods = document.get("methods")
-    if not isinstance(methods, dict) or method_id not in methods:
+    if not isinstance(methods, dict):
+        raise ValueError("locked config has no methods object")
+    for method_id in ALL_METHODS:
+        _validate_entry(methods, method_id)
+    # JSON round-trip normalizes the content without calculating a digest.
+    return json.loads(json.dumps(document, sort_keys=True, separators=(",", ":")))
+
+
+def _validate_entry(methods, method_id):
+    if method_id not in REQUIRED_FIELDS:
+        raise ValueError("unsupported locked method: %s" % method_id)
+    if method_id not in methods:
         raise ValueError("locked config has no method: %s" % method_id)
     entry = methods[method_id]
     if not isinstance(entry, dict):
@@ -49,6 +59,14 @@ def load_locked_method(path, method_id):
     if method_id == "memo_audio_ep_full" and entry["steps"] != entry["niter"]:
         raise ValueError("locked MEMO steps and niter must agree")
     return dict(entry)
+
+
+def load_locked_method(path, method_id):
+    """Return a validated method entry, failing closed on malformed input."""
+    if method_id not in REQUIRED_FIELDS:
+        raise ValueError("unsupported locked method: %s" % method_id)
+    document = load_locked_document(path)
+    return dict(document["methods"][method_id])
 
 
 def adaptation_kwargs(method_id, entry):

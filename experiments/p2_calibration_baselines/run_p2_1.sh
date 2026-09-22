@@ -45,6 +45,8 @@ echo "===== Phase 2: tests ====="
     tests/unit/test_taskaware_ep.py \
     tests/unit/test_p0_p1_semantics.py \
     tests/integration/test_p2_waveform_frozen_parity.py )
+python scripts/generate_validation_evidence.py \
+    --output "$RUN_DIR/validation_evidence.json"
 
 echo "===== Phase 3: direct parity ====="
 CUDA_VISIBLE_DEVICES="${GPUS[3]}" python baselines/score_frozen.py --split target10 \
@@ -63,7 +65,8 @@ done
 for pid in "${PIDS[@]}"; do wait "$pid" || { echo "pilot worker failed" >&2; exit 1; }; done
 
 echo "===== Phase 5: target10 aggregate ====="
-python baselines/aggregate_p2_1.py --pilot-dir "$RUN_DIR/pilot" --run-dir "$RUN_DIR"
+python baselines/aggregate_p2_1.py --pilot-dir "$RUN_DIR/pilot" --run-dir "$RUN_DIR" \
+    --validation-evidence "$RUN_DIR/validation_evidence.json"
 
 echo "===== Phase 11: final report ====="
 python scripts/final_report_p2_1.py --run-dir "$RUN_DIR"

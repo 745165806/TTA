@@ -10,7 +10,10 @@ ROOT = EXP_DIR.parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(EXP_DIR))
 
-from baselines.locked_config import PUBLISHED_METHODS, load_locked_method
+from baselines.locked_config import (PUBLISHED_METHODS, load_locked_document,
+                                     load_locked_method)
+from baselines.provenance import git_commit, require_clean_tree
+from baselines.port_validation import load_validation_evidence
 from baselines.splits import get_split, load_split_sample_ids
 from baselines.target_waveform import TargetWaveformDataset
 from eptta.cache.reader import FeatureCache
@@ -47,18 +50,45 @@ def validate_output_directory(confirmatory_dir):
     return "RESUME"
 
 
-def run_preflight(run_dir, locked_config, gpu_count):
+def validate_validation_run(validation_run, locked_config, current_commit):
+    validation_run = Path(validation_run)
+    summary = _load_json(validation_run / "validation_summary.json",
+                         "validation summary")
+    if (summary.get("validation_git_commit") != current_commit
+            or summary.get("validation_status") != "PASS"
+            or summary.get("published_ports_valid") is not True):
+        raise ValueError("validation run does not approve the current git commit")
+    ports = _load_json(validation_run / "pilot/port_validation.json",
+                       "port validation artifact")
+    if ports.get("validation_git_commit") != current_commit:
+        raise ValueError("port validation git commit mismatch")
+    if ports.get("locked_config_content") != load_locked_document(locked_config):
+        raise ValueError("validation run locked config mismatch")
+    validate_port_results(validation_run / "pilot/port_validation.json")
+    evidence_ref = ports.get("validation_evidence_ref")
+    if not evidence_ref or any(
+            load_validation_evidence(evidence_ref, method, current_commit) is None
+            for method in PUBLISHED_METHODS):
+        raise ValueError("validation evidence is absent or stale")
+    parity = _load_json(validation_run / "parity/waveform_frozen_parity.json",
+                        "current direct parity")
+    if (parity.get("git_commit") != current_commit
+            or parity.get("all_within_project_tolerance") is not True):
+        raise ValueError("current-commit direct parity is not PASS")
+    return summary
+
+
+def run_preflight(run_dir, validation_run, locked_config, gpu_count,
+                  current_commit=None):
     if gpu_count != 4:
         raise ValueError("confirmatory requires exactly 4 GPUs, found %d" % gpu_count)
+    if current_commit is None:
+        require_clean_tree()
+        current_commit = git_commit()
+    run_dir = Path(run_dir)
     for method in (*PUBLISHED_METHODS, "norm_only_audio"):
         load_locked_method(locked_config, method)
-
-    run_dir = Path(run_dir)
-    validate_port_results(run_dir / "pilot/port_validation.json")
-    parity = _load_json(run_dir / "parity/waveform_frozen_parity.json",
-                        "target10 direct parity")
-    if parity.get("all_within_project_tolerance") is not True:
-        raise ValueError("target10 direct parity is not PASS")
+    validate_validation_run(validation_run, locked_config, current_commit)
 
     split_ids = {}
     for split_id in CONFIRMATORY_SPLITS:
@@ -80,7 +110,15 @@ def run_preflight(run_dir, locked_config, gpu_count):
     target10_ids, _ = load_split_sample_ids("target10")
     if split_ids["itw_target90"].intersection(target10_ids):
         raise ValueError("itw_target90 overlaps target10")
-    output_mode = validate_output_directory(run_dir / "confirmatory")
+    output_mode = validate_output_directory(run_dir)
+    if output_mode == "RESUME":
+        provenance = _load_json(run_dir / "confirmatory_provenance.json",
+                                "confirmatory provenance")
+        if (provenance.get("git_commit") != current_commit
+                or provenance.get("validation_run_ref") != str(Path(validation_run).resolve())
+                or provenance.get("locked_config_content") != load_locked_document(
+                    locked_config)):
+            raise ValueError("CONFIG_MISMATCH: confirmatory provenance differs")
     return {"status": "PASS", "gpu_count": gpu_count, "output_mode": output_mode,
             "splits": {key: len(value) for key, value in split_ids.items()}}
 
@@ -88,6 +126,7 @@ def run_preflight(run_dir, locked_config, gpu_count):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-dir", required=True)
+    parser.add_argument("--validation-run", required=True)
     parser.add_argument("--locked-config", required=True)
     parser.add_argument("--gpu-count", type=int, default=None,
                         help="test override; normally detected from torch")
@@ -98,7 +137,8 @@ def main():
             gpu_count = torch.cuda.device_count() if torch.cuda.is_available() else 0
         else:
             gpu_count = args.gpu_count
-        report = run_preflight(args.run_dir, args.locked_config, gpu_count)
+        report = run_preflight(args.run_dir, args.validation_run, args.locked_config,
+                               gpu_count)
     except ValueError as exc:
         parser.error(str(exc))
     print(json.dumps(report, indent=2, sort_keys=True))

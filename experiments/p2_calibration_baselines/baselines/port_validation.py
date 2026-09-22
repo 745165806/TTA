@@ -94,12 +94,16 @@ def load_audit(method_id):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def load_validation_evidence(path, method_id):
+def load_validation_evidence(path, method_id, current_git_commit):
     """Load strict per-method evidence; missing/malformed evidence fails closed."""
     try:
         document = json.loads(Path(path).read_text(encoding="utf-8"))
         record = document["methods"][method_id]
     except (OSError, json.JSONDecodeError, KeyError, TypeError):
+        return None
+    if (document.get("validated_git_commit") != current_git_commit
+            or not document.get("generated_at")
+            or not document.get("validated_tree_or_code_version")):
         return None
     if not isinstance(record, dict) or record.get("method_id") != method_id:
         return None
@@ -111,9 +115,11 @@ def load_validation_evidence(path, method_id):
 def compute_evidence_backed_validation(method_id, audit, evidence_path,
                                        direct_parity_pass, sample_coverage,
                                        numeric_failure_count,
-                                       resource_failure_count):
+                                       resource_failure_count,
+                                       current_git_commit):
     """Compute a port gate from an evidence artifact; absence always fails closed."""
-    evidence = load_validation_evidence(evidence_path, method_id) or {}
+    evidence = load_validation_evidence(
+        evidence_path, method_id, current_git_commit) or {}
     audit_verified = (evidence.get("audit_verified") is True
                       and audit.get("algorithm_audit_status",
                                     audit.get("status")) == "VERIFIED")
