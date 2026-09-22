@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.1.0",
+  "seed": 2026,
+  "sample_count": 128,
+  "tolerance": 1e-05,
+  "tolerance_source": "frozen parity contract (parity.json atol/rtol=1e-5)",
+  "max_abs_diff_logits_vs_exported": 9.5367431640625e-07,
+  "max_abs_diff_exported_vs_cache": 9.5367431640625e-07,
+  "max_abs_diff_logits_vs_cache": 9.5367431640625e-07,
+  "all_within_project_tolerance": true
+}

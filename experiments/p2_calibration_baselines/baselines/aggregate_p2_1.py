@@ -106,7 +106,7 @@ def main():
               "mean_signed_delta_total", "mean_signed_delta_norm", "mean_signed_delta_update",
               "mean_abs_delta_total", "mean_abs_delta_norm", "mean_abs_delta_update",
               "adaptation_coverage", "runtime_per_sample", "numeric_failure", "resource_failure",
-              "PORT_VALID"]
+              "PORT_VALID", "GAIN", "HARM"]
     with (out_dir / "p2_1_pilot_metrics.csv").open("w", encoding="utf-8", newline="") as stream:
         writer = csv.DictWriter(stream, fieldnames=fields)
         writer.writeheader()

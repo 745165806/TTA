@@ -1,0 +1,22 @@
+{
+  "itw_target90": {
+    "samples": 28601,
+    "total_gpu_hours_4methods": 3.0
+  },
+  "asv2021_la": {
+    "samples": 148176,
+    "total_gpu_hours_4methods": 15.56
+  },
+  "asv2021_df": {
+    "samples": 533928,
+    "total_gpu_hours_4methods": 56.06
+  },
+  "control_test": {
+    "samples": 71237,
+    "total_gpu_hours_4methods": 7.48
+  },
+  "TOTAL": {
+    "samples": 781942,
+    "total_gpu_hours_4methods": 82.1
+  }
+}
