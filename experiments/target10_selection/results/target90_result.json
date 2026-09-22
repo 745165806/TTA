@@ -12,6 +12,8 @@
   "labels_read": true,
   "target_labels_read": true,
   "source_labels_used": true,
+  "numeric_fallback_policy": "fail",
+  "numeric_fallback_count": 0,
   "metrics": {
     "EER": 0.09468454110809033,
     "minDCF": null,

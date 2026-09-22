@@ -13,8 +13,13 @@
   "checkpoint": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
   "gpu_count": 4,
   "parameter_combination_count": 25,
-  "git_head": "e3acf3fe74ed726728c7174e7d66ccb43e94c74c",
-  "git_status_short": "M experiments/target10_selection/configs/target10_selection_eval.yaml\n M experiments/target10_selection/results/baseline_source_select.json\n M experiments/target10_selection/results/best_param.json\n M experiments/target10_selection/results/comparison.csv\n M experiments/target10_selection/results/param_search.json\n M experiments/target10_selection/results/preflight.json\n M experiments/target10_selection/results/search_group_0.json\n M experiments/target10_selection/results/search_group_1.json\n M experiments/target10_selection/results/search_group_2.json\n M experiments/target10_selection/results/search_group_3.json\n M experiments/target10_selection/results/target90_result.json\n?? experiments/target10_selection/archive/20260921_190300/\n?? experiments/target10_selection/diagnostics/",
+  "method_contract": {
+    "method_id": "ep_tta_guarded",
+    "solver": "sgd_margin_guard",
+    "implementation_status": "IMPLEMENTED_UNVERIFIED"
+  },
+  "git_head": "1b27ce36bd11303f913f0fe44b90378829de0dae",
+  "git_status_short": "M experiments/target10_selection/results/preflight.json\n M experiments/target10_selection/run_target10_experiment.sh\n M experiments/target10_selection/scripts/preflight.py",
   "status": "PASS",
   "failures": []
 }

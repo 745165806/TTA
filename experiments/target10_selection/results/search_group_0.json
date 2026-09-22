@@ -8,6 +8,7 @@
   "labels_read": false,
   "target_labels_read": false,
   "source_labels_used": true,
+  "numeric_fallback_policy": "fail",
   "candidates": [
     {
       "K": 0,
@@ -25,6 +26,7 @@
       "margin_guard_activation_rate": 0.0,
       "margin_guard_backtrack_count": 0,
       "margin_guard_revert_rate": 0.0,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6251694516852769
     },
     {
@@ -43,6 +45,7 @@
       "margin_guard_activation_rate": 0.3596601636249213,
       "margin_guard_backtrack_count": 5071,
       "margin_guard_revert_rate": 0.0,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6248906304733213
     },
     {
@@ -61,6 +64,7 @@
       "margin_guard_activation_rate": 0.250471994965387,
       "margin_guard_backtrack_count": 10898,
       "margin_guard_revert_rate": 0.0004195510803440319,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6248210496965528
     },
     {
@@ -79,6 +83,7 @@
       "margin_guard_activation_rate": 0.5819173484371722,
       "margin_guard_backtrack_count": 42167,
       "margin_guard_revert_rate": 0.007971470526536606,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6263647002738965
     },
     {
@@ -97,6 +102,7 @@
       "margin_guard_activation_rate": 0.4302706104468219,
       "margin_guard_backtrack_count": 53708,
       "margin_guard_revert_rate": 0.015481434864694776,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6249344071656998
     },
     {
@@ -115,6 +121,7 @@
       "margin_guard_activation_rate": 0.30742605412208934,
       "margin_guard_backtrack_count": 97427,
       "margin_guard_revert_rate": 0.06488357457520454,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6247752159024121
     },
     {
@@ -133,6 +140,7 @@
       "margin_guard_activation_rate": 0.6421648835745752,
       "margin_guard_backtrack_count": 241672,
       "margin_guard_revert_rate": 0.22765890497168031,
+      "numeric_fallback_count": 0,
       "selection_score": 0.6292984203990004
     }
   ]

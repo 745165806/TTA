@@ -12,6 +12,7 @@ whole protocol before any parameter search may start:
   * target90: role == "target_test", count == len(records) == 28601.
   * target10 ∩ target90 == empty; union == 31779.
   * checkpoint / resources / cache paths exist.
+  * method registration: ep_tta_guarded resolves to a complete contract.
   * GPU device count, parameter-combination count, git HEAD/status.
 
 Any failure prints a clear report and exits non-zero (no GPU search).  A
@@ -25,12 +26,13 @@ from pathlib import Path
 
 import torch
 
+from eptta.baselines.registry import get_method_contract
 from eptta.data.permissions import TargetInputManifest, require_role
-from eptta.errors import EPTTAError
+from eptta.errors import ContractError, EPTTAError
 
 from _common import (MANIFEST_DIR, RESULTS_DIR, ROOT, FROZEN_BUNDLE, RESOURCES, CACHE,
                      TARGET10, TARGET10_SELECT, TARGET90, FORBIDDEN_LABEL_KEYS,
-                     PROTOCOL_ID, candidates)
+                     METHOD_ID, PROTOCOL_ID, candidates)
 
 EXPECTED_TARGET10 = 3178
 EXPECTED_TARGET90 = 28601
@@ -179,6 +181,18 @@ def main():
     report["parameter_combination_count"] = len(combos)
     if len(combos) != EXPECTED_CANDIDATES:
         failures.append(f"parameter combination count != {EXPECTED_CANDIDATES}")
+
+    # ---- method registration: ep_tta_guarded must resolve to a complete contract ----
+    try:
+        contract = get_method_contract(METHOD_ID)
+        report["method_contract"] = {
+            "method_id": METHOD_ID,
+            "solver": contract["solver"],
+            "implementation_status": contract["implementation_status"],
+        }
+    except (EPTTAError, ContractError) as exc:
+        report["method_contract"] = None
+        failures.append("method %s not registered or incomplete: %s" % (METHOD_ID, exc))
 
     # ---- git ----
     report["git_head"] = git("rev-parse", "HEAD")

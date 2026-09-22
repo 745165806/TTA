@@ -22,6 +22,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
+GIT_ROOT="$(git rev-parse --show-toplevel)"
 
 DRY_RUN=0
 if [ "${1:-}" = "--dry-run" ]; then
@@ -97,7 +98,7 @@ python --version
 
 echo "commit : $(git rev-parse HEAD)"
 git status --short | tee logs/git_status_before.txt
-git status --short -- src configs > logs/git_protected_before.txt
+git -C "$GIT_ROOT" status --short -- src configs > logs/git_protected_before.txt
 
 echo "--- GPU info ---"
 if command -v nvidia-smi >/dev/null 2>&1; then
@@ -211,7 +212,7 @@ echo
 echo "--- git AFTER ---"
 echo "commit : $(git rev-parse HEAD)"
 git status --short | tee logs/git_status_after.txt
-git status --short -- src configs > logs/git_protected_after.txt
+git -C "$GIT_ROOT" status --short -- src configs > logs/git_protected_after.txt
 
 if ! diff -q logs/git_protected_before.txt logs/git_protected_after.txt >/dev/null; then
     echo "ERROR: protected paths (src/ configs/) changed during the run" >&2

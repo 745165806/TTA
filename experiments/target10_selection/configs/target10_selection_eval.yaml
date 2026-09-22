@@ -8,6 +8,7 @@ search_forbidden: true
 labels_read: false
 target_labels_read: false
 source_labels_used: true
+numeric_fallback_policy: fail
 selected_K: 10
 selected_lr: 0.3
 selected_steps: 10
