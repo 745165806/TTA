@@ -1,0 +1,29 @@
+{
+  "method_id": "memo_audio_ep_full",
+  "paper": "MEMO: Test Time Robustness via Adaptation and Augmentation (Zhang et al., NeurIPS 2021)",
+  "paper_ref": "https://arxiv.org/abs/2110.09506",
+  "official_repository": "https://github.com/zhangmarvin/memo",
+  "repo_commit": "UNPINNED_AUDIT_ONLY",
+  "license": "UNVERIFIED",
+  "license_ref": "requires local clone verification",
+  "official_updated_parameter_scope": "full model parameters (single-input test-time adaptation)",
+  "audio_port_updated_parameter_scope": "full model (generic XLS-R frontend + backend), per method name memo_audio_ep_full",
+  "official_optimizer": "UNVERIFIED",
+  "audio_port_optimizer": "UNVERIFIED",
+  "official_lr": null,
+  "audio_port_lr": null,
+  "official_steps": null,
+  "audio_port_steps": null,
+  "official_reset_history_behavior": "per-sample single-input adaptation",
+  "audio_port_reset_history_behavior": "per_sample reset",
+  "normalization_policy": "none (full-model adaptation)",
+  "augmentation_policy": "official AugMix-style; audio port maps to fixed project probe3 policy (view0 original, view1 noise, view2 FIR)",
+  "protocol_deviations": [
+    "official image AugMix-style augmentation -> project fixed audio probe3 policy",
+    "noise/FIR views are reused verbatim from the project probe; noise view is known weaker (P0) but kept for fairness"
+  ],
+  "exact_updated_parameter_names": "full model (captured at runtime if ever run)",
+  "parity_test_result": "PENDING",
+  "block_reason": "official optimizer and learning rate could not be confirmed from paper/official source; guessing is forbidden",
+  "implementation_status": "PORT_BLOCKED_AUDIT"
+}
