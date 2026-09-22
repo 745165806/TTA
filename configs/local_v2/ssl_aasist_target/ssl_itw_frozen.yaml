@@ -1,0 +1,47 @@
+{
+  "schema_version": "0.1.0",
+  "command": "run-tta",
+  "output_root": "outputs_v2/r7_ssl_results/in_the_wild",
+  "role": "target_test",
+  "scope_id": "in_the_wild/target_test",
+  "input_manifest": "data/manifests_v2/in_the_wild/inference/target_test.jsonl",
+  "feature_cache": "outputs_v2/ssl_aasist/cache-target-in_the_wild",
+  "extraction": {
+    "dataset_id": "in_the_wild",
+    "data_roots": {
+      "in_the_wild": "/media/dell/data/fakedata/release_in_the_wild"
+    },
+    "probe": {
+      "num_views": 3,
+      "seed": 13,
+      "noise_snr_db": 30.0,
+      "fir_side_gain": 0.05
+    },
+    "numerical_mode": {
+      "dtype": "float32",
+      "tf32_matmul": false,
+      "tf32_cudnn": false,
+      "block_units": 256
+    },
+    "workers": 1
+  },
+  "resources": "outputs_v2/ssl_aasist/resources",
+  "frozen_bundle": "outputs_v2/ssl_aasist/frozen/bundle.json",
+  "threshold": null,
+  "threshold_source": null,
+  "fallback_rate_max": 0.01,
+  "selection_source": "outputs_v2/ssl_aasist/selection.json",
+  "seed": 13,
+  "run_name": "frozen",
+  "method": {
+    "method_id": "frozen",
+    "config": {
+      "gamma": 0.1,
+      "lambda_keep": 1.0,
+      "lr": 0.01,
+      "rho": 0.2,
+      "steps": 0
+    },
+    "params": {}
+  }
+}

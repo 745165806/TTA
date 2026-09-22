@@ -1,0 +1,20 @@
+{
+  "protocol_id": "target10-guarded-v2",
+  "target10_raw_count": 3178,
+  "target10_raw_role": "target_test",
+  "target10_select_count": 3178,
+  "target10_select_role": "select",
+  "source_labels_present": false,
+  "target10_label_fields_found": [],
+  "target90_count": 28601,
+  "target90_role": "target_test",
+  "intersection_count": 0,
+  "union_count": 31779,
+  "checkpoint": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+  "gpu_count": 4,
+  "parameter_combination_count": 25,
+  "git_head": "e3acf3fe74ed726728c7174e7d66ccb43e94c74c",
+  "git_status_short": "M experiments/target10_selection/configs/target10_selection_eval.yaml\n M experiments/target10_selection/results/baseline_source_select.json\n M experiments/target10_selection/results/best_param.json\n M experiments/target10_selection/results/comparison.csv\n M experiments/target10_selection/results/param_search.json\n M experiments/target10_selection/results/preflight.json\n M experiments/target10_selection/results/search_group_0.json\n M experiments/target10_selection/results/search_group_1.json\n M experiments/target10_selection/results/search_group_2.json\n M experiments/target10_selection/results/search_group_3.json\n M experiments/target10_selection/results/target90_result.json\n?? experiments/target10_selection/archive/20260921_190300/\n?? experiments/target10_selection/diagnostics/",
+  "status": "PASS",
+  "failures": []
+}

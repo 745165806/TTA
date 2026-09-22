@@ -13,6 +13,19 @@
       "projection": "frobenius",
       "implementation_status": "IMPLEMENTED_UNVERIFIED"
     },
+    "ep_tta_guarded": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "parameterization": "matrix",
+      "objective": "view_variance",
+      "regularizer": "margin",
+      "subspace": "response",
+      "solver": "sgd_margin_guard",
+      "reset_policy": "per_sample",
+      "final_output": "original",
+      "projection": "frobenius_then_source_margin_guard",
+      "implementation_status": "IMPLEMENTED_UNVERIFIED"
+    },
     "frozen": {
       "comparison_track": "reference",
       "route": "feature_cache",

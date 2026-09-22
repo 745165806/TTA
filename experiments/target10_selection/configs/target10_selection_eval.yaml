@@ -1,0 +1,29 @@
+schema_version: 0.1.0
+protocol_id: target10-guarded-v2
+experiment: target10-unsupervised-select
+method_id: ep_tta_guarded
+selection_data: target10
+selection_complete: true
+search_forbidden: true
+labels_read: false
+target_labels_read: false
+source_labels_used: true
+selected_K: 10
+selected_lr: 0.3
+selected_steps: 10
+selection_metrics:
+  view_reduction: 0.01754625200856914
+  probability_consistency: 0.8752483563132281
+  source_margin_retention: 0.9951006528752041
+fixed_method:
+  method_id: ep_tta_guarded
+  config:
+    steps: 10
+    lr: 0.3
+    rho: 0.2
+    gamma: 0.1
+    lambda_keep: 1.0
+target90_manifest: experiments/target10_selection/manifests/inwild_target90.json
+frozen_bundle: outputs_v2/ssl_aasist/frozen/bundle.json
+resources: outputs_v2/ssl_aasist/resources
+feature_cache: outputs_v2/ssl_aasist/cache-target-in_the_wild

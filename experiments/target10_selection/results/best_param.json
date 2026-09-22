@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.1.0",
+  "protocol_id": "target10-guarded-v2",
+  "experiment": "target10-unsupervised-select",
+  "method_id": "ep_tta_guarded",
+  "selection_data": "target10",
+  "selection_rule": "argmax mean(view_reduction, probability_consistency, source_margin_retention); tie-break smaller K then smaller lr",
+  "labels_read": false,
+  "target_labels_read": false,
+  "source_labels_used": true,
+  "selected": {
+    "K": 10,
+    "lr": 0.3,
+    "steps": 10,
+    "view_reduction": 0.01754625200856914,
+    "probability_consistency": 0.8752483563132281,
+    "source_margin_retention": 0.9951006528752041,
+    "source_safety": 1.0,
+    "mean_R_norm": 0.013380017130745079,
+    "mean_abs_delta_score": 0.045601165153043986,
+    "margin_guard_count": 20408,
+    "margin_guard_backtracks": 241672,
+    "margin_guard_reverts": 7235,
+    "margin_guard_activation_rate": 0.6421648835745752,
+    "margin_guard_backtrack_count": 241672,
+    "margin_guard_revert_rate": 0.22765890497168031,
+    "selection_score": 0.6292984203990004
+  },
+  "candidate_count": 25
+}

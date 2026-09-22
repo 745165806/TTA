@@ -3,7 +3,7 @@ import math
 
 import torch
 
-from eptta.adaptation.math import apply_adapter, margin_deficit, project_frobenius_
+from eptta.adaptation.math import apply_adapter, margin_deficit, margin_tolerance, project_frobenius_
 from eptta.adaptation.objectives import target_objective
 from eptta.adaptation.regularizers import regularizer
 from eptta.adaptation.types import EPConfig
@@ -12,6 +12,7 @@ from eptta.adaptation.validation import validate_inputs
 
 METHODS = {
     "ep_tta": ("view_variance", "margin"),
+    "ep_tta_guarded": ("view_variance", "margin"),
     "ep_no_keep": ("view_variance", "none"),
     "ep_random_U": ("view_variance", "margin"),
     "ep_feature_pca_U": ("view_variance", "margin"),
@@ -36,6 +37,48 @@ def _finite(value, message):
     if not bool(torch.isfinite(value).all()):
         raise FloatingPointError(message)
     return value
+
+
+@torch.no_grad()
+def _enforce_margin_guard_(parameter, previous, resources, gamma, max_backtracks=16):
+    """Make a projected SGD candidate source-margin feasible.
+
+    Only the frozen source-anchor memory is inspected.  The backtracking
+    schedule is deterministic and never depends on a target prediction or
+    target label.
+    """
+    if parameter.ndim != 2 or previous.shape != parameter.shape:
+        raise ValueError("margin guard requires matching [r,r] matrices")
+
+    tolerance = margin_tolerance(resources, parameter.dtype)
+
+    def is_feasible(candidate):
+        deficit = margin_deficit(
+            apply_adapter(resources.anchors_z, resources.U, candidate),
+            resources.w,
+            resources.b,
+            resources.anchors_y,
+            resources.anchors_m0,
+            resources.tau0,
+            gamma,
+        )
+        _finite(deficit, "non-finite margin guard deficit")
+        return not bool((deficit > tolerance).any())
+
+    if is_feasible(parameter):
+        return False, 0, False
+    if not is_feasible(previous):
+        raise FloatingPointError("margin guard previous state is infeasible")
+
+    candidate = parameter.detach().clone()
+    for backtracks in range(1, max_backtracks + 1):
+        candidate.copy_(previous + 0.5 * (candidate - previous))
+        if is_feasible(candidate):
+            parameter.copy_(candidate)
+            return True, backtracks, False
+
+    parameter.copy_(previous)
+    return True, max_backtracks, True
 
 
 def validate_method_setup(method_id, resources, cfg, params=None):
@@ -92,6 +135,9 @@ def adaptation_diagnostics(result, target, resources, cfg):
             "min_margin_change", "max_abs_margin_change", "final_R_norm", "delta_score",
             "delta_z_norm", "regularizer_active_steps", "regularizer_gradient_norm_max",
             "projection_count")}
+        if result.get("method_id") == "ep_tta_guarded":
+            diagnostic.update(margin_guard_count=None, margin_guard_backtracks=None,
+                              margin_guard_reverts=None)
         diagnostic.update(completed_steps=int(result["steps_completed"]),
                           objective_evaluations=int(result["objective_evaluations"]),
                           gradient_trace_status="failed_numeric")
@@ -118,10 +164,13 @@ def adaptation_diagnostics(result, target, resources, cfg):
     trace = result.get("trace") or []
     gradient_norms = [float(row["regularizer_gradient_norm"])
                       for row in trace if row.get("regularizer_gradient_norm") is not None]
-    return {
+    violation_tolerance = (margin_tolerance(resources, adapted.dtype)
+                           if result.get("method_id") == "ep_tta_guarded" else 0.0)
+    diagnostic = {
         "final_regularizer_loss": final_regularizer,
         "final_margin_loss": float(deficit.square().mean()),
-        "final_margin_violation_fraction": float((deficit > 0).to(adapted.dtype).mean()),
+        "final_margin_violation_fraction": float(
+            (deficit > violation_tolerance).to(adapted.dtype).mean()),
         "min_margin_change": float(changes.min()),
         "max_abs_margin_change": float(changes.abs().max()),
         "projection_count": int(sum(bool(row.get("projection_applied")) for row in trace)),
@@ -134,6 +183,15 @@ def adaptation_diagnostics(result, target, resources, cfg):
         "objective_evaluations": int(result["objective_evaluations"]),
         "gradient_trace_status": "not_applicable" if result.get("solver") == "fixed_17_grid" else "recorded",
     }
+    if result.get("method_id") == "ep_tta_guarded":
+        diagnostic.update(
+            margin_guard_count=int(sum(bool(row.get("margin_guard_applied")) for row in trace)),
+            margin_guard_backtracks=int(sum(
+                int(row.get("margin_guard_backtracks", 0)) for row in trace)),
+            margin_guard_reverts=int(sum(
+                bool(row.get("margin_guard_reverted")) for row in trace)),
+        )
+    return diagnostic
 
 
 def _base_result(method_id, target, before, score, **extra):
@@ -204,6 +262,7 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
 
     objective_name, regularizer_name = METHODS[method_id]
     diagonal = method_id == "ep_diagonal_R"
+    guarded = method_id == "ep_tta_guarded"
     parameter = torch.zeros(rank if diagonal else (rank, rank), dtype=target.features.dtype,
                             device=target.features.device, requires_grad=True)
     trace, completed = [], 0
@@ -223,6 +282,7 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
                     regularizer_gradient_norm = float(torch.linalg.vector_norm(
                         _finite(reg_gradient, "non-finite regularizer gradient")))
                 with torch.no_grad():
+                    previous = parameter.detach().clone() if guarded else None
                     parameter.add_(gradient, alpha=-cfg.lr)
                     _finite(parameter, "non-finite parameter before projection")
                     pre_norm = float(_finite(torch.linalg.vector_norm(parameter),
@@ -235,14 +295,30 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
                         else:
                             project_frobenius_(parameter, cfg.rho)
                     _finite(parameter, "non-finite parameter after projection")
+                    margin_guard_applied = False
+                    margin_guard_backtracks = 0
+                    margin_guard_reverted = False
+                    if guarded:
+                        (margin_guard_applied,
+                         margin_guard_backtracks,
+                         margin_guard_reverted) = _enforce_margin_guard_(
+                             parameter, previous, resources, cfg.gamma)
+                        _finite(parameter, "non-finite parameter after margin guard")
                     post_norm = float(_finite(torch.linalg.vector_norm(parameter),
                                               "non-finite post-projection norm"))
                 completed = step + 1
-                trace.append({"step": completed, "target_objective": float(objective.detach()),
-                              "regularizer": float(keep.detach()),
-                              "regularizer_gradient_norm": regularizer_gradient_norm,
-                              "pre_projection_norm": pre_norm, "projection_applied": projection_applied,
-                              "R_norm_after": post_norm})
+                trace_row = {"step": completed, "target_objective": float(objective.detach()),
+                             "regularizer": float(keep.detach()),
+                             "regularizer_gradient_norm": regularizer_gradient_norm,
+                             "pre_projection_norm": pre_norm, "projection_applied": projection_applied,
+                             "R_norm_after": post_norm}
+                if guarded:
+                    trace_row.update(
+                        margin_guard_applied=margin_guard_applied,
+                        margin_guard_backtracks=margin_guard_backtracks,
+                        margin_guard_reverted=margin_guard_reverted,
+                    )
+                trace.append(trace_row)
         R = (torch.diag(parameter) if diagonal else parameter).detach().clone()
         score = before if cfg.steps == 0 else float(_finite(
             _score(apply_adapter(target.features[:1], resources.U, R), resources)[0],

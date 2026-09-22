@@ -18,6 +18,12 @@ def margin_deficit(adapted_anchors, w, b, labels, m0, tau0, gamma):
     return torch.relu((1 - gamma) * m0 - margin)
 
 
+def margin_tolerance(resources, dtype):
+    """Shared numerical tolerance for guarded source-margin feasibility."""
+    scale = max(float(resources.anchors_m0.abs().max()), 1.0)
+    return 64.0 * torch.finfo(dtype).eps * scale
+
+
 def keep_loss(adapted_anchors, w, b, labels, m0, tau0, gamma):
     return margin_deficit(adapted_anchors, w, b, labels, m0, tau0, gamma).square().mean(dim=-1)
 

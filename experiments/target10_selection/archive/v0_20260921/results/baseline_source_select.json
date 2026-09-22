@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.1.0",
+  "method": "source-select EP",
+  "selection_data": "source-select",
+  "K": 1,
+  "lr": 0.003,
+  "steps": 1,
+  "test_data": "target90",
+  "test_count": 28601,
+  "labels_read": true,
+  "metrics": {
+    "EER": 0.09473625515780082,
+    "minDCF": null,
+    "minDCF_note": "t-DCF/minDCF require ASV scores, unavailable in this pipeline",
+    "accuracy": 0.4450893325408202,
+    "AUC": 0.9676840926338984,
+    "count": 28601,
+    "threshold": -4.770049095153809,
+    "balanced_accuracy": 0.5574594686104082,
+    "tpr": 0.9997187587887878,
+    "fpr": 0.8847998215679714,
+    "fnr": 0.0002812412112121496
+  }
+}

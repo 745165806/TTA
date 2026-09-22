@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "experiment": "target10-unsupervised-select",
+  "selection_data": "target10",
+  "selection_rule": "argmax mean(normalized_entropy_reduction, consistency, stability); entropy normalized by ln2; tie-break smaller K then smaller lr",
+  "labels_read": false,
+  "selected": {
+    "K": 0,
+    "lr": null,
+    "steps": 0,
+    "entropy": 0.0,
+    "consistency": 0.9544787077826683,
+    "stability": 0.9533395909269127,
+    "selection_score": 0.6359394329031937
+  },
+  "candidate_count": 13
+}
