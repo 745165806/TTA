@@ -1,0 +1,1343 @@
+{
+  "schema_version": "0.1.0",
+  "model_id": "ssl_aasist_source",
+  "baseline_id": "source-20260919T083421Z-a61b23:epoch_0007",
+  "frozen_bundle_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+  "task_weight_origin": "trained_in_project",
+  "generic_frontend_initialization": {
+    "artifact_ref": "/media/dell/data/fakeAudioDection/pretrained-model/xlsr2_300m.pt",
+    "pretraining_provenance": "upstream XLS-R 300M generic wav2vec 2.0 frontend checkpoint; local user-provided artifact",
+    "scope": "generic_ssl_frontend_only"
+  },
+  "load_patch": {
+    "kind": "explicit_generic_ssl_path_only",
+    "artifact_ref": "/media/dell/data/fakeAudioDection/pretrained-model/xlsr2_300m.pt",
+    "fairseq_version": "0.12.2",
+    "removed_legacy_config_fields": [
+      "task.autoregressive",
+      "task.conv_feature_layers",
+      "task.encoder_embed_dim",
+      "task.eval_wer",
+      "task.eval_wer_config",
+      "task.eval_wer_post_process",
+      "task.eval_wer_tokenizer",
+      "task.mask_channel_length",
+      "task.mask_channel_min_space",
+      "task.mask_channel_other",
+      "task.mask_channel_prob",
+      "task.mask_channel_selection",
+      "task.mask_length",
+      "task.mask_min_space",
+      "task.mask_other",
+      "task.mask_prob",
+      "task.mask_selection",
+      "task.multiple_train_files",
+      "task.no_mask_channel_overlap",
+      "task.no_mask_overlap",
+      "task.shuffle_by_bucket",
+      "task.shuffle_by_bucket_size",
+      "task.train_subset"
+    ]
+  },
+  "module_type_counts": {
+    "BatchNorm1d": 6,
+    "BatchNorm2d": 14,
+    "LayerNorm": 50,
+    "GroupNorm": 0,
+    "other_affine_modulation": 21
+  },
+  "parameter_counts": {
+    "backend": 446920,
+    "frontend": 317390592,
+    "head": 322
+  },
+  "scopes": {
+    "backend_norm_affine_v1": [
+      "GAT_layer_S.bn.bias",
+      "GAT_layer_S.bn.weight",
+      "GAT_layer_T.bn.bias",
+      "GAT_layer_T.bn.weight",
+      "HtrgGAT_layer_ST11.bn.bias",
+      "HtrgGAT_layer_ST11.bn.weight",
+      "HtrgGAT_layer_ST12.bn.bias",
+      "HtrgGAT_layer_ST12.bn.weight",
+      "HtrgGAT_layer_ST21.bn.bias",
+      "HtrgGAT_layer_ST21.bn.weight",
+      "HtrgGAT_layer_ST22.bn.bias",
+      "HtrgGAT_layer_ST22.bn.weight",
+      "attention.2.bias",
+      "attention.2.weight",
+      "encoder.0.0.bn2.bias",
+      "encoder.0.0.bn2.weight",
+      "encoder.1.0.bn1.bias",
+      "encoder.1.0.bn1.weight",
+      "encoder.1.0.bn2.bias",
+      "encoder.1.0.bn2.weight",
+      "encoder.2.0.bn1.bias",
+      "encoder.2.0.bn1.weight",
+      "encoder.2.0.bn2.bias",
+      "encoder.2.0.bn2.weight",
+      "encoder.3.0.bn1.bias",
+      "encoder.3.0.bn1.weight",
+      "encoder.3.0.bn2.bias",
+      "encoder.3.0.bn2.weight",
+      "encoder.4.0.bn1.bias",
+      "encoder.4.0.bn1.weight",
+      "encoder.4.0.bn2.bias",
+      "encoder.4.0.bn2.weight",
+      "encoder.5.0.bn1.bias",
+      "encoder.5.0.bn1.weight",
+      "encoder.5.0.bn2.bias",
+      "encoder.5.0.bn2.weight",
+      "first_bn.bias",
+      "first_bn.weight",
+      "first_bn1.bias",
+      "first_bn1.weight"
+    ],
+    "backend_norm_plus_graph_modulation_v1": [
+      "GAT_layer_S.att_weight",
+      "GAT_layer_S.bn.bias",
+      "GAT_layer_S.bn.weight",
+      "GAT_layer_T.att_weight",
+      "GAT_layer_T.bn.bias",
+      "GAT_layer_T.bn.weight",
+      "HtrgGAT_layer_ST11.att_weight11",
+      "HtrgGAT_layer_ST11.att_weight12",
+      "HtrgGAT_layer_ST11.att_weight22",
+      "HtrgGAT_layer_ST11.att_weightM",
+      "HtrgGAT_layer_ST11.bn.bias",
+      "HtrgGAT_layer_ST11.bn.weight",
+      "HtrgGAT_layer_ST12.att_weight11",
+      "HtrgGAT_layer_ST12.att_weight12",
+      "HtrgGAT_layer_ST12.att_weight22",
+      "HtrgGAT_layer_ST12.att_weightM",
+      "HtrgGAT_layer_ST12.bn.bias",
+      "HtrgGAT_layer_ST12.bn.weight",
+      "HtrgGAT_layer_ST21.att_weight11",
+      "HtrgGAT_layer_ST21.att_weight12",
+      "HtrgGAT_layer_ST21.att_weight22",
+      "HtrgGAT_layer_ST21.att_weightM",
+      "HtrgGAT_layer_ST21.bn.bias",
+      "HtrgGAT_layer_ST21.bn.weight",
+      "HtrgGAT_layer_ST22.att_weight11",
+      "HtrgGAT_layer_ST22.att_weight12",
+      "HtrgGAT_layer_ST22.att_weight22",
+      "HtrgGAT_layer_ST22.att_weightM",
+      "HtrgGAT_layer_ST22.bn.bias",
+      "HtrgGAT_layer_ST22.bn.weight",
+      "attention.2.bias",
+      "attention.2.weight",
+      "encoder.0.0.bn2.bias",
+      "encoder.0.0.bn2.weight",
+      "encoder.1.0.bn1.bias",
+      "encoder.1.0.bn1.weight",
+      "encoder.1.0.bn2.bias",
+      "encoder.1.0.bn2.weight",
+      "encoder.2.0.bn1.bias",
+      "encoder.2.0.bn1.weight",
+      "encoder.2.0.bn2.bias",
+      "encoder.2.0.bn2.weight",
+      "encoder.3.0.bn1.bias",
+      "encoder.3.0.bn1.weight",
+      "encoder.3.0.bn2.bias",
+      "encoder.3.0.bn2.weight",
+      "encoder.4.0.bn1.bias",
+      "encoder.4.0.bn1.weight",
+      "encoder.4.0.bn2.bias",
+      "encoder.4.0.bn2.weight",
+      "encoder.5.0.bn1.bias",
+      "encoder.5.0.bn1.weight",
+      "encoder.5.0.bn2.bias",
+      "encoder.5.0.bn2.weight",
+      "first_bn.bias",
+      "first_bn.weight",
+      "first_bn1.bias",
+      "first_bn1.weight",
+      "master1",
+      "master2",
+      "pos_S"
+    ]
+  },
+  "candidates": [
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.0.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.0.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.0.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.1.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.1.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.1.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.2.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.2.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.2.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.3.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.3.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.3.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.4.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.4.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.4.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.5.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.5.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.5.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.feature_extractor.conv_layers.6.2.1",
+      "module_type": "Fp32LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.feature_extractor.conv_layers.6.2.1.weight",
+        "ssl_model.model.feature_extractor.conv_layers.6.2.1.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.0.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.0.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.0.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.0.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.0.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.0.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.1.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.1.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.1.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.1.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.1.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.1.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.2.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.2.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.2.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.2.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.2.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.2.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.3.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.3.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.3.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.3.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.3.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.3.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.4.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.4.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.4.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.4.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.4.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.4.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.5.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.5.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.5.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.5.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.5.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.5.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.6.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.6.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.6.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.6.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.6.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.6.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.7.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.7.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.7.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.7.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.7.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.7.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.8.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.8.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.8.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.8.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.8.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.8.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.9.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.9.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.9.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.9.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.9.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.9.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.10.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.10.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.10.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.10.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.10.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.10.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.11.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.11.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.11.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.11.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.11.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.11.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.12.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.12.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.12.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.12.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.12.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.12.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.13.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.13.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.13.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.13.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.13.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.13.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.14.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.14.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.14.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.14.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.14.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.14.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.15.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.15.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.15.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.15.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.15.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.15.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.16.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.16.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.16.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.16.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.16.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.16.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.17.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.17.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.17.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.17.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.17.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.17.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.18.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.18.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.18.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.18.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.18.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.18.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.19.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.19.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.19.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.19.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.19.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.19.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.20.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.20.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.20.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.20.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.20.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.20.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.21.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.21.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.21.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.21.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.21.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.21.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.22.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.22.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.22.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.22.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.22.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.22.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.23.self_attn_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.23.self_attn_layer_norm.weight",
+        "ssl_model.model.encoder.layers.23.self_attn_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layers.23.final_layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layers.23.final_layer_norm.weight",
+        "ssl_model.model.encoder.layers.23.final_layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.encoder.layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.encoder.layer_norm.weight",
+        "ssl_model.model.encoder.layer_norm.bias"
+      ],
+      "parameter_count": 2048,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "ssl_model.model.layer_norm",
+      "module_type": "LayerNorm",
+      "parameter_names": [
+        "ssl_model.model.layer_norm.weight",
+        "ssl_model.model.layer_norm.bias"
+      ],
+      "parameter_count": 1024,
+      "component": "frontend",
+      "weight_origin": "generic-pretrained",
+      "scope_a_selected": false
+    },
+    {
+      "module_name": "first_bn",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "first_bn.weight",
+        "first_bn.bias"
+      ],
+      "parameter_count": 2,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "first_bn1",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "first_bn1.weight",
+        "first_bn1.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.0.0.bn2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.0.0.bn2.weight",
+        "encoder.0.0.bn2.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.1.0.bn1",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.1.0.bn1.weight",
+        "encoder.1.0.bn1.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.1.0.bn2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.1.0.bn2.weight",
+        "encoder.1.0.bn2.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.2.0.bn1",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.2.0.bn1.weight",
+        "encoder.2.0.bn1.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.2.0.bn2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.2.0.bn2.weight",
+        "encoder.2.0.bn2.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.3.0.bn1",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.3.0.bn1.weight",
+        "encoder.3.0.bn1.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.3.0.bn2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.3.0.bn2.weight",
+        "encoder.3.0.bn2.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.4.0.bn1",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.4.0.bn1.weight",
+        "encoder.4.0.bn1.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.4.0.bn2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.4.0.bn2.weight",
+        "encoder.4.0.bn2.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.5.0.bn1",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.5.0.bn1.weight",
+        "encoder.5.0.bn1.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "encoder.5.0.bn2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "encoder.5.0.bn2.weight",
+        "encoder.5.0.bn2.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "attention.2",
+      "module_type": "BatchNorm2d",
+      "parameter_names": [
+        "attention.2.weight",
+        "attention.2.bias"
+      ],
+      "parameter_count": 256,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "GAT_layer_S.bn",
+      "module_type": "BatchNorm1d",
+      "parameter_names": [
+        "GAT_layer_S.bn.weight",
+        "GAT_layer_S.bn.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "GAT_layer_T.bn",
+      "module_type": "BatchNorm1d",
+      "parameter_names": [
+        "GAT_layer_T.bn.weight",
+        "GAT_layer_T.bn.bias"
+      ],
+      "parameter_count": 128,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST11.bn",
+      "module_type": "BatchNorm1d",
+      "parameter_names": [
+        "HtrgGAT_layer_ST11.bn.weight",
+        "HtrgGAT_layer_ST11.bn.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST12.bn",
+      "module_type": "BatchNorm1d",
+      "parameter_names": [
+        "HtrgGAT_layer_ST12.bn.weight",
+        "HtrgGAT_layer_ST12.bn.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST21.bn",
+      "module_type": "BatchNorm1d",
+      "parameter_names": [
+        "HtrgGAT_layer_ST21.bn.weight",
+        "HtrgGAT_layer_ST21.bn.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST22.bn",
+      "module_type": "BatchNorm1d",
+      "parameter_names": [
+        "HtrgGAT_layer_ST22.bn.weight",
+        "HtrgGAT_layer_ST22.bn.bias"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": true
+    },
+    {
+      "module_name": "pos_S",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "pos_S"
+      ],
+      "parameter_count": 2688,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "master1",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "master1"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "master2",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "master2"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "GAT_layer_S.att_weight",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "GAT_layer_S.att_weight"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "GAT_layer_T.att_weight",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "GAT_layer_T.att_weight"
+      ],
+      "parameter_count": 64,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST11.att_weight11",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST11.att_weight11"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST11.att_weight22",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST11.att_weight22"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST11.att_weight12",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST11.att_weight12"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST11.att_weightM",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST11.att_weightM"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST12.att_weight11",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST12.att_weight11"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST12.att_weight22",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST12.att_weight22"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST12.att_weight12",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST12.att_weight12"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST12.att_weightM",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST12.att_weightM"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST21.att_weight11",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST21.att_weight11"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST21.att_weight22",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST21.att_weight22"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST21.att_weight12",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST21.att_weight12"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST21.att_weightM",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST21.att_weightM"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST22.att_weight11",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST22.att_weight11"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST22.att_weight22",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST22.att_weight22"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST22.att_weight12",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST22.att_weight12"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    },
+    {
+      "module_name": "HtrgGAT_layer_ST22.att_weightM",
+      "module_type": "StandaloneParameter",
+      "parameter_names": [
+        "HtrgGAT_layer_ST22.att_weightM"
+      ],
+      "parameter_count": 32,
+      "component": "backend",
+      "weight_origin": "task-trained",
+      "scope_a_selected": false,
+      "scope_b_selected": true
+    }
+  ],
+  "scope_parameter_counts": {
+    "backend_norm_affine_v1": 2050,
+    "backend_norm_plus_graph_modulation_v1": 5506
+  }
+}
