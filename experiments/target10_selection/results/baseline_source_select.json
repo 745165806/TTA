@@ -1,6 +1,7 @@
 {
   "schema_version": "0.1.0",
   "method": "source-select EP",
+  "method_id": "ep_tta",
   "selection_data": "source-select",
   "K": 1,
   "lr": 0.003,
@@ -8,6 +9,8 @@
   "test_data": "target90",
   "test_count": 28601,
   "labels_read": true,
+  "target_labels_read": true,
+  "source_labels_used": true,
   "metrics": {
     "EER": 0.09473625515780082,
     "minDCF": null,

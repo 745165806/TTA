@@ -1,20 +1,25 @@
 schema_version: 0.1.0
+protocol_id: target10-guarded-v2
 experiment: target10-unsupervised-select
+method_id: ep_tta_guarded
 selection_data: target10
 selection_complete: true
 search_forbidden: true
-selected_K: 0
-selected_lr: null
-selected_steps: 0
+labels_read: false
+target_labels_read: false
+source_labels_used: true
+selected_K: 10
+selected_lr: 0.3
+selected_steps: 10
 selection_metrics:
-  entropy_reduction: 0.0
-  prediction_consistency: 0.9544787077826683
-  confidence_stability: 0.9533395909269127
+  view_reduction: 0.01754625200856914
+  probability_consistency: 0.8752483563132281
+  source_margin_retention: 0.9951006528752041
 fixed_method:
-  method_id: ep_tta
+  method_id: ep_tta_guarded
   config:
-    steps: 0
-    lr: 0.01
+    steps: 10
+    lr: 0.3
     rho: 0.2
     gamma: 0.1
     lambda_keep: 1.0

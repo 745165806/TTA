@@ -1,4 +1,5 @@
 {
+  "protocol_id": "target10-guarded-v2",
   "target10_raw_count": 3178,
   "target10_raw_role": "target_test",
   "target10_select_count": 3178,
@@ -11,9 +12,9 @@
   "union_count": 31779,
   "checkpoint": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
   "gpu_count": 4,
-  "parameter_combination_count": 13,
-  "git_head": "d55efb951831bd3d0471eafd4876c23d8c672833",
-  "git_status_short": "?? configs/local_v2/source_ssl_aasist_continue.yaml\n?? configs/local_v2/ssl_aasist_control_main/\n?? configs/local_v2/ssl_aasist_target/\n?? docs/EXPERIMENTS_SUMMARY.md\n?? experiments/\n?? scripts/analyze_boundary_delta.py\n?? scripts/analyze_ep_behavior.py\n?? scripts/analyze_ep_diagnostics.py\n?? scripts/analyze_ep_itw.py\n?? scripts/analyze_flip.py\n?? scripts/analyze_itw_ep.py\n?? scripts/build_paper_table.sh\n?? scripts/compare_results.py\n?? scripts/report_recursive.py\n?? scripts/run_r7_ep_tta_experiments.sh\n?? scripts/run_r7_param_search.py\n?? scripts/run_ssl_target_all.sh",
+  "parameter_combination_count": 25,
+  "git_head": "e3acf3fe74ed726728c7174e7d66ccb43e94c74c",
+  "git_status_short": "M experiments/target10_selection/configs/target10_selection_eval.yaml\n M experiments/target10_selection/results/baseline_source_select.json\n M experiments/target10_selection/results/best_param.json\n M experiments/target10_selection/results/comparison.csv\n M experiments/target10_selection/results/param_search.json\n M experiments/target10_selection/results/preflight.json\n M experiments/target10_selection/results/search_group_0.json\n M experiments/target10_selection/results/search_group_1.json\n M experiments/target10_selection/results/search_group_2.json\n M experiments/target10_selection/results/search_group_3.json\n M experiments/target10_selection/results/target90_result.json\n?? experiments/target10_selection/archive/20260921_190300/\n?? experiments/target10_selection/diagnostics/",
   "status": "PASS",
   "failures": []
 }
