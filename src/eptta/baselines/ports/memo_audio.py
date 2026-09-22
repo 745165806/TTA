@@ -10,17 +10,23 @@ from eptta.baselines.ports.tent_audio import score_current
 
 
 def memo_adapt(model, adapter, views, class_index_map, lr=2.5e-4, steps=None,
-               niter=None, weight_decay=0.0):
+               niter=None, weight_decay=0.0, respect_configured_scope=False):
     """Full-model marginal-entropy adaptation; returns same-sample post-update score.
 
-    ``views`` is the (3, L) probe3 batch (view0 original, view1 noise, view2 FIR).
+    ``views`` is an (n_views, L) batch. Reference callers use probe3; an
+    audio-native caller may pass only source-audit-approved views and preserve
+    its preconfigured limited parameter scope.
     """
-    for p in model.parameters():
-        p.requires_grad = True
+    if not respect_configured_scope:
+        for p in model.parameters():
+            p.requires_grad = True
     if steps is not None and niter is not None and steps != niter:
         raise ValueError("MEMO steps and niter disagree")
     iterations = niter if niter is not None else (steps if steps is not None else 1)
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr, weight_decay=weight_decay)
+    parameters = [p for p in model.parameters() if p.requires_grad]
+    if not parameters:
+        raise ValueError("MEMO adaptation scope contains no trainable parameters")
+    optimizer = torch.optim.SGD(parameters, lr=lr, weight_decay=weight_decay)
     for _step in range(iterations):
         _emb, logits = adapter.forward(views)
         loss = marginal_entropy(logits)
