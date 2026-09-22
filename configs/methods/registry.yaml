@@ -26,6 +26,20 @@
       "projection": "frobenius_then_source_margin_guard",
       "implementation_status": "IMPLEMENTED_UNVERIFIED"
     },
+    "ep_tta_calibrated_selective_v1": {
+      "comparison_track": "mechanism",
+      "route": "feature_cache",
+      "parameterization": "matrix",
+      "objective": "target_calibrated_pseudo_bce+task_logit_consistency",
+      "regularizer": "source_logit+parameter_l2",
+      "subspace": "response",
+      "solver": "selective_sgd",
+      "reset_policy": "per_sample",
+      "final_output": "original",
+      "projection": "frobenius",
+      "protocol": "unlabeled_domain_calibration_then_episodic_tta",
+      "implementation_status": "IMPLEMENTED_UNVERIFIED"
+    },
     "frozen": {
       "comparison_track": "reference",
       "route": "feature_cache",

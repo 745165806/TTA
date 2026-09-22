@@ -31,6 +31,14 @@ _TASKAWARE_IDENTITY = {"route": "feature_cache", "parameterization": "matrix",
                        "final_output": "original", "reset_policy": "per_sample",
                        "projection": "frobenius"}
 
+_CALIBRATED_SELECTIVE_IDENTITY = {
+    "route": "feature_cache", "parameterization": "matrix",
+    "objective": "target_calibrated_pseudo_bce+task_logit_consistency",
+    "regularizer": "source_logit+parameter_l2", "subspace": "response",
+    "final_output": "original", "reset_policy": "per_sample",
+    "projection": "frobenius",
+}
+
 
 def validate_selection(cfg):
     sel = cfg["selection"]
@@ -43,6 +51,8 @@ def validate_selection(cfg):
         expected = _EP_TTA_IDENTITY
     elif method_id == "ep_tta_taskaware_v1":
         expected = _TASKAWARE_IDENTITY
+    elif method_id == "ep_tta_calibrated_selective_v1":
+        expected = _CALIBRATED_SELECTIVE_IDENTITY
     else:
         raise NotImplementedStage(f"{method_id} is registered TODO; its dedicated configuration is not implemented")
     if any(method.get(k) != v for k, v in expected.items()):

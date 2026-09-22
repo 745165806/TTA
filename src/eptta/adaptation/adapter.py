@@ -3,6 +3,12 @@ import math
 
 import torch
 
+from eptta.adaptation.calibrated_selective import (
+    ALLOWED_PARAMS as CALIBRATED_SELECTIVE_PARAMS,
+    METHOD_ID as CALIBRATED_SELECTIVE_METHOD_ID,
+    run as run_calibrated_selective,
+    validate_params as validate_calibrated_selective_params,
+)
 from eptta.adaptation.math import apply_adapter, margin_deficit, margin_tolerance, project_frobenius_
 from eptta.adaptation.objectives import (calibrated_logits, calibrated_pseudo_bce,
                                          target_objective, task_logit_consistency)
@@ -106,10 +112,13 @@ def validate_method_setup(method_id, resources, cfg, params=None):
     rank = resources.U.shape[1]
     allowed_params = {"static_subspace": {"amount"}, "fixed_source_adapter": {"fixed_R"},
                       "frozen_source_shift": {"score_shift"}, "ep_scalar_adaptive": {"grid_size"},
-                      "ep_keep_fisher": {"fisher"}, "ep_tta_taskaware_v1": set(TASKAWARE_PARAMS)}
+                      "ep_keep_fisher": {"fisher"}, "ep_tta_taskaware_v1": set(TASKAWARE_PARAMS),
+                      CALIBRATED_SELECTIVE_METHOD_ID: set(CALIBRATED_SELECTIVE_PARAMS)}
     unknown = set(params) - allowed_params.get(method_id, set())
     if unknown:
         raise ValueError("unknown params for %s: %s" % (method_id, sorted(unknown)))
+    if method_id == CALIBRATED_SELECTIVE_METHOD_ID:
+        return validate_calibrated_selective_params(params)
     if method_id == "ep_tta_taskaware_v1":
         merged = dict(_TASKAWARE_DEFAULTS)
         merged.update(params)
@@ -163,7 +172,7 @@ def validate_method_setup(method_id, resources, cfg, params=None):
 @torch.no_grad()
 def adaptation_diagnostics(result, target, resources, cfg):
     """Recompute final diagnostics from the actual final R and regularizer contract."""
-    if result.get("method_id") == "ep_tta_taskaware_v1":
+    if result.get("method_id") in ("ep_tta_taskaware_v1", CALIBRATED_SELECTIVE_METHOD_ID):
         return _taskaware_diagnostics(result, target, resources)
     if result.get("status") == "fallback_numeric":
         diagnostic = {name: None for name in (
@@ -553,6 +562,8 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
             return _numeric_fallback(method_id, target, before, 0, 0, exc, rank)
     if method_id == "ep_tta_taskaware_v1":
         return _run_taskaware_v1(target, resources, cfg, params)
+    if method_id == CALIBRATED_SELECTIVE_METHOD_ID:
+        return run_calibrated_selective(target, resources, cfg, params)
 
     objective_name, regularizer_name = METHODS[method_id]
     diagonal = method_id == "ep_diagonal_R"

@@ -12,6 +12,7 @@ _DETAILS = {
     "ep_tta": ("matrix", "view_variance", "margin", "response", "sgd", ("U", "M"), "original"),
     "ep_tta_guarded": ("matrix", "view_variance", "margin", "response", "sgd_margin_guard", ("U", "M"), "original"),
     "ep_tta_taskaware_v1": ("matrix", "calibrated_pseudo_bce+task_logit_consistency", "source_logit+parameter_l2", "response", "selective_sgd", ("U", "M"), "original"),
+    "ep_tta_calibrated_selective_v1": ("matrix", "target_calibrated_pseudo_bce+task_logit_consistency", "source_logit+parameter_l2", "response", "selective_sgd", ("U", "M", "target_gmm"), "original"),
     "ep_no_keep": ("matrix", "view_variance", "none", "response", "sgd", ("U",), "original"),
     "ep_random_U": ("matrix", "view_variance", "margin", "random", "sgd", ("U_random", "M"), "original"),
     "ep_feature_pca_U": ("matrix", "view_variance", "margin", "feature_pca", "sgd", ("U_feature_pca", "M"), "original"),

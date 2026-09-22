@@ -1,0 +1,56 @@
+{
+  "method_id": "ep_tta_calibrated_selective_v1",
+  "working_name": "Calibration-Aware Selective EP-TTA",
+  "protocol": "unlabeled_domain_calibration_then_episodic_tta",
+  "split": {
+    "salt": "p3-main-2026",
+    "calibration_fraction": 0.10
+  },
+  "gmm": {
+    "max_iter": 100,
+    "tol": 1e-6,
+    "variance_floor": 1e-6
+  },
+  "gate": {
+    "confidence_threshold": 0.90,
+    "min_view_agreement": 1.0
+  },
+  "objective": {
+    "lambda_pseudo": 1.0,
+    "lambda_consistency": 0.25,
+    "lambda_source": 1.0,
+    "lambda_r": 0.01,
+    "temperature": 1.0,
+    "steps": 3,
+    "lr": 0.03,
+    "rho": 0.05,
+    "gamma": 0.1,
+    "lambda_keep": 1.0
+  },
+  "bootstrap": {
+    "seed": 2026,
+    "n": 2000
+  },
+  "inputs": {
+    "target10_label_free_manifest": "experiments/target10_selection/manifests/inwild_target10_select.json",
+    "target10_label_manifest": "experiments/target10_selection/manifests/inwild_target10.json",
+    "frozen_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+    "resources": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/resources",
+    "target_cache": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/cache-target-in_the_wild"
+  },
+  "variants": [
+    "Frozen",
+    "CalOnly",
+    "SourceTauTeacher",
+    "CalibratedTeacher-NoSelect",
+    "CalibratedSelective",
+    "OracleTeacher"
+  ],
+  "cpu_worker_assignment": {
+    "worker0": ["Frozen", "CalOnly"],
+    "worker1": ["SourceTauTeacher"],
+    "worker2": ["CalibratedTeacher-NoSelect"],
+    "worker3": ["CalibratedSelective"],
+    "post_hoc": ["OracleTeacher", "aggregate"]
+  }
+}
