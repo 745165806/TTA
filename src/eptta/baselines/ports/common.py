@@ -39,6 +39,14 @@ def configure_normalization_adaptation(model):
     return model
 
 
+def configure_full_model(model):
+    """Full-model (MEMO) scope: eval mode, every parameter trainable."""
+    model.eval()
+    for param in model.parameters():
+        param.requires_grad = True
+    return model
+
+
 def frozen_parameters(model):
     """Snapshot parameters only (BN running stats are nulled by configuration)."""
     return {name: p.detach().clone() for name, p in model.named_parameters()}

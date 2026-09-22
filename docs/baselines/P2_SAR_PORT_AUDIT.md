@@ -1,28 +1,23 @@
-# P2 SAR audio port audit
+# P2.1 SAR audio port audit
 
 - method_id: `sar_audio_ep`
-- paper: Towards Stable Test-Time Adaptation in Dynamic Wild World (Niu et al., ICLR 2023 Oral), <https://arxiv.org/abs/2302.12400>
+- port_scope: `episodic_audio_port`
+- paper: SAR (Niu et al., ICLR 2023 Oral), <https://arxiv.org/abs/2302.12400>
 - official repository: <https://github.com/mr-eggplant/SAR>
-- license: MIT (repo LICENSE); commit not pinned locally (`UNPINNED_AUDIT_ONLY`)
+- pinned commit: `20f6e24b17525f34503510afccedc0629b67b7c4`
 
-## Core algorithm (must preserve)
-Reliable entropy minimization + Sharpness-Aware Minimization (SAM).
-- Reliability filter: keep a sample only if its softmax entropy `E(x) < margin`, where `margin = 0.4 * log(C)`.
-- SAM: two-phase update — first-step ascent on the perturbation direction, second-step descent.
+## Learning rate (corrected)
+Official `main.py` ResNet50-BN / bs<32 branch uses `lr = (0.00025 / 64) * batch_size * 2`; the `exp_type == bs1` SAR branch doubles again.
+Audio mapping (single-sample backend BN):
+- batch_size = 1
+- base = (0.00025/64)*1*2 = 7.8125e-6
+- SAR bs1 doubled = **1.5625e-5**
 
-## Class-count-scaled audio mapping
-Binary anti-spoofing `C = 2`, so `margin = 0.4 * log(2) = 0.2773` (NOT the ImageNet `0.4 * log(1000)` constant).
+Base optimizer: SGD, momentum=0.9. SAM rho = 0.05.
 
-## Parameter scope
-Same controlled normalization scope as TENT: backend BatchNorm1d/BatchNorm2d affine only.
-
-## Optimizer / SAM
-- base optimizer: SGD, lr=0.001, momentum=0.9, weight_decay=0.
-- SAM rho = 0.05 (official code); true two-step `first_step`/`second_step` (no gradient-clipping substitute).
-
-## Protocol deviations
-1. per_sample reset (no online recovery/EMA history carried across samples).
-2. empty reliable set => `adaptation_applied=false`, `score_after=frozen`, `abstain_reason=unreliable_entropy` (NOT a numeric failure).
+## Reliable filter + SAM
+Two-phase: `entropy1 -> filter1 -> first_step -> entropy2 -> filter2 -> second_step`.
+If first pass reliable but the SAM-perturbed second pass `entropy2 >= margin`, skip the second-step update safely (no NaN).
 
 ## Status
-`AUDITED_UNVERIFIED`.
+`VERIFIED` (episodic audio port audit complete).

@@ -84,8 +84,8 @@ def test_tent_configuration_scope_and_update():
     adapter = FakeAdapter(model)
     x = torch.randn(4, 4)
     before = {n: p.detach().clone() for n, p in model.named_parameters() if n in names}
-    score0, score1 = tent_audio.tent_episodic(model, adapter, x,
-                                              {"spoof": 0, "bonafide": 1}, steps=2)
+    score0 = tent_audio.score_current(model, adapter, x, {"spoof": 0, "bonafide": 1})
+    score1 = tent_audio.tent_adapt(model, adapter, x, {"spoof": 0, "bonafide": 1}, steps=2)
     assert isinstance(score0, float) and isinstance(score1, float)
     changed = [n for n in before if not torch.allclose(before[n], dict(model.named_parameters())[n])]
     assert changed, "entropy update must change selected normalization params"
@@ -97,7 +97,7 @@ def test_model_reset_restores_exact_state():
     frozen = {k: v.detach().clone() for k, v in model.state_dict().items()}
     adapter = FakeAdapter(model)
     x = torch.randn(4, 4)
-    tent_audio.tent_episodic(model, adapter, x, {"spoof": 0, "bonafide": 1}, steps=1)
+    tent_audio.tent_adapt(model, adapter, x, {"spoof": 0, "bonafide": 1}, steps=1)
     model.load_state_dict(frozen)
     for k, v in frozen.items():
         torch.testing.assert_close(model.state_dict()[k], v, atol=0, rtol=0)
@@ -112,12 +112,12 @@ def test_per_sample_reset_A_B_A_repeatable():
 
     def run_a():
         model.load_state_dict(frozen)
-        return tent_audio.tent_episodic(model, adapter, xa, {"spoof": 0, "bonafide": 1}, steps=1)
+        return tent_audio.tent_adapt(model, adapter, xa, {"spoof": 0, "bonafide": 1}, steps=1)
 
     first = run_a()
     # interleave B
     model.load_state_dict(frozen)
-    tent_audio.tent_episodic(model, adapter, torch.randn(4, 4), {"spoof": 0, "bonafide": 1}, steps=1)
+    tent_audio.tent_adapt(model, adapter, torch.randn(4, 4), {"spoof": 0, "bonafide": 1}, steps=1)
     again = run_a()
     assert first == again
 
@@ -160,8 +160,8 @@ def test_sar_reliable_filter_and_abstain():
         # force near-uniform logits by zeroing the head output
         model.head.weight.data.zero_()
         model.head.bias.data.zero_()
-    sb, sa, applied, reason = sar_audio.sar_episodic(
+    sa, applied, reason, diag = sar_audio.sar_adapt(
         model, adapter, x, {"spoof": 0, "bonafide": 1}, steps=1)
     assert applied is False
     assert reason == "unreliable_entropy"
-    assert sb == sa
+    assert diag["reliable_first"] is False

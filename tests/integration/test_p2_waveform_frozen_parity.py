@@ -33,4 +33,6 @@ def test_frozen_waveform_parity_real():
     report = json.loads((ROOT / "experiments/p2_calibration_baselines/results/parity_test"
                          / "waveform_frozen_parity.json").read_text())
     assert report["all_within_project_tolerance"] is True
-    assert report["max_abs_diff"] <= report["tolerance"]
+    for key in ("max_abs_diff_logits_vs_exported", "max_abs_diff_exported_vs_cache",
+                "max_abs_diff_logits_vs_cache"):
+        assert report[key] <= report["tolerance"]

@@ -85,13 +85,13 @@ def run_oracle_teacher(sample_id, features, resources, cache_id, y, cfg, params)
                 "safety_rejected": False, "numeric_fallback": True}
 
 
-def compute_metrics(records, labels):
+def compute_metrics(records, labels, threshold):
     from eptta.evaluation.metrics import binary_metrics
     after = {r["sample_id"]: r["score_after"] for r in records}
     before = {r["sample_id"]: r["score_before"] for r in records}
     order = sorted(after)
     m = binary_metrics([after[k] for k in order], [labels[k] for k in order],
-                       -4.770049095153809, frozen_scores=[before[k] for k in order])
+                       threshold, frozen_scores=[before[k] for k in order])
     signed = [(2 * labels[r["sample_id"]] - 1) * r["delta_score"] for r in records]
     b = [sd for sd, r in zip(signed, records) if labels[r["sample_id"]] == 0]
     s = [sd for sd, r in zip(signed, records) if labels[r["sample_id"]] == 1]
@@ -130,7 +130,7 @@ def main():
         for r in oracle_records:
             stream.write(json.dumps(r, sort_keys=True, allow_nan=False) + "\n")
 
-    oracle_metrics = compute_metrics(oracle_records, labels)
+    oracle_metrics = compute_metrics(oracle_records, labels, resources.tau0)
 
     # Pseudo-teacher reference from the historical P1 taskaware_full run.
     pseudo_records = []
@@ -138,7 +138,7 @@ def main():
         for line in stream:
             if line.strip():
                 pseudo_records.append(json.loads(line))
-    pseudo_metrics = compute_metrics(pseudo_records, labels)
+    pseudo_metrics = compute_metrics(pseudo_records, labels, resources.tau0)
 
     pseudo_signed = pseudo_metrics["mean_signed_task_delta"]
     oracle_signed = oracle_metrics["mean_signed_task_delta"]
