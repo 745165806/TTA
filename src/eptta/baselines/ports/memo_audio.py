@@ -9,15 +9,19 @@ from eptta.baselines.ports.common import marginal_entropy
 from eptta.baselines.ports.tent_audio import score_current
 
 
-def memo_adapt(model, adapter, views, class_index_map, lr=2.5e-4, steps=1):
+def memo_adapt(model, adapter, views, class_index_map, lr=2.5e-4, steps=None,
+               niter=None, weight_decay=0.0):
     """Full-model marginal-entropy adaptation; returns same-sample post-update score.
 
     ``views`` is the (3, L) probe3 batch (view0 original, view1 noise, view2 FIR).
     """
     for p in model.parameters():
         p.requires_grad = True
-    optimizer = torch.optim.SGD(model.parameters(), lr=lr)
-    for _step in range(steps):
+    if steps is not None and niter is not None and steps != niter:
+        raise ValueError("MEMO steps and niter disagree")
+    iterations = niter if niter is not None else (steps if steps is not None else 1)
+    optimizer = torch.optim.SGD(model.parameters(), lr=lr, weight_decay=weight_decay)
+    for _step in range(iterations):
         _emb, logits = adapter.forward(views)
         loss = marginal_entropy(logits)
         optimizer.zero_grad()

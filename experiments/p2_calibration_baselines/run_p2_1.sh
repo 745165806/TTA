@@ -17,6 +17,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 GIT_ROOT="$(git rev-parse --show-toplevel)"
+LOCKED_CONFIG="$SCRIPT_DIR/baselines/locked_port_configs.json"
 
 DRY_RUN=0
 if [ "${1:-}" = "--dry-run" ]; then DRY_RUN=1; fi
@@ -55,6 +56,7 @@ PIDS=()
 for i in 0 1 2 3; do
     CUDA_VISIBLE_DEVICES="${GPUS[$i]}" python baselines/run_port.py \
         --method "${M[$i]}" --split target10 --output "$RUN_DIR/pilot/${M[$i]//_audio*/}" \
+        --locked-config "$LOCKED_CONFIG" \
         > "$LOG_DIR/p2_1_gpu${GPUS[$i]}.log" 2>&1 &
     PIDS+=("$!")
 done

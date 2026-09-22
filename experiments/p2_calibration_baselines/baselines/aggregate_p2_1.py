@@ -38,6 +38,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pilot-dir", type=str, required=True)
     parser.add_argument("--run-dir", type=str, required=True)
+    parser.add_argument(
+        "--validation-evidence", type=str,
+        default=str(EXP_DIR / "baselines/validation_evidence.json"))
     args = parser.parse_args()
     pilot = Path(args.pilot_dir)
     out_dir = Path(args.run_dir) / "pilot"
@@ -105,10 +108,9 @@ def main():
             port_valid = False
         else:
             audit = port_validation.load_audit(method_id)
-            validation = port_validation.compute_port_validation(
-                method_id, audit.get("status"), audit.get("repo_commit"),
-                audit.get("repo_commit_pinned"), direct_parity_pass,
-                True, True, True, sample_coverage, numeric_failure, resource_failure)
+            validation = port_validation.compute_evidence_backed_validation(
+                method_id, audit, args.validation_evidence, direct_parity_pass,
+                sample_coverage, numeric_failure, resource_failure)
             port_valid = validation["PORT_VALID"]
         validations[label] = validation
 

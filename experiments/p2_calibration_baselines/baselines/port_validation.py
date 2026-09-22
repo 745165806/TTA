@@ -8,6 +8,9 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
+EVIDENCE_FIELDS = ("parameter_scope_verified", "reset_contract_pass",
+                   "label_isolation_pass", "audit_verified",
+                   "official_commit_pinned")
 
 
 def compute_port_validation(method_id, audit_status, official_repo_commit,
@@ -89,3 +92,39 @@ def load_audit(method_id):
         raise ValueError("no audit registered for %s" % method_id)
     path = ROOT / "experiments/p2_calibration_baselines/audits" / mapping[method_id]
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def load_validation_evidence(path, method_id):
+    """Load strict per-method evidence; missing/malformed evidence fails closed."""
+    try:
+        document = json.loads(Path(path).read_text(encoding="utf-8"))
+        record = document["methods"][method_id]
+    except (OSError, json.JSONDecodeError, KeyError, TypeError):
+        return None
+    if not isinstance(record, dict) or record.get("method_id") != method_id:
+        return None
+    if any(type(record.get(field)) is not bool for field in EVIDENCE_FIELDS):
+        return None
+    return record
+
+
+def compute_evidence_backed_validation(method_id, audit, evidence_path,
+                                       direct_parity_pass, sample_coverage,
+                                       numeric_failure_count,
+                                       resource_failure_count):
+    """Compute a port gate from an evidence artifact; absence always fails closed."""
+    evidence = load_validation_evidence(evidence_path, method_id) or {}
+    audit_verified = (evidence.get("audit_verified") is True
+                      and audit.get("algorithm_audit_status",
+                                    audit.get("status")) == "VERIFIED")
+    pinned = (evidence.get("official_commit_pinned") is True
+              and audit.get("repo_commit_pinned") is True
+              and evidence.get("official_repo_commit") == audit.get("repo_commit"))
+    return compute_port_validation(
+        method_id,
+        "VERIFIED" if audit_verified else "NOT_VERIFIED",
+        audit.get("repo_commit"), pinned,
+        direct_parity_pass, evidence.get("parameter_scope_verified", False),
+        evidence.get("reset_contract_pass", False),
+        evidence.get("label_isolation_pass", False), sample_coverage,
+        numeric_failure_count, resource_failure_count)

@@ -29,6 +29,7 @@ from eptta.cache.reader import FeatureCache
 from eptta.models.frozen import verify_frozen_export
 from eptta.offline.artifacts import load_frozen_resources
 from baselines.probe import three_view_probe
+from baselines.locked_config import invoke_locked, load_locked_method
 from baselines.splits import get_split, load_split_sample_ids
 from baselines.target_waveform import TargetWaveformDataset
 
@@ -48,10 +49,38 @@ def main():
     parser.add_argument("--method", type=str, required=True, choices=sorted(METHODS))
     parser.add_argument("--split", type=str, required=True)
     parser.add_argument("--output", type=str, required=True)
+    parser.add_argument("--locked-config", type=str, required=True)
     parser.add_argument("--limit", type=int, default=None)
     args = parser.parse_args()
 
-    split = get_split(args.split)  # raises on unknown split
+    try:
+        locked = load_locked_method(args.locked_config, args.method)
+    except ValueError as exc:
+        parser.error(str(exc))
+    split = get_split(args.split)  # raises on unknown split before creating output
+    out_dir = Path(args.output)
+    out_path = out_dir / "scores.jsonl"
+    run_config_path = out_dir / "run_config.json"
+    if out_path.exists():
+        raise SystemExit("refusing to overwrite existing run output: %s" % out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    run_config = {
+        "schema_version": "0.1.0",
+        "method": args.method,
+        "split": args.split,
+        "locked_config": str(Path(args.locked_config)),
+        "parameters": locked,
+    }
+    if run_config_path.exists():
+        try:
+            existing = json.loads(run_config_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise SystemExit("invalid existing run_config.json: %s" % exc)
+        if existing != run_config:
+            raise SystemExit("refusing to change existing run_config.json: %s" % out_dir)
+    else:
+        run_config_path.write_text(json.dumps(run_config, indent=2, sort_keys=True) + "\n",
+                                   encoding="utf-8")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     torch.backends.cuda.matmul.allow_tf32 = False
@@ -89,12 +118,6 @@ def main():
     if args.limit is not None:
         rows = rows[: args.limit]
 
-    out_dir = Path(args.output)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "scores.jsonl"
-    if out_path.exists():
-        raise SystemExit("refusing to overwrite: %s" % out_path)
-
     with out_path.open("w", encoding="utf-8") as stream:
         for row in rows:
             sid = row["sample_id"]
@@ -108,7 +131,8 @@ def main():
             if kind == "memo":
                 views = three_view_probe(waveform_cpu, row["sample_index"]).to(device)
                 score_norm_only = score_current(adapter.model, adapter, views[:1], mapping)
-                score_after = memo_adapt(adapter.model, adapter, views, mapping)
+                score_after = invoke_locked(args.method, locked, memo_adapt,
+                                            adapter.model, adapter, views, mapping)
                 applied, reason = True, None
                 extra = {}
             else:
@@ -118,11 +142,12 @@ def main():
                     score_after, applied, reason = score_norm_only, False, "norm_only_control"
                     extra = {}
                 elif kind == "tent":
-                    score_after = tent_adapt(adapter.model, adapter, wf, mapping)
+                    score_after = invoke_locked(args.method, locked, tent_adapt,
+                                                adapter.model, adapter, wf, mapping)
                     applied, reason, extra = True, None, {}
                 else:  # sar
-                    score_after, applied, reason, extra = sar_adapt(
-                        adapter.model, adapter, wf, mapping)
+                    score_after, applied, reason, extra = invoke_locked(
+                        args.method, locked, sar_adapt, adapter.model, adapter, wf, mapping)
 
             elapsed = time.perf_counter() - started
             record = {

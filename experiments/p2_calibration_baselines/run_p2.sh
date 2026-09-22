@@ -18,6 +18,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 GIT_ROOT="$(git rev-parse --show-toplevel)"
+LOCKED_CONFIG="$SCRIPT_DIR/baselines/locked_port_configs.json"
 
 DRY_RUN=0
 if [ "${1:-}" = "--dry-run" ]; then DRY_RUN=1; fi
@@ -65,10 +66,12 @@ echo "===== Phase 5: target10 TENT/SAR pilot (4 GPU) ====="
 PIDS=()
 CUDA_VISIBLE_DEVICES="${GPUS[0]}" python baselines/run_port.py \
     --method tent_audio_ep --split target10 --output "$RUN_DIR/pilot/tent" \
+    --locked-config "$LOCKED_CONFIG" \
     > "$LOG_DIR/p2_tent_gpu${GPUS[0]}.log" 2>&1 &
 PIDS+=("$!")
 CUDA_VISIBLE_DEVICES="${GPUS[1]}" python baselines/run_port.py \
     --method sar_audio_ep --split target10 --output "$RUN_DIR/pilot/sar" \
+    --locked-config "$LOCKED_CONFIG" \
     > "$LOG_DIR/p2_sar_gpu${GPUS[1]}.log" 2>&1 &
 PIDS+=("$!")
 # MEMO is PORT_BLOCKED_AUDIT (official optimizer/lr unverified) -> not run.

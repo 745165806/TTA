@@ -33,7 +33,8 @@
     "official model.train() -> deterministic eval-except-selected-norm"
   ],
   "exact_updated_parameter_names": "anti-spoofing backend BatchNorm1d/BatchNorm2d weight and bias (list captured at runtime)",
-  "parity_test_result": "PENDING",
+  "parity_test_result": "EXTERNAL_PORT_VALIDATION_ARTIFACT",
   "implementation_status": "AUDITED_UNVERIFIED",
-  "status": "VERIFIED"
+  "algorithm_audit_status": "VERIFIED",
+  "port_validation_status": "EXTERNAL_ARTIFACT_REQUIRED"
 }
