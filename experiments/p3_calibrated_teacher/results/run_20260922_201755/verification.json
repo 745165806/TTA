@@ -1,0 +1,26 @@
+{
+  "environment": "tta",
+  "selected_pytest": {
+    "command": "python -m pytest -q tests/unit/test_p3_calibrated_selective.py tests/unit/test_taskaware_ep.py",
+    "result": "19 passed",
+    "exit_code": 0
+  },
+  "full_pytest": {
+    "command": "python -m pytest -q",
+    "result": "184 passed, 1 skipped",
+    "exit_code": 0,
+    "skip": "NOT_RUN_RESOURCE: SSL-AASIST model/GPU resources are unavailable"
+  },
+  "dry_run": {
+    "command": "bash experiments/p3_calibrated_teacher/run_p3.sh --dry-run",
+    "exit_code": 0,
+    "calU_count": 318,
+    "evalU_count": 2860
+  },
+  "formal_run": {
+    "command": "bash experiments/p3_calibrated_teacher/run_p3.sh",
+    "exit_code": 0,
+    "cpu_cache_only": true,
+    "gpu_used": false
+  }
+}

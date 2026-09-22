@@ -1,0 +1,7 @@
+{"calU": 318, "evalU": 2860, "salt": "p3-main-2026"}
+{
+  "P3_MECHANISM_PASS": true,
+  "P3_MECHANISM_PARTIAL": false,
+  "UNSUPERVISED_CALIBRATION_TEACHER_FAIL": false
+}
+P3 result directory: /media/dell/data/fakeAudioDection/TTA_p3/experiments/p3_calibrated_teacher/results/run_20260922_201755
