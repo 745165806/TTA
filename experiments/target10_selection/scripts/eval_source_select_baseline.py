@@ -40,6 +40,8 @@ def main():
         "labels_read": True,
         "target_labels_read": True,
         "source_labels_used": True,
+        "numeric_fallback_policy": "fail",
+        "numeric_fallback_count": 0,
         "metrics": compute_metrics(scores, labels, threshold),
     }
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)

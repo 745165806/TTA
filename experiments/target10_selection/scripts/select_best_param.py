@@ -40,6 +40,10 @@ def main():
             print(f"ERROR: {path.name} has ambiguous target/source label usage",
                   file=sys.stderr)
             sys.exit(1)
+        if any(row.get("numeric_fallback_count") != 0 for row in doc.get("candidates", [])):
+            print(f"ERROR: {path.name} is missing the zero-fallback audit or reports a fallback",
+                  file=sys.stderr)
+            sys.exit(1)
         seen_groups.append(doc.get("group"))
         rows.extend(doc.get("candidates", []))
 
@@ -71,6 +75,7 @@ def main():
         "labels_read": False,
         "target_labels_read": False,
         "source_labels_used": True,
+        "numeric_fallback_policy": "fail",
         "selected": best,
         "candidate_count": len(rows),
     }
@@ -91,6 +96,7 @@ def main():
         "labels_read": False,
         "target_labels_read": False,
         "source_labels_used": True,
+        "numeric_fallback_policy": "fail",
         "candidates": rows,
         "selected": best,
     }
@@ -108,6 +114,7 @@ def main():
         "labels_read": False,
         "target_labels_read": False,
         "source_labels_used": True,
+        "numeric_fallback_policy": "fail",
         "selected_K": best["K"],
         "selected_lr": best["lr"],
         "selected_steps": best["steps"],

@@ -103,6 +103,9 @@ experiments/target10_selection/
 并列时先取更小 K 再取更小 lr（确定性）。**全程不读 target10 的 label。**
 每个 candidate 额外记录 `mean_R_norm`、`mean_abs_delta_score` 以及 guard 激活、
 backtrack 和 revert 统计，用于区分「没有更新」与「更新了但无标签信号认为不好」。
+参数搜索和 target90/baseline 评价采用 `numeric_fallback_policy: fail`：任一样本返回
+`fallback_numeric` 都立即终止，成功输出显式记录 `numeric_fallback_count: 0`，避免把
+静默回退的 frozen 分数混入选择或最终指标。
 
 搜索 JSON 保留 `labels_read: false` 以兼容旧 schema，并显式声明
 `target_labels_read: false` 和 `source_labels_used: true`：本方法不是 fully source-free。

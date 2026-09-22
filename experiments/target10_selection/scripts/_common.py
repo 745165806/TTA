@@ -83,6 +83,19 @@ def load_context():
     return bundle, resources, resource_meta, cache, features, threshold
 
 
+def require_success(result, sample_id, method_id):
+    """Reject per-sample numerical fallback in selection and final evaluation."""
+    status = result.get("status")
+    if status != "ok":
+        error_type = result.get("error_type", "unknown")
+        error_message = result.get("error_message", "no error message")
+        raise RuntimeError(
+            f"{method_id} failed for sample {sample_id}: "
+            f"status={status}, {error_type}: {error_message}"
+        )
+    return result
+
+
 def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
     """Run guarded EP and aggregate mechanism-aligned, label-free metrics."""
     cfg = EPConfig(steps=cand["K"], lr=cand["lr"] if cand["lr"] is not None else 0.003,
@@ -95,7 +108,8 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
     for sample_id in sample_ids:
         z = torch.from_numpy(features[sample_id])
         target = TargetViews(sample_id, z, cache_id)
-        result = run_method(METHOD_ID, target, resources, cfg, {})
+        result = require_success(
+            run_method(METHOD_ID, target, resources, cfg, {}), sample_id, METHOD_ID)
 
         with torch.no_grad():
             R = result["R"].to(z.dtype).to(z.device)
@@ -158,6 +172,7 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
         "margin_guard_activation_rate": guard_count / guard_steps if guard_steps else 0.0,
         "margin_guard_backtrack_count": guard_backtracks,
         "margin_guard_revert_rate": guard_reverts / guard_steps if guard_steps else 0.0,
+        "numeric_fallback_count": 0,
     }
 
 
@@ -166,7 +181,8 @@ def score_dataset(sample_ids, features, resources, cache_id, cfg, method_id=METH
     for sid in sample_ids:
         z = torch.from_numpy(features[sid])
         target = TargetViews(sid, z, cache_id)
-        result = run_method(method_id, target, resources, cfg, {})
+        result = require_success(
+            run_method(method_id, target, resources, cfg, {}), sid, method_id)
         scores[sid] = float(result["score"])
     return scores
 

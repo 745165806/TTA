@@ -76,6 +76,7 @@ def main():
             "labels_read": False,
             "target_labels_read": False,
             "source_labels_used": True,
+            "numeric_fallback_policy": "fail",
             "candidates": rows,
         }
         out = RESULTS_DIR / f"search_group_{args.group}.json"
@@ -103,6 +104,7 @@ def main():
         "labels_read": False,
         "target_labels_read": False,
         "source_labels_used": True,
+        "numeric_fallback_policy": "fail",
         "candidates": rows,
         "selected": best,
     }
@@ -126,6 +128,7 @@ def _write_config(best):
         "labels_read": False,
         "target_labels_read": False,
         "source_labels_used": True,
+        "numeric_fallback_policy": "fail",
         "selected_K": best["K"],
         "selected_lr": best["lr"],
         "selected_steps": best["steps"],
