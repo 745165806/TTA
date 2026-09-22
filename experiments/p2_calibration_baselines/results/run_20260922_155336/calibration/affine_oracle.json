@@ -1,0 +1,16 @@
+{
+  "POST_HOC_DEVELOPMENT_ONLY": true,
+  "a": 0.6789372576726416,
+  "b": -1.6996208278937983,
+  "nll_before": 0.4404229574481356,
+  "nll_after": 0.2575046657350833,
+  "brier_before": 0.11759573898094358,
+  "brier_after": 0.07579571154103126,
+  "ece_before": 0.11111760132082518,
+  "ece_after": 0.05064533586779338,
+  "invariant_check": {
+    "a_positive": true,
+    "EER_unchanged": true,
+    "AUC_unchanged": true
+  }
+}

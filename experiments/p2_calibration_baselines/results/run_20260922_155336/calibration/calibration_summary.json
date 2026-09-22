@@ -1,0 +1,49 @@
+{
+  "POST_HOC_DEVELOPMENT_ONLY": true,
+  "tau0": -4.770049095153809,
+  "tau_target_eer": 2.7059133052825928,
+  "tau_target_balacc": 2.857470989227295,
+  "delta_tau_balacc": 7.6275200843811035,
+  "frozen_balanced_accuracy": 0.558896007885658,
+  "oracle_bias_balanced_accuracy": 0.9020186409336166,
+  "frozen_fpr": 0.8822079842286841,
+  "oracle_bias_fpr": 0.0941350418925579,
+  "frozen_accuracy": 0.4367526746381372,
+  "target_eer": 0.09857072449482504,
+  "target_auc": 0.9633087850193088,
+  "source_reference_eer": 0.0002934272300469942,
+  "source_reference_auc": 0.9999903092389463,
+  "affine": {
+    "POST_HOC_DEVELOPMENT_ONLY": true,
+    "a": 0.6789372576726416,
+    "b": -1.6996208278937983,
+    "nll_before": 0.4404229574481356,
+    "nll_after": 0.2575046657350833,
+    "brier_before": 0.11759573898094358,
+    "brier_after": 0.07579571154103126,
+    "ece_before": 0.11111760132082518,
+    "ece_after": 0.05064533586779338,
+    "invariant_check": {
+      "a_positive": true,
+      "EER_unchanged": true,
+      "AUC_unchanged": true
+    }
+  },
+  "class_shift": {
+    "POST_HOC_DEVELOPMENT_ONLY": true,
+    "bonafide_mean_shift": 2.312833690121994,
+    "spoof_mean_shift": -1.1333284163307065,
+    "bonafide_median_shift": 0.7575483322143555,
+    "spoof_median_shift": -0.4786062240600586,
+    "midpoint_shift": 0.5897526368956438,
+    "class_separation_source": 10.762604394415938,
+    "class_separation_target": 7.316442287963238
+  },
+  "numerical_tolerance": 1e-06,
+  "flags": {
+    "CALIBRATION_SHIFT_PRESENT": true,
+    "RANKING_DEGRADATION_PRESENT": true,
+    "CALIBRATION_ONLY_INSUFFICIENT": true,
+    "CALIBRATION_SHIFT_CONFIRMED": false
+  }
+}

@@ -1,0 +1,8 @@
+# P2-B Oracle-teacher counterfactual
+
+**POST_HOC_ORACLE_ONLY / TARGET_LABELS_REQUIRED / NOT_A_DEPLOYABLE_METHOD**
+
+pseudo signed delta = -0.020624, oracle signed delta = 0.026228
+
+TEACHER_MISMATCH_SUPPORTED = True
+TEACHER_MISMATCH_INSUFFICIENT = False

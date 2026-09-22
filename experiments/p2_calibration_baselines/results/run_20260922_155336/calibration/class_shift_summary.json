@@ -1,0 +1,10 @@
+{
+  "POST_HOC_DEVELOPMENT_ONLY": true,
+  "bonafide_mean_shift": 2.312833690121994,
+  "spoof_mean_shift": -1.1333284163307065,
+  "bonafide_median_shift": 0.7575483322143555,
+  "spoof_median_shift": -0.4786062240600586,
+  "midpoint_shift": 0.5897526368956438,
+  "class_separation_source": 10.762604394415938,
+  "class_separation_target": 7.316442287963238
+}

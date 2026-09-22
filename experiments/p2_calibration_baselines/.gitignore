@@ -1,0 +1,6 @@
+logs/
+results/parity_test/
+results/*/pilot/*/scores.jsonl
+results/*/confirmatory/*/scores.jsonl
+results/*/oracle_teacher/oracle_teacher_records.jsonl
+results/*/calibration/threshold_sweep.csv

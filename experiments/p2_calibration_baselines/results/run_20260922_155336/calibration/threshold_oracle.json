@@ -1,0 +1,42 @@
+{
+  "POST_HOC_DEVELOPMENT_ONLY": true,
+  "tau0": -4.770049095153809,
+  "tau_target_eer": 2.7059133052825928,
+  "tau_target_balacc": 2.857470989227295,
+  "delta_tau_eer": 7.475962400436401,
+  "delta_tau_balacc": 7.6275200843811035,
+  "bias_eer": -7.475962400436401,
+  "bias_balacc": -7.6275200843811035,
+  "frozen": {
+    "EER": 0.09857072449482504,
+    "AUC": 0.9633087850193088,
+    "accuracy": 0.4367526746381372,
+    "balanced_accuracy": 0.558896007885658,
+    "tpr": 1.0,
+    "fpr": 0.8822079842286841,
+    "fnr": 0.0,
+    "precision": 0.390949302483838,
+    "tp": 1149,
+    "fp": 1790,
+    "tn": 239,
+    "fn": 0
+  },
+  "frozen_plus_bias_eer": {
+    "accuracy": 0.9015103838892385,
+    "balanced_accuracy": 0.9015414436707772,
+    "tpr": 0.9016536118363795,
+    "fpr": 0.09857072449482504,
+    "fnr": 0.09834638816362054
+  },
+  "frozen_plus_bias_balacc": {
+    "accuracy": 0.9030837004405287,
+    "balanced_accuracy": 0.9020186409336166,
+    "tpr": 0.8981723237597912,
+    "fpr": 0.0941350418925579,
+    "fnr": 0.10182767624020887
+  },
+  "invariant_check": {
+    "EER_unchanged": true,
+    "AUC_unchanged": true
+  }
+}
