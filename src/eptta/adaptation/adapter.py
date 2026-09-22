@@ -253,11 +253,20 @@ def _taskaware_numeric_fallback(target, before, completed, evaluations, exc, ran
     result = _numeric_fallback("ep_tta_taskaware_v1", target, before, completed, evaluations, exc, rank)
     result.update({
         "adaptation_applied": False, "abstain_reason": None, "teacher_label": None,
-        "gate_agreement": None, "gate_confidence": None, "pseudo_loss_final": None,
-        "task_consistency_loss_final": None, "source_logit_loss_final": None,
-        "parameter_l2_final": None, "source_anchor_flip_count": None,
-        "safety_rejected": False, "final_R_norm": 0.0, "delta_score": 0.0,
-        "numeric_fallback": True, "solver": "selective_sgd",
+        "gate_agreement": None, "gate_confidence": None, "numeric_fallback": True,
+        "solver": "selective_sgd",
+        "pseudo_loss_before": None, "task_consistency_loss_before": None,
+        "source_logit_loss_before": None, "parameter_l2_before": None,
+        "total_objective_before": None,
+        "pseudo_loss_final": None, "task_consistency_loss_final": None,
+        "source_logit_loss_final": None, "parameter_l2_final": None,
+        "total_objective_final": None,
+        "attempted_pseudo_loss": None, "attempted_task_consistency_loss": None,
+        "attempted_source_logit_loss": None, "attempted_parameter_l2": None,
+        "attempted_total_objective": None,
+        "attempted_R_norm": 0.0, "attempted_source_anchor_flip_count": None,
+        "source_anchor_flip_count": None, "final_source_anchor_flip_count": None,
+        "final_R_norm": 0.0, "safety_rejected": False, "delta_score": 0.0,
     })
     return result
 
@@ -275,6 +284,32 @@ def _taskaware_gate_state(target, resources):
     return teacher, agreement, confidence
 
 
+def _taskaware_loss_components(R, target, resources, teacher, params):
+    """Return (pseudo, consistency, source, parameter_l2) at the given R.
+
+    This is the single source of truth for the P1 objective math; the SGD loop
+    and the final/attempted diagnostics both call it so they cannot drift.
+    """
+    teacher_tensor = torch.tensor(teacher, dtype=target.features.dtype, device=target.features.device)
+    adapted_views = apply_adapter(target.features, resources.U, R)
+    s_adapt = adapted_views @ resources.w + resources.b
+    u = calibrated_logits(s_adapt, resources.tau0, params["temperature"])
+    pseudo = calibrated_pseudo_bce(u, teacher_tensor)
+    consistency = task_logit_consistency(u)
+    source_scores = apply_adapter(resources.anchors_z, resources.U, R) @ resources.w + resources.b
+    source = (source_scores - resources.anchors_s0).square().mean()
+    parameter_l2 = R.square().mean()
+    return pseudo, consistency, source, parameter_l2
+
+
+def _taskaware_total(components, params):
+    pseudo, consistency, source, parameter_l2 = components
+    return (params["lambda_pseudo"] * pseudo +
+            params["lambda_consistency"] * consistency +
+            params["lambda_source"] * source +
+            params["lambda_r"] * parameter_l2)
+
+
 def _run_taskaware_v1(target, resources, cfg, params):
     """Task-Aware + Selective + Evidence-Preserving EP-TTA v1.
 
@@ -282,6 +317,12 @@ def _run_taskaware_v1(target, resources, cfg, params):
     frozen score with R=0).  When adapting, optimize calibrated pseudo-BCE plus
     task-logit consistency, soft source-logit preservation and parameter L2, then
     apply one final source-anchor class-crossing safety check (no backtracking).
+
+    Loss semantics: ``*_before`` is computed at R=0 (the frozen state),
+    ``attempted_*`` at the SGD-completed candidate R *before* the safety check,
+    and ``*_final`` at the R actually returned to the caller (R=0 when rejected).
+    ``source_anchor_flip_count`` is kept as the attempted (pre-reject) count for
+    backward compatibility; ``final_source_anchor_flip_count`` is always 0.
     """
     before = validate_inputs(target, resources, cfg)
     params = validate_method_setup("ep_tta_taskaware_v1", resources, cfg, params)
@@ -296,6 +337,38 @@ def _run_taskaware_v1(target, resources, cfg, params):
         "gate_confidence": confidence, "numeric_fallback": False,
     }
 
+    def _components_to_fields(components, pseudo_key, consistency_key, source_key, l2_key):
+        pseudo, consistency, source, parameter_l2 = components
+        return {
+            pseudo_key: float(pseudo.detach()),
+            consistency_key: float(consistency.detach()),
+            source_key: float(source.detach()),
+            l2_key: float(parameter_l2.detach()),
+        }
+
+    def _before_fields(components):
+        fields = _components_to_fields(components, "pseudo_loss_before",
+                                       "task_consistency_loss_before",
+                                       "source_logit_loss_before", "parameter_l2_before")
+        fields["total_objective_before"] = float(_taskaware_total(components, params).detach())
+        return fields
+
+    def _final_fields(components):
+        fields = _components_to_fields(components, "pseudo_loss_final",
+                                       "task_consistency_loss_final",
+                                       "source_logit_loss_final", "parameter_l2_final")
+        fields["total_objective_final"] = float(_taskaware_total(components, params).detach())
+        return fields
+
+    def _attempted_fields(components):
+        fields = _components_to_fields(components, "attempted_pseudo_loss",
+                                       "attempted_task_consistency_loss",
+                                       "attempted_source_logit_loss", "attempted_parameter_l2")
+        fields["attempted_total_objective"] = float(_taskaware_total(components, params).detach())
+        return fields
+
+    before_components = _taskaware_loss_components(zero_R, target, resources, teacher, params)
+
     # Selective gate: abstain (never a numeric fallback) unless every view agrees
     # with the frozen teacher and the sample is confidently separated from tau0.
     if agreement < params["min_agreement"] or confidence < params["confidence_margin"]:
@@ -303,31 +376,25 @@ def _run_taskaware_v1(target, resources, cfg, params):
                               adaptation_applied=False,
                               abstain_reason="low_confidence_or_view_disagreement",
                               teacher_label=teacher, gate_agreement=agreement,
-                              gate_confidence=confidence, source_anchor_flip_count=0,
-                              safety_rejected=False, final_R_norm=0.0, delta_score=0.0,
-                              pseudo_loss_final=None, task_consistency_loss_final=None,
-                              source_logit_loss_final=None, parameter_l2_final=None)
+                              gate_confidence=confidence, safety_rejected=False,
+                              delta_score=0.0, final_R_norm=0.0,
+                              source_anchor_flip_count=0,
+                              attempted_R_norm=0.0, attempted_source_anchor_flip_count=0,
+                              final_source_anchor_flip_count=0)
         result.update(common)
+        result.update(_before_fields(before_components))
+        result.update(_final_fields(before_components))
+        result.update(_attempted_fields(before_components))
         return result
 
     parameter = torch.zeros((rank, rank), dtype=dtype, device=device, requires_grad=True)
     completed = 0
-    final = {"pseudo_loss_final": None, "task_consistency_loss_final": None,
-             "source_logit_loss_final": None, "parameter_l2_final": None}
     try:
         with torch.enable_grad():
             for step in range(cfg.steps):
-                s_adapt = apply_adapter(target.features, resources.U, parameter) @ resources.w + resources.b
-                u = calibrated_logits(s_adapt, resources.tau0, params["temperature"])
-                pseudo = calibrated_pseudo_bce(u, torch.tensor(teacher, dtype=dtype, device=device))
-                consistency = task_logit_consistency(u)
-                source_scores = apply_adapter(resources.anchors_z, resources.U, parameter) @ resources.w + resources.b
-                source = (source_scores - resources.anchors_s0).square().mean()
-                parameter_l2 = parameter.square().mean()
-                loss = (params["lambda_pseudo"] * pseudo +
-                        params["lambda_consistency"] * consistency +
-                        params["lambda_source"] * source +
-                        params["lambda_r"] * parameter_l2)
+                pseudo, consistency, source, parameter_l2 = _taskaware_loss_components(
+                    parameter, target, resources, teacher, params)
+                loss = _taskaware_total((pseudo, consistency, source, parameter_l2), params)
                 loss = _finite(loss, "non-finite task-aware loss")
                 gradient, = torch.autograd.grad(loss, parameter)
                 _finite(gradient, "non-finite task-aware gradient")
@@ -345,75 +412,97 @@ def _run_taskaware_v1(target, resources, cfg, params):
                     "total_loss": float(loss.detach()),
                     "R_norm_after": float(torch.linalg.vector_norm(parameter)),
                 })
-                final = {"pseudo_loss_final": float(pseudo.detach()),
-                         "task_consistency_loss_final": float(consistency.detach()),
-                         "source_logit_loss_final": float(source.detach()),
-                         "parameter_l2_final": float(parameter_l2.detach())}
-        R = parameter.detach().clone()
+        attempted_R = parameter.detach().clone()
+        attempted_components = _taskaware_loss_components(
+            attempted_R, target, resources, teacher, params)
+        attempted_flips = int(((apply_adapter(resources.anchors_z, resources.U, attempted_R)
+                                @ resources.w + resources.b - resources.tau0 >= 0).to(torch.long) !=
+                               resources.anchors_y.to(torch.long)).sum().item())
+
         # Final one-shot source safety check: no source anchor may cross class.
-        calibrated_anchors = apply_adapter(resources.anchors_z, resources.U, R) @ resources.w + resources.b - resources.tau0
-        anchor_flips = int(((calibrated_anchors >= 0).to(torch.long) !=
-                             resources.anchors_y.to(torch.long)).sum().item())
-        if anchor_flips > 0:
-            R = zero_R.clone()
+        if attempted_flips > 0:
+            final_R = zero_R.clone()
             score = before
             adaptation_applied, safety_rejected = False, True
         else:
+            final_R = attempted_R
             score = float(_finite(
-                (apply_adapter(target.features[:1], resources.U, R) @ resources.w + resources.b)[0],
+                (apply_adapter(target.features[:1], resources.U, final_R) @ resources.w + resources.b)[0],
                 "non-finite task-aware final score"))
             adaptation_applied, safety_rejected = True, False
-        result = _base_result("ep_tta_taskaware_v1", target, before, score, R=R,
+
+        final_components = _taskaware_loss_components(final_R, target, resources, teacher, params)
+        result = _base_result("ep_tta_taskaware_v1", target, before, score, R=final_R,
                               steps_completed=completed, objective_evaluations=completed,
                               trace=common["trace"], regularizer_name="taskaware",
                               adaptation_applied=adaptation_applied,
                               abstain_reason=None, teacher_label=teacher,
                               gate_agreement=agreement, gate_confidence=confidence,
-                              source_anchor_flip_count=anchor_flips,
+                              source_anchor_flip_count=attempted_flips,
                               safety_rejected=safety_rejected,
-                              final_R_norm=float(torch.linalg.vector_norm(R)),
+                              final_R_norm=float(torch.linalg.vector_norm(final_R)),
+                              final_source_anchor_flip_count=0,
+                              attempted_R_norm=float(torch.linalg.vector_norm(attempted_R)),
+                              attempted_source_anchor_flip_count=attempted_flips,
                               delta_score=float(score - before))
-        result.update(final)
+        result.update(_before_fields(before_components))
+        result.update(_final_fields(final_components))
+        result.update(_attempted_fields(attempted_components))
         return result
     except FloatingPointError as exc:
         return _taskaware_numeric_fallback(target, before, completed, completed, exc, rank)
 
 
+_TASKAWARE_LOSS_FIELDS = (
+    "pseudo_loss_before", "task_consistency_loss_before", "source_logit_loss_before",
+    "parameter_l2_before", "total_objective_before",
+    "pseudo_loss_final", "task_consistency_loss_final", "source_logit_loss_final",
+    "parameter_l2_final", "total_objective_final",
+    "attempted_pseudo_loss", "attempted_task_consistency_loss",
+    "attempted_source_logit_loss", "attempted_parameter_l2", "attempted_total_objective",
+)
+
+
 @torch.no_grad()
 def _taskaware_diagnostics(result, target, resources):
+    base = {
+        "completed_steps": int(result["steps_completed"]),
+        "objective_evaluations": int(result["objective_evaluations"]),
+        "adaptation_applied": bool(result.get("adaptation_applied", False)),
+        "abstain_reason": result.get("abstain_reason"),
+        "teacher_label": result.get("teacher_label"),
+        "gate_agreement": result.get("gate_agreement"),
+        "gate_confidence": result.get("gate_confidence"),
+        "safety_rejected": bool(result.get("safety_rejected", False)),
+        "source_anchor_flip_count": result.get("source_anchor_flip_count"),
+        "attempted_source_anchor_flip_count": result.get("attempted_source_anchor_flip_count"),
+        "final_source_anchor_flip_count": result.get("final_source_anchor_flip_count"),
+    }
     if result.get("status") == "fallback_numeric":
-        return {"final_R_norm": 0.0, "delta_score": 0.0, "delta_z_norm": None,
-                "completed_steps": int(result["steps_completed"]),
-                "objective_evaluations": int(result["objective_evaluations"]),
-                "gradient_trace_status": "failed_numeric",
-                "adaptation_applied": False, "abstain_reason": None,
-                "teacher_label": None, "gate_agreement": None, "gate_confidence": None,
-                "pseudo_loss_final": None, "task_consistency_loss_final": None,
-                "source_logit_loss_final": None, "parameter_l2_final": None,
-                "source_anchor_flip_count": None, "safety_rejected": False}
+        base.update({
+            "gradient_trace_status": "failed_numeric",
+            "delta_score": 0.0, "delta_z_norm": None,
+            "final_R_norm": 0.0, "attempted_R_norm": 0.0,
+        })
+        for name in _TASKAWARE_LOSS_FIELDS:
+            base[name] = None
+        return base
     R = result.get("R")
     if R is None:
         rank = resources.U.shape[1]
         R = torch.zeros((rank, rank), dtype=target.features.dtype, device=target.features.device)
     _finite(R, "non-finite final R")
     delta = apply_adapter(target.features[:1], resources.U, R) - target.features[:1]
-    return {"final_R_norm": float(torch.linalg.vector_norm(R)),
-            "delta_score": float(result["score"] - result["score_before"]),
-            "delta_z_norm": float(torch.linalg.vector_norm(delta)),
-            "completed_steps": int(result["steps_completed"]),
-            "objective_evaluations": int(result["objective_evaluations"]),
-            "gradient_trace_status": "recorded",
-            "adaptation_applied": bool(result.get("adaptation_applied", False)),
-            "abstain_reason": result.get("abstain_reason"),
-            "teacher_label": result.get("teacher_label"),
-            "gate_agreement": result.get("gate_agreement"),
-            "gate_confidence": result.get("gate_confidence"),
-            "pseudo_loss_final": result.get("pseudo_loss_final"),
-            "task_consistency_loss_final": result.get("task_consistency_loss_final"),
-            "source_logit_loss_final": result.get("source_logit_loss_final"),
-            "parameter_l2_final": result.get("parameter_l2_final"),
-            "source_anchor_flip_count": result.get("source_anchor_flip_count"),
-            "safety_rejected": bool(result.get("safety_rejected", False))}
+    base.update({
+        "gradient_trace_status": "recorded",
+        "delta_score": float(result["score"] - result["score_before"]),
+        "delta_z_norm": float(torch.linalg.vector_norm(delta)),
+        "final_R_norm": float(torch.linalg.vector_norm(R)),
+        "attempted_R_norm": result.get("attempted_R_norm"),
+    })
+    for name in _TASKAWARE_LOSS_FIELDS:
+        base[name] = result.get(name)
+    return base
 
 
 def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):

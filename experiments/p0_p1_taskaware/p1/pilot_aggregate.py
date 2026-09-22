@@ -78,6 +78,52 @@ def variant_stats(records, labels, threshold):
     }
 
 
+def compute_scientific_flags(eer_less_than_frozen, auc_greater_than_frozen,
+                             objective_optimized, mean_signed_task_delta,
+                             frozen_accuracy_at_tau0):
+    """Pure composition of the P1 scientific flags (unit-tested).
+
+    ``NO_TASK_GAIN`` is strictly task-metric based (no tolerance); it is
+    independent of ``OBJECTIVE_OPTIMIZED``, and the combined flag is their
+    conjunction.
+    """
+    no_task_gain = (not eer_less_than_frozen and not auc_greater_than_frozen)
+    return {
+        "NO_TASK_GAIN": bool(no_task_gain),
+        "OBJECTIVE_OPTIMIZED": bool(objective_optimized),
+        "OBJECTIVE_OPTIMIZED_BUT_NO_TASK_GAIN": bool(objective_optimized and no_task_gain),
+        "UPDATE_DIRECTION_NOT_TASK_ALIGNED": bool(mean_signed_task_delta <= 0),
+        "FROZEN_TEACHER_UNRELIABLE": bool(frozen_accuracy_at_tau0 < 0.5),
+    }
+
+
+def objective_optimization(records):
+    """Objective before/after over adaptation-ACCEPTED samples only.
+
+    ``OBJECTIVE_OPTIMIZED`` is measured from ``total_objective_before`` /
+    ``total_objective_final`` (both recomputed at the actual R states, with
+    ``*_final`` at R=0 when the candidate was safety-rejected), so it is
+    independent of the task-metric gate.
+    """
+    accepted = [r for r in records if r.get("adaptation_applied") and
+                r.get("total_objective_before") is not None and
+                r.get("total_objective_final") is not None]
+    if not accepted:
+        return {"mean_total_objective_before": None, "mean_total_objective_final": None,
+                "objective_improved_fraction": None, "OBJECTIVE_OPTIMIZED": False,
+                "n_accepted": 0}
+    before = statistics.fmean(r["total_objective_before"] for r in accepted)
+    final = statistics.fmean(r["total_objective_final"] for r in accepted)
+    improved = sum(1 for r in accepted if r["total_objective_final"] < r["total_objective_before"])
+    return {
+        "mean_total_objective_before": before,
+        "mean_total_objective_final": final,
+        "objective_improved_fraction": improved / len(accepted),
+        "OBJECTIVE_OPTIMIZED": final < before,
+        "n_accepted": len(accepted),
+    }
+
+
 def gate_stats(records):
     n = len(records)
     applied = [r for r in records if r.get("adaptation_applied")]
@@ -210,8 +256,14 @@ def main():
                         gate["signed_delta_ok"], gate["flip_ok"], gate["task_metric_ok"]])
 
     full_signed = full["mean_signed_task_delta"]
-    no_task_gain = (not gate["eer_less_than_frozen"] and
-                    full["AUC"] <= frozen_stats["AUC"] + 1e-4)
+    objective = objective_optimization(variant_records["taskaware_full"])
+    scientific_flags = compute_scientific_flags(
+        eer_less_than_frozen=gate["eer_less_than_frozen"],
+        auc_greater_than_frozen=gate["auc_greater_than_frozen"],
+        objective_optimized=objective["OBJECTIVE_OPTIMIZED"],
+        mean_signed_task_delta=full_signed,
+        frozen_accuracy_at_tau0=frozen_stats["accuracy_at_tau0"],
+    )
     summary = {
         "POST_HOC_DEVELOPMENT_ONLY": True,
         "threshold": threshold,
@@ -219,11 +271,8 @@ def main():
         "variants": {name: stats[name] for name in VARIANTS},
         "mechanism_gate": gate,
         "P1_MECHANISM_PASS": gate["PASS"],
-        "scientific_flags": {
-            "UPDATE_DIRECTION_NOT_TASK_ALIGNED": bool(full_signed <= 0),
-            "OBJECTIVE_OPTIMIZED_BUT_NO_TASK_GAIN": bool(no_task_gain),
-            "FROZEN_TEACHER_UNRELIABLE": bool(frozen_stats["accuracy_at_tau0"] < 0.5),
-        },
+        "scientific_flags": scientific_flags,
+        "objective_optimization": objective,
     }
     (p1_dir / "p1_summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -266,9 +315,15 @@ def build_md(s):
     lines.append("")
     lines.append("## Scientific conclusion")
     flags = s.get("scientific_flags", {})
-    lines.append("- UPDATE_DIRECTION_NOT_TASK_ALIGNED: %s" % flags.get("UPDATE_DIRECTION_NOT_TASK_ALIGNED"))
+    lines.append("- NO_TASK_GAIN: %s" % flags.get("NO_TASK_GAIN"))
+    lines.append("- OBJECTIVE_OPTIMIZED: %s" % flags.get("OBJECTIVE_OPTIMIZED"))
     lines.append("- OBJECTIVE_OPTIMIZED_BUT_NO_TASK_GAIN: %s" % flags.get("OBJECTIVE_OPTIMIZED_BUT_NO_TASK_GAIN"))
+    lines.append("- UPDATE_DIRECTION_NOT_TASK_ALIGNED: %s" % flags.get("UPDATE_DIRECTION_NOT_TASK_ALIGNED"))
     lines.append("- FROZEN_TEACHER_UNRELIABLE (frozen accuracy at tau0 < 0.5): %s" % flags.get("FROZEN_TEACHER_UNRELIABLE"))
+    obj = s.get("objective_optimization", {})
+    lines.append("- mean_total_objective_before (accepted samples): %s" % obj.get("mean_total_objective_before"))
+    lines.append("- mean_total_objective_final  (accepted samples): %s" % obj.get("mean_total_objective_final"))
+    lines.append("- objective_improved_fraction: %s" % obj.get("objective_improved_fraction"))
     lines.append("- The frozen pseudo-label teacher has target10 accuracy %.4f at tau0, so "
                  "task-space pseudo-BCE is misled for the majority of samples; this explains the "
                  "negative mean signed task delta for taskaware_full." % (s["frozen"]["accuracy_at_tau0"]))

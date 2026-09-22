@@ -2,7 +2,7 @@
 """Preflight checks for the p0_p1_taskaware pipeline (also powers --dry-run).
 
 Only checks; it never scores, adapts, extracts features or writes into protected
-paths.  Failures raise non-zero so run_all.sh aborts before any GPU work.
+paths.  Failures raise non-zero so run_all.sh aborts before any adaptation work.
 """
 import argparse
 import json
@@ -21,19 +21,31 @@ from scripts.common import (CACHE, FROZEN_BUNDLE, LABEL_MANIFEST, PARAM_SEARCH, 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-dir", type=str, required=True)
-    parser.add_argument("--gpu-count", type=int, required=True)
+    parser.add_argument("--worker-count", type=int, default=None)
+    parser.add_argument("--gpu-count", type=int, default=None,
+                        help="deprecated compatibility alias for --worker-count")
     parser.add_argument("--report", type=str, default=None)
     args = parser.parse_args()
 
+    worker_count = args.worker_count if args.worker_count is not None else args.gpu_count
+    if worker_count is None:
+        raise SystemExit("preflight requires --worker-count")
+
     checks = {}
 
-    # 1. Environment
+    # 1. Runtime / environment.  Cache-based P0/P1 adaptation runs on CPU;
+    #    CUDA is only recorded for environment audit, never required.
     import torch
-    checks["python_torch"] = {"torch": torch.__version__,
-                              "cuda_available": bool(torch.cuda.is_available()),
-                              "cuda_device_count": int(torch.cuda.device_count())}
-    if not torch.cuda.is_available() or torch.cuda.device_count() < args.gpu_count:
-        raise SystemExit("need %d GPUs, found %d" % (args.gpu_count, torch.cuda.device_count()))
+    checks["runtime"] = {
+        "adaptation_device": "cpu",
+        "parallel_workers": worker_count,
+        "torch": torch.__version__,
+        "cuda_available": bool(torch.cuda.is_available()),
+        "cuda_device_count": int(torch.cuda.device_count()),
+        "cuda_required": False,
+    }
+    if worker_count != 4:
+        raise SystemExit("p0_p1_taskaware protocol requires exactly 4 parallel workers, got %d" % worker_count)
 
     # 2. Git
     import subprocess

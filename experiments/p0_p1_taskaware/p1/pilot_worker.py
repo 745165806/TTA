@@ -59,8 +59,17 @@ def record_sample(variant, sample_id, features, resources, cache_id):
     numeric_fallback = status != "ok"
     score_before = float(result["score_before"])
     score_after = float(result["score"])
+
+    loss_fields = [
+        "pseudo_loss_before", "task_consistency_loss_before", "source_logit_loss_before",
+        "parameter_l2_before", "total_objective_before",
+        "pseudo_loss_final", "task_consistency_loss_final", "source_logit_loss_final",
+        "parameter_l2_final", "total_objective_final",
+        "attempted_pseudo_loss", "attempted_task_consistency_loss",
+        "attempted_source_logit_loss", "attempted_parameter_l2", "attempted_total_objective",
+    ]
     if method_id == "ep_tta_taskaware_v1":
-        return {
+        record = {
             "variant": variant, "method_id": method_id, "sample_id": sample_id,
             "score_before": score_before, "score_after": score_after,
             "delta_score": score_after - score_before,
@@ -69,35 +78,39 @@ def record_sample(variant, sample_id, features, resources, cache_id):
             "teacher_label": result.get("teacher_label"),
             "gate_agreement": result.get("gate_agreement"),
             "gate_confidence": result.get("gate_confidence"),
-            "pseudo_loss_final": result.get("pseudo_loss_final"),
-            "task_consistency_loss_final": result.get("task_consistency_loss_final"),
-            "source_logit_loss_final": result.get("source_logit_loss_final"),
-            "parameter_l2_final": result.get("parameter_l2_final"),
             "source_anchor_flip_count": result.get("source_anchor_flip_count"),
+            "attempted_source_anchor_flip_count": result.get("attempted_source_anchor_flip_count"),
+            "final_source_anchor_flip_count": result.get("final_source_anchor_flip_count"),
             "safety_rejected": bool(result.get("safety_rejected", False)),
             "final_R_norm": float(result.get("final_R_norm", 0.0)),
+            "attempted_R_norm": float(result.get("attempted_R_norm", 0.0) or 0.0),
             "steps_completed": int(result.get("steps_completed", 0)),
             "numeric_fallback": numeric_fallback,
         }
+        for name in loss_fields:
+            record[name] = result.get(name)
+        return record
     # matched control (ep_tta_guarded) has no task-aware diagnostics
     applied = (status == "ok" and int(result.get("steps_completed", 0)) > 0 and
                abs(score_after - score_before) > 0)
     R = result.get("R")
     r_norm = float(torch.linalg.vector_norm(R)) if R is not None else 0.0
-    return {
+    record = {
         "variant": variant, "method_id": method_id, "sample_id": sample_id,
         "score_before": score_before, "score_after": score_after,
         "delta_score": score_after - score_before,
         "adaptation_applied": applied,
         "abstain_reason": None,
         "teacher_label": None, "gate_agreement": None, "gate_confidence": None,
-        "pseudo_loss_final": None, "task_consistency_loss_final": None,
-        "source_logit_loss_final": None, "parameter_l2_final": None,
-        "source_anchor_flip_count": None, "safety_rejected": False,
-        "final_R_norm": r_norm,
+        "source_anchor_flip_count": None, "attempted_source_anchor_flip_count": None,
+        "final_source_anchor_flip_count": None, "safety_rejected": False,
+        "final_R_norm": r_norm, "attempted_R_norm": r_norm,
         "steps_completed": int(result.get("steps_completed", 0)),
         "numeric_fallback": numeric_fallback,
     }
+    for name in loss_fields:
+        record[name] = None
+    return record
 
 
 def main():

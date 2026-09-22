@@ -166,3 +166,71 @@ def test_old_methods_unchanged_regression():
     # The old view-variance mechanisms must not gain task-aware fields.
     for result in (frozen, guarded, plain):
         assert "adaptation_applied" not in result
+
+
+def _recompute_components(target, resources, teacher, params, R):
+    """Independently recompute the four P1 loss components at R (no adapter internals)."""
+    from eptta.adaptation.math import apply_adapter
+    from eptta.adaptation.objectives import (calibrated_logits, calibrated_pseudo_bce,
+                                             task_logit_consistency)
+    teacher_t = torch.tensor(teacher, dtype=target.features.dtype, device=target.features.device)
+    adapted = apply_adapter(target.features, resources.U, R)
+    u = calibrated_logits(adapted @ resources.w + resources.b, resources.tau0,
+                          params["temperature"])
+    pseudo = calibrated_pseudo_bce(u, teacher_t)
+    consistency = task_logit_consistency(u)
+    source_scores = apply_adapter(resources.anchors_z, resources.U, R) @ resources.w + resources.b
+    source = (source_scores - resources.anchors_s0).square().mean()
+    parameter_l2 = R.square().mean()
+    return pseudo, consistency, source, parameter_l2
+
+
+def test_final_loss_matches_returned_R():
+    resources = make_fixture()
+    target = TargetViews("confident-final", confident_views(resources, label=1, seed=61), "features")
+    cfg = EPConfig(steps=3, lr=0.03, rho=0.05)
+    result = run_method(TASKAWARE, target, resources, cfg, dict(PARAMS))
+    assert result["adaptation_applied"] is True
+    pseudo, consistency, source, parameter_l2 = _recompute_components(
+        target, resources, result["teacher_label"], dict(PARAMS), result["R"])
+    assert result["pseudo_loss_final"] == pytest.approx(float(pseudo), rel=1e-9, abs=1e-12)
+    assert result["task_consistency_loss_final"] == pytest.approx(float(consistency), rel=1e-9, abs=1e-12)
+    assert result["source_logit_loss_final"] == pytest.approx(float(source), rel=1e-9, abs=1e-12)
+    assert result["parameter_l2_final"] == pytest.approx(float(parameter_l2), rel=1e-9, abs=1e-12)
+
+
+def test_safety_reject_final_loss_is_R_zero():
+    dtype = torch.float64
+    U = torch.tensor([[1.0, 0.0], [0.0, 1.0], [0.0, 0.0]], dtype=dtype)
+    w = torch.tensor([1.0, 0.5, 1.0], dtype=dtype)
+    b, tau = 0.0, 0.0
+    anchors = torch.tensor([[-0.2, 0.3, 0.0], [-0.1, -0.3, 0.0],
+                            [0.1, 0.3, 0.0], [0.2, -0.3, 0.0]], dtype=dtype)
+    labels = torch.tensor([0, 0, 1, 1])
+    scores = anchors @ w + b
+    margins = (2 * labels.to(dtype) - 1) * (scores - tau)
+    resources = FrozenResources(U, w, b, anchors, labels, margins, scores, tau, "safety-final")
+    Z = torch.tensor([[2.0, 2.0, 0.0], [2.1, 2.0, 0.0], [1.9, 2.0, 0.0]], dtype=dtype)
+    target = TargetViews("safety-final", Z, "features")
+    params = dict(PARAMS, lambda_source=0.0, lambda_r=0.0)
+    result = run_method(TASKAWARE, target, resources, EPConfig(steps=20, lr=5.0, rho=0.9), params)
+
+    assert result["safety_rejected"] is True
+    assert result["score"] == result["score_before"]
+    assert torch.count_nonzero(result["R"]) == 0
+
+    # attempted state is the unsafe candidate (non-zero R, anchor crossings).
+    assert result["attempted_R_norm"] > 0
+    assert result["attempted_source_anchor_flip_count"] > 0
+    assert result["final_source_anchor_flip_count"] == 0
+
+    # final losses must be recomputed at R=0, not the unsafe attempted R.
+    zero_R = torch.zeros_like(result["R"])
+    pseudo0, consistency0, source0, l2_0 = _recompute_components(
+        target, resources, result["teacher_label"], params, zero_R)
+    assert result["pseudo_loss_final"] == pytest.approx(float(pseudo0), rel=1e-9, abs=1e-12)
+    assert result["task_consistency_loss_final"] == pytest.approx(float(consistency0), rel=1e-9, abs=1e-12)
+    assert result["source_logit_loss_final"] == pytest.approx(float(source0), rel=1e-9, abs=1e-12)
+    assert result["parameter_l2_final"] == pytest.approx(float(l2_0), rel=1e-9, abs=1e-12)
+    # attempted losses differ from final (the unsafe candidate was not R=0).
+    assert result["attempted_pseudo_loss"] != result["pseudo_loss_final"]

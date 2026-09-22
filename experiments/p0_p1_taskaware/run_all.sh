@@ -1,19 +1,24 @@
 #!/bin/bash
-# Unified 4-GPU launcher for the p0_p1_taskaware experiment.
+# Unified launcher for the p0_p1_taskaware experiment.
+#
+# NOTE: cache-based P0/P1 adaptation runs on CPU.  Worker IDs are parallel
+# process slots, NOT CUDA devices.  CUDA availability is only recorded for
+# environment audit, never required.
 #
 # Phases:
 #   0  preflight
-#   1  P0 4-GPU score
+#   1  P0 4-way parallel score
 #   2  P0 aggregate
 #   3  P1 unit/integration test
-#   4  P1 4-GPU pilot
+#   4  P1 4-way parallel pilot
 #   5  P1 pilot aggregate
 #   6  mechanism gate
-#   7  confirmatory 4-GPU (only if the pilot gate passes)
+#   7  confirmatory 4-way parallel (only if the pilot gate passes)
 #   8  final aggregate
 #
-#   GPU_LIST : comma-separated GPU ids (default "0,1,2,3").
-#   --dry-run: run Phase 0 only (all validations, no GPU work).
+#   WORKER_LIST : comma-separated parallel process slot ids (default "0,1,2,3").
+#                 GPU_LIST is accepted as a compatibility alias.
+#   --dry-run   : run Phase 0 only (all validations, no adaptation work).
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -30,33 +35,37 @@ elif [ -n "${1:-}" ]; then
 fi
 
 # ---------------------------------------------------------------------------
-# GPU_LIST parsing + validation
+# WORKER_LIST parsing + validation (exactly 4 process slots).
+# GPU_LIST is kept only as a backwards-compatible alias.
 # ---------------------------------------------------------------------------
-GPU_LIST="${GPU_LIST:-0,1,2,3}"
-GPUS=()
-IFS=',' read -r -a GPUS <<< "$GPU_LIST" || true
-for i in "${!GPUS[@]}"; do
-    GPUS[$i]="${GPUS[$i]//[[:space:]]/}"
+WORKER_LIST="${WORKER_LIST:-${GPU_LIST:-0,1,2,3}}"
+WORKERS=()
+IFS=',' read -r -a WORKERS <<< "$WORKER_LIST" || true
+for i in "${!WORKERS[@]}"; do
+    WORKERS[$i]="${WORKERS[$i]//[[:space:]]/}"
 done
-if [ "${#GPUS[@]}" -lt 1 ]; then
-    echo "ERROR: GPU_LIST must contain at least one GPU id" >&2
-    exit 1
-fi
-for g in "${GPUS[@]}"; do
-    if ! [[ "$g" =~ ^[0-9]+$ ]]; then
-        echo "ERROR: GPU_LIST entries must be integers, got '$g'" >&2
+for w in "${WORKERS[@]}"; do
+    if ! [[ "$w" =~ ^[0-9]+$ ]]; then
+        echo "ERROR: WORKER_LIST entries must be integers, got '$w'" >&2
         exit 1
     fi
 done
-for ((i = 0; i < ${#GPUS[@]}; i++)); do
-    for ((j = i + 1; j < ${#GPUS[@]}; j++)); do
-        if [ "${GPUS[$i]}" = "${GPUS[$j]}" ]; then
-            echo "ERROR: duplicate GPU id '${GPUS[$i]}' in GPU_LIST" >&2
+for ((i = 0; i < ${#WORKERS[@]}; i++)); do
+    for ((j = i + 1; j < ${#WORKERS[@]}; j++)); do
+        if [ "${WORKERS[$i]}" = "${WORKERS[$j]}" ]; then
+            echo "ERROR: duplicate worker id '${WORKERS[$i]}' in WORKER_LIST" >&2
             exit 1
         fi
     done
 done
-NUM_GROUPS="${#GPUS[@]}"
+NUM_WORKERS="${#WORKERS[@]}"
+
+# The P0 aggregator reads exactly p0_group_{0..3}.jsonl; the P1 pilot maps the
+# four ablation variants onto four fixed slots.  Keep the protocol fixed at 4.
+if [ "$NUM_WORKERS" -ne 4 ]; then
+    echo "ERROR: p0_p1_taskaware protocol requires exactly 4 parallel workers, got $NUM_WORKERS" >&2
+    exit 1
+fi
 
 export OMP_NUM_THREADS=8
 export MKL_NUM_THREADS=8
@@ -76,7 +85,9 @@ echo "=============================================="
 echo "p0_p1_taskaware experiment"
 [ "$DRY_RUN" = "1" ] && echo "mode : DRY-RUN (preflight only)"
 echo "start: $(date '+%Y-%m-%d %H:%M:%S %Z')"
-echo "gpus : ${GPUS[*]} (num_groups=$NUM_GROUPS)"
+echo "workers: ${WORKERS[*]} (num_workers=$NUM_WORKERS)"
+echo "NOTE : cache-based P0/P1 adaptation runs on CPU;"
+echo "       worker IDs are parallel process slots, not CUDA devices."
 echo "run  : $RUN_DIR"
 echo "commit: $(git rev-parse HEAD)"
 echo "=============================================="
@@ -86,29 +97,29 @@ echo "=============================================="
 # ---------------------------------------------------------------------------
 echo
 echo "===== Phase 0: preflight ====="
-python scripts/preflight.py --run-dir "$RUN_DIR" --gpu-count "$NUM_GROUPS" \
+python scripts/preflight.py --run-dir "$RUN_DIR" --worker-count "$NUM_WORKERS" \
     --report "$LOG_DIR/preflight.json"
 
 if [ "$DRY_RUN" = "1" ]; then
     echo
-    echo "DRY-RUN complete: preflight passed, no GPU work started."
+    echo "DRY-RUN complete: preflight passed, no adaptation work started."
     exit 0
 fi
 
 mkdir -p "$RUN_DIR"
 
 # ---------------------------------------------------------------------------
-# Phase 1: P0 four-GPU score
+# Phase 1: P0 4-way parallel score
 # ---------------------------------------------------------------------------
 echo
-echo "===== Phase 1: P0 four-GPU score ====="
+echo "===== Phase 1: P0 4-way parallel score ====="
 PIDS=()
-for i in "${!GPUS[@]}"; do
-    gpu="${GPUS[$i]}"
-    echo "P0: group $i -> GPU $gpu"
-    CUDA_VISIBLE_DEVICES="$gpu" python p0/score_worker.py \
-        --group "$i" --num-groups "$NUM_GROUPS" --output-dir "$RUN_DIR/p0" \
-        > "$LOG_DIR/p0_gpu$gpu.log" 2>&1 &
+for i in "${!WORKERS[@]}"; do
+    worker_id="${WORKERS[$i]}"
+    echo "P0: group $i -> worker slot $worker_id"
+    python p0/score_worker.py \
+        --group "$i" --num-groups "$NUM_WORKERS" --output-dir "$RUN_DIR/p0" \
+        > "$LOG_DIR/p0_worker$worker_id.log" 2>&1 &
     PIDS+=("$!")
 done
 for pid in "${PIDS[@]}"; do
@@ -134,27 +145,24 @@ echo "===== Phase 3: P1 unit/integration test ====="
     tests/unit/test_ep.py \
     tests/unit/test_mechanisms.py \
     tests/unit/test_taskaware_ep.py \
+    tests/unit/test_p0_p1_semantics.py \
     tests/unit/test_target10_selection_audit.py \
     tests/integration/test_cached_suite.py )
 
 # ---------------------------------------------------------------------------
-# Phase 4: P1 four-GPU pilot
+# Phase 4: P1 4-way parallel pilot
 # ---------------------------------------------------------------------------
 echo
-echo "===== Phase 4: P1 four-GPU pilot ====="
+echo "===== Phase 4: P1 4-way parallel pilot ====="
 VARIANTS=(taskaware_full taskaware_no_gate taskaware_no_source_keep taskaware_control)
-if [ "$NUM_GROUPS" -lt 4 ]; then
-    echo "ERROR: P1 pilot requires at least 4 GPUs" >&2
-    exit 1
-fi
 PIDS=()
 for i in 0 1 2 3; do
-    gpu="${GPUS[$i]}"
+    worker_id="${WORKERS[$i]}"
     variant="${VARIANTS[$i]}"
-    echo "P1: $variant -> GPU $gpu"
-    CUDA_VISIBLE_DEVICES="$gpu" python p1/pilot_worker.py \
+    echo "P1: $variant -> worker slot $worker_id"
+    python p1/pilot_worker.py \
         --variant "$variant" --output-dir "$RUN_DIR/p1" \
-        > "$LOG_DIR/p1_gpu$gpu.log" 2>&1 &
+        > "$LOG_DIR/p1_worker$worker_id.log" 2>&1 &
     PIDS+=("$!")
 done
 for pid in "${PIDS[@]}"; do
@@ -179,30 +187,37 @@ set -e
 # ---------------------------------------------------------------------------
 echo
 echo "===== Phase 6: mechanism gate ====="
-PASS=0
-if [ "$PILOT_RC" -eq 0 ]; then
-    PASS=1
-    echo "P1_MECHANISM_PASS"
-else
-    echo "P1_MECHANISM_FAIL (aggregate exit $PILOT_RC)"
-fi
+case "$PILOT_RC" in
+    0)
+        PASS=1
+        echo "P1_MECHANISM_PASS"
+        ;;
+    3)
+        PASS=0
+        echo "P1_MECHANISM_FAIL"
+        ;;
+    *)
+        echo "ERROR: P1 pilot aggregation failed technically, rc=$PILOT_RC" >&2
+        exit "$PILOT_RC"
+        ;;
+esac
 
 # ---------------------------------------------------------------------------
-# Phase 7: confirmatory four-GPU (only if the gate passed)
+# Phase 7: confirmatory 4-way parallel (only if the gate passed)
 # ---------------------------------------------------------------------------
 if [ "$PASS" = "1" ]; then
     echo
-    echo "===== Phase 7: confirmatory four-GPU ====="
+    echo "===== Phase 7: confirmatory 4-way parallel ====="
     python scripts/write_confirmatory_configs.py
     DATASETS=(itw_target90 asv2021_la asv2021_df control_test)
     PIDS=()
     for i in 0 1 2 3; do
-        gpu="${GPUS[$i]}"
+        worker_id="${WORKERS[$i]}"
         ds="${DATASETS[$i]}"
-        echo "confirm: $ds -> GPU $gpu"
-        CUDA_VISIBLE_DEVICES="$gpu" python scripts/confirmatory_worker.py \
+        echo "confirm: $ds -> worker slot $worker_id"
+        python scripts/confirmatory_worker.py \
             --dataset "$ds" --output-dir "$RUN_DIR/confirmatory" \
-            > "$LOG_DIR/confirm_gpu$gpu.log" 2>&1 &
+            > "$LOG_DIR/confirm_worker$worker_id.log" 2>&1 &
         PIDS+=("$!")
     done
     for pid in "${PIDS[@]}"; do
