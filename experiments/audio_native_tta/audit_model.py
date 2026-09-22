@@ -12,6 +12,7 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "workers" / "compat"))
 
 import torch
+import torch.nn as nn
 
 from author_training import build_author_model
 from eptta.baselines.ports.audio_native import (SCOPE_A, SCOPE_B, audit_candidates,
@@ -46,8 +47,17 @@ def load_model(asset_root, device):
 
 def build_audit(model, bundle, patch, bundle_path):
     candidates = audit_candidates(model)
-    counts = collections.Counter(row["module_type"] for row in candidates
-                                 if row["module_type"] != "StandaloneParameter")
+    counts = collections.Counter()
+    for module in model.modules():
+        if isinstance(module, nn.BatchNorm1d):
+            counts["BatchNorm1d"] += 1
+        elif isinstance(module, nn.BatchNorm2d):
+            counts["BatchNorm2d"] += 1
+        elif isinstance(module, nn.LayerNorm):
+            # Includes fairseq's Fp32LayerNorm subclass.
+            counts["LayerNorm"] += 1
+        elif isinstance(module, nn.GroupNorm):
+            counts["GroupNorm"] += 1
     components = collections.Counter()
     for name, parameter in model.named_parameters():
         if name.startswith("ssl_model."):

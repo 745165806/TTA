@@ -9,7 +9,7 @@
 
 - BatchNorm1d: 6
 - BatchNorm2d: 14
-- LayerNorm: 50
+- LayerNorm: 57
 - GroupNorm: 0
 - other_affine_modulation: 21
 
