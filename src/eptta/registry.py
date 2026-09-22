@@ -21,16 +21,29 @@ def get_spec(kind, identifier):
     return entries[identifier]
 
 
+_EP_TTA_IDENTITY = {"route": "feature_cache", "parameterization": "matrix", "objective": "view_variance",
+                    "regularizer": "margin", "subspace": "response", "final_output": "original",
+                    "reset_policy": "per_sample", "projection": "frobenius"}
+
+_TASKAWARE_IDENTITY = {"route": "feature_cache", "parameterization": "matrix",
+                       "objective": "calibrated_pseudo_bce+task_logit_consistency",
+                       "regularizer": "source_logit+parameter_l2", "subspace": "response",
+                       "final_output": "original", "reset_policy": "per_sample",
+                       "projection": "frobenius"}
+
+
 def validate_selection(cfg):
     sel = cfg["selection"]
     get_spec("models", sel["model_id"])
     method = get_spec("methods", sel["method_id"])
     for identifier in sel["dataset_ids"]:
         get_spec("datasets", identifier)
-    if sel["method_id"] != "ep_tta":
-        raise NotImplementedStage(f"{sel['method_id']} is registered TODO; its dedicated configuration is not implemented")
-    expected = {"route": "feature_cache", "parameterization": "matrix", "objective": "view_variance",
-                "regularizer": "margin", "subspace": "response", "final_output": "original",
-                "reset_policy": "per_sample", "projection": "frobenius"}
+    method_id = sel["method_id"]
+    if method_id == "ep_tta":
+        expected = _EP_TTA_IDENTITY
+    elif method_id == "ep_tta_taskaware_v1":
+        expected = _TASKAWARE_IDENTITY
+    else:
+        raise NotImplementedStage(f"{method_id} is registered TODO; its dedicated configuration is not implemented")
     if any(method.get(k) != v for k, v in expected.items()):
-        raise EPTTAError("ep_tta method identity mismatch")
+        raise EPTTAError(f"{method_id} method identity mismatch")

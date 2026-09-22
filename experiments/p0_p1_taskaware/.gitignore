@@ -1,0 +1,6 @@
+# Large per-sample score artifacts are never committed (see AGENTS.md / delivery
+# rules). Small summaries (csv/json/md) under results/ remain committable.
+logs/
+results/*/p0/p0_group_*.jsonl
+results/*/p1/*.jsonl
+results/*/confirmatory/

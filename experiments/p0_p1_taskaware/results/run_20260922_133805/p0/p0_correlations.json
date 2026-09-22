@@ -1,0 +1,25 @@
+{
+  "POST_HOC_DEVELOPMENT_ONLY": true,
+  "threshold": -4.770049095153809,
+  "n_candidates": 25,
+  "correlations": {
+    "vs_neg_EER": {
+      "view_reduction": 0.8381065430018891,
+      "selection_score": 0.536388187521209,
+      "mean_R_norm": 0.8381065430018891,
+      "guard_activation_rate": 0.8604560508152728,
+      "guard_revert_rate": 0.3954754291630218,
+      "mean_signed_task_delta": -0.8381065430018891,
+      "net_helpful_flip": -0.18093671611393647
+    },
+    "vs_AUC": {
+      "view_reduction": -0.7473543673508496,
+      "selection_score": -0.9205312289923956,
+      "mean_R_norm": -0.7473543673508496,
+      "guard_activation_rate": -0.7735233153322388,
+      "guard_revert_rate": -0.3509921331379579,
+      "mean_signed_task_delta": 0.7473543673508496,
+      "net_helpful_flip": 0.3115559801035566
+    }
+  }
+}

@@ -1,0 +1,4 @@
+method,adaptation_coverage,abstain_count,abstain_reasons,mean_gate_agreement,mean_gate_confidence,teacher_spoof_fraction,safety_reject_count,mean_source_anchor_flip_count
+taskaware_full,0.32599118942731276,1554,{'low_confidence_or_view_disagreement': 1554},0.9657017011418142,3.512062414327157,0.9247954688483323,588,15.692259282567653
+taskaware_no_gate,0.4011957205789805,0,{},0.9657017011418142,3.512062414327157,0.9247954688483323,1903,67.98300818124606
+taskaware_no_source_keep,0.25739458779106356,1554,{'low_confidence_or_view_disagreement': 1554},0.9657017011418142,3.512062414327157,0.9247954688483323,806,17.572372561359344

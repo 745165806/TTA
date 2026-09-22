@@ -4,7 +4,8 @@ import math
 import torch
 
 from eptta.adaptation.math import apply_adapter, margin_deficit, margin_tolerance, project_frobenius_
-from eptta.adaptation.objectives import target_objective
+from eptta.adaptation.objectives import (calibrated_logits, calibrated_pseudo_bce,
+                                         target_objective, task_logit_consistency)
 from eptta.adaptation.regularizers import regularizer
 from eptta.adaptation.types import EPConfig
 from eptta.adaptation.validation import validate_inputs
@@ -26,6 +27,22 @@ METHODS = {
     "ep_keep_fisher": ("view_variance", "fisher"),
     "source_ce_only": (None, "source_ce"),
     "ep_diagonal_R": ("view_variance", "margin"),
+}
+
+# Task-aware EP-TTA v1 hyperparameters.  They intentionally ride on method.params
+# (not EPConfig) so the shared per-sample reset/Frobenius geometry stays untouched.
+TASKAWARE_PARAMS = (
+    "lambda_pseudo", "lambda_consistency", "lambda_source", "lambda_r",
+    "temperature", "confidence_margin", "min_agreement",
+)
+_TASKAWARE_DEFAULTS = {
+    "lambda_pseudo": 1.0,
+    "lambda_consistency": 0.25,
+    "lambda_source": 1.0,
+    "lambda_r": 0.01,
+    "temperature": 1.0,
+    "confidence_margin": 0.5,
+    "min_agreement": 1.0,
 }
 
 
@@ -89,10 +106,27 @@ def validate_method_setup(method_id, resources, cfg, params=None):
     rank = resources.U.shape[1]
     allowed_params = {"static_subspace": {"amount"}, "fixed_source_adapter": {"fixed_R"},
                       "frozen_source_shift": {"score_shift"}, "ep_scalar_adaptive": {"grid_size"},
-                      "ep_keep_fisher": {"fisher"}}
+                      "ep_keep_fisher": {"fisher"}, "ep_tta_taskaware_v1": set(TASKAWARE_PARAMS)}
     unknown = set(params) - allowed_params.get(method_id, set())
     if unknown:
         raise ValueError("unknown params for %s: %s" % (method_id, sorted(unknown)))
+    if method_id == "ep_tta_taskaware_v1":
+        merged = dict(_TASKAWARE_DEFAULTS)
+        merged.update(params)
+        for name in ("lambda_pseudo", "lambda_consistency", "lambda_source", "lambda_r"):
+            value = merged[name]
+            if type(value) not in (int, float) or not math.isfinite(value) or value < 0:
+                raise ValueError("task-aware %s must be a finite nonnegative scalar" % name)
+        temperature = merged["temperature"]
+        if type(temperature) not in (int, float) or not math.isfinite(temperature) or temperature <= 0:
+            raise ValueError("task-aware temperature must be a finite positive scalar")
+        confidence_margin = merged["confidence_margin"]
+        if type(confidence_margin) not in (int, float) or not math.isfinite(confidence_margin) or confidence_margin < 0:
+            raise ValueError("task-aware confidence_margin must be a finite nonnegative scalar")
+        if not isinstance(merged["min_agreement"], (int, float)) or not math.isfinite(merged["min_agreement"]) or \
+                not 0 <= merged["min_agreement"] <= 1:
+            raise ValueError("task-aware min_agreement must be in [0,1]")
+        return merged
     if method_id in ("frozen", "multiview_mean") or method_id in METHODS:
         pass
     elif method_id == "static_subspace":
@@ -129,6 +163,8 @@ def validate_method_setup(method_id, resources, cfg, params=None):
 @torch.no_grad()
 def adaptation_diagnostics(result, target, resources, cfg):
     """Recompute final diagnostics from the actual final R and regularizer contract."""
+    if result.get("method_id") == "ep_tta_taskaware_v1":
+        return _taskaware_diagnostics(result, target, resources)
     if result.get("status") == "fallback_numeric":
         diagnostic = {name: None for name in (
             "final_regularizer_loss", "final_margin_loss", "final_margin_violation_fraction",
@@ -213,6 +249,173 @@ def _numeric_fallback(method_id, target, before, completed, evaluations, exc, ra
             "regularizer_name": None, "error_type": type(exc).__name__, "error_message": str(exc)}
 
 
+def _taskaware_numeric_fallback(target, before, completed, evaluations, exc, rank):
+    result = _numeric_fallback("ep_tta_taskaware_v1", target, before, completed, evaluations, exc, rank)
+    result.update({
+        "adaptation_applied": False, "abstain_reason": None, "teacher_label": None,
+        "gate_agreement": None, "gate_confidence": None, "pseudo_loss_final": None,
+        "task_consistency_loss_final": None, "source_logit_loss_final": None,
+        "parameter_l2_final": None, "source_anchor_flip_count": None,
+        "safety_rejected": False, "final_R_norm": 0.0, "delta_score": 0.0,
+        "numeric_fallback": True, "solver": "selective_sgd",
+    })
+    return result
+
+
+def _taskaware_gate_state(target, resources):
+    """Compute the frozen teacher, per-view agreement and confidence.
+
+    The teacher is the original-view class at the *calibrated* threshold tau0
+    (``score - tau0 >= 0``), never the raw ``score > 0`` boundary.
+    """
+    m = target.features @ resources.w + resources.b - resources.tau0
+    teacher = int(bool((m[0] >= 0).item()))
+    agreement = float(((m >= 0) == teacher).to(target.features.dtype).mean().item())
+    confidence = float(m.abs().min().item())
+    return teacher, agreement, confidence
+
+
+def _run_taskaware_v1(target, resources, cfg, params):
+    """Task-Aware + Selective + Evidence-Preserving EP-TTA v1.
+
+    Gate high-confidence, view-consistent samples; otherwise abstain (return the
+    frozen score with R=0).  When adapting, optimize calibrated pseudo-BCE plus
+    task-logit consistency, soft source-logit preservation and parameter L2, then
+    apply one final source-anchor class-crossing safety check (no backtracking).
+    """
+    before = validate_inputs(target, resources, cfg)
+    params = validate_method_setup("ep_tta_taskaware_v1", resources, cfg, params)
+    rank = resources.U.shape[1]
+    device, dtype = target.features.device, target.features.dtype
+    zero_R = torch.zeros((rank, rank), dtype=dtype, device=device)
+    teacher, agreement, confidence = _taskaware_gate_state(target, resources)
+    common = {
+        "method_id": "ep_tta_taskaware_v1", "regularizer_name": "taskaware",
+        "solver": "selective_sgd", "trace": [],
+        "teacher_label": teacher, "gate_agreement": agreement,
+        "gate_confidence": confidence, "numeric_fallback": False,
+    }
+
+    # Selective gate: abstain (never a numeric fallback) unless every view agrees
+    # with the frozen teacher and the sample is confidently separated from tau0.
+    if agreement < params["min_agreement"] or confidence < params["confidence_margin"]:
+        result = _base_result("ep_tta_taskaware_v1", target, before, before, R=zero_R.clone(),
+                              adaptation_applied=False,
+                              abstain_reason="low_confidence_or_view_disagreement",
+                              teacher_label=teacher, gate_agreement=agreement,
+                              gate_confidence=confidence, source_anchor_flip_count=0,
+                              safety_rejected=False, final_R_norm=0.0, delta_score=0.0,
+                              pseudo_loss_final=None, task_consistency_loss_final=None,
+                              source_logit_loss_final=None, parameter_l2_final=None)
+        result.update(common)
+        return result
+
+    parameter = torch.zeros((rank, rank), dtype=dtype, device=device, requires_grad=True)
+    completed = 0
+    final = {"pseudo_loss_final": None, "task_consistency_loss_final": None,
+             "source_logit_loss_final": None, "parameter_l2_final": None}
+    try:
+        with torch.enable_grad():
+            for step in range(cfg.steps):
+                s_adapt = apply_adapter(target.features, resources.U, parameter) @ resources.w + resources.b
+                u = calibrated_logits(s_adapt, resources.tau0, params["temperature"])
+                pseudo = calibrated_pseudo_bce(u, torch.tensor(teacher, dtype=dtype, device=device))
+                consistency = task_logit_consistency(u)
+                source_scores = apply_adapter(resources.anchors_z, resources.U, parameter) @ resources.w + resources.b
+                source = (source_scores - resources.anchors_s0).square().mean()
+                parameter_l2 = parameter.square().mean()
+                loss = (params["lambda_pseudo"] * pseudo +
+                        params["lambda_consistency"] * consistency +
+                        params["lambda_source"] * source +
+                        params["lambda_r"] * parameter_l2)
+                loss = _finite(loss, "non-finite task-aware loss")
+                gradient, = torch.autograd.grad(loss, parameter)
+                _finite(gradient, "non-finite task-aware gradient")
+                with torch.no_grad():
+                    parameter.add_(gradient, alpha=-cfg.lr)
+                    _finite(parameter, "non-finite task-aware parameter before projection")
+                    project_frobenius_(parameter, cfg.rho)
+                    _finite(parameter, "non-finite task-aware parameter after projection")
+                completed = step + 1
+                common["trace"].append({
+                    "step": completed, "pseudo_loss": float(pseudo.detach()),
+                    "task_consistency_loss": float(consistency.detach()),
+                    "source_logit_loss": float(source.detach()),
+                    "parameter_l2": float(parameter_l2.detach()),
+                    "total_loss": float(loss.detach()),
+                    "R_norm_after": float(torch.linalg.vector_norm(parameter)),
+                })
+                final = {"pseudo_loss_final": float(pseudo.detach()),
+                         "task_consistency_loss_final": float(consistency.detach()),
+                         "source_logit_loss_final": float(source.detach()),
+                         "parameter_l2_final": float(parameter_l2.detach())}
+        R = parameter.detach().clone()
+        # Final one-shot source safety check: no source anchor may cross class.
+        calibrated_anchors = apply_adapter(resources.anchors_z, resources.U, R) @ resources.w + resources.b - resources.tau0
+        anchor_flips = int(((calibrated_anchors >= 0).to(torch.long) !=
+                             resources.anchors_y.to(torch.long)).sum().item())
+        if anchor_flips > 0:
+            R = zero_R.clone()
+            score = before
+            adaptation_applied, safety_rejected = False, True
+        else:
+            score = float(_finite(
+                (apply_adapter(target.features[:1], resources.U, R) @ resources.w + resources.b)[0],
+                "non-finite task-aware final score"))
+            adaptation_applied, safety_rejected = True, False
+        result = _base_result("ep_tta_taskaware_v1", target, before, score, R=R,
+                              steps_completed=completed, objective_evaluations=completed,
+                              trace=common["trace"], regularizer_name="taskaware",
+                              adaptation_applied=adaptation_applied,
+                              abstain_reason=None, teacher_label=teacher,
+                              gate_agreement=agreement, gate_confidence=confidence,
+                              source_anchor_flip_count=anchor_flips,
+                              safety_rejected=safety_rejected,
+                              final_R_norm=float(torch.linalg.vector_norm(R)),
+                              delta_score=float(score - before))
+        result.update(final)
+        return result
+    except FloatingPointError as exc:
+        return _taskaware_numeric_fallback(target, before, completed, completed, exc, rank)
+
+
+@torch.no_grad()
+def _taskaware_diagnostics(result, target, resources):
+    if result.get("status") == "fallback_numeric":
+        return {"final_R_norm": 0.0, "delta_score": 0.0, "delta_z_norm": None,
+                "completed_steps": int(result["steps_completed"]),
+                "objective_evaluations": int(result["objective_evaluations"]),
+                "gradient_trace_status": "failed_numeric",
+                "adaptation_applied": False, "abstain_reason": None,
+                "teacher_label": None, "gate_agreement": None, "gate_confidence": None,
+                "pseudo_loss_final": None, "task_consistency_loss_final": None,
+                "source_logit_loss_final": None, "parameter_l2_final": None,
+                "source_anchor_flip_count": None, "safety_rejected": False}
+    R = result.get("R")
+    if R is None:
+        rank = resources.U.shape[1]
+        R = torch.zeros((rank, rank), dtype=target.features.dtype, device=target.features.device)
+    _finite(R, "non-finite final R")
+    delta = apply_adapter(target.features[:1], resources.U, R) - target.features[:1]
+    return {"final_R_norm": float(torch.linalg.vector_norm(R)),
+            "delta_score": float(result["score"] - result["score_before"]),
+            "delta_z_norm": float(torch.linalg.vector_norm(delta)),
+            "completed_steps": int(result["steps_completed"]),
+            "objective_evaluations": int(result["objective_evaluations"]),
+            "gradient_trace_status": "recorded",
+            "adaptation_applied": bool(result.get("adaptation_applied", False)),
+            "abstain_reason": result.get("abstain_reason"),
+            "teacher_label": result.get("teacher_label"),
+            "gate_agreement": result.get("gate_agreement"),
+            "gate_confidence": result.get("gate_confidence"),
+            "pseudo_loss_final": result.get("pseudo_loss_final"),
+            "task_consistency_loss_final": result.get("task_consistency_loss_final"),
+            "source_logit_loss_final": result.get("source_logit_loss_final"),
+            "parameter_l2_final": result.get("parameter_l2_final"),
+            "source_anchor_flip_count": result.get("source_anchor_flip_count"),
+            "safety_rejected": bool(result.get("safety_rejected", False))}
+
+
 def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
     """Run one method; only numerical failures become a per-sample frozen fallback."""
     params = {} if params is None else dict(params)
@@ -259,6 +462,8 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
                                 solver="fixed_17_grid")
         except FloatingPointError as exc:
             return _numeric_fallback(method_id, target, before, 0, 0, exc, rank)
+    if method_id == "ep_tta_taskaware_v1":
+        return _run_taskaware_v1(target, resources, cfg, params)
 
     objective_name, regularizer_name = METHODS[method_id]
     diagonal = method_id == "ep_diagonal_R"
