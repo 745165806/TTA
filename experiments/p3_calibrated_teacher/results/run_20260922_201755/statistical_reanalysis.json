@@ -1,0 +1,45 @@
+{
+  "CalibratedSelective_vs_Frozen": {
+    "delta_AUC": 0.00018472814618120115,
+    "delta_AUC_ci95": [
+      -0.0003985714381735506,
+      0.000897394051935285
+    ],
+    "delta_EER": 0.0,
+    "delta_EER_ci95": [
+      -0.0017769739148454375,
+      0.0019133491057058156
+    ],
+    "n": 2000,
+    "seed": 2026
+  },
+  "P3_ADAPTATION_DIRECTION_SUPPORTED": true,
+  "P3_MECHANISM_PASS_LEGACY": true,
+  "P3_TASK_GAIN_SUPPORTED": false,
+  "P3_TEACHER_MECHANISM_SUPPORTED": true,
+  "adaptation_rerun": false,
+  "bootstrap": {
+    "n": 2000,
+    "seed": 2026
+  },
+  "legacy_definition_note": "Legacy PASS accepted any strictly improved EER or AUC point estimate; it did not require paired-bootstrap significance for task gain.",
+  "signed_task_delta": {
+    "ci95": [
+      0.1296941092469684,
+      0.14698847064084106
+    ],
+    "estimate": 0.1384015082270949,
+    "n": 2000,
+    "seed": 2026
+  },
+  "source_run": "/media/dell/data/fakeAudioDection/TTA_p3/experiments/p3_calibrated_teacher/results/run_20260922_201755",
+  "teacher_accuracy_delta": {
+    "ci95": [
+      0.3304195804195804,
+      0.3660839160839161
+    ],
+    "estimate": 0.3479020979020979,
+    "n": 2000,
+    "seed": 2026
+  }
+}

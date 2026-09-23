@@ -1,0 +1,16 @@
+{
+  "calU_count": 318,
+  "converged": true,
+  "fit_input": "calU_frozen_original_view_scores",
+  "iterations": 27,
+  "label_free": true,
+  "mu_bona": -4.296811399935832,
+  "mu_spoof": 3.55275821265954,
+  "pi_bona": 0.44382978481398494,
+  "pi_spoof": 0.5561702151860152,
+  "protocol": "unlabeled_domain_calibration_then_episodic_tta",
+  "status": "OK",
+  "tau_hat": -2.761042270960762,
+  "var_bona": 0.27160223938625133,
+  "var_spoof": 6.727391427220825
+}
