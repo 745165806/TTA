@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "method": "sar_audio_native_v1",
+  "split": "target10",
+  "comparison_track": "audio_native_standard_tta",
+  "parameters": {
+    "optimizer": "SGD+SAM",
+    "lr": 1.5625e-05,
+    "steps": 1,
+    "momentum": 0.9,
+    "rho": 0.05,
+    "entropy_margin": 0.2772588722239781,
+    "parameter_scope": "backend_norm_affine_v1"
+  },
+  "normalization_policy": "model_eval_with_source_bn_running_statistics",
+  "asset_root_read_only": "/media/dell/data/fakeAudioDection/TTA"
+}

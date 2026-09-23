@@ -1,0 +1,9 @@
+{
+  "smoke": {
+    "tolerance": 1e-05,
+    "sample_count": 32,
+    "max_abs_before_diff_across_methods": 9.5367431640625e-07,
+    "mean_abs_before_diff_across_methods": 2.60770320892334e-07,
+    "AUDIO_NATIVE_BEFORE_PATH_PARITY_FAIL": false
+  }
+}

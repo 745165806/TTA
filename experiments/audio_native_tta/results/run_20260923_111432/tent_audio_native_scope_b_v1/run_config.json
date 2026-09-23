@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "method": "tent_audio_native_scope_b_v1",
+  "split": "target10",
+  "comparison_track": "audio_native_standard_tta",
+  "parameters": {
+    "optimizer": "Adam",
+    "lr": 0.001,
+    "steps": 1,
+    "weight_decay": 0.0,
+    "parameter_scope": "backend_norm_plus_graph_modulation_v1",
+    "mechanism_ablation_only": true
+  },
+  "normalization_policy": "model_eval_with_source_bn_running_statistics",
+  "asset_root_read_only": "/media/dell/data/fakeAudioDection/TTA"
+}
