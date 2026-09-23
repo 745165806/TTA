@@ -18,12 +18,13 @@ from p3_common import frozen_score, load_context, load_ids
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
+    parser.add_argument("--manifest-dir")
     args = parser.parse_args()
     out = Path(args.output)
     if out.exists():
         raise SystemExit("refusing to overwrite calibration result: %s" % out)
     config, resources, _meta, _cache, features = load_context()
-    ids = load_ids("calU")
+    ids = load_ids("calU", args.manifest_dir)
     scores = [frozen_score(sid, features, resources) for sid in ids]
     gmm_cfg = config["gmm"]
     try:

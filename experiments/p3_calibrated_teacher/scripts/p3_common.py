@@ -25,8 +25,9 @@ def resolve_input(value):
     return path if path.is_absolute() else ROOT / path
 
 
-def load_ids(role):
-    path = EXP_DIR / "manifests" / ("target10_%s.json" % role)
+def load_ids(role, manifest_dir=None):
+    directory = Path(manifest_dir) if manifest_dir is not None else EXP_DIR / "manifests"
+    path = directory / ("target10_%s.json" % role)
     doc = json.loads(path.read_text(encoding="utf-8"))
     if doc.get("role") != role or doc.get("protocol") != "unlabeled_domain_calibration_then_episodic_tta":
         raise RuntimeError("invalid P3 %s manifest protocol" % role)

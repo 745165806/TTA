@@ -58,13 +58,14 @@ def main():
     parser.add_argument("--variant", required=True, choices=VARIANTS)
     parser.add_argument("--calibration", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--manifest-dir")
     parser.add_argument("--limit", type=int)
     args = parser.parse_args()
     out = Path(args.output)
     if out.exists():
         raise SystemExit("refusing to overwrite: %s" % out)
     config, resources, _meta, cache, features = load_context()
-    sample_ids = load_ids("evalU")
+    sample_ids = load_ids("evalU", args.manifest_dir)
     if args.limit is not None:
         sample_ids = sample_ids[:args.limit]
     calibration = json.loads(Path(args.calibration).read_text(encoding="utf-8"))

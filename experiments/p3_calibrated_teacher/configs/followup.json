@@ -1,0 +1,28 @@
+{
+  "bootstrap": {
+    "seed": 2026,
+    "n": 2000
+  },
+  "sensitivity_salts": [
+    "p3-sensitivity-2027",
+    "p3-sensitivity-2028"
+  ],
+  "sensitivity_variants": [
+    "Frozen",
+    "CalOnly",
+    "SourceTauTeacher",
+    "CalibratedTeacher-NoSelect",
+    "CalibratedSelective",
+    "OracleTeacher"
+  ],
+  "asymmetry_variants": [
+    "Oracle-All",
+    "Oracle-BonaOnly",
+    "Oracle-SpoofOnly",
+    "Calibrated-All",
+    "Calibrated-BonaOnly",
+    "Calibrated-SpoofOnly"
+  ],
+  "max_parallel_cpu_workers": 4,
+  "cuda_visible_devices": ""
+}
