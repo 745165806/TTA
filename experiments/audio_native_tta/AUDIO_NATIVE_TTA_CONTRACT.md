@@ -49,6 +49,28 @@ iteration, and no weight decay. Its available views are original plus only the
 candidates accepted by the fixed source-select audit in `config.json`. Target10
 labels cannot alter candidates, thresholds, or acceptance.
 
+For Task2.1 this method is reported as **MEMO-Audio-Limited**. The decomposition
+adds `memo_audio_full_safeaug_v1` (**MEMO-FullSafeAug**), which uses the identical
+source-audited original+FIR views, optimizer, objective, and source-BN `eval()`
+semantics, but restores MEMO's full SSL-AASIST parameter scope. Thus
+MEMO-Audio-Ref → FullSafeAug changes augmentation only, while FullSafeAug →
+Limited changes parameter scope only. Every FullSafeAug episode restores all
+parameters and buffers exactly.
+
+## Frozen baselines and scientific gate
+
+`Frozen-Cache` is retained only for continuity with P0/P1/P2 and numerical-path
+diagnosis. Each method's own waveform `score_before_update` is its primary
+`Frozen-Waveform` paired baseline. Adaptation gain/harm is never inferred from
+cache-to-waveform differences. Before-update scores across methods must agree
+within absolute tolerance 1e-5; failure raises
+`AUDIO_NATIVE_BEFORE_PATH_PARITY_FAIL` and blocks scientific conclusions.
+
+All main and ablation methods receive seed-2026, 2000-resample paired bootstrap
+comparisons against their waveform baseline. Gain and recovery are distinct:
+gain compares with Frozen-Waveform, while recovery compares an audio-native
+mapping with its historical reference port.
+
 ## Mechanism ablation
 
 One structural ablation is pre-registered:

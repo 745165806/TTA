@@ -28,7 +28,18 @@
       "steps": 1,
       "weight_decay": 0.0,
       "parameter_scope": "backend_norm_affine_v1",
-      "augmentation_source": "source_select_audit_only"
+      "augmentation_source": "source_select_audit_only",
+      "augmentation_views": ["original", "fir_side_gain0.05"]
+    },
+    "memo_audio_full_safeaug_v1": {
+      "optimizer": "SGD",
+      "lr": 0.00025,
+      "steps": 1,
+      "weight_decay": 0.0,
+      "parameter_scope": "full_ssl_aasist",
+      "normalization_policy": "model_eval_with_source_bn_running_statistics",
+      "augmentation_source": "source_select_audit_only",
+      "augmentation_views": ["original", "fir_side_gain0.05"]
     },
     "tent_audio_native_scope_b_v1": {
       "optimizer": "Adam",
