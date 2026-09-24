@@ -11,8 +11,11 @@ from pathlib import Path
 
 from protocol import ROOT, MANIFEST, PROTOCOLS, load_config, manifest_ids, reset_info
 
+P2 = ROOT / "experiments/p2_calibration_baselines"
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "workers" / "compat"))
+sys.path.insert(0, str(P2))
 
 
 def write_json(path, value):
@@ -33,7 +36,7 @@ def run(args):
         configure_audio_native, snapshot_episode_state, reset_episode_state,
         assert_bn_buffers_unchanged, selected_parameter_names)
     from eptta.baselines.ports.common import prediction_entropy
-    from eptta.baselines.ports.tent_audio import logits_to_score
+    from eptta.baselines.ports.tent_audio import logits_to_score, score_current, tent_adapt
 
     cfg = load_config()
     if not torch.cuda.is_available():
@@ -174,6 +177,25 @@ def run(args):
                 raise  # No implicit reset, continuation or invented fallback score.
             if (index + 1) % 32 == 0:
                 print("%s %d/%d" % (args.protocol, index + 1, len(rows)), flush=True)
+    if args.protocol == "episodic" and args.limit == 32:
+        # Smoke only: replay the same real waveforms through the unchanged old
+        # production TENT port, on the same GPU/model/source snapshot. No cache
+        # scores, toy model, second model load, or full legacy target10 run.
+        with (args.output / "legacy_tent_scores.jsonl").open("x", encoding="utf-8") as stream:
+            for row in rows:
+                reset_episode_state(model, source_state)
+                waveform = waveform_for(row)
+                before = score_current(model, adapter, waveform, bundle["class_index_map"])
+                after = tent_adapt(model, adapter, waveform, bundle["class_index_map"],
+                                   lr=cfg["lr"], steps=cfg["steps"], weight_decay=cfg["weight_decay"])
+                assert_bn_buffers_unchanged(model, source_state)
+                stream.write(json.dumps({"sample_id": row["sample_id"],
+                                         "method": "tent_audio_native_v1",
+                                         "score_before_update": before, "score_after": after},
+                                        allow_nan=False) + "\n")
+                stream.flush()
+                del waveform
+        print("legacy TENT real-waveform parity scores written (32 samples)", flush=True)
     print("complete", args.output, flush=True)
 
 

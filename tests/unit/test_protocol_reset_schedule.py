@@ -17,6 +17,9 @@ import protocol
 spec = importlib.util.spec_from_file_location("protocol_aggregate_test", EXP / "aggregate.py")
 aggregate = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(aggregate)
+spec = importlib.util.spec_from_file_location("protocol_preflight_test", EXP / "preflight.py")
+preflight = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(preflight)
 
 
 def synthetic_rows(name, count):
@@ -40,6 +43,59 @@ def synthetic_rows(name, count):
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_target10_preflight_contract(self):
+        doc = {"role": "select", "count": 3178, "records": [
+            {"schema_version": "0.1.0", "sample_id": str(i), "root_key": "in_the_wild",
+             "audio_relpath": str(i), "split_role": "select", "sample_index": i}
+            for i in range(3178)]}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "manifest.json"
+            def validate(value):
+                path.write_text(json.dumps(value), encoding="utf-8")
+                with patch.object(preflight, "MANIFEST", path), patch.object(protocol, "MANIFEST", path):
+                    return preflight.validate_target10_manifest()
+            self.assertEqual(len(validate(doc)), 3178)
+            for key, value in (("role", "target_test"), ("count", 3177), ("count", "3178"),
+                               ("records", doc["records"][:-1])):
+                with self.assertRaises(ValueError):
+                    validate(dict(doc, **{key: value}))
+            for change in ({"sample_id": "1"}, {"split_role": "target_test"}, {"label": 0}):
+                bad = dict(doc, records=[dict(doc["records"][0], **change)] + doc["records"][1:])
+                with self.assertRaises(ValueError):
+                    validate(bad)
+
+    def test_legacy_parity_gate(self):
+        rows = synthetic_rows("episodic", 32)
+        ids = [r["sample_id"] for r in rows]
+        legacy = [{"sample_id": r["sample_id"], "method": "tent_audio_native_v1",
+                   "score_before_update": r["score_before_update"], "score_after": r["score_after"]}
+                  for r in rows]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "episodic").mkdir()
+            path = root / "episodic/legacy_tent_scores.jsonl"
+            with self.assertRaises(FileNotFoundError):
+                preflight.validate_legacy_parity(root, rows, ids)
+            def validate(values):
+                path.write_text("\n".join(json.dumps(r) for r in values), encoding="utf-8")
+                return preflight.validate_legacy_parity(root, rows, ids)
+            self.assertEqual(validate(legacy)["status"], "PASS")
+            for bad in (legacy[:-1], list(reversed(legacy)), legacy + legacy[:1]):
+                with self.assertRaises(ValueError):
+                    validate(bad)
+            for key in ("score_before_update", "score_after"):
+                for value in (0.5, math.nan, math.inf):
+                    bad = [dict(r) for r in legacy]
+                    bad[0][key] = value
+                    with self.assertRaises(ValueError):
+                        validate(bad)
+                close = [dict(r) for r in legacy]
+                close[0][key] += 0.5e-5
+                self.assertEqual(validate(close)["status"], "PASS")
+            rows[0]["source_frozen_score"] += 0.1
+            with self.assertRaises(ValueError):
+                validate(legacy)
+
     def test_schedules_and_boundaries(self):
         expected = {"episodic": list(range(300)), "continual": [0],
                     "reset32": list(range(0, 300, 32)), "reset128": [0, 128, 256]}

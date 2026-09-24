@@ -33,7 +33,9 @@ if [[ "${1:-}" == "--dry-run" ]]; then
     echo "GPU=${GPUS[$i]} protocol=${PROTOCOLS[$i]} method=tent_audio_native_v1 optimizer=Adam lr=0.001 steps=1 weight_decay=0 parameter_scope=backend_norm_affine_v1 normalization=model_eval_with_source_bn_running_statistics"
   done
   echo "optimizer_state_policy=retain_until_protocol_reset; source_reference=unadapted_waveform_pass"
-  echo "schedule=preflight -> four_GPU_smoke_32 -> validate_smoke -> four_GPU_target10 -> aggregate"
+  echo "target10_contract=role_select_count_3178_unique_label_free_records"
+  echo "episodic_smoke=32_real_waveform_replay_via_legacy_tent_adapt GPU=${GPUS[0]} parity_atol=1e-5"
+  echo "schedule=preflight -> four_GPU_smoke_32_with_legacy_TENT_parity -> validate_smoke -> four_GPU_target10 -> aggregate"
   exit 0
 fi
 
@@ -96,7 +98,7 @@ run_batch() {
 
 run_batch "$RUN_DIR/smoke" --limit 32
 "$PYTHON" "$EXP/preflight.py" --check-smoke "$RUN_DIR/smoke" 2>&1 | tee "$RUN_DIR/smoke_check.log"
-echo "SMOKE PASS; starting full target10 sequences from source"
+echo "SMOKE PASS (including legacy TENT parity); starting full target10 sequences from source"
 run_batch "$RUN_DIR"
 "$PYTHON" "$EXP/aggregate.py" --run-dir "$RUN_DIR" > "$RUN_DIR/aggregate.log" 2>&1
 printf 'PASS\n' > "$RUN_DIR/status.txt"

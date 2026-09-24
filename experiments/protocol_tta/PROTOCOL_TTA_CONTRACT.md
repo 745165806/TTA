@@ -75,6 +75,16 @@ source_reference_runtime 单独记录，启动/模型加载耗时不混入每条
 
 preflight → 唯一目录 → 四卡 32 条 smoke → 校验 PASS → 全新进程从 source 开始
 四卡完整 target10 → 等待全部成功 → aggregate → metrics.csv/summary.json/report.md。
+preflight 在导入 CUDA 前强制 manifest 顶层 role=select、count=3178、records 长度=3178，
+并沿用逐条严格 label-free 白名单、split_role=select、sample_id 唯一检查。
+
+episodic 的 32 条 smoke 之后，在同一卡、同一模型/source snapshot 上逐条 reset，
+通过旧生产 `tent_audio.score_current` / `tent_audio.tent_adapt` 重放相同前32条 waveform。
+结果保存为 `smoke/episodic/legacy_tent_scores.jsonl`，不加载 cache 参考、不另建模型、
+不运行完整旧 TENT target10。check-smoke 必须验证 ID/顺序完全一致，并分别比较
+source_frozen_score/score_before_update 与旧 waveform before、score_after 与旧 after。
+三项绝对容差都固定 1e-5；缺结果、非有限值或超限均 SMOKE FAIL，禁止进入正式序列。
+最大差值与实际验收结论写入 smoke_check.log；本机未运行此真实 CUDA parity。
 smoke 参数与正式相同，只截取 manifest 前 32 条；因此 reset32/128 在 smoke 内只重置一次，
 正式窗口边界由纯逻辑 260/300 条测试覆盖。smoke 不消费 target labels。
 
