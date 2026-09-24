@@ -1,0 +1,40 @@
+command: python -m unittest discover -s tests/unit -p test_protocol_reset_schedule.py -v
+test_aggregation_uses_common_source_not_current_before (test_protocol_reset_schedule.ProtocolTests.test_aggregation_uses_common_source_not_current_before) ... ok
+test_config_fixed (test_protocol_reset_schedule.ProtocolTests.test_config_fixed) ... ok
+test_duplicate_missing_and_reordered_rejected (test_protocol_reset_schedule.ProtocolTests.test_duplicate_missing_and_reordered_rejected) ... ok
+test_implicit_reset_and_false_schedule_rejected (test_protocol_reset_schedule.ProtocolTests.test_implicit_reset_and_false_schedule_rejected) ... ok
+test_invalid_protocol (test_protocol_reset_schedule.ProtocolTests.test_invalid_protocol) ... ok
+test_label_coverage_duplicate_and_invalid_rejection (test_protocol_reset_schedule.ProtocolTests.test_label_coverage_duplicate_and_invalid_rejection) ... ok
+test_nonfinite_diagnostics_rejected (test_protocol_reset_schedule.ProtocolTests.test_nonfinite_diagnostics_rejected) ... ok
+test_schedules_and_boundaries (test_protocol_reset_schedule.ProtocolTests.test_schedules_and_boundaries) ... ok
+test_smoke_checks_reference_config_and_adaptation (test_protocol_reset_schedule.ProtocolTests.test_smoke_checks_reference_config_and_adaptation) ... ok
+test_spearman_ties_and_constants (test_protocol_reset_schedule.ProtocolTests.test_spearman_ties_and_constants) ... ok
+test_valid_sequences_beyond_windows (test_protocol_reset_schedule.ProtocolTests.test_valid_sequences_beyond_windows) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.951s
+
+OK
+exit_code=0
+command: python -m compileall -q src experiments workers tests
+exit_code=0
+command: git diff --check
+exit_code=0
+command: Git Bash bash -n experiments/protocol_tta/run_protocol_tta.sh
+exit_code=0
+command: Git Bash bash experiments/protocol_tta/run_protocol_tta.sh --dry-run
+comparison_track=protocol_tta split=target10 sample_order_policy=manifest_order shuffle=false
+manifest=/d/个人/博士/code/TTA/experiments/target10_selection/manifests/inwild_target10_select.json
+asset_root=/d/个人/博士/code/TTA checkpoint_bundle=/d/个人/博士/code/TTA/outputs_v2/ssl_aasist/frozen/bundle.json
+output=/d/个人/博士/code/TTA/experiments/protocol_tta/results/run_<timestamp>_<unique_suffix>
+GPU=0 protocol=episodic method=tent_audio_native_v1 optimizer=Adam lr=0.001 steps=1 weight_decay=0 parameter_scope=backend_norm_affine_v1 normalization=model_eval_with_source_bn_running_statistics
+GPU=1 protocol=continual method=tent_audio_native_v1 optimizer=Adam lr=0.001 steps=1 weight_decay=0 parameter_scope=backend_norm_affine_v1 normalization=model_eval_with_source_bn_running_statistics
+GPU=2 protocol=reset32 method=tent_audio_native_v1 optimizer=Adam lr=0.001 steps=1 weight_decay=0 parameter_scope=backend_norm_affine_v1 normalization=model_eval_with_source_bn_running_statistics
+GPU=3 protocol=reset128 method=tent_audio_native_v1 optimizer=Adam lr=0.001 steps=1 weight_decay=0 parameter_scope=backend_norm_affine_v1 normalization=model_eval_with_source_bn_running_statistics
+optimizer_state_policy=retain_until_protocol_reset; source_reference=unadapted_waveform_pass
+schedule=preflight -> four_GPU_smoke_32 -> validate_smoke -> four_GPU_target10 -> aggregate
+exit_code=0
+command: Git Bash bash -n experiments/protocol_tta/run_protocol_tta.sh (after exit-code logging review)
+exit_code=0
+command: git diff --cached --check
+exit_code=0

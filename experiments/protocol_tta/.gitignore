@@ -1,0 +1,5 @@
+results/**/scores.jsonl
+results/**/*.log
+results/**/failure.json
+results/**/smoke/
+__pycache__/

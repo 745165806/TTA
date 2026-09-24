@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "comparison_track": "protocol_tta",
+  "base_method": "tent_audio_native_v1",
+  "dataset": "in_the_wild_target10",
+  "shuffle": false,
+  "sample_order_policy": "manifest_order",
+  "optimizer": "Adam",
+  "optimizer_state_policy": "retain_until_protocol_reset",
+  "lr": 0.001,
+  "steps": 1,
+  "weight_decay": 0.0,
+  "parameter_scope": "backend_norm_affine_v1",
+  "normalization_policy": "model_eval_with_source_bn_running_statistics",
+  "seed": 2026,
+  "protocols": ["episodic", "continual", "reset32", "reset128"]
+}
