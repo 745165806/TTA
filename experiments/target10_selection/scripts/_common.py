@@ -96,10 +96,11 @@ def require_success(result, sample_id, method_id):
     return result
 
 
-def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
+def evaluate_candidate(cand, sample_ids, features, resources, cache_id, *,
+                       rho=RHO, score_sink=None):
     """Run guarded EP and aggregate mechanism-aligned, label-free metrics."""
     cfg = EPConfig(steps=cand["K"], lr=cand["lr"] if cand["lr"] is not None else 0.003,
-                   rho=RHO, gamma=GAMMA, lambda_keep=LAMBDA_KEEP)
+                   rho=rho, gamma=GAMMA, lambda_keep=LAMBDA_KEEP)
     view_reduction_sum = probability_consistency_sum = 0.0
     source_safety_sum = source_margin_retention_sum = 0.0
     r_norm_sum = abs_delta_score_sum = 0.0
@@ -110,6 +111,9 @@ def evaluate_candidate(cand, sample_ids, features, resources, cache_id):
         target = TargetViews(sample_id, z, cache_id)
         result = require_success(
             run_method(METHOD_ID, target, resources, cfg, {}), sample_id, METHOD_ID)
+        if score_sink is not None:
+            score_sink({"sample_id": sample_id, "score": float(result["score"]),
+                        "score_before": float(result["score_before"])})
 
         with torch.no_grad():
             R = result["R"].to(z.dtype).to(z.device)
