@@ -185,3 +185,11 @@ Why: A head adaptation prototype needs a direct mechanistic link from the failed
 What this excludes: The R update is limited to `span(U)`, and the production radius tightens its coefficient norm. Numerical parity passes at 1.9e-6. Only about 17% of the scale-normalized supervised head displacement lies in that subspace and only about 3.3% is reachable at rho0.1, in both domains and all five folds under the precommitted mismatch rule. This excludes the interpretation that the same bounded R space can express most of the observed H3 head correction. Cross-domain delta cosine 0.664 is descriptive and does not override the earlier negative direct transfer experiment.
 
 Next design: Stop R-adapter TTA and begin exactly one unlabeled target-batch linear head prototype with source anchors, soft class assignments, continuous view agreement, fixed B256, and alpha values 0.25/0.5/0.75. Pre-register all covariance, prior and bias rules before reading development task metrics.
+
+## 2026-09-27 — H-UA1 soft-mixture head does not recover actionable target correction
+
+Why: Supervised held-out linear probes had a large readout gap and production R could express only a small fraction of their boundary displacement. A fixed B256 source-anchored, label-free soft-mixture head was therefore tested on the two already selected development domains, with its formula and promotion thresholds committed before labels were opened.
+
+What this excludes: H-UA1 makes nonzero changes to the head and scores, but its maximum ITW ΔAUC is only +0.000204 and WaveFake +0.003375; ITW EER worsens and all adapted arms classify every sample as spoof at the fixed source threshold. No alpha satisfies the predeclared practical two-domain gate. Thus source-anchor soft affinity plus three-view reliability and this regularized LDA construction do not recover the supervised linear head opportunity on these development selections. The result does not exclude every possible unlabeled head objective.
+
+Next design: Stop H-UA1 and retain the negative result, contract and full per-sample scores. Do not tune alpha, covariance, temperature, bias, buffer or add a controller to this failed prototype after seeing labels. Keep supervised probe as an upper bound, candidate NONE, and defer any new method or final evaluation pending a separately justified scientific hypothesis.

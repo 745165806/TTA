@@ -107,9 +107,20 @@ def analyze(run_id):
     summary["promoted_candidate"] = f"H-UA1_alpha_{min(passing)}" if passing else None
     analysis = out / "analysis"
     with (analysis / "metrics.csv").open("x", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(table[0]))
+        writer = csv.DictWriter(stream, fieldnames=list(table[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(table)
+    geometry_fields = ("domain", "buffer_index", "buffer_size", "estimated_spoof_prior",
+                       "target_head_angle_degrees", "source_head_norm", "target_head_norm",
+                       "source_bias", "target_bias", "mean_abs_score_delta_alpha_0.5",
+                       "target_covariance_condition", "runtime_seconds", "numeric_status")
+    with (analysis / "geometry.csv").open("x", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=geometry_fields, lineterminator="\n")
+        writer.writeheader()
+        for domain in ("itw", "wavefake"):
+            for line in (out / "diagnostics" / f"{domain}_buffers.jsonl").open():
+                diagnostic = json.loads(line)
+                writer.writerow({field: diagnostic[field] for field in geometry_fields})
     with (analysis / "summary.json").open("x") as stream:
         json.dump(summary, stream, indent=2, allow_nan=False)
         stream.write("\n")

@@ -1,0 +1,21 @@
+{
+  "complete": true,
+  "smoke": false,
+  "domains": {
+    "itw": {
+      "count": 3178,
+      "unique_ids": 3178,
+      "buffer_count": 13,
+      "frozen_parity_max_difference": 0.0,
+      "numeric_failures": 0
+    },
+    "wavefake": {
+      "count": 4096,
+      "unique_ids": 4096,
+      "buffer_count": 16,
+      "frozen_parity_max_difference": 0.0,
+      "numeric_failures": 0
+    }
+  },
+  "target_labels_loaded_in_worker": false
+}

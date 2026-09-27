@@ -598,3 +598,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: direct/derived score parity max `1.907e-6`; U orthogonality error `2.533e-8`; `||Uᵀw_s||=0.483962`, allowed q norm `0.048396`. Mean subspace explained fraction ITW/WaveFake `0.172633/0.171386`; radius-limited `0.033830/0.033058`; all 5 folds in each domain <0.5.
 - interpretation: `R_PARAMETERIZATION_MISMATCH` confirmed under the predeclared rule for these supervised H3 directions. Previous bounded-R loss searches cannot recover most of this measured head correction.
 - next_decision: retire R-adapter TTA research and implement only the predeclared label-free episodic source-anchored linear head prototype H-UA1, with fixed B256 and three alpha values.
+
+## H-UA1 label-free head development 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-head-tta
+- commit: 6c87d49 (precommitted prototype, tests and mathematical contract)
+- experiment_id: head_tta/hua1_smoke_20260927a; head_tta/hua1_development_20260927a
+- purpose: test whether unlabeled B256 target geometry can recover the supervised target-head gap without modifying the frozen encoder or source resources
+- datasets: existing ITW target10 3178 and fixed WaveFake paired development 4096; smoke uses first 32 label-free selected rows per domain
+- manifests: existing fixed label-free select manifests in unchanged order; per-run `manifests/{domain}_order.json`; selected-only audit labels opened exclusively by analyzer after both complete score files passed exact coverage
+- method: source-anchor soft class affinity and continuous three-view reliability; soft target class centroids/prior and regularized pooled-covariance LDA; source/head convex blend per independent buffer; no target labels in worker and no cross-buffer state
+- parameters: B256, source-only temperature and ridge, source/target covariance blend 0.5/0.5, alpha 0.25/0.5/0.75, original-view frozen 160D embedding, fixed manifest order; exact rules in `experiments/head_tta/HEAD_ADAPTATION_CONTRACT.md`
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/head_tta/run_scores.py --run-id hua1_smoke_20260927a --smoke`; `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/head_tta/run_scores.py --run-id hua1_development_20260927a`; `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/head_tta/analyze.py --run-id hua1_development_20260927a`
+- result_directory: `experiments/head_tta/results/hua1_smoke_20260927a/` and `experiments/head_tta/results/hua1_development_20260927a/`; small tracked summary in `experiments/head_tta/summary/hua1_development_20260927a/`
+- key_metrics: score coverage ITW 3178/3178 (13 buffers), WaveFake 4096/4096 (16 buffers), zero Frozen parity difference and numeric failures. ITW Frozen AUC/EER 0.963309/0.098571; best H-UA1 alpha0.25 0.963513/0.099556 (ΔAUC +0.000204; EER worse 0.000986). WaveFake Frozen 0.915003/0.157715; alpha0.25 0.918378/0.151367 (ΔAUC +0.003375; EER better 0.006348). Alpha0.5/0.75 do not pass. Every H-UA1 arm has source-threshold balanced accuracy 0.5, predicting all samples spoof. AUC upper-bound recovery for alpha0.25 is 2.07% ITW, 9.19% WaveFake.
+- interpretation: `HEAD_ADAPTATION_NOT_YET_ACTIONABLE`; no alpha meets the predeclared two-domain promotion gate. Nonzero score/head movement cannot be equated with useful ranking correction; calibration also collapses at fixed source threshold. The supervised linear probe is a label-using development upper bound only, not a TTA result.
+- next_decision: retire this fixed H-UA1 prototype and do not alter its covariance, prior, alpha or buffer after task audit; candidate NONE, no method lock or final evaluation.
