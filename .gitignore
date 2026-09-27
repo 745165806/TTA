@@ -237,4 +237,5 @@ experiments/*/logs/
 experiments/multidomain_mechanism/results/
 experiments/multidomain_mechanism/audit_labels/
 experiments/epdc_development/results/
+experiments/task_objective_discovery/results/
 outputs_v2/
