@@ -292,3 +292,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: In-the-Wild Frozen EER/AUC 0.099010/0.957841; O1/O2/O3 EER 0.103960 and AUC 0.958799/0.958895/0.958879, all paired ΔAUC intervals span zero. PA EER/AUC undefined (single-class); Base/O1/O2/O3 PA source damage 0.193014/0.041150/0.236152/0.192282, harmful flips 16/3/23/14 respectively; zero numeric failures.
 - interpretation: O1 changes class-mean score gap and some threshold decisions in In-the-Wild but does not show reliable ranking benefit; PA cannot validate a second-domain ranking effect. Source-damage reduction on PA is not a task gain.
 - next_decision: keep all three objectives unpromoted; do not implement preservation, gate, continual, or method lock. Preserve fixed PA and all historical assignments; resolve genuine two-class development coverage only through a distinct permitted resource or report blocker.
+
+## Fixed Codecfake 16-kHz compatibility cache 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-local-distribution-tta
+- commit: 409e94f (implementation used by the run)
+- experiment_id: codecfake_compat/compat_20260927a
+- purpose: unlock the existing fixed 512 official-dev Codecfake IDs without changing production `load_audio` or selected membership
+- datasets: Codecfake official dev fixed 512; 222 native 16 kHz, 209 at 24 kHz, 52 at 44.1 kHz, 29 at 48 kHz
+- manifests: unchanged `codecfake_mechanism_select.json`; no audit manifest or target label opened by the compatibility worker
+- method: native 16-kHz direct production bypass; non-16-kHz mono float32 waveform resampled to 16 kHz by SciPy 1.13.0 `signal.resample_poly` (Kaiser beta 5, constant padding), then unchanged Frozen SSL-AASIST extraction
+- parameters: original views=3, embedding=160, source bundle/checkpoint unchanged, native parity tolerance 1e-5, fixed order/seed=2026
+- command: `CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/codecfake_compat/run_compat.py --run-id compat_20260927a`
+- result_directory: `experiments/codecfake_compat/results/compat_20260927a/`; tracked small metadata `experiments/codecfake_compat/summary/compat_20260927a/`
+- key_metrics: native32 and native222 waveform/feature/score maximum differences all exactly 0; final cache 512 unique IDs, exact fixed selected coverage, finite float32 features of shape 3×160, 222 native and 290 resampled, PASS; target labels unread
+- interpretation: explicit compatibility path makes the fixed Codecfake development selection feature-compatible without silently dropping samples or altering production 16-kHz semantics; this is engineering evidence, not task benefit
+- next_decision: test whether a fresh adapter shared only inside B=16/32 fixed-order local buffers improves ranking over corresponding per-sample Base/O1 arms on ITW and Codecfake; keep all labels closed until complete score coverage

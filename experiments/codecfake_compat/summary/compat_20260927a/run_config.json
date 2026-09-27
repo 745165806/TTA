@@ -1,0 +1,51 @@
+{
+  "run_id": "compat_20260927a",
+  "branch": "exp-local-distribution-tta",
+  "commit": "409e94f3a65a38bae0c50f59aac539681d19f210",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "python_executable": "/home/dell/anaconda3/envs/tta/bin/python",
+  "pytorch": "2.1.0+cu121",
+  "cuda": "12.1",
+  "gpu_available": true,
+  "gpu": "NVIDIA RTX A6000",
+  "seed": 2026,
+  "dataset": "codecfake",
+  "sample_count": 512,
+  "sample_rate_counts": {
+    "16000": 222,
+    "24000": 209,
+    "44100": 52,
+    "48000": 29
+  },
+  "method": "explicit deterministic 16-kHz compatibility then unchanged production extraction",
+  "parameters": {
+    "target_rate": 16000,
+    "resampler": "scipy.signal.resample_poly",
+    "resampler_version": "1.13.0",
+    "window": [
+      "kaiser",
+      5.0
+    ],
+    "padtype": "constant",
+    "dtype": "float32",
+    "parity_atol": 1e-05,
+    "views": {
+      "fir_side_gain": 0.05,
+      "noise_snr_db": 30.0,
+      "num_views": 3,
+      "seed": 13
+    },
+    "numerical_mode": {
+      "block_units": 256,
+      "dtype": "float32",
+      "tf32_cudnn": false,
+      "tf32_matmul": false
+    }
+  },
+  "command": [
+    "experiments/codecfake_compat/run_compat.py",
+    "--run-id",
+    "compat_20260927a"
+  ],
+  "target_labels_read": false
+}

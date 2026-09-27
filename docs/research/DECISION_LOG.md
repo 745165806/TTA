@@ -65,3 +65,11 @@ Why: The fixed PA dev speaker group passed production feature and objective scor
 What this excludes: The PA result cannot serve as a second independent two-class EER/AUC domain. O1's lower PA source damage cannot by itself justify preservation, and fixed-threshold flips cannot justify a gate. The already observed PA group labels also preclude redrawing the same dev assignment to force two-class coverage.
 
 Next design: Preserve O1/O2/O3 as unpromoted objective prototypes and keep preservation, gate, continual, and method lock inactive. Resolve development coverage only through a genuinely new, explicitly permitted two-class resource and a predeclared production-compatible preprocessing contract; do not alter the saved Codecfake/ASV/PA assignments or access target90/final labels. If no such resource is available locally without a new dependency or numerical path, report the blocker rather than tune on one domain.
+
+## 2026-09-27 — Fixed Codecfake compatibility permits a local-context hypothesis test
+
+Why: The already selected Codecfake 512 include 290 files above 16 kHz, while the production waveform loader only accepts 16 kHz. A deterministic, experiment-only resampling contract was needed before a second development domain could be scored without changing IDs or production semantics.
+
+What these results exclude: All 222 native-16-kHz features and scores match the original production path exactly; the final 512 cache has exact selected-ID coverage and finite production-shape features. Thus sample omission and native-path numerical mismatch are no longer blockers. Cache parity alone says nothing about two-class coverage or adaptation benefit.
+
+Next design: Keep the selected Codecfake labels closed until all local-study scores are complete. Compare Frozen and per-sample Base/O1 against B=16/32 shared-R local Base/O1 using fixed K=5, lr=0.03, rho=0.1 and fixed manifest order. Reset adapter and optimizer state at every buffer boundary.

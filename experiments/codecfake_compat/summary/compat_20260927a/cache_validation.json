@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "sample_count": 512,
+  "unique_ids": 512,
+  "exact_selected_id_coverage": true,
+  "feature_shape_per_sample": [
+    3,
+    160
+  ],
+  "dtype": "float32",
+  "all_finite": true,
+  "native16k_count": 222,
+  "resampled_count": 290,
+  "max_native_feature_difference_vs_parity_cache": 0.0,
+  "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-local-distribution-tta/experiments/codecfake_compat/results/compat_20260927a/feature_cache/compat_full512",
+  "elapsed_seconds": 93.52673546399456,
+  "target_labels_read": false
+}

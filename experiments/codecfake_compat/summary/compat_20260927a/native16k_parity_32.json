@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "stage": "native32",
+  "count": 32,
+  "atol": 1e-05,
+  "max_waveform_difference": 0.0,
+  "max_feature_difference": 0.0,
+  "max_score_difference": 0.0
+}
