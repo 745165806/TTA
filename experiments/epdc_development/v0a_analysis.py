@@ -66,6 +66,10 @@ def analyze(run):
                           f"{domain}_mechanism_audit.json")
         labels[domain] = selected_labels(domain, audit, set(by_id))
     metrics = []
+    evidence_field = ("preservation_loss" if any(
+        "preservation_loss" in values["Base + Preserve"]
+        for domain_rows in scores.values() for values in domain_rows.values())
+        else "decision_order_damage")
     for domain, by_id in scores.items():
         ids = sorted(by_id)
         y = [labels[domain][sid] for sid in ids]
@@ -83,9 +87,10 @@ def analyze(run):
             else:
                 result.update({k: None for k in ("EER", "AUC", "balanced_accuracy", "FPR", "FNR")})
             result["mean_abs_score_delta"] = sum(abs(a-b) for a,b in zip(values, frozen)) / len(ids)
-            for name in ("update_norm", "distance_from_source", "evidence_damage", "decision_order_damage"):
+            for name in ("update_norm", "distance_from_source", "evidence_damage", evidence_field):
                 present = [row[name] for row in rows if name in row]
-                result["mean_" + name] = sum(present) / len(present) if present else None
+                key = "mean_evidence_loss" if name == evidence_field else "mean_" + name
+                result[key] = sum(present) / len(present) if present else None
             result["helpful_updates"] = sum(int(f > tau0) != yy and int(a > tau0) == yy
                                              for f,a,yy in zip(frozen, values, y))
             result["harmful_updates"] = sum(int(f > tau0) == yy and int(a > tau0) != yy
@@ -107,7 +112,7 @@ def analyze(run):
                "ranking_metric_domains": sum(r["EER"] is not None for r in chosen)}
         for key in ("EER", "AUC", "balanced_accuracy", "mean_abs_score_delta",
                     "mean_update_norm", "mean_distance_from_source", "mean_evidence_damage",
-                    "mean_decision_order_damage", "helpful_updates", "harmful_updates"):
+                    "mean_evidence_loss", "helpful_updates", "harmful_updates"):
             present = [r[key] for r in chosen if r[key] is not None]
             row[key] = sum(present) / len(present) if present else None
         macro.append(row)
@@ -115,19 +120,20 @@ def analyze(run):
         writer = csv.DictWriter(stream, fieldnames=list(macro[0]))
         writer.writeheader()
         writer.writerows(macro)
-    summary = {"status": "PARTIAL_THREE_DOMAIN_V0A_DEVELOPMENT", "method_locked": False,
+    summary = {"status": "PARTIAL_THREE_DOMAIN_EPDC_DEVELOPMENT", "method_locked": False,
+               "method": config["method"], "evidence_field": evidence_field,
                "target90_accessed": False, "final_holdout_labels_accessed": False,
                "not_run_domains": ["codecfake", "wavefake"],
                "ranking_metric_domains": sum(r["EER"] is not None for r in metrics if r["arm"] == "Frozen"),
                "per_domain": metrics, "macro": macro}
     write_once(folder / "summary.json", summary)
-    lines = ["# EPDC v0-A development result", "",
+    lines = [f"# {config['method']} development result", "",
              "Three cached domains scored; only In-the-Wild has both classes. Codecfake/WaveFake NOT_RUN.", "",
-             "| Domain | Arm | EER | AUC | Mean evidence damage | Mean order damage | Helpful | Harmful |",
+             "| Domain | Arm | EER | AUC | Mean evidence damage | Mean preservation loss | Helpful | Harmful |",
              "|---|---|---:|---:|---:|---:|---:|---:|"]
     for r in metrics:
         fmt = lambda x: "NA" if x is None else f"{x:.6f}"
-        lines.append(f"| {r['domain']} | {r['arm']} | {fmt(r['EER'])} | {fmt(r['AUC'])} | {fmt(r['mean_evidence_damage'])} | {fmt(r['mean_decision_order_damage'])} | {r['helpful_updates']} | {r['harmful_updates']} |")
+        lines.append(f"| {r['domain']} | {r['arm']} | {fmt(r['EER'])} | {fmt(r['AUC'])} | {fmt(r['mean_evidence_damage'])} | {fmt(r['mean_evidence_loss'])} | {r['helpful_updates']} | {r['harmful_updates']} |")
     lines += ["", "EER/AUC macro values have one-domain coverage; no cross-domain ranking claim."]
     with (folder / "report.md").open("x", encoding="utf-8") as stream:
         stream.write("\n".join(lines) + "\n")
