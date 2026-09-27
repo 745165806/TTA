@@ -343,3 +343,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: 7,168/7,168 score rows, 192/192 local buffer rows, zero numeric/reset violations. ITW Frozen AUC/EER 0.957841/0.099010; local B32 Base/O1 AUC 0.958128/0.958224 with paired ΔAUC intervals crossing zero and point estimates below per-sample AUC 0.958783/0.958799. Codecfake Frozen AUC/EER 0.813354/0.283951; local B32 Base/O1 AUC 0.823294/0.825585, paired ΔAUC versus Frozen intervals `[0.006130,0.014495]` and `[0.008192,0.017073]`. All local EERs equal Frozen. Max observed local R norm 0.050450. ITW Local-Base threshold-region concentration increases despite unchanged EER.
 - interpretation: shared local context produces a clear Codecfake development ranking gain at the fixed budget, but ITW ranking movement is uncertain and weaker than its per-sample counterpart. It is not repeatable two-domain evidence of a task-useful base method.
 - next_decision: promote NONE. Stop buffer expansion and do not add local prior/preservation/gate/continual modules. Preserve this domain-specific positive and cross-domain negative result for the next independently defined objective hypothesis.
+
+## Large-scale confirmation assignments and production caches 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-large-scale-confirmation
+- commit: 6e2b045 (fixed assignments/contract); 7e1f4f2 (production cache builder used for both formal cache runs)
+- experiment_id: large_scale_confirmation/codec_large_20260927a and large_scale_confirmation/la_large_20260927a
+- purpose: freeze larger label-free development populations and production-compatible features before six-order effect confirmation
+- datasets: existing ITW target10 all 3178 IDs; Codecfake official dev fixed 5000 including prior fixed512; ASVspoof2019 LA official dev fixed 5000; WaveFake reader metadata only
+- manifests: immutable label-free `experiments/large_scale_confirmation/manifests/*_confirmation_select.json`; Codecfake additional4488 and LA5000 drawn from sorted available IDs with `random.Random(2026).sample`; no protocol label file opened
+- method: unchanged Frozen SSL-AASIST production extractor; Codecfake native16 direct production path and non16 SciPy 1.13.0 `resample_poly` compatibility; ASVspoof2019 LA native16 production path
+- parameters: original three views, 160-dimensional float32 embeddings, source bundle/checkpoint/views/numerical mode unchanged; GPU0 Codecfake and GPU1 LA; prior Codecfake fixed512 view indices preserved
+- command: `CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/large_scale_confirmation/build_cache.py --domain codecfake --run-id codec_large_20260927a`; `CUDA_VISIBLE_DEVICES=1 PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/large_scale_confirmation/build_cache.py --domain asv2019_la_dev --run-id la_large_20260927a`
+- result_directory: `experiments/large_scale_confirmation/results/codec_large_20260927a/` and `results/la_large_20260927a/`; tracked small metadata at `experiments/large_scale_confirmation/summary/`
+- key_metrics: both 5000/5000 exact selected-ID coverage, finite float32 3×160 features, zero numeric failures; Codecfake 2140 native16 and 2860 resampled, old fixed512 feature maximum difference 0 against prior cache; LA 5000 native16. Labels unread. WaveFake pyarrow 21.0.0 available, pipeline not materialized.
+- interpretation: data-path and sample-coverage prerequisites pass without changing historical selections; no ranking or class-composition claim yet
+- next_decision: run the fixed four arms on all three assignments in six label-free orders, verify all scores/buffer resets, and only then open selected development labels

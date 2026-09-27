@@ -81,3 +81,11 @@ Why: Single-sample episodic updates have little context, while historical unboun
 What these results exclude: It excludes claiming that shared local context alone yields stable two-domain spoof-ranking correction at this budget. Codecfake B32 AUC improves clearly over Frozen and per-sample, but ITW B32 AUC intervals versus Frozen cross zero and local point estimates are below their per-sample counterparts; local EER stays Frozen in both domains. Larger parameter movement or threshold changes alone cannot substitute for cross-domain ranking evidence. The Codecfake effect prevents a blanket claim that local sharing never helps.
 
 Next design: Retain the fixed run as a domain-specific mechanism clue and promote no candidate. Do not expand the buffer sweep or add local-prior preservation, gate, continual memory, drift controller or method lock. Any further objective work needs a new predeclared mechanism that addresses the ITW failure while preserving the bounded-reset safety property; it must be evaluated on the same locked development assignments before any final data access.
+
+## 2026-09-27 — Confirm effect scale before changing a method
+
+Why: The previous Codecfake 512 local B32 AUC gain is roughly +0.01, but ITW 512 shows only a near-zero change. A larger Codecfake sample, full ITW target10 and an independently fixed ASVspoof2019 LA dev sample are necessary to distinguish a stable correction from a small-subset/order effect. Six label-free orders quantify local buffer membership sensitivity.
+
+What these results exclude: The new 5000 Codecfake and 5000 ASVspoof2019 LA feature caches are exact, finite and production-compatible; the old Codecfake 512 features match exactly inside the larger cache. Thus native-path mismatch, changed old512 view seeds and missing selected features cannot explain subsequent score differences. Cache success alone does not establish any AUC or EER effect. WaveFake has an existing pyarrow reader but no materialized study cache.
+
+Next design: Keep the four-arm budget and B32 fixed under the preregistered `CONFIRMATION_CONTRACT.md`; complete all six score orders before opening any new selected label protocol. Apply the prespecified effect-size, order-variability, bootstrap and EER rules without changing thresholds after inspection.

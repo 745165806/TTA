@@ -1,0 +1,39 @@
+{
+  "run_id": "codec_large_20260927a",
+  "branch": "exp-large-scale-confirmation",
+  "commit": "7e1f4f2f6acd127c61d37a7de89113de07ebd592",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "python_executable": "/home/dell/anaconda3/envs/tta/bin/python",
+  "pytorch": "2.1.0+cu121",
+  "cuda": "12.1",
+  "gpu": "NVIDIA RTX A6000",
+  "dataset": "codecfake",
+  "count": 5000,
+  "selection_seed": 2026,
+  "role": "large_dev_cache_no_labels",
+  "method": "unchanged production Frozen SSL-AASIST extraction",
+  "parameters": {
+    "views": {
+      "fir_side_gain": 0.05,
+      "noise_snr_db": 30.0,
+      "num_views": 3,
+      "seed": 13
+    },
+    "numerical_mode": {
+      "block_units": 256,
+      "dtype": "float32",
+      "tf32_cudnn": false,
+      "tf32_matmul": false
+    },
+    "codecfake_non16k": "scipy.signal.resample_poly Kaiser beta5 constant pad float32",
+    "resampler_version": "1.13.0"
+  },
+  "command": [
+    "experiments/large_scale_confirmation/build_cache.py",
+    "--domain",
+    "codecfake",
+    "--run-id",
+    "codec_large_20260927a"
+  ],
+  "target_labels_read": false
+}

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "dataset": "codecfake",
+  "sample_count": 5000,
+  "unique_ids": 5000,
+  "exact_selected_id_coverage": true,
+  "feature_shape_per_sample": [
+    3,
+    160
+  ],
+  "dtype": "float32",
+  "all_finite": true,
+  "native16k_count": 2140,
+  "resampled_count": 2860,
+  "old_fixed512_max_feature_difference": 0.0,
+  "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-large-scale-confirmation/experiments/large_scale_confirmation/results/codec_large_20260927a/feature_cache",
+  "elapsed_seconds": 316.02983154699905,
+  "target_labels_read": false
+}

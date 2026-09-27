@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "dataset": "asv2019_la_dev",
+  "sample_count": 5000,
+  "unique_ids": 5000,
+  "exact_selected_id_coverage": true,
+  "feature_shape_per_sample": [
+    3,
+    160
+  ],
+  "dtype": "float32",
+  "all_finite": true,
+  "native16k_count": 5000,
+  "resampled_count": 0,
+  "old_fixed512_max_feature_difference": null,
+  "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-large-scale-confirmation/experiments/large_scale_confirmation/results/la_large_20260927a/feature_cache",
+  "elapsed_seconds": 281.0074640239909,
+  "target_labels_read": false
+}

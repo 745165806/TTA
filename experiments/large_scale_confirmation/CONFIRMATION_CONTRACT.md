@@ -17,7 +17,7 @@ No label, Frozen score, or prediction enters selection, order generation, compat
 
 ## Analysis and preregistered decision
 
-Per domain/order/method: EER, AUC, balanced accuracy, FPR, FNR, mean absolute score delta, mean R norm, source evidence damage, numeric failures and runtime. Compute 1,000 paired stratified bootstrap draws with seed 2026 for ΔAUC and ΔEER versus Frozen and local-versus-per-sample comparisons. These are development uncertainty diagnostics, not a final statistical claim. Report six-order mean, sample std (`ddof=1`), min, max, mean and std of paired ΔAUC, and `abs(mean_delta_auc)/(std_delta_auc+1e-12)` as descriptive effect-to-order variability. Report absolute effect sizes even when intervals exclude zero.
+Per domain/order/method: EER, AUC, balanced accuracy, FPR, FNR, mean absolute score delta, mean R norm, source evidence damage, numeric failures and runtime. Compute 1,000 paired stratified bootstrap draws with seed 2026 for ΔAUC and ΔEER versus Frozen and both local arms versus Per-sample Base. The requested Local-O1 versus Per-sample O1 contrast is **NOT_ESTIMABLE** in this confirmation because the stricter four-arm roster excludes Per-sample O1; no fifth arm is introduced. These are development uncertainty diagnostics, not a final statistical claim. Report six-order mean, sample std (`ddof=1`), min, max, mean and std of paired ΔAUC, and `abs(mean_delta_auc)/(std_delta_auc+1e-12)` as descriptive effect-to-order variability. Report absolute effect sizes even when intervals exclude zero.
 
 A mechanism is promoted **only if all** hold for the same local arm on at least two independent two-class domains:
 
