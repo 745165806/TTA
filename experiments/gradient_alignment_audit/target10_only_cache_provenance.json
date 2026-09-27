@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "sample_count": 3178,
+  "unique_ids": 3178,
+  "feature_shape_per_sample": [
+    3,
+    160
+  ],
+  "dtype": "float32",
+  "all_finite": true,
+  "max_abs_feature_difference_vs_historical_selected_rows": 0.0,
+  "source_cache_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/cache-target-in_the_wild",
+  "source_cache_id": "cache-20260921T061728Z-259dab",
+  "source_run_id": "source-20260919T083421Z-a61b23",
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+  "source_cache_sample_count": 31779,
+  "source_chunk_files_mapped": 125,
+  "source_id_metadata_rows_scanned": 31779,
+  "source_selection_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/large_scale_confirmation/manifests/in_the_wild_confirmation_select.json",
+  "derived_cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/gradient_alignment_audit/target10_only_cache",
+  "derived_cache_id": "gradient-target10-only-20260927a",
+  "feature_value_access_policy": "only rows at the 3178 fixed sample_index positions were indexed",
+  "shared_source_files_opened": true,
+  "target90_label_score_metric_read": false,
+  "waveform_encoder_rerun": false,
+  "os_page_byte_isolation_claimed": false
+}
