@@ -48,40 +48,27 @@ def write_new(path, value):
         stream.write("\n")
 
 
-def load_itw_selected_rows(resources):
-    """Read selected row indices only; never read full-cache ID sidecars or other rows."""
-    ids, _, records = select_rows("itw")
-    indices = [row["sample_index"] for row in records]
-    if len(indices) != len(set(indices)) or min(indices) < 0:
-        raise ValueError("invalid fixed ITW selected cache indices")
+def load_itw_selected_rows(resources, selected_cache_ref):
+    """Require an independently materialized target10-only cache."""
+    ids, _, _ = select_rows("itw")
+    if Path(selected_cache_ref).resolve() == (BASE / "cache-target-in_the_wild").resolve():
+        raise ValueError("shared target_test cache is forbidden for this audit")
     bundle, *_ = verify_frozen_export(BASE / "frozen/bundle.json")
-    cache = FeatureCache(BASE / "cache-target-in_the_wild")
+    cache = FeatureCache(selected_cache_ref)
     identity = cache.index["identity"]
     if (identity["dataset_id"] != "in_the_wild" or
             identity["source_run_id"] != bundle["source_run_id"] or
             identity["checkpoint_ref"] != bundle["checkpoint_ref"] or
-            cache.index["feature_dim"] != 160 or cache.index["num_views"] != 3):
-        raise ValueError("ITW cache/source identity mismatch")
-    positions = sorted((index, position) for position, index in enumerate(indices))
-    views = np.empty((len(ids), 3, 160), dtype=np.float32)
-    cursor = 0
-    offset = 0
-    for chunk in cache.index["chunks"]:
-        end = offset + chunk["count"]
-        if cursor >= len(positions) or positions[cursor][0] >= end:
-            offset = end
-            continue
-        array = np.load(cache.root / chunk["array_ref"], mmap_mode="r", allow_pickle=False)
-        if array.shape != tuple(chunk["shape"]) or array.dtype != np.float32:
-            raise ValueError("ITW selected cache chunk schema mismatch")
-        while cursor < len(positions) and positions[cursor][0] < end:
-            index, position = positions[cursor]
-            views[position] = array[index-offset]
-            cursor += 1
-        del array
-        offset = end
-    if cursor != len(positions) or not np.isfinite(views).all():
-        raise ValueError("ITW selected feature coverage/finite failure")
+            cache.index["feature_dim"] != 160 or cache.index["num_views"] != 3 or
+            cache.index["sample_count"] != len(ids)):
+        raise ValueError("ITW cache must be a standalone 3178-row target10 cache with source identity")
+    rows = cache.load_by_id()
+    if set(rows) != set(ids) or len(rows) != len(ids):
+        raise ValueError("standalone ITW target10 cache exact ID coverage failure")
+    views = np.stack([rows[sid] for sid in ids])
+    if views.shape != (len(ids), 3, 160) or views.dtype != np.float32 or \
+            not np.isfinite(views).all():
+        raise ValueError("standalone ITW target10 cache shape/dtype/finite failure")
     reference = [json.loads(line) for line in REFERENCE_SCORES.open()]
     if [row["sample_id"] for row in reference] != ids or len(reference) != len(ids):
         raise ValueError("prior selected-only Frozen reference coverage mismatch")
@@ -92,8 +79,8 @@ def load_itw_selected_rows(resources):
         raise ValueError(f"selected cache sample_index/Frozen parity failed: {maximum}")
     return ids, views, {"cache_ref": str(cache.root), "selection_ref": str(
         ROOT / "experiments/large_scale_confirmation/manifests/in_the_wild_confirmation_select.json"),
-        "selected_count": len(ids), "reader": "sample_index_selected_rows_only",
-        "cache_id_sidecars_read": False, "nonselected_feature_rows_read": False,
+        "selected_count": len(ids), "reader": "standalone_selected_only_cache",
+        "cache_id_sidecars_read": True, "nonselected_feature_rows_read": False,
         "frozen_score_parity_max_difference": maximum,
         "frozen_reference": str(REFERENCE_SCORES)}
 
@@ -270,7 +257,7 @@ def decide(summary):
     return "INCONCLUSIVE"
 
 
-def run(run_id):
+def run(run_id, itw_selected_cache):
     if not str(sys.executable).endswith("/envs/tta/bin/python"):
         raise EnvironmentError("tta conda environment required")
     torch.set_num_threads(1)
@@ -279,7 +266,7 @@ def run(run_id):
     try:
         config = json.loads(CONFIG.read_text())
         wave_ids, wave_values, _, resources, wave_info = load_domain("wavefake")
-        itw_ids, itw_values, itw_info = load_itw_selected_rows(resources)
+        itw_ids, itw_values, itw_info = load_itw_selected_rows(resources, itw_selected_cache)
         domains = {"itw": (itw_ids, itw_values, itw_info),
                    "wavefake": (wave_ids, wave_values, wave_info)}
         geometry = source_geometry(resources)
@@ -383,6 +370,8 @@ def run(run_id):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-id", required=True)
+    parser.add_argument("--itw-selected-cache", required=True,
+                        help="Existing standalone 3178-row target10 feature cache; mixed target_test cache is rejected")
     args = parser.parse_args()
-    report = run(args.run_id)
+    report = run(args.run_id, args.itw_selected_cache)
     print(report["decision"], flush=True)

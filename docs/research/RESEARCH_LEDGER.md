@@ -632,3 +632,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: ITW/WaveFake full cosines ENT `+0.1476/-0.9002`, PL `-0.6541/+0.9933`, O1 `+0.6786/-0.9532`, O2 `+0.3192/+0.5276`, O3 `+0.3864/-0.0871`; O2 positive chunk fraction `25/25` and `32/32`, norm ratios `0.1102/0.0187`; supervised w-gradient norms `1.9586/5.4752`. Original O1/O2/O3 source-head formula parity max `7.45e-9/3.73e-8`; all 354 output rows finite and exact selected counts passed.
 - interpretation: primary precommitted decision `DIRECTION_ALIGNED_BUT_EXECUTION_INEFFECTIVE` is triggered by O2's positive full and chunk-level head direction on both development domains. This is a **head-parameter gradient diagnostic**, not an O2 head-TTA execution result. Existing R-space O2 had no robust ranking gain on ITW, and previous R expressibility audit supplies a concrete parameterization limit. ENT, PL and O1 show strong domain-opposite signs; O3 is positive on ITW but weak/negative on WaveFake. Thus a universal `OBJECTIVE_GRADIENT_MISMATCH` claim is rejected, as is a universal O1/PL/ENT gradient-alignment claim. Bias-gradient sign is N/A for O2 because its bias derivative vanishes by construction.
 - next_decision: retain this mechanism result; before proposing any new objective, examine the already identified O2 magnitude/calibration/parameterization issue if a later authorized stage tests execution. No new TTA method, parameter search, target90 or final evaluation was performed.
+
+## Strict ITW cache-access correction for gradient audit 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-gradient-alignment-audit
+- commit: 2779a67 (original result; correction appended afterward)
+- experiment_id: gradient_alignment_audit/alignment_dev_20260927a_cache_boundary_correction
+- purpose: correct the original run's strict target90 cache-access claim without altering its numerical output or deleting a negative/protocol result
+- datasets: fixed ITW target10 3178; WaveFake selected-only 4096
+- manifests: unchanged; only selected target10 indices and selected-only label manifest entered mathematical calculations
+- method: inspect the original feature reader and cache provenance; read-only search for standalone 3178-row ITW cache indices in known output/worktree paths
+- parameters: no adaptation or metric recomputation; 25 cache `index.json` files scoped in the known paths, zero standalone ITW 3178-row matches
+- command: read-only cache-index search and inspection of `experiments/gradient_alignment_audit/run_alignment.py` at `2f4894e`; no waveform encoder run
+- result_directory: `experiments/gradient_alignment_audit/CACHE_ACCESS_CORRECTION.md`
+- key_metrics: original 354-row alignment output remains unchanged; ITW Frozen selected-row parity was 0. Target90 labels and metrics remain unopened. The original worker opened shared 31779-row target_test `.npy` chunks, so strict no-target90-cache access cannot be certified.
+- interpretation: `NONCOMPLIANT_SHARED_CACHE_ACCESS`; the original `DIRECTION_ALIGNED_BUT_EXECUTION_INEFFECTIVE` decision is numerical exploratory evidence only. Formal protocol-clean conclusion is `INCONCLUSIVE` pending an existing standalone target10 cache.
+- next_decision: runner now requires `--itw-selected-cache`, exact 3178 IDs and source identity and rejects the known shared cache before opening its index; only a new run ID with such a resource may finalize this audit. No re-embedding, target90 label/metric access, method implementation or parameter adjustment is authorized.

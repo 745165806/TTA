@@ -201,3 +201,11 @@ Why: The supervised linear-readout gap is actionable, whereas bounded R and H-UA
 What this excludes: A blanket claim that all existing objectives have the wrong task direction is false: O2 head gradients have positive full-domain cosine `0.3192/0.5276` on ITW/WaveFake and positive cosine in every fixed 128-row chunk, although their norm ratios are only `0.1102/0.0187`. Conversely, ENT, PL and O1 reverse sign across the domains, and O3 is not consistently positive. The old generic feature view-variance loss has no head gradient. These results do not show that an O2 *head update* improves detection; only an initial direction is measured. Previous ITW O2 TTA operated through R, whose mismatch has already been measured.
 
 Next design: Record the precommitted primary category `DIRECTION_ALIGNED_BUT_EXECUTION_INEFFECTIVE`, qualified to the prior R-space execution and the new head-space diagnostic. Preserve domain-dependent signs for the other objectives as secondary mechanism evidence. Do not invent an objective or change parameters from this audit; any later authorized test should isolate update magnitude, score calibration and parameter scope before proposing a method.
+
+## 2026-09-27 — Correct the gradient audit's shared-cache protocol boundary
+
+Why: The audit instruction forbids reading target90 feature/cache data. The original ITW loader indexed only target10 rows, but opened `.npy` chunks from the shared 31,779-row target_test feature cache. Under the project's strict byte-access interpretation, selected-row memory mapping does not prove the shared target90 bytes were untouched.
+
+What this excludes: The original run cannot be called a protocol-clean use of an already isolated selected-only ITW cache. Its target10 gradient values remain unchanged, and no target90 label or metric was read, but the numerical `DIRECTION_ALIGNED_BUT_EXECUTION_INEFFECTIVE` category is exploratory rather than confirmatory. A scoped search found no standalone 3,178-row ITW feature cache in 25 known cache indices.
+
+Next design: Do not re-embed audio or silently reuse the mixed cache. Require a standalone target10 cache path with exact selected-ID and source-identity validation; until that resource is identified, report formal status `INCONCLUSIVE`. Preserve the first run and its boundary correction side by side.
