@@ -235,4 +235,5 @@ __pycache__/
 .env.*
 experiments/*/logs/
 experiments/multidomain_mechanism/results/
+experiments/epdc_development/results/
 outputs_v2/
