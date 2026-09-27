@@ -14,9 +14,9 @@ from eptta.baselines.ports.tent_audio import logits_to_score, score_current
 
 
 def sar_adapt(model, adapter, waveform, class_index_map, lr=1.5625e-5, momentum=0.9,
-              rho=0.05, steps=1):
+              rho=0.05, steps=1, entropy_margin=None):
     """Returns (score_after, applied, reason, diagnostics)."""
-    margin = 0.4 * math.log(2)
+    margin = 0.4 * math.log(2) if entropy_margin is None else float(entropy_margin)
 
     _emb, logits0 = adapter.forward(waveform)
     entropy_first = float(prediction_entropy(logits0).mean().item())

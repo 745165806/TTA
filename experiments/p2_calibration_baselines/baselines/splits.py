@@ -94,8 +94,59 @@ def _load_target_splits():
 
 SPLITS = _load_target_splits()
 
+TARGET10_SELECT_MANIFEST = ROOT / "experiments/target10_selection/manifests/inwild_target10_select.json"
+
 
 def get_split(split_id):
     if split_id not in SPLITS:
         raise SystemExit("unknown split: %s (known: %s)" % (split_id, sorted(SPLITS)))
     return SPLITS[split_id]
+
+
+def _target10_select_ids():
+    doc = json.loads(TARGET10_SELECT_MANIFEST.read_text(encoding="utf-8"))
+    return {r["sample_id"] for r in doc["records"]}
+
+
+def load_split_sample_ids(split_id):
+    """Label-free sample IDs for a split, with ``exclude_select`` actually applied.
+
+    Returns ``(sample_ids, excluded_select_count)``.  For ``itw_target90`` the
+    target10 select IDs are removed from the full in-the-wild target_test set and
+    the disjointness is asserted.
+    """
+    split = get_split(split_id)
+    fmt = split.get("manifest_format", "jsonl")
+    ids = []
+    if fmt == "json_records":
+        doc = json.loads(Path(split["manifest_ref"]).read_text(encoding="utf-8"))
+        for record in doc["records"]:
+            if record.get("split_role") == split["role"]:
+                ids.append(record["sample_id"])
+    else:
+        with open(split["manifest_ref"], encoding="utf-8") as stream:
+            for line in stream:
+                if not line.strip():
+                    continue
+                row = json.loads(line)
+                if row.get("split_role") == split["role"]:
+                    ids.append(row["sample_id"])
+
+    excluded = 0
+    if split.get("exclude_select"):
+        select_ids = _target10_select_ids()
+        remaining = [sid for sid in ids if sid not in select_ids]
+        excluded = len(ids) - len(remaining)
+        assert set(remaining).isdisjoint(select_ids)
+        ids = remaining
+    return ids, excluded
+
+
+def load_split_ids_with_meta(split_id):
+    ids, excluded = load_split_sample_ids(split_id)
+    return {
+        "split_id": split_id,
+        "sample_ids": ids,
+        "excluded_select_count": excluded,
+        "remaining_count": len(ids),
+    }

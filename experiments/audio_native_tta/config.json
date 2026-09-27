@@ -1,0 +1,54 @@
+{
+  "schema_version": "0.1.0",
+  "comparison_track": "audio_native_standard_tta",
+  "preregistered_before_target_label_evaluation": true,
+  "normalization_policy": "model_eval_with_source_bn_running_statistics",
+  "main_parameter_scope": "backend_norm_affine_v1",
+  "mechanism_ablation_scope": "backend_norm_plus_graph_modulation_v1",
+  "methods": {
+    "tent_audio_native_v1": {
+      "optimizer": "Adam",
+      "lr": 0.001,
+      "steps": 1,
+      "weight_decay": 0.0,
+      "parameter_scope": "backend_norm_affine_v1"
+    },
+    "sar_audio_native_v1": {
+      "optimizer": "SGD+SAM",
+      "lr": 0.000015625,
+      "steps": 1,
+      "momentum": 0.9,
+      "rho": 0.05,
+      "entropy_margin": 0.2772588722239781,
+      "parameter_scope": "backend_norm_affine_v1"
+    },
+    "memo_audio_native_v1": {
+      "optimizer": "SGD",
+      "lr": 0.00025,
+      "steps": 1,
+      "weight_decay": 0.0,
+      "parameter_scope": "backend_norm_affine_v1",
+      "augmentation_source": "source_select_audit_only"
+    },
+    "tent_audio_native_scope_b_v1": {
+      "optimizer": "Adam",
+      "lr": 0.001,
+      "steps": 1,
+      "weight_decay": 0.0,
+      "parameter_scope": "backend_norm_plus_graph_modulation_v1",
+      "mechanism_ablation_only": true
+    }
+  },
+  "augmentation_audit": {
+    "source_role": "select",
+    "candidates": ["noise_snr30", "fir_side_gain0.05"],
+    "acceptance": {
+      "max_eer_increase": 0.01,
+      "max_auc_decrease": 0.01,
+      "max_prediction_flip_rate_at_tau0": 0.03,
+      "min_score_rank_correlation": 0.98,
+      "max_mean_abs_score_change": 0.75
+    }
+  },
+  "bootstrap": {"seed": 2026, "n": 2000}
+}
