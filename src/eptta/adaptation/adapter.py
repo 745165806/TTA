@@ -14,6 +14,7 @@ from eptta.adaptation.validation import validate_inputs
 METHODS = {
     "ep_tta": ("view_variance", "margin"),
     "ep_tta_guarded": ("view_variance", "margin"),
+    "ep_tta_guard_relaxed": ("view_variance", "margin"),
     "ep_no_keep": ("view_variance", "none"),
     "ep_random_U": ("view_variance", "margin"),
     "ep_feature_pca_U": ("view_variance", "margin"),
@@ -28,6 +29,8 @@ METHODS = {
     "source_ce_only": (None, "source_ce"),
     "ep_diagonal_R": ("view_variance", "margin"),
 }
+
+_GUARDED_EP = frozenset(("ep_tta_guarded", "ep_tta_guard_relaxed"))
 
 # Task-aware EP-TTA v1 hyperparameters.  They intentionally ride on method.params
 # (not EPConfig) so the shared per-sample reset/Frobenius geometry stays untouched.
@@ -171,7 +174,7 @@ def adaptation_diagnostics(result, target, resources, cfg):
             "min_margin_change", "max_abs_margin_change", "final_R_norm", "delta_score",
             "delta_z_norm", "regularizer_active_steps", "regularizer_gradient_norm_max",
             "projection_count")}
-        if result.get("method_id") == "ep_tta_guarded":
+        if result.get("method_id") in _GUARDED_EP:
             diagnostic.update(margin_guard_count=None, margin_guard_backtracks=None,
                               margin_guard_reverts=None)
         diagnostic.update(completed_steps=int(result["steps_completed"]),
@@ -201,7 +204,7 @@ def adaptation_diagnostics(result, target, resources, cfg):
     gradient_norms = [float(row["regularizer_gradient_norm"])
                       for row in trace if row.get("regularizer_gradient_norm") is not None]
     violation_tolerance = (margin_tolerance(resources, adapted.dtype)
-                           if result.get("method_id") == "ep_tta_guarded" else 0.0)
+                           if result.get("method_id") in _GUARDED_EP else 0.0)
     diagnostic = {
         "final_regularizer_loss": final_regularizer,
         "final_margin_loss": float(deficit.square().mean()),
@@ -219,7 +222,7 @@ def adaptation_diagnostics(result, target, resources, cfg):
         "objective_evaluations": int(result["objective_evaluations"]),
         "gradient_trace_status": "not_applicable" if result.get("solver") == "fixed_17_grid" else "recorded",
     }
-    if result.get("method_id") == "ep_tta_guarded":
+    if result.get("method_id") in _GUARDED_EP:
         diagnostic.update(
             margin_guard_count=int(sum(bool(row.get("margin_guard_applied")) for row in trace)),
             margin_guard_backtracks=int(sum(
@@ -556,7 +559,10 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
 
     objective_name, regularizer_name = METHODS[method_id]
     diagonal = method_id == "ep_diagonal_R"
-    guarded = method_id == "ep_tta_guarded"
+    guarded = method_id in _GUARDED_EP
+    # Relax only the post-projection feasibility threshold. The differentiable
+    # objective/regularizer still receive cfg.gamma, as in production guarded EP.
+    guard_gamma = cfg.gamma if method_id == "ep_tta_guarded" else min(cfg.gamma + 0.1, 0.99)
     parameter = torch.zeros(rank if diagonal else (rank, rank), dtype=target.features.dtype,
                             device=target.features.device, requires_grad=True)
     trace, completed = [], 0
@@ -596,7 +602,7 @@ def run_cache_method(method_id, target, resources, cfg=EPConfig(), params=None):
                         (margin_guard_applied,
                          margin_guard_backtracks,
                          margin_guard_reverted) = _enforce_margin_guard_(
-                             parameter, previous, resources, cfg.gamma)
+                             parameter, previous, resources, guard_gamma)
                         _finite(parameter, "non-finite parameter after margin guard")
                     post_norm = float(_finite(torch.linalg.vector_norm(parameter),
                                               "non-finite post-projection norm"))
