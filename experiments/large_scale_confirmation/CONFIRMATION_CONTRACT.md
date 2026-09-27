@@ -13,7 +13,7 @@ No label, Frozen score, or prediction enters selection, order generation, compat
 
 ## Orders and shared stochastic state
 
-`manifest_order`, followed by seeds 2026, 2027, 2028, 2029, 2030. Each shuffled order uses `random.Random(seed).shuffle` on only the fixed label-free IDs. All four methods use the identical order within each domain/seed. Frozen and per-sample scores must be exactly invariant to order for each ID. Local buffers are formed independently per domain and order, B=32. Feature views are fixed by the selected manifest's `sample_index`, not recomputed for each order.
+`manifest_order`, followed by seeds 2026, 2027, 2028, 2029, 2030. Each shuffled order uses `random.Random(seed).shuffle` on only the fixed label-free IDs. All four methods use the identical order within each domain/seed. Frozen and per-sample adaptation are independently rerun for each order and must be exactly invariant by ID; scores are not copied between orders. Local buffers are formed independently per domain and order, B=32. Feature views are fixed by the selected manifest's `sample_index`, not recomputed for each order.
 
 ## Analysis and preregistered decision
 
