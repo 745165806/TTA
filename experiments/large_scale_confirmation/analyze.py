@@ -10,7 +10,7 @@ from pathlib import Path
 import numpy as np
 
 from eptta.evaluation.metrics import binary_metrics
-from experiments.large_scale_confirmation.run_scores import ARMS, DOMAINS, ORDERS
+from experiments.large_scale_confirmation.run_scores import ARMS, DOMAINS, ORDERS, ordered_ids
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -74,8 +74,8 @@ def complete_scores(run):
             if (order.get("role") != "label_free_order" or len(ordered) != len(ids) or
                     set(ordered) != set(ids)):
                 raise ValueError("order ID coverage mismatch")
-            if key == "manifest_order" and ordered != ids:
-                raise ValueError("manifest order changed")
+            if ordered != ordered_ids(ids, key):
+                raise ValueError("registered deterministic order changed")
             score_file = run / "scores" / (domain + "_" + key + ".jsonl")
             expected_rows = len(ids) * len(ARMS)
             count, control_scores = 0, {}
