@@ -377,3 +377,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: NOT_COMPUTED. All 5000 LA audio IDs were scored; 4972 have official dev protocol rows and 28 do not. The local `dev_label.txt` has the same coverage. ITW and Codecfake selected labels have exact coverage.
 - interpretation: official-protocol coverage was incorrectly assumed equal to FLAC availability; this is a label-availability issue, not an adaptation failure or a class-composition finding
 - next_decision: retain all 5000 scores and original assignment, compute LA ranking only on the fixed 4972 official-protocol-covered IDs, report the 28 missing IDs, and keep every preregistered comparison and threshold unchanged
+
+## Large-scale six-order development confirmation 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-large-scale-confirmation
+- commit: ead03e3 (four-arm score worker), 2d10941 (registered-order audit), 92ba179 (LA protocol coverage correction), d1f265e (post-score rate/class composition audit)
+- experiment_id: large_scale_confirmation/confirmation_large_20260927a
+- purpose: determine whether the earlier small Codecfake B32 positive AUC change exceeds sample/order noise and replicates across larger independent two-class development domains
+- datasets: ITW full existing target10 3178 (2029 bonafide/1149 spoof); Codecfake official dev fixed5000 (686/4314); ASVspoof2019 LA dev fixed5000 scored, official-protocol-labelled 4972 (482/4490), 28 unlabelled IDs retained in scores
+- manifests: fixed label-free confirmation selects; `manifest_order` and `random.Random(seed)` orders 2026–2030, identical within each domain across methods; no reselect or label-controlled buffer assignment
+- method: Frozen, production `ep_no_keep` per sample, Local-Base B32, Local-O1 B32; Frozen and per-sample independently rerun per order
+- parameters: K=5, lr=0.03, rho=0.1, gamma=0.1, lambda_keep=0, projected SGD, 8×8 R, three fixed views, original-view score, full reset per buffer, 1000 paired stratified bootstrap draws seed2026
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/large_scale_confirmation/run_scores.py --run-id confirmation_large_20260927a --codecfake-cache experiments/large_scale_confirmation/results/codec_large_20260927a/feature_cache --la-cache experiments/large_scale_confirmation/results/la_large_20260927a/feature_cache`; after exact label-free score gate, `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/large_scale_confirmation/analyze.py --run experiments/large_scale_confirmation/results/confirmation_large_20260927a`; `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/large_scale_confirmation/composition_audit.py --run experiments/large_scale_confirmation/results/confirmation_large_20260927a`
+- result_directory: `experiments/large_scale_confirmation/results/confirmation_large_20260927a/`; small tracked tables and report under `experiments/large_scale_confirmation/summary/confirmation_large_20260927a/`
+- key_metrics: 316272/316272 score rows, 4968/4968 buffers, zero numeric/reset failures. ITW local Base/O1 mean ΔAUC `+0.000008/+0.000031` with order std `0.000036/0.000021`; Codecfake `+0.000706/+0.001033` with order std `0.002108/0.002770`, positive paired bootstrap lower bounds only 2/6 orders each and 3/6 positive point estimates each; LA `-0.000009/-0.000010`, Frozen AUC already `0.999962`. Codecfake rate/class perfect confound: 16/24 kHz all spoof, 44.1/48 kHz all bonafide. Local Codecfake EER unchanged.
+- interpretation: the prior Codecfake 512 `~+0.01` AUC result is not reproduced at 5000 across six orders; the large-set mean effect is below +0.005 and smaller than order std. ITW effect is practically negligible. LA gives no positive replication and is near ceiling. The Codecfake rate/class confound prevents a clean spoof-versus-format mechanism claim.
+- next_decision: `SMALL_DEVELOPMENT_ARTIFACT`; promote NONE, stop Local-TTA as a method mainline, make no new TTA module or method lock, and preserve all negative/failed records. Target90 and final held-out metrics remain unopened.

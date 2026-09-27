@@ -1,0 +1,81 @@
+{
+  "run_id": "confirmation_large_20260927a",
+  "branch": "exp-large-scale-confirmation",
+  "commit": "ead03e3c4c2e93a54e2d5a533e696569ebaa2515",
+  "role": "large_dev_scores_no_labels",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "pytorch": "2.1.0+cu121",
+  "cuda": "12.1",
+  "gpu": null,
+  "datasets": {
+    "in_the_wild": 3178,
+    "codecfake": 5000,
+    "asv2019_la_dev": 5000
+  },
+  "orders": [
+    "manifest_order",
+    "seed2026",
+    "seed2027",
+    "seed2028",
+    "seed2029",
+    "seed2030"
+  ],
+  "arms": [
+    "Frozen",
+    "Per-sample Base",
+    "Local-Base B32",
+    "Local-O1 B32"
+  ],
+  "parameters": {
+    "steps": 5,
+    "lr": 0.03,
+    "rho": 0.1,
+    "gamma": 0.1,
+    "lambda_keep": 0.0,
+    "buffer_size": 32,
+    "parameter_scope": "8x8_R",
+    "optimizer": "projected_SGD",
+    "reset": "per_buffer_zero_R",
+    "objective_config": {
+      "schema_version": "0.1.0",
+      "status": "PREREGISTERED_BEFORE_TARGET_LABEL_ANALYSIS",
+      "seed": 2026,
+      "arms": [
+        "Frozen",
+        "ep_no_keep",
+        "O1",
+        "O2",
+        "O3"
+      ],
+      "steps": 5,
+      "lr": 0.03,
+      "rho": 0.1,
+      "gamma": 0.1,
+      "lambda_keep": 0.0,
+      "reset_policy": "episodic_zero_R_per_sample",
+      "parameter_scope": "production_R_8x8",
+      "optimizer_family": "projected_SGD",
+      "score_view": "original",
+      "affinity_temperature": 1.0,
+      "affinity_entropy_weight": 0.1,
+      "decision_consistency_weight": 1.0,
+      "o3_affinity_weight": 1.0,
+      "o3_reliability_sharpness": 4.0,
+      "scale_sweep": "NONE",
+      "bootstrap_replicates": 1000,
+      "bootstrap_seed": 2026
+    }
+  },
+  "command": [
+    "experiments/large_scale_confirmation/run_scores.py",
+    "--run-id",
+    "confirmation_large_20260927a",
+    "--codecfake-cache",
+    "experiments/large_scale_confirmation/results/codec_large_20260927a/feature_cache",
+    "--la-cache",
+    "experiments/large_scale_confirmation/results/la_large_20260927a/feature_cache"
+  ],
+  "target_labels_read": false,
+  "target90_metrics_accessed": false,
+  "final_holdout_metrics_accessed": false
+}

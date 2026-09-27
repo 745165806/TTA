@@ -97,3 +97,11 @@ Why: The fixed LA assignment was drawn from all available official-dev FLAC file
 What these results exclude: Assuming audio-file availability implies official label availability is invalid for this resource. No adaptation result or class ratio was used to make the correction.
 
 Next design: Preserve all 5000 scores and the original assignment; use the exact 4972 official-protocol-covered selected IDs for LA post-hoc metrics, report the 28 omitted IDs, and make no replacement draw. Keep the four methods and preregistered promotion thresholds fixed.
+
+## 2026-09-27 — Local context fails large-sample, multi-order confirmation
+
+Why: The Codecfake 512 fixed-order local B32 gain could be a sample/order effect. The preregistered confirmation expanded ITW to all target10, nested Codecfake to 5000, added fixed ASVspoof2019 LA dev, and repeated all four methods in six label-free orders. Post-score composition was checked so a source-format association would not be mistaken for spoof evidence.
+
+What these results exclude: A practically meaningful, order-stable two-domain positive local effect at fixed K=5/lr=0.03/rho=0.1/B32. Codecfake's large-set mean ΔAUC is `+0.000706/+0.001033`, smaller than its order std `0.002108/0.002770`; only three of six orders are positive. ITW is approximately zero; LA is tiny negative and near Frozen ceiling. Codecfake's sample rate perfectly determines class in this locked selection, so its AUC movement cannot isolate spoof-discriminative correction from recording/compatibility cues. This does not prove that all forms of local TTA fail.
+
+Next design: Record `SMALL_DEVELOPMENT_ARTIFACT` and stop the Local-TTA method line. Do not extend B, tune the budget, add a new objective/gate/preservation/controller, or access target90/final metrics from this evidence. Any new scientific direction must first identify a development resource where spoof labels are not confounded with format and preregister a separate confirmation; it is outside this phase.

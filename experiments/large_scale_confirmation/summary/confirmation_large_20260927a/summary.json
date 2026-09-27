@@ -1,0 +1,126 @@
+{
+  "status": "DEVELOPMENT_CONFIRMATION_ANALYZED",
+  "run_id": "confirmation_large_20260927a",
+  "role": "development_only",
+  "decision": "SMALL_DEVELOPMENT_ARTIFACT",
+  "protocol_coverage_correction": {
+    "asv2019_la_dev": {
+      "scored_count": 5000,
+      "official_protocol_labelled_count": 4972,
+      "unlabelled_sample_ids": [
+        "LA_D_A1510649",
+        "LA_D_A1921351",
+        "LA_D_A2091569",
+        "LA_D_A2300370",
+        "LA_D_A2936391",
+        "LA_D_A3209304",
+        "LA_D_A3276106",
+        "LA_D_A3406323",
+        "LA_D_A3973482",
+        "LA_D_A4159128",
+        "LA_D_A4417954",
+        "LA_D_A4537573",
+        "LA_D_A4645563",
+        "LA_D_A5058238",
+        "LA_D_A5839814",
+        "LA_D_A6600208",
+        "LA_D_A6845047",
+        "LA_D_A6866194",
+        "LA_D_A7798936",
+        "LA_D_A8555382",
+        "LA_D_A8631378",
+        "LA_D_A8724031",
+        "LA_D_A9089748",
+        "LA_D_A9282295",
+        "LA_D_A9722933",
+        "LA_D_A9832811",
+        "LA_D_A9921674",
+        "LA_D_A9939030"
+      ],
+      "policy": "retain_all_scores_analyze_only_official_protocol_covered_ids"
+    }
+  },
+  "promoted_mechanism": [],
+  "arm_domain_checks": [
+    {
+      "arm": "Local-Base B32",
+      "passing_domains": []
+    },
+    {
+      "arm": "Local-O1 B32",
+      "passing_domains": []
+    }
+  ],
+  "composition": {
+    "in_the_wild": {
+      "assigned_and_scored": 3178,
+      "official_protocol_labelled": 3178,
+      "bonafide": 2029,
+      "spoof": 1149,
+      "attack_counts": {},
+      "ranking_status": "TWO_CLASS"
+    },
+    "codecfake": {
+      "assigned_and_scored": 5000,
+      "official_protocol_labelled": 5000,
+      "bonafide": 686,
+      "spoof": 4314,
+      "attack_counts": {
+        "1": 709,
+        "2": 739,
+        "4": 725,
+        "5": 716,
+        "3": 692,
+        "0": 686,
+        "6": 733
+      },
+      "ranking_status": "TWO_CLASS"
+    },
+    "asv2019_la_dev": {
+      "assigned_and_scored": 5000,
+      "official_protocol_labelled": 4972,
+      "bonafide": 482,
+      "spoof": 4490,
+      "attack_counts": {
+        "-": 482,
+        "A01": 756,
+        "A02": 733,
+        "A03": 733,
+        "A04": 772,
+        "A05": 744,
+        "A06": 752
+      },
+      "ranking_status": "TWO_CLASS"
+    }
+  },
+  "resource_audit": {
+    "role": "label_free_resource_audit",
+    "selected_audio_sample_rate_counts": {
+      "codecfake": {
+        "16000": 2140,
+        "24000": 2174,
+        "44100": 460,
+        "48000": 226
+      },
+      "asv2019_la_dev": {
+        "16000": 5000
+      }
+    },
+    "target_labels_read": false,
+    "wavefake": {
+      "root": "/media/dell/data/fakedata/WaveFake/data",
+      "parquet_file_count": 131,
+      "readers": {
+        "pyarrow": "21.0.0",
+        "pandas": "MISSING",
+        "polars": "MISSING",
+        "duckdb": "MISSING"
+      },
+      "status": "READER_AVAILABLE_PIPELINE_NOT_MATERIALIZED"
+    }
+  },
+  "target90_metrics_accessed": false,
+  "final_holdout_metrics_accessed": false,
+  "labels_opened_after_all_scores": true,
+  "local_O1_vs_per_sample_O1": "NOT_ESTIMABLE_FOUR_ARM_CONTRACT"
+}
