@@ -1,4 +1,5 @@
 """Contract tests for the audio-native standard-TTA mapping."""
+import copy
 import importlib.util
 import json
 from pathlib import Path
@@ -10,7 +11,8 @@ torch = pytest.importorskip("torch")
 from eptta.baselines.ports import memo_audio, sar_audio, tent_audio
 from eptta.baselines.ports.audio_native import (
     SCOPE_A, SCOPE_B, assert_bn_buffers_unchanged, configure_audio_native,
-    preregistered_parameter_names, reset_episode_state, snapshot_episode_state)
+    configure_full_safeaug, preregistered_parameter_names, reset_episode_state,
+    snapshot_episode_state)
 from eptta.baselines.ports.common import marginal_entropy, prediction_entropy
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -153,3 +155,109 @@ def test_per_sample_reset_is_exact():
     reset_episode_state(model, state)
     for name, value in state.items():
         torch.testing.assert_close(model.state_dict()[name], value, rtol=0, atol=0)
+
+
+def _experiment_module(name):
+    path = ROOT / "experiments/audio_native_tta" / (name + ".py")
+    spec = importlib.util.spec_from_file_location("audio_native_" + name, path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_audio_native_before_scores_are_same_path():
+    limited = AudioNativeToy()
+    full = copy.deepcopy(limited)
+    configure_audio_native(limited, SCOPE_A)
+    configure_full_safeaug(full)
+    x = torch.randn(3, 4)
+    limited.eval(); full.eval()
+    torch.testing.assert_close(limited(x), full(x), atol=0, rtol=0)
+    aggregate = _experiment_module("aggregate")
+    records = {
+        "limited": {"a": {"score_before_update": 1.25}},
+        "full": {"a": {"score_before_update": 1.25}},
+    }
+    assert not aggregate.before_path_diagnostics(records)["AUDIO_NATIVE_BEFORE_PATH_PARITY_FAIL"]
+
+
+def test_cache_frozen_not_used_as_primary_adaptation_delta():
+    aggregate = _experiment_module("aggregate")
+    source = (ROOT / "experiments/audio_native_tta/aggregate.py").read_text(encoding="utf-8")
+    assert '"primary_frozen_baseline": "Frozen-Waveform"' in source
+    assert "comp = compare(before, after, labels)" in source
+    records = {"m": {"a": {"score_before_update": 2.0,
+                              "score_frozen_reference": -10.0}}}
+    diag = aggregate.cache_waveform_diagnostics(records["m"])
+    assert diag["diagnostic_role"] == "NUMERICAL_PATH_DIAGNOSTIC"
+    assert diag["max_abs_cache_waveform_diff"] == 12.0
+
+
+def test_memo_full_safeaug_uses_full_model_scope():
+    model = AudioNativeToy()
+    configure_full_safeaug(model)
+    assert all(parameter.requires_grad for parameter in model.parameters())
+    assert model.training is False and model.bn.training is False
+
+
+def test_memo_full_safeaug_uses_only_source_audited_views():
+    worker = _experiment_module("target_worker")
+    indices = worker.accepted_view_indices(
+        ROOT / "experiments/audio_native_tta/augmentation_audit.json")
+    assert indices == [0, 2]
+    config = json.loads((ROOT / "experiments/audio_native_tta/config.json").read_text())
+    assert config["methods"]["memo_audio_full_safeaug_v1"]["augmentation_views"] == [
+        "original", "fir_side_gain0.05"]
+
+
+def test_memo_limited_and_full_safeaug_share_same_views():
+    config = json.loads((ROOT / "experiments/audio_native_tta/config.json").read_text())
+    full = config["methods"]["memo_audio_full_safeaug_v1"]
+    limited = config["methods"]["memo_audio_native_v1"]
+    assert full["augmentation_source"] == limited["augmentation_source"]
+    assert full["augmentation_views"] == limited["augmentation_views"] == [
+        "original", "fir_side_gain0.05"]
+    worker = _experiment_module("target_worker")
+    assert worker.accepted_view_indices(
+        ROOT / "experiments/audio_native_tta/augmentation_audit.json") == [0, 2]
+
+
+def test_memo_full_safeaug_resets_full_state_per_sample():
+    model = AudioNativeToy(); configure_full_safeaug(model)
+    state = snapshot_episode_state(model)
+    adapter = Adapter(model); views = torch.randn(3, 4)
+    memo_audio.memo_adapt(model, adapter, views, {"spoof": 0, "bonafide": 1},
+                          respect_configured_scope=True)
+    assert any(not torch.equal(model.state_dict()[name], value)
+               for name, value in state.items() if name in dict(model.named_parameters()))
+    reset_episode_state(model, state)
+    for name, value in state.items():
+        torch.testing.assert_close(model.state_dict()[name], value, rtol=0, atol=0)
+
+
+def test_method_specific_gain_requires_bootstrap_significance():
+    aggregate = _experiment_module("aggregate")
+    unsupported = {"significance": {"EER_SIGNIFICANT_GAIN": False,
+                                    "AUC_SIGNIFICANT_GAIN": False,
+                                    "EER_SIGNIFICANT_HARM": False,
+                                    "AUC_SIGNIFICANT_HARM": False}}
+    assert aggregate.supported_gain(unsupported) is False
+    assert aggregate.conclusion(unsupported, -0.001, 0.001) == "NEUTRAL"
+
+
+def test_recovery_and_gain_are_distinct():
+    aggregate = _experiment_module("aggregate")
+    gain = {"significance": {"EER_SIGNIFICANT_GAIN": True, "AUC_SIGNIFICANT_GAIN": False,
+                             "EER_SIGNIFICANT_HARM": False, "AUC_SIGNIFICANT_HARM": False}}
+    no_gain = {"significance": {"EER_SIGNIFICANT_GAIN": False, "AUC_SIGNIFICANT_GAIN": False,
+                                "EER_SIGNIFICANT_HARM": False, "AUC_SIGNIFICANT_HARM": False}}
+    # A method can recover significantly from a poor reference while remaining
+    # statistically indistinguishable from its same-path frozen baseline.
+    assert aggregate.supported_gain(gain) and not aggregate.supported_gain(no_gain)
+
+
+def test_scope_b_remains_ablation_only():
+    config = json.loads((ROOT / "experiments/audio_native_tta/config.json").read_text())
+    scope_b = config["methods"]["tent_audio_native_scope_b_v1"]
+    assert scope_b["mechanism_ablation_only"] is True
+    assert config["main_parameter_scope"] == SCOPE_A

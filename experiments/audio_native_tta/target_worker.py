@@ -20,7 +20,7 @@ from baselines.probe import three_view_probe
 from baselines.splits import get_split, load_split_sample_ids
 from baselines.target_waveform import TargetWaveformDataset
 from eptta.baselines.ports.audio_native import (
-    SCOPE_A, assert_bn_buffers_unchanged, configure_audio_native,
+    SCOPE_A, assert_bn_buffers_unchanged, configure_audio_native, configure_full_safeaug,
     reset_episode_state, selected_parameter_names, snapshot_episode_state)
 from eptta.baselines.ports.memo_audio import memo_adapt
 from eptta.baselines.ports.sar_audio import sar_adapt
@@ -30,6 +30,7 @@ from eptta.models.frozen import verify_frozen_export
 from eptta.offline.artifacts import load_frozen_resources
 
 METHODS = {"tent_audio_native_v1", "sar_audio_native_v1", "memo_audio_native_v1",
+           "memo_audio_full_safeaug_v1",
            "tent_audio_native_scope_b_v1"}
 VIEW_INDEX = {"noise_snr30": 1, "fir_side_gain0.05": 2}
 
@@ -88,7 +89,10 @@ def main():
     torch.backends.cuda.matmul.allow_tf32 = False
     torch.backends.cudnn.allow_tf32 = False
     adapter, bundle, resources = load_runtime(args.asset_root, device)
-    configure_audio_native(adapter.model, method_config["parameter_scope"])
+    if args.method == "memo_audio_full_safeaug_v1":
+        configure_full_safeaug(adapter.model)
+    else:
+        configure_audio_native(adapter.model, method_config["parameter_scope"])
     episode_state = snapshot_episode_state(adapter.model)
     parameter_names = selected_parameter_names(adapter.model)
 
@@ -103,7 +107,7 @@ def main():
     if args.limit is not None:
         rows = rows[:args.limit]
     view_indices = accepted_view_indices(args.augmentation_audit) \
-        if args.method == "memo_audio_native_v1" else None
+        if args.method in ("memo_audio_native_v1", "memo_audio_full_safeaug_v1") else None
 
     with out_path.open("x", encoding="utf-8") as stream:
         for row in rows:
@@ -148,9 +152,11 @@ def main():
                 "delta_update": after - before,
                 "adaptation_applied": applied, "abstain_reason": reason,
                 "runtime": elapsed, "updated_parameter_names": parameter_names,
-                "normalization_policy": config["normalization_policy"],
+                "normalization_policy": method_config.get(
+                    "normalization_policy", config["normalization_policy"]),
                 "parameter_scope_id": method_config["parameter_scope"],
                 "numeric_failure": False, "resource_failure": False,
+                "bn_running_stats_unchanged": True,
             }
             record.update(extra)
             stream.write(json.dumps(record, sort_keys=True, allow_nan=False) + "\n")

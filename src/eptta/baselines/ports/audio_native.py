@@ -68,6 +68,19 @@ def configure_audio_native(model, scope_id=SCOPE_A):
     return model
 
 
+def configure_full_safeaug(model):
+    """MEMO full-model scope while retaining source-statistics inference semantics."""
+    model.eval()
+    for parameter in model.parameters():
+        parameter.requires_grad = True
+    for _name, module in model.named_modules():
+        if isinstance(module, (nn.BatchNorm1d, nn.BatchNorm2d)):
+            module.eval()
+            if not module.track_running_stats or module.running_mean is None or module.running_var is None:
+                raise ValueError("MEMO-FullSafeAug requires intact source BN statistics")
+    return model
+
+
 def snapshot_episode_state(model):
     """Clone parameters and buffers so an episode can be reset exactly."""
     return {name: value.detach().clone() for name, value in model.state_dict().items()}
