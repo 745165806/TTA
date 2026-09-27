@@ -309,3 +309,37 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: native32 and native222 waveform/feature/score maximum differences all exactly 0; final cache 512 unique IDs, exact fixed selected coverage, finite float32 features of shape 3×160, 222 native and 290 resampled, PASS; target labels unread
 - interpretation: explicit compatibility path makes the fixed Codecfake development selection feature-compatible without silently dropping samples or altering production 16-kHz semantics; this is engineering evidence, not task benefit
 - next_decision: test whether a fresh adapter shared only inside B=16/32 fixed-order local buffers improves ranking over corresponding per-sample Base/O1 arms on ITW and Codecfake; keep all labels closed until complete score coverage
+
+## Local-distribution engineering smoke 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-local-distribution-tta
+- commit: e3b63af (worker under development; frozen as a08e20a before formal scoring)
+- experiment_id: local_distribution_tta/local_smoke_20260927a
+- purpose: establish finite, nonzero, buffer-reset behavior without label access or EER/AUC
+- datasets: ITW first 32 fixed select IDs; Codecfake first 32 fixed select IDs with validated complete compatibility cache
+- manifests: unchanged select-only mechanism manifests; no audit labels opened
+- method: Frozen; per-sample Base/O1; fresh shared-R local Base/O1 at B=16/32
+- parameters: fixed manifest order, K=5, lr=0.03, rho=0.1, 8×8 R, projected SGD, per-buffer reset
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/local_distribution_tta/run_study.py --smoke --run-id local_smoke_20260927a --codecfake-cache experiments/codecfake_compat/results/compat_20260927a/feature_cache/compat_full512`
+- result_directory: `experiments/local_distribution_tta/results/local_smoke_20260927a/`
+- key_metrics: 224 score rows and six local buffer rows per domain, exact 32-ID coverage, finite/nonzero updates; no EER/AUC calculated
+- interpretation: engineering path passes and supports formal fixed-size development scoring; no task claim
+- next_decision: commit worker, then generate all 7,168 two-domain score rows before selected-only label audit
+
+## Local-distribution two-domain hypothesis test 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-local-distribution-tta
+- commit: a08e20a (formal score-generation worker); post-score analysis code 9ee2d44
+- experiment_id: local_distribution_tta/local_dev_20260927a
+- purpose: test whether bounded shared target context gives more spoof-discriminative ranking correction than independent per-sample adaptation
+- datasets: fixed ITW 512 (310 bonafide/202 spoof); fixed Codecfake official-dev 512 (81 bonafide/431 spoof), class counts from post-score selected audit
+- manifests: original label-free select manifests, fixed manifest order; selected-only ITW audit and Codecfake official-dev protocol opened only after all scores and buffer records passed exact coverage validation
+- method: Frozen, per-sample production `ep_no_keep`, per-sample O1, shared-R Local-Base/O1 B16/B32; no preservation, gate, accumulation or pseudo-label BCE
+- parameters: seed=2026, K=5, lr=0.03, rho=0.1, gamma=0.1, lambda_keep=0, 8×8 R, original-view score, 1,000 paired stratified bootstrap draws
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/local_distribution_tta/run_study.py --run-id local_dev_20260927a --codecfake-cache experiments/codecfake_compat/results/compat_20260927a/feature_cache/compat_full512`; `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/local_distribution_tta/analyze.py --run experiments/local_distribution_tta/results/local_dev_20260927a`; `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/local_distribution_tta/additional_analysis.py --run experiments/local_distribution_tta/results/local_dev_20260927a`
+- result_directory: `experiments/local_distribution_tta/results/local_dev_20260927a/`; tracked small metrics and interpretation at `experiments/local_distribution_tta/summary/local_dev_20260927a/`
+- key_metrics: 7,168/7,168 score rows, 192/192 local buffer rows, zero numeric/reset violations. ITW Frozen AUC/EER 0.957841/0.099010; local B32 Base/O1 AUC 0.958128/0.958224 with paired ΔAUC intervals crossing zero and point estimates below per-sample AUC 0.958783/0.958799. Codecfake Frozen AUC/EER 0.813354/0.283951; local B32 Base/O1 AUC 0.823294/0.825585, paired ΔAUC versus Frozen intervals `[0.006130,0.014495]` and `[0.008192,0.017073]`. All local EERs equal Frozen. Max observed local R norm 0.050450. ITW Local-Base threshold-region concentration increases despite unchanged EER.
+- interpretation: shared local context produces a clear Codecfake development ranking gain at the fixed budget, but ITW ranking movement is uncertain and weaker than its per-sample counterpart. It is not repeatable two-domain evidence of a task-useful base method.
+- next_decision: promote NONE. Stop buffer expansion and do not add local prior/preservation/gate/continual modules. Preserve this domain-specific positive and cross-domain negative result for the next independently defined objective hypothesis.

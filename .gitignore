@@ -192,6 +192,7 @@ outputs_v2/aasist/target-runs/asv2019_control_test/multiview_mean/multiview_mean
 # Experiment generated artifacts
 # ============================================================
 outputs_v2/
+/outputs_v2
 logs/
 *.log
 

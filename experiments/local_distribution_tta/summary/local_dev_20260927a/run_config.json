@@ -1,0 +1,77 @@
+{
+  "run_id": "local_dev_20260927a",
+  "role": "two_domain_development_scores_no_labels",
+  "branch": "exp-local-distribution-tta",
+  "commit": "a08e20a4761fe47fb353e0378393d31d03b4b638",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "pytorch": "2.1.0+cu121",
+  "cuda": "12.1",
+  "gpu": null,
+  "seed": 2026,
+  "datasets": {
+    "in_the_wild": 512,
+    "codecfake": 512
+  },
+  "arms": [
+    "Frozen",
+    "Per-sample Base",
+    "Per-sample O1",
+    "Local-Base B16",
+    "Local-Base B32",
+    "Local-O1 B16",
+    "Local-O1 B32"
+  ],
+  "sample_order": "fixed_manifest_order_no_shuffle",
+  "parameters": {
+    "steps": 5,
+    "lr": 0.03,
+    "rho": 0.1,
+    "gamma": 0.1,
+    "lambda_keep": 0.0,
+    "buffer_sizes": [
+      16,
+      32
+    ],
+    "reset_policy": "per_buffer_zero_R",
+    "parameter_scope": "8x8_R",
+    "objective_config": {
+      "schema_version": "0.1.0",
+      "status": "PREREGISTERED_BEFORE_TARGET_LABEL_ANALYSIS",
+      "seed": 2026,
+      "arms": [
+        "Frozen",
+        "ep_no_keep",
+        "O1",
+        "O2",
+        "O3"
+      ],
+      "steps": 5,
+      "lr": 0.03,
+      "rho": 0.1,
+      "gamma": 0.1,
+      "lambda_keep": 0.0,
+      "reset_policy": "episodic_zero_R_per_sample",
+      "parameter_scope": "production_R_8x8",
+      "optimizer_family": "projected_SGD",
+      "score_view": "original",
+      "affinity_temperature": 1.0,
+      "affinity_entropy_weight": 0.1,
+      "decision_consistency_weight": 1.0,
+      "o3_affinity_weight": 1.0,
+      "o3_reliability_sharpness": 4.0,
+      "scale_sweep": "NONE",
+      "bootstrap_replicates": 1000,
+      "bootstrap_seed": 2026
+    }
+  },
+  "command": [
+    "experiments/local_distribution_tta/run_study.py",
+    "--run-id",
+    "local_dev_20260927a",
+    "--codecfake-cache",
+    "experiments/codecfake_compat/results/compat_20260927a/feature_cache/compat_full512"
+  ],
+  "target_labels_read": false,
+  "target90_metrics_accessed": false,
+  "final_holdout_metrics_accessed": false
+}

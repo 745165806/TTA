@@ -73,3 +73,11 @@ Why: The already selected Codecfake 512 include 290 files above 16 kHz, while th
 What these results exclude: All 222 native-16-kHz features and scores match the original production path exactly; the final 512 cache has exact selected-ID coverage and finite production-shape features. Thus sample omission and native-path numerical mismatch are no longer blockers. Cache parity alone says nothing about two-class coverage or adaptation benefit.
 
 Next design: Keep the selected Codecfake labels closed until all local-study scores are complete. Compare Frozen and per-sample Base/O1 against B=16/32 shared-R local Base/O1 using fixed K=5, lr=0.03, rho=0.1 and fixed manifest order. Reset adapter and optimizer state at every buffer boundary.
+
+## 2026-09-27 — Bounded shared context does not yet justify a method
+
+Why: Single-sample episodic updates have little context, while historical unbounded continual adaptation drifted. A local shared 8×8 R within fixed-order B=16/32 buffers isolates the context variable under the existing Base/O1 losses and resets before the next buffer.
+
+What these results exclude: It excludes claiming that shared local context alone yields stable two-domain spoof-ranking correction at this budget. Codecfake B32 AUC improves clearly over Frozen and per-sample, but ITW B32 AUC intervals versus Frozen cross zero and local point estimates are below their per-sample counterparts; local EER stays Frozen in both domains. Larger parameter movement or threshold changes alone cannot substitute for cross-domain ranking evidence. The Codecfake effect prevents a blanket claim that local sharing never helps.
+
+Next design: Retain the fixed run as a domain-specific mechanism clue and promote no candidate. Do not expand the buffer sweep or add local-prior preservation, gate, continual memory, drift controller or method lock. Any further objective work needs a new predeclared mechanism that addresses the ITW failure while preserving the bounded-reset safety property; it must be evaluated on the same locked development assignments before any final data access.

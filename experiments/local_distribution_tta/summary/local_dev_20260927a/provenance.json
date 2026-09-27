@@ -1,0 +1,8 @@
+{
+  "source_bundle": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-local-distribution-tta/outputs_v2/ssl_aasist/frozen/bundle.json",
+  "source_resources": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-local-distribution-tta/outputs_v2/ssl_aasist/resources",
+  "codecfake_cache": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-local-distribution-tta/experiments/codecfake_compat/results/compat_20260927a/feature_cache/compat_full512",
+  "codecfake_compat_validation": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-local-distribution-tta/experiments/codecfake_compat/results/compat_20260927a/cache_validation.json",
+  "selection_role": "select_only",
+  "audit_labels_read": false
+}
