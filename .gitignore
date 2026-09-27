@@ -240,4 +240,5 @@ experiments/epdc_development/results/
 experiments/task_objective_discovery/results/
 experiments/meta_rank_head/results/*/*_scores.csv
 experiments/meta_rank_head/results/meta_rank_20260927_seed13/
+experiments/distribution_conditioned_head/results/*/*_scores.csv
 outputs_v2/
