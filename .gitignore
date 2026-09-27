@@ -234,4 +234,5 @@ __pycache__/
 .env
 .env.*
 experiments/*/logs/
+experiments/multidomain_mechanism/results/
 outputs_v2/

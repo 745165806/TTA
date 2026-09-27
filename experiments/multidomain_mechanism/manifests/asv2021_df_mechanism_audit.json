@@ -1,0 +1,3723 @@
+{
+  "schema_version": "0.1.0",
+  "dataset_id": "asv2021_df",
+  "selection_seed": 2026,
+  "selection_policy": "group_disjoint_official_eval_seed2026",
+  "source_ref": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+  "count": 370,
+  "records": [
+    {
+      "sample_id": "DF_E_2000676",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2000676.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2007773",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2007773.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2015190",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2015190.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2018206",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2018206.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2032260",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2032260.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2033747",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2033747.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2041322",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2041322.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2047775",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2047775.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2052090",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2052090.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2064843",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2064843.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2083175",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2083175.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2085699",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2085699.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2086600",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2086600.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2090387",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2090387.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2098134",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2098134.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2101387",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2101387.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2103188",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2103188.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2131417",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2131417.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2144428",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2144428.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2161465",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2161465.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2163219",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2163219.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2180894",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2180894.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2187728",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2187728.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2188599",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2188599.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2191460",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2191460.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2212136",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2212136.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2214572",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2214572.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2232319",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2232319.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2248486",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2248486.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2264364",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2264364.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2267726",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2267726.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2276353",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2276353.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2279188",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2279188.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2293413",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2293413.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2299976",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2299976.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2302175",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2302175.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2339196",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2339196.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2358451",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2358451.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2359592",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2359592.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2369246",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2369246.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2377592",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2377592.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2383381",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2383381.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2388962",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2388962.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2392180",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2392180.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2394539",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2394539.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2409879",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2409879.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2410754",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2410754.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2417217",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2417217.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2426631",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2426631.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2438096",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2438096.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2441446",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2441446.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2450191",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2450191.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2450412",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2450412.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2464817",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2464817.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2471792",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2471792.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2472787",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2472787.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2473558",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2473558.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2492671",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2492671.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2516207",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2516207.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2540349",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2540349.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2541005",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2541005.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2558308",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2558308.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2564440",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2564440.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2590921",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2590921.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2597403",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2597403.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2602018",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2602018.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2625787",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2625787.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2629034",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2629034.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2645198",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2645198.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2652061",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2652061.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2652778",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2652778.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2656190",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2656190.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2658557",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2658557.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2661027",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2661027.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2670894",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2670894.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2690831",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2690831.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2720183",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2720183.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2734358",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2734358.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2740666",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part00/ASVspoof2021_DF_eval/flac/DF_E_2740666.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2755514",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2755514.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2759737",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2759737.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2765518",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2765518.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2781019",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2781019.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2794682",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2794682.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2795862",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2795862.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2799825",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2799825.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2800507",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2800507.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2801527",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2801527.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2807657",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2807657.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2809920",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2809920.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2820414",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2820414.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2827942",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2827942.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2830798",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2830798.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2844790",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2844790.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2847343",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2847343.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2870480",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2870480.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2873406",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2873406.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2879948",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2879948.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2880955",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2880955.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2883093",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2883093.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2884318",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2884318.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2885255",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2885255.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2893323",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2893323.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2893934",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2893934.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2896140",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2896140.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2908379",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2908379.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2910143",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2910143.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2920334",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2920334.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2920431",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2920431.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2949773",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2949773.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2951843",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2951843.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2957685",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2957685.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2976414",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2976414.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2988920",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2988920.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2992563",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2992563.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2996647",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2996647.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2998259",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2998259.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_2999283",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_2999283.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3007782",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3007782.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3014904",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3014904.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3016109",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3016109.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3023170",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3023170.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3024851",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3024851.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3025883",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3025883.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3033446",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3033446.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3039762",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3039762.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3055341",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3055341.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3057176",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3057176.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3064218",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3064218.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3068906",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3068906.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3079379",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3079379.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3083260",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3083260.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3090089",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3090089.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3098428",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3098428.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3102736",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3102736.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3102828",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3102828.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3129197",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3129197.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3130653",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3130653.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3144550",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3144550.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3147919",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3147919.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3151413",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3151413.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3154939",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3154939.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3156426",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3156426.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3173503",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3173503.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3183174",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3183174.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3184768",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3184768.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3192176",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3192176.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3192346",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3192346.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3201790",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3201790.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3218197",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3218197.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3225273",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3225273.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3228566",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3228566.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3238845",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3238845.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3246264",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3246264.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3248426",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3248426.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3250778",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3250778.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3258941",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3258941.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3259566",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3259566.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3284786",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3284786.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3289709",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3289709.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3297734",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3297734.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3300924",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3300924.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3309277",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3309277.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3315608",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3315608.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3337532",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3337532.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3338272",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3338272.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3353442",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3353442.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3368376",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3368376.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3371299",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3371299.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3374524",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3374524.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3382336",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3382336.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3390613",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3390613.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3395141",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3395141.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3396906",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3396906.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3398765",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3398765.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3403411",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3403411.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3405448",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3405448.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3407602",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3407602.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3411307",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3411307.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3413214",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3413214.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3420212",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3420212.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3427755",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3427755.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3436832",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3436832.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3445054",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3445054.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3447033",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3447033.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3453285",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3453285.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3453619",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3453619.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3467308",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3467308.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3469586",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3469586.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3475646",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3475646.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3477836",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3477836.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3484376",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3484376.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3490770",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part01/ASVspoof2021_DF_eval/flac/DF_E_3490770.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3505370",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3505370.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3508723",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3508723.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3511155",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3511155.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3512493",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3512493.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3522526",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3522526.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3551038",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3551038.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3577558",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3577558.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3579545",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3579545.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3585948",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3585948.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3602150",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3602150.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3604400",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3604400.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3615872",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3615872.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3632478",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3632478.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3664629",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3664629.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3669215",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3669215.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3676013",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3676013.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3679141",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3679141.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3697628",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3697628.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3697896",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3697896.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3704050",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3704050.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3708385",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3708385.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3716993",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3716993.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3727335",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3727335.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3728895",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3728895.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3730822",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3730822.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3730858",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3730858.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3732467",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3732467.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3750701",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3750701.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3754602",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3754602.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3774573",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3774573.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3779244",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3779244.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3779875",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3779875.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3793530",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3793530.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3795069",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3795069.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3801527",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3801527.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3803851",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3803851.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3821983",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3821983.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3864408",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3864408.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3866510",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3866510.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3869940",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3869940.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3877573",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3877573.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3882434",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3882434.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3906783",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3906783.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3911421",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3911421.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3931790",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3931790.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3968376",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3968376.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3978812",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3978812.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_3995708",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_3995708.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4010149",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4010149.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4028831",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4028831.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4035282",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4035282.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4041245",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4041245.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4059864",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4059864.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4063553",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4063553.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4068305",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4068305.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4073912",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4073912.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4076826",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4076826.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4084334",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4084334.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4086590",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4086590.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4107250",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4107250.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4107700",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4107700.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4111813",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4111813.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4113687",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4113687.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4124666",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4124666.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4138442",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4138442.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4143842",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4143842.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4144896",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4144896.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4150821",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4150821.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4152780",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4152780.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4154449",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4154449.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4178033",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4178033.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4195808",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4195808.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4196377",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4196377.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4197635",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4197635.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4206165",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4206165.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4209134",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4209134.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4217903",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4217903.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4220574",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4220574.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4229471",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4229471.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4234455",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4234455.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4242296",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4242296.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4245529",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4245529.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4245741",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part02/ASVspoof2021_DF_eval/flac/DF_E_4245741.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4252439",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4252439.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4268100",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4268100.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4274375",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4274375.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4290767",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4290767.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4294708",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4294708.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4307745",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4307745.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4310337",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4310337.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4320958",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4320958.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4323064",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4323064.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4324857",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4324857.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4327372",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4327372.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4364531",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4364531.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4368134",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4368134.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4374918",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4374918.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4379701",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4379701.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4390859",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4390859.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4421921",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4421921.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4424599",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4424599.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4424998",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4424998.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4428445",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4428445.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4430471",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4430471.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4432589",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4432589.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4441768",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4441768.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4445666",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4445666.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4481715",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4481715.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4489396",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4489396.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4504624",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4504624.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4513048",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4513048.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4517467",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4517467.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4519795",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4519795.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4535647",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4535647.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4541579",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4541579.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4566571",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4566571.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4575948",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4575948.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4577517",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4577517.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4594840",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4594840.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4605279",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4605279.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4611377",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4611377.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4611690",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4611690.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4612684",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4612684.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4617532",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4617532.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4629209",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4629209.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4634823",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4634823.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4648237",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4648237.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4650096",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4650096.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4651489",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4651489.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4664715",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4664715.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4667334",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4667334.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4670928",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4670928.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4675199",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4675199.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4681642",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4681642.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4684116",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4684116.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4686263",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4686263.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4687293",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4687293.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4697699",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4697699.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4702672",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4702672.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4704447",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4704447.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4706499",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4706499.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4706924",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4706924.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4728100",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4728100.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4735538",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4735538.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4735579",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4735579.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4738031",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4738031.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4741001",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4741001.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4747629",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4747629.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4748060",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4748060.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4783678",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4783678.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4793671",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4793671.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4797060",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4797060.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4797402",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4797402.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4805281",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4805281.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4812996",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4812996.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4820447",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4820447.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4825953",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4825953.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4827979",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4827979.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4829053",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4829053.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4838910",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4838910.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4839196",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4839196.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4864242",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4864242.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4890311",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4890311.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4891741",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4891741.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4906058",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4906058.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4907381",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4907381.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4911856",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4911856.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4912900",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4912900.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4930804",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4930804.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4951802",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4951802.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4967534",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4967534.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4968092",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4968092.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4980890",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4980890.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4983524",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4983524.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4983754",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4983754.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4995714",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4995714.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    },
+    {
+      "sample_id": "DF_E_4998650",
+      "dataset_id": "asv2021_df",
+      "original_split": "official_eval",
+      "root_key": "asvspoof2021_df",
+      "root_ref": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "audio_relpath": "ASVspoof2021_DF_eval_part03/ASVspoof2021_DF_eval/flac/DF_E_4998650.flac",
+      "selection_seed": 2026,
+      "selection_policy": "group_disjoint_official_eval_seed2026"
+    }
+  ],
+  "role": "mechanism_audit",
+  "label_status": "DEFERRED_UNTIL_SCORES_COMPLETE",
+  "label_source_ref": "data/manifests_v2/asv2021_df_eval/labels/target_test.jsonl",
+  "final_holdout_rule": {
+    "source_ref": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+    "mechanism_group_ids": [
+      "LA_0053",
+      "LA_0068",
+      "VCC2SM1"
+    ],
+    "final_holdout": "all other explicit source_group_id values in this official_eval pool",
+    "group_ref": "data/manifests_v2/asv2021_df_eval/groups/target_test.jsonl"
+  }
+}
