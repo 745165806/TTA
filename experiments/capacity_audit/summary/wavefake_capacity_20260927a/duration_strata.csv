@@ -1,0 +1,9 @@
+stratum,content_pairs,sample_count,arm,auc,eer
+both_longer_than_production_crop,1722,3444,C0_Frozen,0.9237848718706202,0.15214866434378627
+both_longer_than_production_crop,1722,3444,C1_supervised_R,0.9204892347579524,0.15563298490127764
+both_longer_than_production_crop,1722,3444,C2_linear,0.9618002862457694,0.09930313588850175
+both_longer_than_production_crop,1722,3444,C3_nonlinear,0.9624133809780109,0.09639953542392565
+at_least_one_shorter_or_equal,326,652,C0_Frozen,0.905651322970379,0.17791411042944782
+at_least_one_shorter_or_equal,326,652,C1_supervised_R,0.9054160864165004,0.17791411042944782
+at_least_one_shorter_or_equal,326,652,C2_linear,0.9171026384131883,0.15337423312883436
+at_least_one_shorter_or_equal,326,652,C3_nonlinear,0.9194644134141292,0.15337423312883436

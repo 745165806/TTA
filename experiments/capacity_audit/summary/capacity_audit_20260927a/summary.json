@@ -1,0 +1,49 @@
+{
+  "stage": "Representation Sufficiency & Adaptation Capacity Audit",
+  "role": "SUPERVISED_DEVELOPMENT_DIAGNOSIS_NOT_TTA_OR_FINAL",
+  "decision": "R_PARAMETERIZATION_BOTTLENECK",
+  "qualification": "current frozen classifier plus radius-0.1 8x8 R under BCE; radius and subspace not independently separated",
+  "actionable_capacity_gap_exists": true,
+  "local_tta_mainline": "CLOSED",
+  "promoted_tta_candidate": null,
+  "domains": {
+    "itw_target10": {
+      "count": 3178,
+      "frozen_auc": 0.9633087850193088,
+      "frozen_eer": 0.09857072449482504,
+      "supervised_R_auc": 0.9633847076400033,
+      "supervised_R_eer": 0.09906357811729916,
+      "linear_probe_auc": 0.9731589944070336,
+      "linear_probe_eer": 0.08529155787641429,
+      "nonlinear_probe_auc": 0.9741845931984484,
+      "nonlinear_probe_eer": 0.08268059181897303,
+      "convex_C1_check_auc": 0.9633353793836198,
+      "convex_C1_check_eer": 0.09857072449482504
+    },
+    "wavefake_paired_development": {
+      "count": 4096,
+      "content_pairs": 2048,
+      "frozen_auc": 0.9150030612945557,
+      "frozen_eer": 0.15771484375,
+      "supervised_R_auc": 0.9123938083648682,
+      "supervised_R_eer": 0.16162109375,
+      "linear_probe_auc": 0.9517107009887695,
+      "linear_probe_eer": 0.1142578125,
+      "nonlinear_probe_auc": 0.9526162147521973,
+      "nonlinear_probe_eer": 0.11328125,
+      "convex_C1_check_auc": 0.9080467224121094,
+      "convex_C1_check_eer": 0.1669921875
+    }
+  },
+  "cross_domain_probe": {
+    "itw_train_wavefake_test_auc": 0.9036753177642822,
+    "wavefake_train_itw_test_auc": 0.9607634469899254,
+    "both_below_respective_frozen": true
+  },
+  "codecfake_auxiliary": "RATE_CLASS_CONFOUNDED",
+  "asv2019_la_auxiliary": "NEAR_CEILING",
+  "gradient_direction_analysis": "NOT_RUN_C1_NOT_ACTIONABLE",
+  "backend_finetune_capacity": "NOT_RUN_C2_ALREADY_DECISIVE",
+  "target90_accessed": false,
+  "final_holdout_accessed": false
+}

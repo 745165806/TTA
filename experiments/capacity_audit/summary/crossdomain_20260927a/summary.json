@@ -1,0 +1,48 @@
+{
+  "status": "PASS",
+  "role": "SUPERVISED_CROSS_DOMAIN_DEVELOPMENT_DIAGNOSTIC_NOT_FINAL",
+  "rows": [
+    {
+      "train_domain": "itw",
+      "test_domain": "wavefake",
+      "train_count": 3178,
+      "test_count": 4096,
+      "frozen_auc": 0.9150030612945557,
+      "frozen_eer": 0.15771484375,
+      "probe_auc": 0.9036753177642822,
+      "probe_eer": 0.17236328125,
+      "delta_auc": -0.011327743530273438,
+      "eer_improvement": -0.0146484375,
+      "training_detail": {
+        "best_epoch": 48,
+        "inner_validation_bce": 0.166299968957901,
+        "train_count": 2860,
+        "inner_val_count": 318,
+        "parameter_count": 161,
+        "R_norm": null
+      }
+    },
+    {
+      "train_domain": "wavefake",
+      "test_domain": "itw",
+      "train_count": 4096,
+      "test_count": 3178,
+      "frozen_auc": 0.9633087850193088,
+      "frozen_eer": 0.09857072449482504,
+      "probe_auc": 0.9607634469899254,
+      "probe_eer": 0.10004928536224741,
+      "delta_auc": -0.0025453380293833927,
+      "eer_improvement": -0.0014785608674223738,
+      "training_detail": {
+        "best_epoch": 19,
+        "inner_validation_bce": 0.2850140929222107,
+        "train_count": 3686,
+        "inner_val_count": 410,
+        "parameter_count": 161,
+        "R_norm": null
+      }
+    }
+  ],
+  "target90_accessed": false,
+  "final_holdout_accessed": false
+}

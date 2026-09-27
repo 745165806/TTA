@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "table": {
+    "domain": "itw",
+    "count": 3178,
+    "frozen_auc": 0.9633087850193088,
+    "frozen_eer": 0.09857072449482504,
+    "optimized_C1_auc": 0.9633353793836198,
+    "optimized_C1_eer": 0.09857072449482504,
+    "delta_auc": 2.6594364310961183e-05,
+    "eer_improvement": 0.0
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "count": 636,
+      "auc": 0.9659563075605054,
+      "eer": 0.0960591133004926,
+      "success": true,
+      "iterations": 22,
+      "training_objective": 0.37308213707268073,
+      "q_norm": 0.048396227809859714,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 1,
+      "count": 636,
+      "auc": 0.9688584279288927,
+      "eer": 0.09130434782608698,
+      "success": true,
+      "iterations": 22,
+      "training_objective": 0.3836371456618976,
+      "q_norm": 0.048396227811789164,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 2,
+      "count": 636,
+      "auc": 0.9603983722424502,
+      "eer": 0.11330049261083744,
+      "success": true,
+      "iterations": 16,
+      "training_objective": 0.35871178715843255,
+      "q_norm": 0.04839622791264208,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 3,
+      "count": 636,
+      "auc": 0.9669629470978797,
+      "eer": 0.08260869565217388,
+      "success": true,
+      "iterations": 22,
+      "training_objective": 0.3818095914847758,
+      "q_norm": 0.048396227809933814,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 4,
+      "count": 634,
+      "auc": 0.9551027009542293,
+      "eer": 0.10864197530864197,
+      "success": true,
+      "iterations": 19,
+      "training_objective": 0.363327769091083,
+      "q_norm": 0.04839622790418949,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    }
+  ],
+  "role": "SUPERVISED_C1_OPTIMIZATION_CHECK_NOT_TTA"
+}

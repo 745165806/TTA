@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "table": {
+    "domain": "wavefake",
+    "count": 4096,
+    "frozen_auc": 0.9150030612945557,
+    "frozen_eer": 0.15771484375,
+    "optimized_C1_auc": 0.9080467224121094,
+    "optimized_C1_eer": 0.1669921875,
+    "delta_auc": -0.006956338882446289,
+    "eer_improvement": -0.00927734375
+  },
+  "folds": [
+    {
+      "fold": 0,
+      "count": 820,
+      "auc": 0.9012968471148126,
+      "eer": 0.16585365853658537,
+      "success": true,
+      "iterations": 23,
+      "training_objective": 0.8968829666185355,
+      "q_norm": 0.04839622781130209,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 1,
+      "count": 820,
+      "auc": 0.9059369422962522,
+      "eer": 0.1707317073170732,
+      "success": true,
+      "iterations": 23,
+      "training_objective": 0.882858702811582,
+      "q_norm": 0.04839622781009227,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 2,
+      "count": 820,
+      "auc": 0.9058060678167758,
+      "eer": 0.1609756097560976,
+      "success": true,
+      "iterations": 24,
+      "training_objective": 0.8922678749098399,
+      "q_norm": 0.04839622781033529,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 3,
+      "count": 818,
+      "auc": 0.9065644036082998,
+      "eer": 0.16870415647921755,
+      "success": true,
+      "iterations": 22,
+      "training_objective": 0.9047265399040257,
+      "q_norm": 0.04839622780986038,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    },
+    {
+      "fold": 4,
+      "count": 818,
+      "auc": 0.9221370030069165,
+      "eer": 0.16136919315403422,
+      "success": true,
+      "iterations": 22,
+      "training_objective": 0.897552049543774,
+      "q_norm": 0.0483962278101134,
+      "radius": 0.048396227809859534,
+      "source_v_norm": 0.4839622780985953
+    }
+  ],
+  "role": "SUPERVISED_C1_OPTIMIZATION_CHECK_NOT_TTA"
+}

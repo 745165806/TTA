@@ -462,3 +462,54 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: smoke 32/32 PASS in 117.80 seconds; complete cache 4096/4096 PASS in 227.76 seconds, 4096 unique IDs, finite 3×160 float32, exact selected-ID coverage, no label sidecar read, no source overwrite
 - interpretation: production-compatible paired feature access is established; it supplies no supervised ranking or TTA benefit by itself. GPU/CPU implementation uses the same production worker and declared numerical mode; no cross-device bitwise parity claim is made.
 - next_decision: use only the fixed selected supervised label sidecar to run preregistered five-fold grouped capacity ladder; never use labels to change assignment or preprocessing.
+
+## WaveFake supervised capacity ladder 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: 4a1d2d8 (paired inner/outer split implementation), 50e3881 (validated cache metadata)
+- experiment_id: capacity_audit/wavefake_capacity_20260927a
+- purpose: test whether the bounded current R or frozen 160D representation can support task-relevant correction on a second independent paired-content development domain
+- datasets: fixed WaveFake 2048 related-content IDs, one real and one generated per ID, 4096 selected development waveforms
+- manifests: `wavefake_capacity_select.json`, separate `wavefake_capacity_labels.json`; saved five outer content-group folds in result; selected labels used only by supervised diagnostic after full 4096 cache PASS
+- method: C0 Frozen, C1 supervised radius-0.1 8×8 R, C2 160D linear probe, conditional C3 160→32→1 probe; **SUPERVISED DEVELOPMENT DIAGNOSIS, NOT TTA OR FINAL PERFORMANCE**
+- parameters: seed2026; five outer stratified content-group folds; inner 10% content-group validation; Adam lr0.01, batch256, L2 1e-4, max100 epochs, patience10, min delta1e-4
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/capacity_audit/run_ladder.py --domain wavefake --run-id wavefake_capacity_20260927a --cache experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/feature_cache --assignment experiments/capacity_audit/manifests/wavefake_capacity_select.json --labels experiments/capacity_audit/manifests/wavefake_capacity_labels.json`
+- result_directory: `experiments/capacity_audit/results/wavefake_capacity_20260927a/`
+- key_metrics: C0 AUC/EER 0.915003/0.157715; C1 0.912394/0.161621 (worse); C2 0.951711/0.114258 (ΔAUC +0.036708, EER improvement +0.043457); C3 0.952616/0.113281. C2 improves AUC and EER in all five held-out folds. Post-hoc production-crop duration stratum: 1722 both-long content pairs, Frozen/C2 AUC 0.923785/0.961800.
+- interpretation: second-domain large/actionable linear-readout gap and absent bounded-R gain support Case B, with WaveFake duration/source-artifact caveat. C3 incremental gain over C2 is small. This remains supervised development evidence.
+- next_decision: run the preplanned bidirectional cross-domain linear probe to check whether readout transfers; verify bounded-R optimizer with exact convex equivalent because all C1 folds reach radius. No new TTA arm or final evaluation.
+
+## Bidirectional cross-domain supervised development probe 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: f194af9 (cross-domain runner), 4a1d2d8 (paired inner-validation correction)
+- experiment_id: capacity_audit/itw_wavefake_crossdomain_20260927a
+- purpose: distinguish a shared spoof direction from domain-specific linear readout in already frozen features
+- datasets: ITW target10 3178 and fixed WaveFake paired development 4096; both development labels are permitted for training/diagnosis
+- manifests: unchanged ITW target10 and WaveFake fixed paired assignment; no final holdout
+- method: same supervised C2 linear probe trained on one development domain, tested on the other; both directions
+- parameters: same Adam lr0.01/batch256/L2 1e-4/max100/inner 10%/patience10; WaveFake training inner split grouped by `audio_id`
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/capacity_audit/run_crossdomain.py --run-id itw_wavefake_crossdomain_20260927a --cache experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/feature_cache --assignment experiments/capacity_audit/manifests/wavefake_capacity_select.json --labels experiments/capacity_audit/manifests/wavefake_capacity_labels.json`
+- result_directory: `experiments/capacity_audit/results/itw_wavefake_crossdomain_20260927a/`
+- key_metrics: ITW→WaveFake AUC/EER 0.903675/0.172363 versus destination Frozen 0.915003/0.157715; WaveFake→ITW 0.960763/0.100049 versus destination Frozen 0.963309/0.098571
+- interpretation: supervised within-domain linear gains do not transfer as a simple shared probe across these two development sources. This does not prove no universal spoof direction under other representations.
+- next_decision: retain domain-specific readout limitation; do not propose source-trained head swap as method. Finish C1 optimization check before the parameterization decision.
+
+## Bounded-R convex solver verification 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: 016fc4e (precommitted C1 solver-check contract and implementation)
+- experiment_id: capacity_audit/itw_c1_convex_check_20260927a and wavefake_c1_convex_check_20260927a
+- purpose: check whether Adam early stopping falsely made the current bounded-R parameter space appear incapable, using the exact eight-dimensional convex score-equivalent under the same radius/BCE
+- datasets: ITW target10 3178; WaveFake fixed paired development 4096; same saved five outer folds as original capacity runs
+- manifests: unchanged assignments and saved fold IDs; no target90/final holdout
+- method: supervised BCE + same 1e-4 minimum-R-norm L2, SciPy 1.13.0 SLSQP with analytic gradient and norm constraint; train on four folds, evaluate only fifth
+- parameters: rho0.1, maxiter500, ftol1e-10, zero initialization, no search; all ten fold solves successful and feasible
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/capacity_audit/verify_c1_convex.py --domain itw --run-id itw_c1_convex_check_20260927a`; same for `--domain wavefake --run-id wavefake_c1_convex_check_20260927a` with fixed `--cache`, `--assignment`, `--labels` paths from the WaveFake ladder command
+- result_directory: `experiments/capacity_audit/results/itw_c1_convex_check_20260927a/` and `results/wavefake_c1_convex_check_20260927a/`
+- key_metrics: ITW optimized C1 AUC/EER 0.963335/0.098571 (ΔAUC +0.000027); WaveFake 0.908047/0.166992 (ΔAUC −0.006956, EER worse 0.009277). Both remain non-actionable; R-equivalent q reaches its radius in all folds.
+- interpretation: the original C1 non-result is not an Adam early-stop artifact for supervised BCE in the same bounded score family. This does not rule out another supervised ranking loss or a larger radius/subspace.
+- next_decision: classify current frozen-head plus bounded-R space as the bottleneck relative to linearly readable target features; preserve cross-domain nontransfer and WaveFake duration caveats. No gradient-direction study because C1 has no actionable gain; no optional backend fine-tune because C2 already answers the representation-readout question.

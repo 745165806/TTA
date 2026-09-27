@@ -137,3 +137,19 @@ Why: The paired WaveFake source is 22.05 kHz, whereas production `load_audio` ac
 What this excludes: The 32-waveform smoke and complete fixed 4096-row cache both have exact unique-ID coverage and finite production-shape features. Missing samples, silent raw-audio overwrite and direct admission of non-16-kHz files are not current blockers. Cache validation alone cannot establish clean spoof evidence or any capacity gap.
 
 Next design: Open only the fixed selected WaveFake development labels for supervised grouped five-fold CV. Keep each real/generated `audio_id` pair together in outer and inner validation. After held-out predictions, compare C0/C1/C2 and conditional C3 using the precommitted practical effect thresholds.
+
+## 2026-09-27 — A second domain replicates linear-readout capacity but not bounded-R capacity
+
+Why: ITW alone showed a substantial supervised linear gap and near-zero R gap. The fixed WaveFake paired development assignment provides a second two-class domain with common rate/codec and content-group-held-out folds.
+
+What this excludes: WaveFake C1 worsens Frozen, whereas C2 improves AUC by 0.036708 and EER by 0.043457 across all five held-out folds. Thus the earlier ITW result is not merely one-domain absence of frozen-feature information. A post-hoc stratum of 1722 pairs longer than the production crop retains a large C2 improvement, so the effect is not confined to short clips that require waveform tiling. It does not exclude other WaveFake generation or duration artifacts, and it does not yet distinguish R-space restriction from optimizer failure.
+
+Next design: Check whether the supervised linear readout transfers in either direction across ITW/WaveFake. Because C1 hits the radius in every fold, solve its score-equivalent convex constrained BCE on the same outer folds as a predeclared optimization verification. Keep all original metrics unchanged.
+
+## 2026-09-27 — Domain-specific readout and bounded-R optimization verified
+
+Why: A within-domain linear probe gap only motivates target adaptation if its direction is understood; the original Adam C1 could also have failed from early stopping rather than limited bounded-R capacity.
+
+What this excludes: Direct ITW→WaveFake and WaveFake→ITW linear probes both rank worse than the destination Frozen detector, excluding a simple transferable head direction in these development data. The exact convex equivalent of radius-0.1 supervised R gives ITW ΔAUC +0.000027 and WaveFake −0.006956, excluding Adam early-stop as the explanation for the C1 non-result under the same BCE and radius. C3 adds only about 0.001 AUC beyond C2, so nonlinear readout is not the current necessary explanation.
+
+Next design: Record `R_PARAMETERIZATION_BOTTLENECK` with the precise qualifier **current radius-0.1 R plus frozen classifier**. The actionable information gap is in a supervised target-domain linear readout, but target-label-free recovery remains unsolved. If a later stage develops a method, focus on controlled classifier/head or more expressive low-rank adaptation and require label-free evidence plus held-out validation; do not reopen Local-TTA, target90 or final held-out metrics now.
