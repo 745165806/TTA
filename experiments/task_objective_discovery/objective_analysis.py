@@ -107,6 +107,18 @@ def mean(values):
     return sum(values) / len(values) if values else None
 
 
+def rank_correlation(x, y):
+    """Descriptive post-hoc Spearman statistic; never used by the worker."""
+    if len(x) < 3:
+        return None
+    a, b = np.asarray(x, dtype=float), np.asarray(y, dtype=float)
+    if np.std(a) <= 1e-12 or np.std(b) <= 1e-12:
+        return None
+    from scipy.stats import spearmanr
+    value = float(spearmanr(a, b).statistic)
+    return value if math.isfinite(value) else None
+
+
 def analyze(run):
     config, scores = complete_scores(run)  # No label reader can run before this line.
     metrics, intervals = [], []
@@ -140,6 +152,20 @@ def analyze(run):
                 if row["objective_before"] is not None])
             entry["numeric_failures"] = sum(row["numeric_status"] != "ok" for row in rows)
             entry["mean_runtime_seconds"] = mean([row["runtime_seconds"] for row in rows])
+            deltas = [a - b for a, b in zip(values, frozen)]
+            bona_deltas = [delta for delta, label in zip(deltas, y) if label == 0]
+            spoof_deltas = [delta for delta, label in zip(deltas, y) if label == 1]
+            entry["mean_score_delta_bonafide"] = mean(bona_deltas)
+            entry["mean_score_delta_spoof"] = mean(spoof_deltas)
+            entry["delta_class_mean_gap"] = (mean(spoof_deltas) - mean(bona_deltas)
+                                             if bona_deltas and spoof_deltas else None)
+            reductions = [row["objective_before"] - row["objective_after"]
+                          for row in rows if row["objective_before"] is not None]
+            signed_corrections = [(2 * label - 1) * delta
+                                  for row, label, delta in zip(rows, y, deltas)
+                                  if row["objective_before"] is not None]
+            entry["objective_reduction_vs_signed_delta_spearman"] = rank_correlation(
+                reductions, signed_corrections)
             entry["helpful_flips"] = sum(int(f > tau0) != label and int(a > tau0) == label
                                          for f, a, label in zip(frozen, values, y))
             entry["harmful_flips"] = sum(int(f > tau0) == label and int(a > tau0) != label
