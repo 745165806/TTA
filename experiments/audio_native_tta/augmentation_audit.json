@@ -1,0 +1,59 @@
+{
+  "schema_version": "0.1.0",
+  "source_only": true,
+  "source_role": "select",
+  "target_labels_read": false,
+  "baseline": {
+    "EER": 0.0006659056316590251,
+    "AUC": 0.9999843676748024,
+    "tau0": -4.770049095153809
+  },
+  "acceptance": {
+    "max_eer_increase": 0.01,
+    "max_auc_decrease": 0.01,
+    "max_prediction_flip_rate_at_tau0": 0.03,
+    "min_score_rank_correlation": 0.98,
+    "max_mean_abs_score_change": 0.75
+  },
+  "candidates": [
+    {
+      "candidate": "noise_snr30",
+      "source_role": "select",
+      "count": 11723,
+      "EER": 0.01560121765601219,
+      "AUC": 0.9982244349425045,
+      "prediction_flip_rate": 0.04811055190650857,
+      "score_rank_correlation": 0.4828584750188888,
+      "mean_abs_score_change": 1.2286083472473655,
+      "checks": {
+        "eer": false,
+        "auc": true,
+        "flip": false,
+        "rank": false,
+        "score_change": false
+      },
+      "accepted": false
+    },
+    {
+      "candidate": "fir_side_gain0.05",
+      "source_role": "select",
+      "count": 11723,
+      "EER": 0.0006659056316590251,
+      "AUC": 0.9999840534572105,
+      "prediction_flip_rate": 0.00042651198498677815,
+      "score_rank_correlation": 0.9976473846399119,
+      "mean_abs_score_change": 0.008129814933471627,
+      "checks": {
+        "eer": true,
+        "auc": true,
+        "flip": true,
+        "rank": true,
+        "score_change": true
+      },
+      "accepted": true
+    }
+  ],
+  "accepted_augmentations": [
+    "fir_side_gain0.05"
+  ]
+}
