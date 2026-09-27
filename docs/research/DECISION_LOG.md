@@ -129,3 +129,11 @@ Why: Existing label-free TTA fails to improve ITW ranking, but that alone does n
 What this excludes: On ITW target10, supervised C1 gives only +0.000076 AUC and worsens EER, so the present radius-0.1 R space does not provide an actionable upper bound. Linear C2 improves AUC by +0.009850 and EER by 0.013279 across five held-out folds, so a total absence of linearly readable target spoof information is excluded for this domain. It does not distinguish R subspace from radius restriction or establish cross-domain generality.
 
 Next design: Run the already fixed WaveFake paired development cache and identical grouped held-out capacity ladder. Do not add a TTA objective or method now. Skip gradient-direction comparison unless a primary-domain C1 has an actionable gap. Treat all reported values as supervised development diagnosis, never final performance.
+
+## 2026-09-27 — WaveFake feature path is eligible for held-out capacity measurement
+
+Why: The paired WaveFake source is 22.05 kHz, whereas production `load_audio` accepts only 16 kHz. The frozen capacity comparison requires the same checkpoint, preprocess, three views and feature dimensionality as ITW, with an explicit local compatibility path.
+
+What this excludes: The 32-waveform smoke and complete fixed 4096-row cache both have exact unique-ID coverage and finite production-shape features. Missing samples, silent raw-audio overwrite and direct admission of non-16-kHz files are not current blockers. Cache validation alone cannot establish clean spoof evidence or any capacity gap.
+
+Next design: Open only the fixed selected WaveFake development labels for supervised grouped five-fold CV. Keep each real/generated `audio_id` pair together in outer and inner validation. After held-out predictions, compare C0/C1/C2 and conditional C3 using the precommitted practical effect thresholds.

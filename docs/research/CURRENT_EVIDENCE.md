@@ -87,3 +87,7 @@ Local WaveFake contains 131 Parquet files with 104800 embedded WAV rows: 13100 `
 ## ITW supervised development capacity result (append 2026-09-27)
 
 Five-fold held-out ITW target10 (3178) capacity diagnosis is complete. C0 Frozen AUC/EER `0.963309/0.098571`; C1 supervised radius-0.1 8×8 R `0.963385/0.099064`; C2 linear readout of the same original-view frozen 160D features `0.973159/0.085292`; C3 160→32→1 probe `0.974185/0.082681`. C1 is practically SMALL; C2 improves EER by 0.013279 and AUC by 0.009850, with improvements in each held-out fold. C3 adds a smaller increment beyond C2. This supports readable target information in ITW frozen features but indicates the current bounded R plus fixed classifier has little useful correction capacity. It is **SUPERVISED DEVELOPMENT DIAGNOSIS, NOT A TTA METHOD OR FINAL PERFORMANCE**. WaveFake capacity and cross-domain replication remain pending; target90 and final holdout remain unopened.
+
+## WaveFake fixed development feature cache (append 2026-09-27)
+
+The fixed 2048-related-content-pair WaveFake assignment passed both a 32-waveform production smoke and a complete 4096-waveform cache validation. All inputs were explicitly resampled from 22050 to 16000 Hz with SciPy 1.13.0 `resample_poly`; the unchanged production Frozen worker yielded exact 4096 unique selected IDs, finite float32 3×160 views, and no selected label sidecar read. The real/generated duration-offset caveat remains. **No WaveFake capacity metric has been computed at this point.** Target90 and final holdout remain unopened.

@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "count": 32,
+  "unique_ids": 32,
+  "exact_selected_id_coverage": true,
+  "feature_shape_per_sample": [
+    3,
+    160
+  ],
+  "all_finite": true,
+  "source_rate": 22050,
+  "target_rate": 16000,
+  "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_smoke32_20260927a/feature_cache",
+  "elapsed_seconds": 117.79826183299883,
+  "labels_read": false
+}

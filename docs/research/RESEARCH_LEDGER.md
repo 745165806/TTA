@@ -445,3 +445,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: C0 AUC/EER 0.963309/0.098571; C1 0.963385/0.099064 (ΔAUC +0.000076, EER worse 0.000493); C2 0.973159/0.085292 (ΔAUC +0.009850, EER improvement +0.013279); C3 0.974185/0.082681 (ΔAUC +0.010876, EER improvement +0.015890). C2 and C3 AUC/EER improve versus C0 in all five held-out folds; C1 R norms reach radius 0.1.
 - interpretation: ITW current bounded R has SMALL adapter gap; frozen 160D representation has a moderate AUC and actionable EER linear-readout gap in held-out CV. This is one primary domain only; pooling fold scores may have calibration effects, so per-fold directions are essential. No general TTA candidate follows yet.
 - next_decision: complete WaveFake 32-waveform smoke and fixed 4096-feature cache, then repeat identical supervised ladder with content groups held out; only cross-domain replication can support a representation-versus-adapter conclusion. No gradient-direction study because C1 is not large.
+
+## WaveFake fixed paired production cache 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: 79b2d2b (extractor), 4a1d2d8 (paired inner-validation correction; before WaveFake metrics)
+- experiment_id: capacity_audit/wavefake_smoke32_20260927a and wavefake_capacity_cache_20260927a
+- purpose: materialize the once-fixed 2048 real/generated content pairs through an explicit deterministic resampler and unchanged production Frozen SSL-AASIST feature path
+- datasets: WaveFake local paired development assignment, 4096 selected waveforms from 2048 `audio_id` groups; all source 22050 Hz mono PCM16
+- manifests: `experiments/capacity_audit/manifests/wavefake_capacity_select.json`; separate supervised labels sidecar was not read by the cache worker
+- method: SciPy 1.13.0 `resample_poly(up=320,down=441,window=('kaiser',5.0),padtype='constant')` to float32 16-kHz WAV; unchanged Frozen production extractor; 3×160 float32 features
+- parameters: same source bundle, checkpoint, crop/pad 64600, safe-view definitions, score direction; smoke ran CPU because sandbox did not expose CUDA; full 4096 extraction used approved GPU0 production path
+- command: `CUDA_VISIBLE_DEVICES=0 PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/capacity_audit/build_wavefake_cache.py --run-id wavefake_smoke32_20260927a --smoke`; same without `--smoke` and run-id `wavefake_capacity_cache_20260927a` under GPU-visible execution
+- result_directory: `experiments/capacity_audit/results/wavefake_smoke32_20260927a/` and `results/wavefake_capacity_cache_20260927a/`
+- key_metrics: smoke 32/32 PASS in 117.80 seconds; complete cache 4096/4096 PASS in 227.76 seconds, 4096 unique IDs, finite 3×160 float32, exact selected-ID coverage, no label sidecar read, no source overwrite
+- interpretation: production-compatible paired feature access is established; it supplies no supervised ranking or TTA benefit by itself. GPU/CPU implementation uses the same production worker and declared numerical mode; no cross-device bitwise parity claim is made.
+- next_decision: use only the fixed selected supervised label sidecar to run preregistered five-fold grouped capacity ladder; never use labels to change assignment or preprocessing.
