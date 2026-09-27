@@ -33,7 +33,8 @@ def fixture():
 def test_finite_nonzero_deterministic_and_k0_identity(arm):
     target, resources = fixture()
     cfg = EPConfig(steps=5, lr=.03, rho=.1, gamma=.1, lambda_keep=0.)
-    source_before = resources.anchors_z.clone()
+    source_before = [getattr(resources, name).clone() for name in
+                     ("U", "w", "anchors_z", "anchors_y", "anchors_m0", "anchors_s0")]
     first = run_objective(arm, target, resources, cfg, CONFIG)
     replay = run_objective(arm, target, resources, cfg, CONFIG)
     assert first["status"] == "ok"
@@ -41,7 +42,9 @@ def test_finite_nonzero_deterministic_and_k0_identity(arm):
     torch.testing.assert_close(first["R"], replay["R"], atol=0, rtol=0)
     assert first["trace"][0]["gradient_norm"] > 0
     assert float(torch.linalg.vector_norm(first["R"])) <= .1 + 1e-12
-    torch.testing.assert_close(resources.anchors_z, source_before, atol=0, rtol=0)
+    for name, prior in zip(("U", "w", "anchors_z", "anchors_y", "anchors_m0", "anchors_s0"),
+                           source_before):
+        torch.testing.assert_close(getattr(resources, name), prior, atol=0, rtol=0)
     zero = run_objective(arm, target, resources,
                          EPConfig(steps=0, lr=.03, rho=.1, gamma=.1, lambda_keep=0.), CONFIG)
     assert zero["score_after"] == zero["score_before"]
