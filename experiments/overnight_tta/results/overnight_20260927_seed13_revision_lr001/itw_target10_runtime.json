@@ -1,0 +1,23 @@
+{
+  "updates": 26,
+  "numerical_failures": 0,
+  "selected_bonafide_presentations": 1334,
+  "selected_spoof_presentations": 4120,
+  "skipped_bonafide_batches": 0,
+  "skipped_spoof_batches": 0,
+  "adapter_parameter_delta_norm": 0.9730038130819006,
+  "mean_target_loss": 0.05656004725740506,
+  "adapt_seconds": 0.0566934480011696,
+  "peak_gpu_bytes": 0,
+  "inference_seconds": 0.0025802970048971474,
+  "cache_id": "gradient-target10-only-20260927a",
+  "source_residual_checkpoint": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-overnight-tta/experiments/overnight_tta/results/overnight_20260927_seed13/residual_epoch_0004.pt",
+  "selected_target_lr": 0.001,
+  "t3a": {
+    "selected_native_spoof": 100,
+    "selected_native_bonafide": 100,
+    "pseudo_native_spoof": 1481,
+    "pseudo_native_bonafide": 1697
+  },
+  "peak_rss_kb": 1763668
+}

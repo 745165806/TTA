@@ -1,0 +1,8 @@
+{
+  "selected_on": "source_select_only",
+  "lr": 0.001,
+  "criterion": "EER_then_AUC_then_lower_lr",
+  "episodes": 6,
+  "support_count_per_episode": 2048,
+  "query_count_per_episode": 256
+}

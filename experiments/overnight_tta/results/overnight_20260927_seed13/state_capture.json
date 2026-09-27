@@ -1,0 +1,28 @@
+{
+  "itw_target10": {
+    "score_parity": "exact",
+    "count": 3178,
+    "state_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-overnight-tta/experiments/overnight_tta/results/overnight_20260927_seed13/itw_target10_target_adapter.pt",
+    "replay_updates": 26,
+    "median_inference_seconds_20_repeats": {
+      "frozen": 2.267450327053666e-05,
+      "erm": 2.0711500837933272e-05,
+      "residual_off": 0.00042849950114032254,
+      "residual_on": 0.0004409085013321601,
+      "t3a_batch_template_and_score": 0.0010089040006278083
+    }
+  },
+  "wavefake_dev": {
+    "score_parity": "exact",
+    "count": 4096,
+    "state_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-overnight-tta/experiments/overnight_tta/results/overnight_20260927_seed13/wavefake_dev_target_adapter.pt",
+    "replay_updates": 32,
+    "median_inference_seconds_20_repeats": {
+      "frozen": 3.3062991860788316e-05,
+      "erm": 3.269849548814818e-05,
+      "residual_off": 0.000570383999729529,
+      "residual_on": 0.0005713810023735277,
+      "t3a_batch_template_and_score": 0.001159018007456325
+    }
+  }
+}

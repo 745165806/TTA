@@ -1,0 +1,10 @@
+{
+  "epoch": 10,
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-overnight-tta/experiments/overnight_tta/results/overnight_20260927_seed13/erm_epoch_0010.pt",
+  "source_select_key": [
+    0.0006659056316590251,
+    0.003281963470319671,
+    -0.9999966221608869
+  ],
+  "optimizer_steps_at_epoch": 1790
+}

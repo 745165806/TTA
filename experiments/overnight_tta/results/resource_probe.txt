@@ -1,0 +1,9 @@
+command: nvidia-smi
+exit_code: 9
+stdout: NVIDIA-SMI has failed because it couldn't communicate with the NVIDIA driver. Make sure that the latest NVIDIA driver is installed and running.
+stderr:
+python: /home/dell/anaconda3/envs/tta/bin/python
+torch: 2.1.0+cu121
+torch.cuda.is_available: False
+torch.cuda.device_count: 0
+small_cuda_backward: NOT_RUN (no visible CUDA device)
