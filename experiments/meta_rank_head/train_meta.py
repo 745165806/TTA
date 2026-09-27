@@ -198,7 +198,7 @@ def run(config_path, run_id, seed):
                             "aux": aux.state_dict(), "config": config}, output / (arm + ".pt"))
             print(json.dumps(record), flush=True)
     with (output / "training_curve.csv").open("w", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(curves[0]))
+        writer = csv.DictWriter(stream, fieldnames=list(curves[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(curves)
     (output / "selection.json").write_text(json.dumps({"source_role": "select", "best": best,

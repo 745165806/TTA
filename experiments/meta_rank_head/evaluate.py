@@ -212,7 +212,7 @@ def run(config_path, run_id):
         score_file = run_dir / (domain + "_scores.csv")
         with score_file.open("x", newline="") as stream:
             fields = ["sample_id", "content_group", "label", "frozen", "erm", "meta_bce", "meta_rank", "meta_bce_off", "meta_rank_off"]
-            writer = csv.DictWriter(stream, fields)
+            writer = csv.DictWriter(stream, fields, lineterminator="\n")
             writer.writeheader()
             for i, sid in enumerate(ids):
                 writer.writerow({"sample_id": sid, "content_group": groups[i], "label": labels[i],
@@ -233,7 +233,7 @@ def run(config_path, run_id):
                 "cache_id": cache_id})
         reports.append((domain, metrics_by_arm))
     with (run_dir / "metrics.csv").open("x", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=list(all_metrics[0]))
+        writer = csv.DictWriter(stream, fieldnames=list(all_metrics[0]), lineterminator="\n")
         writer.writeheader()
         writer.writerows(all_metrics)
     lines = ["# Meta-Rank Head-TTT — 首轮开发报告", "",

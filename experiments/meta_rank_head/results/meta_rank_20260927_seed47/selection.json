@@ -1,0 +1,33 @@
+{
+  "source_role": "select",
+  "best": {
+    "erm": {
+      "arm": "erm",
+      "epoch": 1,
+      "train_loss": 0.019481635206223775,
+      "gradient_norm": 0.16124834940440133,
+      "source_val_auc": 0.9996383101851852,
+      "source_val_eer": 0.00694444444444442
+    },
+    "meta_bce": {
+      "arm": "meta_bce",
+      "epoch": 1,
+      "train_loss": 0.021454875270137563,
+      "gradient_norm": 0.2194820563765468,
+      "source_val_auc": 0.9996021412037037,
+      "source_val_eer": 0.00694444444444442
+    },
+    "meta_rank": {
+      "arm": "meta_rank",
+      "epoch": 1,
+      "train_loss": 0.021988368146897603,
+      "gradient_norm": 0.21763467996556848,
+      "source_val_auc": 0.9996021412037037,
+      "source_val_eer": 0.00694444444444442
+    }
+  },
+  "fit_cache_id": "cache-20260920T115942Z-eabd13",
+  "source_val_cache_id": "cache-20260921T005321Z-aabf21",
+  "support_query_overlap": 0,
+  "meta_gradient": "nonzero_finite"
+}

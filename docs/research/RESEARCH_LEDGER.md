@@ -292,3 +292,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: In-the-Wild Frozen EER/AUC 0.099010/0.957841; O1/O2/O3 EER 0.103960 and AUC 0.958799/0.958895/0.958879, all paired ΔAUC intervals span zero. PA EER/AUC undefined (single-class); Base/O1/O2/O3 PA source damage 0.193014/0.041150/0.236152/0.192282, harmful flips 16/3/23/14 respectively; zero numeric failures.
 - interpretation: O1 changes class-mean score gap and some threshold decisions in In-the-Wild but does not show reliable ranking benefit; PA cannot validate a second-domain ranking effect. Source-damage reduction on PA is not a task gain.
 - next_decision: keep all three objectives unpromoted; do not implement preservation, gate, continual, or method lock. Preserve fixed PA and all historical assignments; resolve genuine two-class development coverage only through a distinct permitted resource or report blocker.
+
+# Source-meta full-head TTT prototype, four seeds — 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-meta-rank-head
+- commit: b52fc0f (method code); results and ledger committed subsequently on the same branch
+- experiment_id: meta_rank_head/meta_rank_20260927_seed13_v2, seed29, seed47, seed71
+- purpose: train a differentiable unlabeled auxiliary update for the complete source linear head and compare source-only ERM, Meta-BCE, and Meta-Rank on two development targets
+- datasets: ASVspoof2019 LA fit (25,380 cached examples), source select (11,723); In-the-Wild existing target10 (3,178); WaveFake existing paired development cache (4,096 rows in 2,048 content groups). No target90 or final holdout.
+- manifests: `data/manifests_v2/asv2019_la/{inference,labels,groups}/{fit,select}.jsonl`, official LA train/dev CM protocols; existing `experiments/target10_selection/manifests/inwild_target10.json`; `exp-capacity-audit` read-only WaveFake capacity select/cache
+- method: frozen project-trained SSL-AASIST 160D three-view features; ERM and two auxiliary-head meta objectives; five unlabeled full-head adaptation steps; offline batch-transductive domain evaluation with source-head reset per domain
+- parameters: seeds 13/29/47/71, 4 epochs × 24 episodes, 16 examples/class in each support and independent query, Adam outer lr 0.001, inner lr 0.05, ranking coefficient 0.5, auxiliary hidden width 32; same episode schedule and labeled query budget per seed
+- command: `PYTHONPATH=src OMP_NUM_THREADS=1 /home/dell/anaconda3/envs/tta/bin/python experiments/meta_rank_head/train_meta.py --config experiments/meta_rank_head/config.json --run-id meta_rank_20260927_seed<seed> --seed <seed>` then `.../evaluate.py --config ... --run-id ...`; seed 13 uses `_v2` suffix after a preserved first-run gradient-check error. See `train.log` and `evaluate.log` in each run. All four final runs completed with exit 0 and PASS logs; initial seed13 run exited 1 after ERM because an inert output bias had no gradient.
+- result_directory: `experiments/meta_rank_head/results/meta_rank_20260927_seed*/` (checkpoint and per-sample CSV retained only on workstation); committed `experiments/meta_rank_head/report.md` and each run's small config, curves, metrics and report
+- key_metrics: four-seed mean ITW Frozen AUC/EER 0.963309/0.098571, ERM 0.963463/0.098526, Meta-BCE 0.963306/0.098402, Meta-Rank 0.963294/0.098402. WaveFake Frozen 0.915003/0.157715, ERM 0.917206/0.155762, Meta-BCE 0.912689/0.160522, Meta-Rank 0.912422/0.161133. WaveFake bootstrap retains content-pair groups.
+- interpretation: source-domain meta-training completed with nonzero finite unrolled gradients and disjoint support/query IDs. Meta-Rank does not reliably beat Meta-BCE, is worse than same-budget ERM on both domains, and shows no convincing test-time adaptation gain. ITW tiny EER changes coexist with flat AUC; WaveFake degrades.
+- next_decision: retain this negative method result; do not claim episodic or online behavior and do not run target90/final holdout based on this prototype
