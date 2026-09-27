@@ -42,12 +42,14 @@ def test_exact_score_coverage_before_label_access(tmp_path, monkeypatch):
         analysis.analyze(tmp_path)
 
 
-def test_selected_label_loader_never_returns_holdout(tmp_path):
-    label_file = tmp_path / "labels.jsonl"
-    label_file.write_text("\n".join(json.dumps({"schema_version": "0.1.0", "sample_id": sid,
-                                                "canonical_label": y}, separators=(",", ":"))
-                                       for sid, y in (("a", 0), ("b", 1), ("holdout", 1))) + "\n")
+def test_selected_label_loader_never_opens_full_pool(tmp_path, monkeypatch):
+    monkeypatch.setattr(analysis, "AUDIT_LABELS", tmp_path)
+    (tmp_path / "asv2021_la.json").write_text(json.dumps({
+        "role": "selected_only_post_score_audit", "dataset_id": "asv2021_la", "count": 2,
+        "records": [{"sample_id": "a", "label": 0}, {"sample_id": "b", "label": 1}]}))
     audit = {"role": "mechanism_audit", "dataset_id": "asv2021_la",
              "records": [{"sample_id": "a"}, {"sample_id": "b"}],
-             "label_source_ref": str(label_file)}
+             "label_source_ref": "/must/not/open/full-eval-labels.jsonl"}
     assert analysis.selected_labels("asv2021_la", audit, {"a", "b"}) == {"a": 0, "b": 1}
+    with pytest.raises(ValueError, match="mismatch"):
+        analysis.selected_labels("asv2021_la", audit, {"a", "holdout"})

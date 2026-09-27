@@ -1,0 +1,5 @@
+# Audit access correction — 2026-09-27
+
+The original post-score ASV audit implementation used `rg` over each full official evaluation label JSONL to return only the selected mechanism IDs. It did **not** return, parse, log, or use the complementary final-holdout labels. Nevertheless, `rg` opened and scanned the complete label files. Under the project's strict "final holdout labels not accessed" rule, this is an access-boundary violation. The run's `final_holdout_labels_accessed=false` field is too narrow if "accessed" includes raw file scanning; read this correction with that field.
+
+After detection, a selected-only audit artifact was materialized from the completed run's post-score per-sample CSV. Future analysis code opens only that selected-only artifact and rejects any attempt to use the full label source. The saved mechanism/final-holdout group assignment and historical scores were not changed. ASV label-dependent results remain descriptive and should not be used for method selection or a held-out claim.

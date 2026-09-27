@@ -3,14 +3,14 @@ import argparse
 import csv
 import json
 import math
-import os
-import subprocess
 from collections import defaultdict
 from pathlib import Path
 
 from eptta.evaluation.metrics import binary_metrics
 
 from experiments.multidomain_mechanism.guard_worker import ARMS, ROOT, SETTINGS
+
+AUDIT_LABELS = ROOT / "experiments/multidomain_mechanism/audit_labels"
 
 
 def read_json(path):
@@ -70,28 +70,14 @@ def selected_labels(domain, audit, ids):
         raise ValueError("wrong audit manifest")
     if {row["sample_id"] for row in audit["records"]} != ids:
         raise ValueError("audit/select ID mismatch")
-    ref = Path(audit["label_source_ref"])
-    if not ref.is_absolute():
-        ref = ROOT / ref
-    if domain == "in_the_wild":
-        source = read_json(ref)
-        labels = {row["sample_id"]: row["label"] for row in source["records"]}
-        labels = {sid: labels[sid] for sid in ids}
-    else:
-        # Ripgrep emits only exact selected ID lines. Python never parses the
-        # complementary final-holdout labels from the official eval artifact.
-        patterns = "\n".join('"sample_id":"' + sid + '"' for sid in sorted(ids)) + "\n"
-        found = subprocess.run(["rg", "-F", "-f", "-", str(ref)], input=patterns,
-                               text=True, capture_output=True, check=True)
-        rows = [json.loads(line) for line in found.stdout.splitlines()]
-        labels = {}
-        for row in rows:
-            if set(row) != {"schema_version", "sample_id", "canonical_label"}:
-                raise ValueError("label schema mismatch")
-            sid = row["sample_id"]
-            if sid not in ids or sid in labels:
-                raise ValueError("label coverage mismatch")
-            labels[sid] = row["canonical_label"]
+    selected = read_json(AUDIT_LABELS / f"{domain}.json")
+    if (selected.get("role") != "selected_only_post_score_audit" or
+            selected.get("dataset_id") != domain or selected.get("count") != len(ids)):
+        raise ValueError("selected-only audit provenance mismatch")
+    rows = selected["records"]
+    labels = {row["sample_id"]: row["label"] for row in rows}
+    if len(labels) != len(rows):
+        raise ValueError("duplicate selected-only audit ID")
     if set(labels) != ids or any(type(v) is not int or v not in (0, 1) for v in labels.values()):
         raise ValueError("canonical label coverage mismatch")
     return labels

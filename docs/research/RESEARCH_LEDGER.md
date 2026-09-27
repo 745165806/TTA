@@ -105,3 +105,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: In-the-Wild Frozen EER/AUC 0.0990099010/0.9578409454; Base 0.1039603960/0.9587831364; Base+Preserve 0.1039603960/0.9564037049. Macro source damage Base 0.247588 vs Preserve 0.00000116; mean absolute score delta 0.048707 vs 0.180887. ASV EER/AUC undefined (single-class).
 - interpretation: source-margin evidence is protected, but target ranking is worse; source preservation alone does not solve the objective/correction-capacity bottleneck
 - next_decision: retire this module; do not add a gate/drift accumulator or lock a method; use existing P1 pseudo-label failure plus this result to design a genuinely task-aligned unlabeled objective, and restore two-class multi-domain development coverage without changing saved assignments
+
+## Correction 2026-09-27 — ASV audit file access boundary
+
+- date: 2026-09-27
+- branch: exp-multidomain-mechanism
+- commit: 66b78ab (first detection before this correction commit)
+- experiment_id: correction to multidomain_mechanism/guard_20260927T040841Z and EPDC v0-A/v0-B selected-label analysis
+- purpose: record an overly narrow access flag and close the raw-file scan path
+- datasets: ASV2021 LA/DF official eval label artifacts; In-the-Wild selected target10 unaffected
+- manifests: fixed mechanism select/audit IDs unchanged; new local selected-only audit labels derived from completed post-score CSV
+- method: original `rg` selected-row extraction replaced by selected-only local audit reader
+- parameters: exact selected ID coverage and canonical labels; no sampling or reranking
+- command: `PYTHONPATH=src:. conda run -n tta python experiments/multidomain_mechanism/materialize_selected_audit.py --source-run experiments/multidomain_mechanism/results/guard_20260927T040841Z` (exit 0)
+- result_directory: `experiments/multidomain_mechanism/audit_labels/` (local ignored artifacts), plus append-only `analysis/boundary_correction.md`
+- key_metrics: not a scientific experiment; raw full ASV eval label files were scanned previously, though only selected rows were returned; target90 sample labels/metrics were not opened
+- interpretation: strict final-holdout access rule was violated at file-scan level; earlier `final_holdout_labels_accessed=false` run fields must not be read as "file never opened"
+- next_decision: future analysis requires selected-only artifacts; ASV label-dependent observations are not used for method selection or held-out claims
