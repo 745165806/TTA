@@ -57,3 +57,11 @@ Why: The committed-code In-the-Wild 512 replay shows O1/O2/O3 AUC gains of only 
 What this excludes: A claim that O1/O2/O3 already produce repeatable spoof-discriminative correction, or that O1's balanced-accuracy gain alone justifies preservation or gating. These observations cannot establish a two-domain effect.
 
 Next design: Use one complete speaker group from independently named ASVspoof2019 PA official dev as an auxiliary second development domain after a production 32-waveform smoke. Keep ASVspoof2021 LA/DF marked `TWO_CLASS_DEV_UNAVAILABLE`. The PA protocol's first three non-selected rows were displayed during schema inspection; record that access and keep selected PA labels unread until full score coverage.
+
+## 2026-09-27 — PA dev remains single-class; keep objective promotion closed
+
+Why: The fixed PA dev speaker group passed production feature and objective score generation, but selected-label audit after all scores found 270 bonafide and zero spoof. In-the-Wild O1 shows 23 helpful fixed-threshold flips and a positive mean class-score-gap shift, yet EER worsens and its small AUC gain has a paired interval crossing zero. O2 causes 23 harmful PA threshold flips. This distinguishes score movement and source-damage reduction from verified ranking correction.
+
+What this excludes: The PA result cannot serve as a second independent two-class EER/AUC domain. O1's lower PA source damage cannot by itself justify preservation, and fixed-threshold flips cannot justify a gate. The already observed PA group labels also preclude redrawing the same dev assignment to force two-class coverage.
+
+Next design: Preserve O1/O2/O3 as unpromoted objective prototypes and keep preservation, gate, continual, and method lock inactive. Resolve development coverage only through a genuinely new, explicitly permitted two-class resource and a predeclared production-compatible preprocessing contract; do not alter the saved Codecfake/ASV/PA assignments or access target90/final labels. If no such resource is available locally without a new dependency or numerical path, report the blocker rather than tune on one domain.

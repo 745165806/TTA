@@ -64,7 +64,8 @@
       "selected_count": 270,
       "selected_sample_rate": "270 of 270 at 16 kHz",
       "label_format": "speaker sample_id attack_id environment bonafide|spoof; label deferred until all scores complete",
-      "two_class_dev": "PENDING_POST_SCORE_AUDIT",
+      "selected_class_counts_post_score": {"bonafide": 270, "spoof": 0},
+      "two_class_dev": "SINGLE_CLASS_HISTORICAL_EVIDENCE_ONLY",
       "boundary": "separate ASVspoof2019 PA domain; never named ASVspoof2021 LA/DF"
     }
   },

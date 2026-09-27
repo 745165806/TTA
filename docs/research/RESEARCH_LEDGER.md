@@ -207,3 +207,88 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: replay reproduces Frozen 0.099010/0.957841 and O1/O2/O3 EER 0.103960 with AUC 0.958799/0.958895/0.958879; O1 paired ΔAUC 95% development interval [-0.000415, 0.002891]; 23 helpful and 0 harmful fixed-threshold flips
 - interpretation: O1 changes some threshold decisions but does not establish ranking improvement; all methods retain worse EER than Frozen and only one two-class domain is scored
 - next_decision: complete an independently named ASVspoof2019 PA official-dev auxiliary domain if production cache passes, without relabeling it as ASVspoof2021
+
+## Auxiliary PA official-dev group preflight and fixed selection 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: a227bed during preflight; final manifest code and saved assignment committed as ba0fa75
+- experiment_id: task_objective_discovery/asv2019_pa_dev_fixed_group_2026
+- purpose: establish a second independent official development resource without altering ASVspoof2021 eval assignments
+- datasets: ASVspoof2019 PA official dev, 20 explicit speaker groups in protocol; selected one audio-complete 270-record speaker group `PA_0105`
+- manifests: `experiments/task_objective_discovery/manifests/asv2019_pa_dev_mechanism_select.json` and matching deferred audit; written once after aborted no-manifest preflights
+- method: sorted explicit speaker-group eligibility from protocol IDs and audio availability, `random.Random(2026)` fixed selection; label column ignored during selection
+- parameters: seed 2026, one complete 270-record group, 16-kHz production preflight, no target label in select
+- command: `PYTHONPATH=src:. conda run -n tta python experiments/task_objective_discovery/build_pa_dev.py` (two preflight failures before final script revision; final exit 0)
+- result_directory: fixed assignment in `experiments/task_objective_discovery/manifests/`; retrospective observed preflight failure at `experiments/task_objective_discovery/results/pa_group_preflight_20260927a/`
+- key_metrics: ten 270-record groups existed; only `PA_0105` had all protocol audio files; selected 270/270 files at 16 kHz; selected labels unread at assignment time
+- interpretation: explicit group-level development assignment is fixed, but whether it has two classes was deferred until all adaptation scores
+- next_decision: production 32-waveform cache smoke, then fixed full cache and scores
+
+## Auxiliary PA production-cache engineering smoke 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: a227bed (genericized extraction helper and PA manifest committed after this engineering run as ba0fa75)
+- experiment_id: task_objective_discovery/pa_cache_32_20260927a
+- purpose: validate production Frozen feature path on the first 32 fixed PA official-dev waveforms
+- datasets: ASVspoof2019 PA dev, selected group first 32 of 270
+- manifests: saved label-free PA select, generated worker JSONL with no label
+- method: unchanged `workers/baseline_bridge.py extract` and Frozen SSL-AASIST bundle
+- parameters: 16 kHz, 64,600 samples, three views, 160 embedding dimensions, float32, source view seed 13
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/prepare_codecfake_cache.py --domain asv2019_pa_dev --count 32 --run-id pa_cache_32_20260927a`
+- result_directory: `experiments/task_objective_discovery/results/pa_cache_32_20260927a/`
+- key_metrics: PASS, finite 3×160 features, exact 32/32 ID coverage; no selected label read
+- interpretation: the first 32 can traverse the production model path; full 270 still required
+- next_decision: run 32-sample objective smoke without EER/AUC, then materialize 270 cache
+
+## Auxiliary PA objective engineering smoke 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: ba0fa75 (worker PA support uncommitted at the time, later committed as b2175fc)
+- experiment_id: task_objective_discovery/objective_pa_smoke_20260927a
+- purpose: verify finite objective/update behavior for O1/O2/O3 on PA real features without using labels
+- datasets: ASVspoof2019 PA official dev, first 32 fixed group records
+- manifests: saved label-free PA select; audit not opened
+- method: Frozen, production `ep_no_keep`, O1/O2/O3 v0
+- parameters: K=5, lr=0.03, rho=0.1, episodic R, three views, original score
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_worker.py --smoke --run-id objective_pa_smoke_20260927a --domains asv2019_pa_dev --pa-cache experiments/task_objective_discovery/results/pa_cache_32_20260927a/diagnostics/feature_cache`
+- result_directory: `experiments/task_objective_discovery/results/objective_pa_smoke_20260927a/`
+- key_metrics: 32/32 samples and 160 arm rows, zero numeric failures; mean O1 update norm 0.009595 and source damage 0.000059; no EER/AUC calculated
+- interpretation: engineering behavior is finite, not evidence of task benefit
+- next_decision: extract and validate all fixed 270 PA features
+
+## Auxiliary PA fixed-group production cache 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: a227bed in run configuration (production extractor unchanged; helper/manifest were committed during this long running extraction as ba0fa75)
+- experiment_id: task_objective_discovery/pa_cache_270_20260927a
+- purpose: materialize exact production Frozen features for the once-fixed PA official-dev group
+- datasets: ASVspoof2019 PA official dev, selected group `PA_0105`, 270 WAV-equivalent FLAC files
+- manifests: saved label-free PA select and generated extraction JSONL; no audit labels opened
+- method: unchanged `workers/baseline_bridge.py extract`
+- parameters: 16 kHz, 64,600 waveform samples, 3 views, 160 embedding dimensions, float32, source view seed 13
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/prepare_codecfake_cache.py --domain asv2019_pa_dev --count 270 --run-id pa_cache_270_20260927a`
+- result_directory: `experiments/task_objective_discovery/results/pa_cache_270_20260927a/`
+- key_metrics: PASS, finite 3×160 features, exact 270/270 ID coverage, source bundle/cache identity validated; selected labels still unread
+- interpretation: PA development feature path is production-compatible; class coverage still unknown before scores
+- next_decision: generate full O1/O2/O3 and control scores on In-the-Wild plus PA, then audit selected labels
+
+## Fixed In-the-Wild plus auxiliary PA objective study 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: d723f8c (score generation, committed O1/O2/O3 and worker code)
+- experiment_id: task_objective_discovery/objective_two_domain_20260927a
+- purpose: test whether task-aligned objectives generate repeatable spoof-discriminative correction on an independent official-dev domain
+- datasets: In-the-Wild fixed 512 (310 bonafide, 202 spoof); ASVspoof2019 PA official dev fixed 270 (270 bonafide, 0 spoof after post-score audit)
+- manifests: fixed label-free In-the-Wild and PA select manifests; selected-only In-the-Wild audit and PA official-dev protocol opened only after all 3,910 score rows passed exact finite coverage
+- method: Frozen, production `ep_no_keep`, O1 source-anchor soft affinity, O2 decision-sensitive consistency, O3 reliability-weighted soft affinity
+- parameters: preregistered `objective_config.json`: K=5, lr=0.03, rho=0.1, gamma=0.1, lambda_keep=0, episodic 8×8 R, three views, original-view score, 1,000 paired bootstrap draws where both classes exist
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_worker.py --run-id objective_two_domain_20260927a --domains in_the_wild asv2019_pa_dev --pa-cache experiments/task_objective_discovery/results/pa_cache_270_20260927a/diagnostics/feature_cache`; then `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_analysis.py --run experiments/task_objective_discovery/results/objective_two_domain_20260927a`
+- result_directory: `experiments/task_objective_discovery/results/objective_two_domain_20260927a/`; small tracked summary at `experiments/task_objective_discovery/summary/`
+- key_metrics: In-the-Wild Frozen EER/AUC 0.099010/0.957841; O1/O2/O3 EER 0.103960 and AUC 0.958799/0.958895/0.958879, all paired ΔAUC intervals span zero. PA EER/AUC undefined (single-class); Base/O1/O2/O3 PA source damage 0.193014/0.041150/0.236152/0.192282, harmful flips 16/3/23/14 respectively; zero numeric failures.
+- interpretation: O1 changes class-mean score gap and some threshold decisions in In-the-Wild but does not show reliable ranking benefit; PA cannot validate a second-domain ranking effect. Source-damage reduction on PA is not a task gain.
+- next_decision: keep all three objectives unpromoted; do not implement preservation, gate, continual, or method lock. Preserve fixed PA and all historical assignments; resolve genuine two-class development coverage only through a distinct permitted resource or report blocker.
