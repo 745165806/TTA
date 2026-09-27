@@ -71,3 +71,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: In-the-Wild Frozen EER/AUC 0.099010/0.957841; A unguarded 0.103226/0.958623; B unguarded 0.103960/0.958879; C unguarded 0.103960/0.947653. C hard 0.099010/0.955589. C unguarded evidence damage: In-the-Wild 0.172484, ASV LA 0.130316, ASV DF 0.586509. ASV EER/AUC undefined due single-class assignment.
 - interpretation: relaxation gives larger changes but no In-the-Wild EER gain; stronger unguarded update loses ranking and raises evidence damage. Small A/B AUC gains coexist with worse EER. Single-class ASV groups prevent a multi-domain ranking conclusion. Ranking "macro" in this run equals In-the-Wild only; see `analysis/coverage_correction.md`.
 - next_decision: test an explicit source decision-order preservation loss at fixed moderate strength before fitting a reliability gate; keep ASV signals descriptive, do not change the saved group assignment
+
+## EPDC paired-order v0-A negative result 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-multidomain-mechanism
+- commit: 6815281 (run configuration records full hash)
+- experiment_id: epdc_development/v0a_20260927T041709Z
+- purpose: test whether soft preservation of source cross-class decision ordering controls harmful evidence loss without a hard guard
+- datasets: fixed In-the-Wild mechanism 512; ASV2021 LA 282; ASV2021 DF 370; Codecfake/WaveFake NOT_RUN
+- manifests: existing fixed mechanism select/audit manifests; score coverage validated before selected audit labels
+- method: Frozen; production `ep_no_keep` Base Adapt; Base + paired-order soft preservation
+- parameters: K=5, lr=0.03, rho=0.1, gamma=0.1, lambda_keep=0, lambda_preserve=1, order retention=0.9, episodic CPU
+- command: `PYTHONPATH=src:. conda run -n tta python experiments/epdc_development/v0a_worker.py` then `PYTHONPATH=src:. conda run -n tta python experiments/epdc_development/v0a_analysis.py --run experiments/epdc_development/results/v0a_20260927T041709Z`
+- result_directory: `experiments/epdc_development/results/v0a_20260927T041709Z/`
+- key_metrics: In-the-Wild Frozen EER/AUC 0.0990099010/0.9578409454; Base and Preserve both 0.1039603960/0.9587831364; macro source-margin damage Base 0.247588 vs Preserve 0.247582; mean order damage about 1e-7; ASV EER/AUC undefined (single-class)
+- interpretation: paired-order term is almost inactive and does not protect the threshold-relevant source margins observed to degrade; no task-useful EER gain
+- next_decision: retire this module, replace the evidence loss with normalized source-anchor margin deficit; do not add a gate or continual accumulation on the failed v0-A

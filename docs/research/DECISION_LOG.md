@@ -17,3 +17,11 @@ Why: Fixed guard contrast `guard_20260927T040841Z` shows that removing the hard 
 What this excludes: A simple 90%→80% hard-margin threshold relaxation alone does not produce useful In-the-Wild EER correction at A/B/C. The current data do not prove a cross-domain ranking improvement or calibrate a reliable harmful-update predictor; harmful flips are rare. They also do not justify changing the saved ASV mechanism/final-holdout groups after seeing class composition.
 
 Next design: Use the existing unguarded view-variance update as the base arm, then add one soft loss on **source-only cross-class decision ordering**, allowing individual feature changes. Test Frozen → Base Adapt → Base + Preserve on 32 cached samples per available domain before a sandbox analysis. Do not add a reliability gate or continual accumulation until preservation shows task-useful correction and lower damage.
+
+## 2026-09-27 — Retire paired-order loss; test threshold-relevant margins
+
+Why: `epdc_development/v0a_20260927T041709Z` found that the paired-order penalty is nearly zero while source-anchor margins can be damaged substantially. Base+Preserve leaves In-the-Wild EER/AUC and harmful flips unchanged from Base. The cross-class ordering remains intact even when many anchors move toward or across the source threshold.
+
+What the result excludes: This exact paired-order objective at `lambda=1`, retention 0.9 and B optimizer setting is not a useful preservation component on the measured sandbox. It does not exclude all ordering losses or all soft preservation. ASV single-class selection still prevents cross-domain ranking claims.
+
+Next design: Retire the paired-order module from the active method path. Replace it with a normalized source-anchor margin deficit relative to fixed `tau0`, so the loss is active precisely where the guard diagnosis measured evidence damage. Keep the same Base Adapt optimizer and projection, first 32 real samples then the fixed sandbox. Only proceed to reliability gating if task metrics and damage both support it.

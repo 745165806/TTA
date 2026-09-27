@@ -14,7 +14,7 @@ from pathlib import Path
 import torch
 
 from eptta.adaptation.adapter import run_cache_method
-from eptta.adaptation.epdc import decision_order_loss, run_soft_preserve, source_order_pairs
+from experiments.epdc_development.retired_order import decision_order_loss, run_soft_preserve, source_order_pairs
 from eptta.adaptation.math import apply_adapter, view_loss
 from eptta.adaptation.objectives import entropy_from_logits
 from eptta.adaptation.types import EPConfig, TargetViews

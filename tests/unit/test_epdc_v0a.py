@@ -3,7 +3,7 @@ import pytest
 
 torch = pytest.importorskip("torch")
 
-from eptta.adaptation.epdc import decision_order_loss, run_soft_preserve, source_order_pairs
+from experiments.epdc_development.retired_order import decision_order_loss, run_soft_preserve, source_order_pairs
 from eptta.adaptation.types import EPConfig, FrozenResources, TargetViews
 from eptta.adaptation.adapter import run_cache_method
 
