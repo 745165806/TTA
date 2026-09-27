@@ -88,3 +88,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: In-the-Wild Frozen EER/AUC 0.0990099010/0.9578409454; Base and Preserve both 0.1039603960/0.9587831364; macro source-margin damage Base 0.247588 vs Preserve 0.247582; mean order damage about 1e-7; ASV EER/AUC undefined (single-class)
 - interpretation: paired-order term is almost inactive and does not protect the threshold-relevant source margins observed to degrade; no task-useful EER gain
 - next_decision: retire this module, replace the evidence loss with normalized source-anchor margin deficit; do not add a gate or continual accumulation on the failed v0-A
+
+## EPDC normalized-margin v0-B negative result 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-multidomain-mechanism
+- commit: 41d8c56 (run configuration records full hash)
+- experiment_id: epdc_development/v0b_20260927T042152Z
+- purpose: test whether a soft normalized source-anchor margin penalty prevents measured evidence damage and improves task ranking
+- datasets: fixed In-the-Wild mechanism 512; ASV2021 LA 282; ASV2021 DF 370; Codecfake/WaveFake NOT_RUN
+- manifests: fixed mechanism select/audit manifests; score coverage checked before selected audit labels
+- method: Frozen; production `ep_no_keep` Base Adapt; Base + normalized-margin Preserve
+- parameters: K=5, lr=0.03, rho=0.1, gamma=0.1, lambda_keep=0, lambda_preserve=1, margin retention=0.9, episodic CPU
+- command: `PYTHONPATH=src:. conda run -n tta python experiments/epdc_development/v0b_worker.py` then `PYTHONPATH=src:. conda run -n tta python experiments/epdc_development/v0a_analysis.py --run experiments/epdc_development/results/v0b_20260927T042152Z`
+- result_directory: `experiments/epdc_development/results/v0b_20260927T042152Z/`
+- key_metrics: In-the-Wild Frozen EER/AUC 0.0990099010/0.9578409454; Base 0.1039603960/0.9587831364; Base+Preserve 0.1039603960/0.9564037049. Macro source damage Base 0.247588 vs Preserve 0.00000116; mean absolute score delta 0.048707 vs 0.180887. ASV EER/AUC undefined (single-class).
+- interpretation: source-margin evidence is protected, but target ranking is worse; source preservation alone does not solve the objective/correction-capacity bottleneck
+- next_decision: retire this module; do not add a gate/drift accumulator or lock a method; use existing P1 pseudo-label failure plus this result to design a genuinely task-aligned unlabeled objective, and restore two-class multi-domain development coverage without changing saved assignments

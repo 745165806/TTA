@@ -25,3 +25,11 @@ Why: `epdc_development/v0a_20260927T041709Z` found that the paired-order penalty
 What the result excludes: This exact paired-order objective at `lambda=1`, retention 0.9 and B optimizer setting is not a useful preservation component on the measured sandbox. It does not exclude all ordering losses or all soft preservation. ASV single-class selection still prevents cross-domain ranking claims.
 
 Next design: Retire the paired-order module from the active method path. Replace it with a normalized source-anchor margin deficit relative to fixed `tau0`, so the loss is active precisely where the guard diagnosis measured evidence damage. Keep the same Base Adapt optimizer and projection, first 32 real samples then the fixed sandbox. Only proceed to reliability gating if task metrics and damage both support it.
+
+## 2026-09-27 — Preservation alone does not solve target ranking
+
+Why: `epdc_development/v0b_20260927T042152Z` reduced source-anchor damage from 0.247588 to about 0.00000116, but In-the-Wild AUC fell below Frozen and EER did not recover. It increased mean absolute score movement. The earlier P1 task-aware target10 pilot (`experiments/p0_p1_taskaware/results/run_20260922_133805/final_report.md`) already found a frozen pseudo-label teacher unreliable at the source threshold; its full method EER was 0.099217 versus Frozen 0.098571. This is existing evidence, not a new run.
+
+What these results exclude: Simply strengthening source preservation around the current feature-variance objective does not yield task-useful correction at the fixed v0-B setting. Naive frozen pseudo-label BCE has also already failed on target10. Neither result proves that all task-aware objectives fail. Single-class ASV mechanism groups cannot validate ranking across domains.
+
+Next design: Retire v0-B rather than stack a reliability gate on an unhelpful candidate. Develop a target objective that has a credible label-free relation to spoof discrimination, test it against Frozen and Base first, and obtain two-class group-disjoint mechanism evidence from permitted official development partitions. Keep the existing ASV mechanism/final-holdout assignment fixed. Only after an objective and preservation show positive task metrics should a candidate gate and safe accumulation be implemented.

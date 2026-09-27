@@ -3,7 +3,7 @@ import pytest
 torch = pytest.importorskip("torch")
 
 from eptta.adaptation.adapter import run_cache_method
-from eptta.adaptation.epdc import normalized_margin_loss, run_soft_preserve
+from experiments.epdc_development.retired_margin import normalized_margin_loss, run_soft_preserve
 from eptta.adaptation.types import EPConfig, FrozenResources, TargetViews
 
 
