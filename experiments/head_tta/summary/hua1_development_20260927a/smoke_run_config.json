@@ -1,0 +1,35 @@
+{
+  "run_id": "hua1_smoke_20260927a",
+  "role": "LABEL_FREE_DEVELOPMENT_SCORE_WORKER",
+  "smoke": true,
+  "branch": "exp-head-tta",
+  "commit": "5a50d8a40f0cb22b6397a0e39f417ca97e5cf016",
+  "python": "3.10.20",
+  "numpy": "1.26.4",
+  "scipy": "1.13.0",
+  "torch": "2.1.0+cu121",
+  "seed": 2026,
+  "domains": [
+    "itw",
+    "wavefake"
+  ],
+  "buffer_size": 256,
+  "order": "fixed_manifest_order",
+  "alphas": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "geometry_contract": "HEAD_ADAPTATION_CONTRACT.md",
+  "command": [
+    "/home/dell/anaconda3/envs/tta/bin/python",
+    "experiments/head_tta/run_scores.py",
+    "--run-id",
+    "hua1_smoke_20260927a",
+    "--smoke"
+  ],
+  "target_labels_loaded": false,
+  "target90_labels_accessed": false,
+  "target90_metrics_accessed": false,
+  "final_heldout_metrics_accessed": false
+}

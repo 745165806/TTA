@@ -1,0 +1,15 @@
+{
+  "run_id": "r_expressibility_20260927a",
+  "branch": "exp-head-tta",
+  "commit": "7355fc67a7233bfe3b8b5df267b877811b46d4ba",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "command": [
+    "experiments/head_capacity_geometry/audit_r_expressibility.py",
+    "--run-id",
+    "r_expressibility_20260927a"
+  ],
+  "rho": 0.1,
+  "random_R_count": 20,
+  "random_seed": 2026,
+  "parity_tolerance": 1e-05
+}

@@ -1,0 +1,32 @@
+{
+  "itw": {
+    "source_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+    "source_run_id": "source-20260919T083421Z-a61b23",
+    "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+    "cache_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/cache-target-in_the_wild",
+    "cache_id": "cache-20260921T061728Z-259dab",
+    "selection_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-head-tta/experiments/large_scale_confirmation/manifests/in_the_wild_confirmation_select.json",
+    "selected_rows_loaded": 3178,
+    "chunk_id_metadata_rows_scanned": 31779,
+    "nonselected_feature_values_loaded_into_application": false,
+    "target_labels_read": false,
+    "target90_labels_read": false,
+    "target90_metrics_read": false,
+    "tau0": -4.770049095153809
+  },
+  "wavefake": {
+    "source_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+    "source_run_id": "source-20260919T083421Z-a61b23",
+    "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+    "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/feature_cache",
+    "cache_id": "capacity-wavefake-wavefake_capacity_cache_20260927a",
+    "selection_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-head-tta/experiments/capacity_audit/manifests/wavefake_capacity_select.json",
+    "selected_rows_loaded": 4096,
+    "chunk_id_metadata_rows_scanned": 4096,
+    "nonselected_feature_values_loaded_into_application": false,
+    "target_labels_read": false,
+    "target90_labels_read": false,
+    "target90_metrics_read": false,
+    "tau0": -4.770049095153809
+  }
+}

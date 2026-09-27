@@ -1,0 +1,30 @@
+{
+  "run_id": "wavefake_head_geometry_20260927a",
+  "role": "SUPERVISED_DEVELOPMENT_HEAD_GEOMETRY_NOT_TTA",
+  "domain": "wavefake",
+  "count": 4096,
+  "branch": "exp-head-tta",
+  "commit": "a780b5c430f039ce15b513c70a991c617f3ad165",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "torch": "2.1.0+cu121",
+  "seed": 2026,
+  "outer_folds": 5,
+  "arms": [
+    "Frozen",
+    "H0_bias",
+    "H1_scale_bias",
+    "H2_direction",
+    "H3_full_linear",
+    "H4_nonlinear_upper_bound"
+  ],
+  "command": [
+    "experiments/head_capacity_geometry/run_geometry.py",
+    "--domain",
+    "wavefake",
+    "--run-id",
+    "wavefake_head_geometry_20260927a"
+  ],
+  "target90_labels_accessed": false,
+  "target90_metrics_accessed": false,
+  "final_heldout_metrics_accessed": false
+}

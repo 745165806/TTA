@@ -1,0 +1,16 @@
+{
+  "run_id": "head_shift_20260927a",
+  "branch": "exp-head-tta",
+  "commit": "7355fc67a7233bfe3b8b5df267b877811b46d4ba",
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "command": [
+    "experiments/head_capacity_geometry/analyze_geometry.py",
+    "--run-id",
+    "head_shift_20260927a"
+  ],
+  "input_runs": {
+    "itw": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-head-tta/experiments/head_capacity_geometry/results/itw_head_geometry_20260927a",
+    "wavefake": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-head-tta/experiments/head_capacity_geometry/results/wavefake_head_geometry_20260927a"
+  },
+  "definition": "delta_unit_head=w_target/||w_target||-w_source/||w_source||"
+}
