@@ -1,0 +1,33 @@
+{
+  "method_id": "tent_audio_ep",
+  "paper": "TENT: Fully Test-Time Adaptation by Entropy Minimization (Wang et al., ICLR 2021)",
+  "paper_ref": "https://arxiv.org/abs/2006.10726",
+  "official_repository": "https://github.com/DequanWang/tent",
+  "repo_commit": "UNPINNED_AUDIT_ONLY",
+  "license": "MIT",
+  "license_ref": "https://github.com/DequanWang/tent (LICENSE)",
+  "official_updated_parameter_scope": "BatchNorm affine (weight/bias) of all normalization layers",
+  "audio_port_updated_parameter_scope": "BatchNorm1d/BatchNorm2d affine of the task-trained anti-spoofing backend ONLY; generic XLS-R frontend excluded",
+  "official_optimizer": "SGD",
+  "audio_port_optimizer": "SGD",
+  "official_lr": 0.001,
+  "audio_port_lr": 0.001,
+  "official_momentum": 0.9,
+  "audio_port_momentum": 0.9,
+  "official_weight_decay": 0.0,
+  "audio_port_weight_decay": 0.0,
+  "official_steps": 1,
+  "audio_port_steps": 1,
+  "official_reset_history_behavior": "online (updates affect subsequent batches)",
+  "audio_port_reset_history_behavior": "per_sample reset; optimizer state and model weights restored per sample",
+  "normalization_policy": "selected BatchNorm modules use batch statistics; running-stat accumulation disabled; other modules eval() to avoid dropout noise",
+  "augmentation_policy": "none",
+  "protocol_deviations": [
+    "episodic per-sample reset instead of online continual updates",
+    "audio backend normalization scope only (excludes generic XLS-R frontend)",
+    "dropout-containing modules kept in eval() to avoid stochastic TTA noise"
+  ],
+  "exact_updated_parameter_names": "anti-spoofing backend BatchNorm1d/BatchNorm2d weight and bias (list captured at runtime)",
+  "parity_test_result": "PENDING",
+  "implementation_status": "AUDITED_UNVERIFIED"
+}
