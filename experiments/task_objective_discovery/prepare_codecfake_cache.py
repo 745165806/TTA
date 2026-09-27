@@ -98,7 +98,9 @@ def run(count, run_id, domain="codecfake"):
         branch = subprocess.check_output(["git", "branch", "--show-current"], cwd=ROOT, text=True).strip()
         write_new(out / "run_config.json", {"run_id": run_id, "branch": branch, "commit": commit,
                   "python": sys.version, "pytorch": torch.__version__, "cuda": torch.version.cuda,
-                  "gpu_available": torch.cuda.is_available(), "seed": 2026,
+                  "gpu_available": torch.cuda.is_available(),
+                  "gpu": torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
+                  "seed": 2026,
                   "dataset": domain, "sample_count": count,
                   "method": "production Frozen SSL-AASIST extraction",
                   "parameters": {"sample_rate": 16000, "waveform_length": 64600,
