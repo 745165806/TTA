@@ -1,0 +1,64 @@
+{
+  "complete": true,
+  "role": "LABEL_FREE_ONE_STEP_O2_HEAD_SCORE_WORKER",
+  "branch": "exp-o2-strength-audit",
+  "commit": "1745c766bed8d834580cc58dd4f0db6b1476179e",
+  "command": [
+    "/home/dell/anaconda3/envs/tta/bin/python",
+    "experiments/o2_strength_audit/run_scores.py",
+    "--run-id",
+    "o2_strength_dev_20260927a"
+  ],
+  "buffer_size": 128,
+  "order": "fixed_manifest",
+  "arms": [
+    "Frozen",
+    "O2-raw",
+    "O2-normalized-small",
+    "O2-normalized-medium",
+    "O2-normalized-large"
+  ],
+  "normalized_deltas": {
+    "O2-normalized-small": 0.01,
+    "O2-normalized-medium": 0.03,
+    "O2-normalized-large": 0.1
+  },
+  "raw_eta_rule": "0.01*source_head_norm",
+  "bias_update": false,
+  "domains": {
+    "itw": {
+      "count": 3178,
+      "unique_ids": 3178,
+      "buffer_count": 25,
+      "numeric_failures": 0
+    },
+    "wavefake": {
+      "count": 4096,
+      "unique_ids": 4096,
+      "buffer_count": 32,
+      "numeric_failures": 0
+    }
+  },
+  "itw_cache": {
+    "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/gradient_alignment_audit/target10_only_cache",
+    "cache_id": "gradient-target10-only-20260927a",
+    "selected_only_count": 3178
+  },
+  "wavefake_cache": {
+    "source_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+    "source_run_id": "source-20260919T083421Z-a61b23",
+    "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+    "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/feature_cache",
+    "cache_id": "capacity-wavefake-wavefake_capacity_cache_20260927a",
+    "selection_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/capacity_audit/manifests/wavefake_capacity_select.json",
+    "selected_rows_loaded": 4096,
+    "chunk_id_metadata_rows_scanned": 4096,
+    "nonselected_feature_values_loaded_into_application": false,
+    "target_labels_read": false,
+    "target90_labels_read": false,
+    "target90_metrics_read": false,
+    "tau0": -4.770049095153809
+  },
+  "target_labels_read": false,
+  "target90_labels_or_metrics_read": false
+}

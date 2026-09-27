@@ -217,3 +217,11 @@ Why: The earlier gradient audit had a shared-cache protocol deviation. The curre
 What this excludes: The replay is no longer dependent on opening the shared target_test cache at audit time. Its full alignment CSV is byte-identical to the exploratory run, so the earlier O2 numerical observation was not caused by selected-row extraction differences. O2 full cosine is positive in ITW and WaveFake and all 25/32 chunks are positive, satisfying the fixed `CROSS_DOMAIN_O2_GRADIENT_ALIGNMENT_CONFIRMED` gate. This still does not prove that an update improves ranking.
 
 Next design: Run only the preregistered one-step O2 direction-versus-strength comparison on the same fixed B128 chunks, keeping source bias and encoder frozen. Do not expand buffers, losses or step sizes based on its outcomes.
+
+## 2026-09-27 — Positive pooled O2 alignment does not yield useful one-step correction
+
+Why: The compliant gradient replay confirmed positive O2 full-domain head-gradient cosine and positive cosine in every fixed B128 chunk on ITW and WaveFake, while O2's raw head-gradient norm was small relative to the supervised reference. The precommitted mechanism test isolated raw versus normalized update magnitude at the frozen source head.
+
+What this excludes: Raw updates changed AUC by only `+0.000003/−0.000004` on ITW/WaveFake. Normalized relative steps of `0.01/0.03/0.10` produced increasing head and score movement, yet none achieved the fixed ITW or WaveFake practical AUC/EER improvement thresholds. WaveFake AUC fell by `0.004009` at delta0.10, with a strictly negative paired development interval. This excludes the simple explanation that O2 failed only because the raw gradient was too weak under the tested B128, one-step, source-reset head setup. The result does not disprove the measured positive cosine or all possible objectives.
+
+Next design: Record `O2_ALIGNMENT_INSUFFICIENT_FOR_TASK_CORRECTION` and stop scaling O2; no post-hoc delta, batch, loss or calibration changes. A future separately authorized method study may examine source-trained gradient-aligned auxiliary signals, but this experiment implements none. Preserve selected-only cache/provenance and full negative results; keep target90 labels/metrics and final evaluation unopened.
