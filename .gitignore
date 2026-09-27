@@ -242,5 +242,6 @@ experiments/task_objective_discovery/results/
 experiments/codecfake_compat/results/
 experiments/local_distribution_tta/results/
 experiments/large_scale_confirmation/results/
+experiments/capacity_audit/results/
 /outputs_v2
 outputs_v2/

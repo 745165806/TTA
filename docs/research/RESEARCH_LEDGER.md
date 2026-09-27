@@ -394,3 +394,37 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: 316272/316272 score rows, 4968/4968 buffers, zero numeric/reset failures. ITW local Base/O1 mean ΔAUC `+0.000008/+0.000031` with order std `0.000036/0.000021`; Codecfake `+0.000706/+0.001033` with order std `0.002108/0.002770`, positive paired bootstrap lower bounds only 2/6 orders each and 3/6 positive point estimates each; LA `-0.000009/-0.000010`, Frozen AUC already `0.999962`. Codecfake rate/class perfect confound: 16/24 kHz all spoof, 44.1/48 kHz all bonafide. Local Codecfake EER unchanged.
 - interpretation: the prior Codecfake 512 `~+0.01` AUC result is not reproduced at 5000 across six orders; the large-set mean effect is below +0.005 and smaller than order std. ITW effect is practically negligible. LA gives no positive replication and is near ceiling. The Codecfake rate/class confound prevents a clean spoof-versus-format mechanism claim.
 - next_decision: `SMALL_DEVELOPMENT_ARTIFACT`; promote NONE, stop Local-TTA as a method mainline, make no new TTA module or method lock, and preserve all negative/failed records. Target90 and final held-out metrics remain unopened.
+
+## Local-TTA line closure and capacity-audit transition 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: 314ae7e (input evidence; this append committed separately)
+- experiment_id: large_scale_confirmation/confirmation_large_20260927a (formal interpretation; no rerun)
+- purpose: formally close the Local-TTA method mainline before starting supervised development capacity diagnosis
+- datasets: ITW target10 3178; Codecfake official dev fixed5000 (RATE_CLASS_CONFOUNDED); ASVspoof2019 LA dev 4972 protocol-labelled (NEAR_CEILING)
+- manifests: unchanged fixed large-scale confirmation assignments and six label-free orders
+- method: frozen, per-sample Base, Local-Base B32, Local-O1 B32; no new method run in this entry
+- parameters: K=5, lr=0.03, rho=0.1, B=32, projected 8×8 R, six orders, 1000 paired bootstrap draws
+- command: no new experiment; interpretation of preserved `experiments/large_scale_confirmation/summary/confirmation_large_20260927a/`
+- result_directory: `experiments/large_scale_confirmation/results/confirmation_large_20260927a/` (read-only historical run)
+- key_metrics: ITW Local-Base/O1 mean ΔAUC +0.000008/+0.000031; Codecfake +0.000706/+0.001033 versus order std 0.002108/0.002770; LA −0.000009/−0.000010
+- interpretation: `SMALL_DEVELOPMENT_ARTIFACT`; Local-TTA mainline = CLOSED; promoted candidate = NONE. Codecfake rate/class confounding and LA ceiling restrict mechanism interpretation.
+- next_decision: audit clean WaveFake paired development data; then run a preregistered **supervised development diagnosis**, not a TTA method or final evaluation, to locate representation versus adapter capacity. Target90 and final held-out metrics remain unopened.
+
+## WaveFake local paired-development resource audit 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: 314ae7e input; audit/assignment committed with this entry
+- experiment_id: capacity_audit/wavefake_resource_audit_20260927a
+- purpose: determine whether an independent two-class, content-related development resource is locally available without a rate/codec class confound
+- datasets: local WaveFake 131 Parquet partitions, 104800 rows, 13100 complete `audio_id` groups
+- manifests: newly fixed `experiments/capacity_audit/manifests/wavefake_capacity_select.json` and separate supervised-development labels sidecar; 2048 groups / 4096 waveform rows selected once using seed2026
+- method: Parquet metadata and WAV-header audit; no detector adaptation or ranking experiment
+- parameters: pyarrow 21.0.0; `random.Random(2026).sample(sorted_audio_ids,2048)`; R plus one WF1..WF7 generator per group in cyclic order
+- command: `conda run -n tta python experiments/capacity_audit/audit_wavefake.py --out experiments/capacity_audit/wavefake_audit.json`; `conda run -n tta python experiments/capacity_audit/make_wavefake_assignment.py`
+- result_directory: `experiments/capacity_audit/` (audit JSON/MD and fixed manifests; no supervised metrics yet)
+- key_metrics: 13100/13100 IDs have R plus WF1..WF7; all 104800 WAV headers mono, 22050 Hz, uncompressed 16-bit PCM; zero invalid WAV; selected 4096 unique rows with 2048 real and 2048 generated; generator counts 292–293 each
+- interpretation: matched-format paired development is feasible, with an unresolved small systematic duration-offset cue and no independent speaker/language/transcript metadata. This is not proof of spoof-specific generalization.
+- next_decision: use the fixed explicit 22050→16000 compatibility path and production Frozen extractor; require 32-waveform smoke and full selected-cache validation before five-fold supervised capacity analysis. No target90 or final holdout access.

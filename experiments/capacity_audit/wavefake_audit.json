@@ -1,0 +1,335 @@
+{
+  "root": "/media/dell/data/fakedata/WaveFake/data",
+  "partition_count": 131,
+  "bytes": 30277547105,
+  "partition_rows": {
+    "partition0-00000-of-00001.parquet": 800,
+    "partition1-00000-of-00001.parquet": 800,
+    "partition10-00000-of-00001.parquet": 800,
+    "partition100-00000-of-00001.parquet": 800,
+    "partition101-00000-of-00001.parquet": 800,
+    "partition102-00000-of-00001.parquet": 800,
+    "partition103-00000-of-00001.parquet": 800,
+    "partition104-00000-of-00001.parquet": 800,
+    "partition105-00000-of-00001.parquet": 800,
+    "partition106-00000-of-00001.parquet": 800,
+    "partition107-00000-of-00001.parquet": 800,
+    "partition108-00000-of-00001.parquet": 800,
+    "partition109-00000-of-00001.parquet": 800,
+    "partition11-00000-of-00001.parquet": 800,
+    "partition110-00000-of-00001.parquet": 800,
+    "partition111-00000-of-00001.parquet": 800,
+    "partition112-00000-of-00001.parquet": 800,
+    "partition113-00000-of-00001.parquet": 800,
+    "partition114-00000-of-00001.parquet": 800,
+    "partition115-00000-of-00001.parquet": 800,
+    "partition116-00000-of-00001.parquet": 800,
+    "partition117-00000-of-00001.parquet": 800,
+    "partition118-00000-of-00001.parquet": 800,
+    "partition119-00000-of-00001.parquet": 800,
+    "partition12-00000-of-00001.parquet": 800,
+    "partition120-00000-of-00001.parquet": 800,
+    "partition121-00000-of-00001.parquet": 800,
+    "partition122-00000-of-00001.parquet": 800,
+    "partition123-00000-of-00001.parquet": 800,
+    "partition124-00000-of-00001.parquet": 800,
+    "partition125-00000-of-00001.parquet": 800,
+    "partition126-00000-of-00001.parquet": 800,
+    "partition127-00000-of-00001.parquet": 800,
+    "partition128-00000-of-00001.parquet": 800,
+    "partition129-00000-of-00001.parquet": 800,
+    "partition13-00000-of-00001.parquet": 800,
+    "partition130-00000-of-00001.parquet": 800,
+    "partition14-00000-of-00001.parquet": 800,
+    "partition15-00000-of-00001.parquet": 800,
+    "partition16-00000-of-00001.parquet": 800,
+    "partition17-00000-of-00001.parquet": 800,
+    "partition18-00000-of-00001.parquet": 800,
+    "partition19-00000-of-00001.parquet": 800,
+    "partition2-00000-of-00001.parquet": 800,
+    "partition20-00000-of-00001.parquet": 800,
+    "partition21-00000-of-00001.parquet": 800,
+    "partition22-00000-of-00001.parquet": 800,
+    "partition23-00000-of-00001.parquet": 800,
+    "partition24-00000-of-00001.parquet": 800,
+    "partition25-00000-of-00001.parquet": 800,
+    "partition26-00000-of-00001.parquet": 800,
+    "partition27-00000-of-00001.parquet": 800,
+    "partition28-00000-of-00001.parquet": 800,
+    "partition29-00000-of-00001.parquet": 800,
+    "partition3-00000-of-00001.parquet": 800,
+    "partition30-00000-of-00001.parquet": 800,
+    "partition31-00000-of-00001.parquet": 800,
+    "partition32-00000-of-00001.parquet": 800,
+    "partition33-00000-of-00001.parquet": 800,
+    "partition34-00000-of-00001.parquet": 800,
+    "partition35-00000-of-00001.parquet": 800,
+    "partition36-00000-of-00001.parquet": 800,
+    "partition37-00000-of-00001.parquet": 800,
+    "partition38-00000-of-00001.parquet": 800,
+    "partition39-00000-of-00001.parquet": 800,
+    "partition4-00000-of-00001.parquet": 800,
+    "partition40-00000-of-00001.parquet": 800,
+    "partition41-00000-of-00001.parquet": 800,
+    "partition42-00000-of-00001.parquet": 800,
+    "partition43-00000-of-00001.parquet": 800,
+    "partition44-00000-of-00001.parquet": 800,
+    "partition45-00000-of-00001.parquet": 800,
+    "partition46-00000-of-00001.parquet": 800,
+    "partition47-00000-of-00001.parquet": 800,
+    "partition48-00000-of-00001.parquet": 800,
+    "partition49-00000-of-00001.parquet": 800,
+    "partition5-00000-of-00001.parquet": 800,
+    "partition50-00000-of-00001.parquet": 800,
+    "partition51-00000-of-00001.parquet": 800,
+    "partition52-00000-of-00001.parquet": 800,
+    "partition53-00000-of-00001.parquet": 800,
+    "partition54-00000-of-00001.parquet": 800,
+    "partition55-00000-of-00001.parquet": 800,
+    "partition56-00000-of-00001.parquet": 800,
+    "partition57-00000-of-00001.parquet": 800,
+    "partition58-00000-of-00001.parquet": 800,
+    "partition59-00000-of-00001.parquet": 800,
+    "partition6-00000-of-00001.parquet": 800,
+    "partition60-00000-of-00001.parquet": 800,
+    "partition61-00000-of-00001.parquet": 800,
+    "partition62-00000-of-00001.parquet": 800,
+    "partition63-00000-of-00001.parquet": 800,
+    "partition64-00000-of-00001.parquet": 800,
+    "partition65-00000-of-00001.parquet": 800,
+    "partition66-00000-of-00001.parquet": 800,
+    "partition67-00000-of-00001.parquet": 800,
+    "partition68-00000-of-00001.parquet": 800,
+    "partition69-00000-of-00001.parquet": 800,
+    "partition7-00000-of-00001.parquet": 800,
+    "partition70-00000-of-00001.parquet": 800,
+    "partition71-00000-of-00001.parquet": 800,
+    "partition72-00000-of-00001.parquet": 800,
+    "partition73-00000-of-00001.parquet": 800,
+    "partition74-00000-of-00001.parquet": 800,
+    "partition75-00000-of-00001.parquet": 800,
+    "partition76-00000-of-00001.parquet": 800,
+    "partition77-00000-of-00001.parquet": 800,
+    "partition78-00000-of-00001.parquet": 800,
+    "partition79-00000-of-00001.parquet": 800,
+    "partition8-00000-of-00001.parquet": 800,
+    "partition80-00000-of-00001.parquet": 800,
+    "partition81-00000-of-00001.parquet": 800,
+    "partition82-00000-of-00001.parquet": 800,
+    "partition83-00000-of-00001.parquet": 800,
+    "partition84-00000-of-00001.parquet": 800,
+    "partition85-00000-of-00001.parquet": 800,
+    "partition86-00000-of-00001.parquet": 800,
+    "partition87-00000-of-00001.parquet": 800,
+    "partition88-00000-of-00001.parquet": 800,
+    "partition89-00000-of-00001.parquet": 800,
+    "partition9-00000-of-00001.parquet": 800,
+    "partition90-00000-of-00001.parquet": 800,
+    "partition91-00000-of-00001.parquet": 800,
+    "partition92-00000-of-00001.parquet": 800,
+    "partition93-00000-of-00001.parquet": 800,
+    "partition94-00000-of-00001.parquet": 800,
+    "partition95-00000-of-00001.parquet": 800,
+    "partition96-00000-of-00001.parquet": 800,
+    "partition97-00000-of-00001.parquet": 800,
+    "partition98-00000-of-00001.parquet": 800,
+    "partition99-00000-of-00001.parquet": 800
+  },
+  "schema_variants": {
+    "audio: struct<bytes: binary, path: string>\n  child 0, bytes: binary\n  child 1, path: string\naudio_id: string\nreal_or_fake: string": 131
+  },
+  "row_count": 104800,
+  "label_values": {
+    "WF1": 13100,
+    "WF2": 13100,
+    "WF3": 13100,
+    "WF4": 13100,
+    "WF5": 13100,
+    "WF6": 13100,
+    "WF7": 13100,
+    "R": 13100
+  },
+  "unique_audio_ids": 13100,
+  "complete_eight_way_ids": 13100,
+  "incomplete_id_examples": [],
+  "ids_spanning_partitions": 0,
+  "path_suffixes": {
+    ".wav": 104800
+  },
+  "path_suffixes_by_label": {
+    "WF1": {
+      ".wav": 13100
+    },
+    "WF2": {
+      ".wav": 13100
+    },
+    "WF3": {
+      ".wav": 13100
+    },
+    "WF4": {
+      ".wav": 13100
+    },
+    "WF5": {
+      ".wav": 13100
+    },
+    "WF6": {
+      ".wav": 13100
+    },
+    "WF7": {
+      ".wav": 13100
+    },
+    "R": {
+      ".wav": 13100
+    }
+  },
+  "rates_by_label": {
+    "WF1": {
+      "22050": 13100
+    },
+    "WF2": {
+      "22050": 13100
+    },
+    "WF3": {
+      "22050": 13100
+    },
+    "WF4": {
+      "22050": 13100
+    },
+    "WF5": {
+      "22050": 13100
+    },
+    "WF6": {
+      "22050": 13100
+    },
+    "WF7": {
+      "22050": 13100
+    },
+    "R": {
+      "22050": 13100
+    }
+  },
+  "channels_by_label": {
+    "WF1": {
+      "1": 13100
+    },
+    "WF2": {
+      "1": 13100
+    },
+    "WF3": {
+      "1": 13100
+    },
+    "WF4": {
+      "1": 13100
+    },
+    "WF5": {
+      "1": 13100
+    },
+    "WF6": {
+      "1": 13100
+    },
+    "WF7": {
+      "1": 13100
+    },
+    "R": {
+      "1": 13100
+    }
+  },
+  "codecs_by_label": {
+    "WF1": {
+      "NONE_16bit": 13100
+    },
+    "WF2": {
+      "NONE_16bit": 13100
+    },
+    "WF3": {
+      "NONE_16bit": 13100
+    },
+    "WF4": {
+      "NONE_16bit": 13100
+    },
+    "WF5": {
+      "NONE_16bit": 13100
+    },
+    "WF6": {
+      "NONE_16bit": 13100
+    },
+    "WF7": {
+      "NONE_16bit": 13100
+    },
+    "R": {
+      "NONE_16bit": 13100
+    }
+  },
+  "duration_seconds_by_label": {
+    "WF1": {
+      "count": 13100,
+      "min": 1.1145578231292517,
+      "p05": 2.681904761904762,
+      "median": 6.768616780045352,
+      "p95": 9.729160997732427,
+      "max": 10.100680272108843
+    },
+    "WF2": {
+      "count": 13100,
+      "min": 1.1145578231292517,
+      "p05": 2.681904761904762,
+      "median": 6.768616780045352,
+      "p95": 9.729160997732427,
+      "max": 10.100680272108843
+    },
+    "WF3": {
+      "count": 13100,
+      "min": 1.1029478458049886,
+      "p05": 2.670294784580499,
+      "median": 6.757006802721088,
+      "p95": 9.717551020408163,
+      "max": 10.08907029478458
+    },
+    "WF4": {
+      "count": 13100,
+      "min": 1.1145578231292517,
+      "p05": 2.681904761904762,
+      "median": 6.768616780045352,
+      "p95": 9.729160997732427,
+      "max": 10.100680272108843
+    },
+    "WF5": {
+      "count": 13100,
+      "min": 1.1145578231292517,
+      "p05": 2.681904761904762,
+      "median": 6.768616780045352,
+      "p95": 9.729160997732427,
+      "max": 10.100680272108843
+    },
+    "WF6": {
+      "count": 13100,
+      "min": 1.1145578231292517,
+      "p05": 2.681904761904762,
+      "median": 6.768616780045352,
+      "p95": 9.729160997732427,
+      "max": 10.100680272108843
+    },
+    "WF7": {
+      "count": 13100,
+      "min": 1.1145578231292517,
+      "p05": 2.681904761904762,
+      "median": 6.768616780045352,
+      "p95": 9.729160997732427,
+      "max": 10.100680272108843
+    },
+    "R": {
+      "count": 13100,
+      "min": 1.1100680272108843,
+      "p05": 2.6774149659863946,
+      "median": 6.764126984126984,
+      "p95": 9.72467120181406,
+      "max": 10.096190476190475
+    }
+  },
+  "invalid_wav": {},
+  "speaker_field": "ABSENT",
+  "language_field": "ABSENT",
+  "generator_field": "real_or_fake has WF1..WF7/R codes; no independent generator metadata",
+  "pairing_key": "audio_id",
+  "audio_storage": "embedded bytes in audio struct; audio.path is a basename only"
+}

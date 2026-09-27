@@ -105,3 +105,19 @@ Why: The Codecfake 512 fixed-order local B32 gain could be a sample/order effect
 What these results exclude: A practically meaningful, order-stable two-domain positive local effect at fixed K=5/lr=0.03/rho=0.1/B32. Codecfake's large-set mean ΔAUC is `+0.000706/+0.001033`, smaller than its order std `0.002108/0.002770`; only three of six orders are positive. ITW is approximately zero; LA is tiny negative and near Frozen ceiling. Codecfake's sample rate perfectly determines class in this locked selection, so its AUC movement cannot isolate spoof-discriminative correction from recording/compatibility cues. This does not prove that all forms of local TTA fail.
 
 Next design: Record `SMALL_DEVELOPMENT_ARTIFACT` and stop the Local-TTA method line. Do not extend B, tune the budget, add a new objective/gate/preservation/controller, or access target90/final metrics from this evidence. Any new scientific direction must first identify a development resource where spoof labels are not confounded with format and preregister a separate confirmation; it is outside this phase.
+
+## 2026-09-27 — Formally close Local-TTA and audit correctable capacity
+
+Why: The larger six-order confirmation reduced the Codecfake 512 positive AUC movement to a mean below its order variation; ITW remained near zero, ASV2019 LA was at ceiling, and Codecfake sample rate perfectly tracked class. The prior guarded Oracle and objective studies also found little reliable correction.
+
+What this excludes: The current evidence cannot support Local-TTA as a general spoof-discriminative mechanism or justify another objective, gate, preservation, buffer or continual module. It does not establish whether the frozen 160D features, frozen classifier plus 8×8 R, or label-free update direction is the limiting factor.
+
+Next design: Set `SMALL_DEVELOPMENT_ARTIFACT`, Local-TTA mainline `CLOSED`, candidate `NONE`. Audit WaveFake for a content-paired, format-checked two-class development resource. Pre-register supervised 5-fold held-out capacity diagnostics before inspecting their metrics. These diagnostics are **not a proposed TTA method, not unsupervised, and not final performance**.
+
+## 2026-09-27 — Use fixed paired WaveFake development with an explicit duration caveat
+
+Why: Codecfake cannot separate class from sample rate, while the local WaveFake resource has complete `audio_id` related-content groups and both real and generated waveforms in a common audio format. A second clean-enough two-class development source is needed before attributing a correctable gap to representation or adapter scope.
+
+What this excludes: Across all 104800 rows, rate, container, channel count and PCM width do not distinguish real from generated class. It does **not** exclude shortcut evidence: R and generated files have a small systematic duration offset, and speaker/language/transcript metadata are absent.
+
+Next design: Freeze 2048 randomly selected content IDs with one real and one cyclically assigned WF generator per ID. Run only the explicit SciPy 1.13.0 22050→16000 production-compatible extraction path, validate 32 waveforms before complete selected-cache generation, and keep all content pairs together during five-fold supervised CV. Preserve the duration caveat in every capacity interpretation.
