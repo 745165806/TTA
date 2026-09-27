@@ -153,3 +153,19 @@ Why: A within-domain linear probe gap only motivates target adaptation if its di
 What this excludes: Direct ITW→WaveFake and WaveFake→ITW linear probes both rank worse than the destination Frozen detector, excluding a simple transferable head direction in these development data. The exact convex equivalent of radius-0.1 supervised R gives ITW ΔAUC +0.000027 and WaveFake −0.006956, excluding Adam early-stop as the explanation for the C1 non-result under the same BCE and radius. C3 adds only about 0.001 AUC beyond C2, so nonlinear readout is not the current necessary explanation.
 
 Next design: Record `R_PARAMETERIZATION_BOTTLENECK` with the precise qualifier **current radius-0.1 R plus frozen classifier**. The actionable information gap is in a supervised target-domain linear readout, but target-label-free recovery remains unsolved. If a later stage develops a method, focus on controlled classifier/head or more expressive low-rank adaptation and require label-free evidence plus held-out validation; do not reopen Local-TTA, target90 or final held-out metrics now.
+
+## 2026-09-27 — Correct strict target90 feature-I/O access status
+
+Why: The completed ITW capacity worker selected only target10 IDs, but its inherited cache reader loads every chunk of the 31779-row target_test feature cache before filtering. The project's strict boundary treats file-byte reads as access, as established by the earlier ASV label-file correction.
+
+What this excludes: A blanket `target90 accessed=NO` claim is inaccurate for these runs under byte-level semantics. Target90 labels, scores, metrics, selection and adaptation were not used; only nonselected frozen feature-cache bytes were read and discarded. This does not alter which rows entered the five-fold CV, but it is a protocol access caveat.
+
+Next design: Append the correction without rewriting historical run fields or metrics. No further target90 read is needed for this stage. Future development code must use selected-only target10 features or selective I/O before asserting strict no-access.
+
+## 2026-09-27 — Do not treat audited WaveFake leftovers as untouched final data
+
+Why: The authorized WaveFake audit inspected class codes and WAV headers across all local Parquet rows before fixing a 4096-row paired development selection.
+
+What this excludes: The unselected local WaveFake rows cannot honestly be relabelled as an untouched final holdout, even though they were not trained on or scored for capacity. No separate WaveFake final-holdout assignment or metric exists in this stage.
+
+Next design: Preserve the fixed development selection and audit records. Any later final WaveFake claim must use an independently protected resource or explicitly account for this prior label/header access; do not manufacture a new untouched partition from the audited pool.

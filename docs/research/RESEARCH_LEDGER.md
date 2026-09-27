@@ -513,3 +513,37 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: ITW optimized C1 AUC/EER 0.963335/0.098571 (ΔAUC +0.000027); WaveFake 0.908047/0.166992 (ΔAUC −0.006956, EER worse 0.009277). Both remain non-actionable; R-equivalent q reaches its radius in all folds.
 - interpretation: the original C1 non-result is not an Adam early-stop artifact for supervised BCE in the same bounded score family. This does not rule out another supervised ranking loss or a larger radius/subspace.
 - next_decision: classify current frozen-head plus bounded-R space as the bottleneck relative to linearly readable target features; preserve cross-domain nontransfer and WaveFake duration caveats. No gradient-direction study because C1 has no actionable gain; no optional backend fine-tune because C2 already answers the representation-readout question.
+
+## Target90 feature-cache I/O boundary correction 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: afc0639 (capacity results before correction); correction appended in a new commit
+- experiment_id: capacity_audit/target90_feature_io_correction_20260927a
+- purpose: correct the strict access declaration after reviewing the ITW feature reader used in the completed capacity runs
+- datasets: existing ITW cache index contains 31779 target_test feature rows, while the fixed target10 selection contains 3178
+- manifests: unchanged selected-only target10 labels and selection; no target90 labels or metrics opened
+- method: read-only code/path audit of `load_itw()`→`load_context()`→`FeatureCache.iter_chunks()`; no metric rerun
+- parameters: no adaptation or training change
+- command: read `experiments/multidomain_mechanism/guard_worker.py::load_context`, `src/eptta/cache/reader.py::iter_chunks`, and the existing cache `index.json` sample_count
+- result_directory: `experiments/capacity_audit/TARGET90_FEATURE_IO_CORRECTION.md`
+- key_metrics: the loader reads all 31779 feature-cache rows at chunk I/O, then retains only the wanted 3178 target10 rows. Under strict byte-access semantics, target90 feature bytes accessed = YES; target90 labels/metrics/selection/adaptation = NO.
+- interpretation: earlier `target90_accessed=false` capacity run fields were too broad; they correctly describe label/metric/selection use, but not feature-cache I/O. Scientific CV inputs remain target10-only, yet the strict access boundary was crossed.
+- next_decision: make no new target90 read; require a target10-only feature artifact or selective reader for any future run that needs a strict `target90 accessed=NO` claim. Preserve all original runs and this correction.
+
+## WaveFake future-holdout boundary clarification 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: afc0639 result context; clarification appended in a new commit
+- experiment_id: capacity_audit/wavefake_future_holdout_boundary_20260927a
+- purpose: prevent the already audited unselected WaveFake rows from later being misrepresented as untouched final data
+- datasets: all 104800 local WaveFake rows were covered by class-code/WAV-header resource audit; 4096 fixed selected rows entered supervised development CV
+- manifests: fixed WaveFake capacity selection unchanged; no final-holdout manifest created
+- method: boundary clarification only; no new metric or selection
+- parameters: none
+- command: review `experiments/capacity_audit/audit_wavefake.py` and `wavefake_audit.json`
+- result_directory: `experiments/capacity_audit/WAVEFAKE_FUTURE_HOLDOUT_BOUNDARY.md`
+- key_metrics: no final-holdout metric was computed; full local resource metadata/headers and label codes were read during the authorized audit
+- interpretation: unselected local WaveFake rows are not untouched under byte-access semantics
+- next_decision: retain audited resource for development only; any future final claim requires independently protected data or a transparent prior-access account.

@@ -1,0 +1,9 @@
+# Target90 feature-cache I/O boundary correction — 2026-09-27
+
+This correction is append-only and supersedes any `target90_accessed=false` field in this capacity-audit run when that field is interpreted as **any bytes read**. It does not change the saved scores, labels, folds, metrics, assignments, methods or decisions.
+
+`experiments/capacity_audit/run_ladder.py::load_itw()` calls the existing `experiments/multidomain_mechanism/guard_worker.py::load_context()` with the 3,178 fixed target10 IDs. That reader loops over every chunk of `outputs_v2/ssl_aasist/cache-target-in_the_wild`, whose index declares 31,779 `target_test` feature rows, and filters IDs only after loading each chunk. Consequently, the ITW ladder, cross-domain probe and C1 convex check **read feature-cache bytes from nonselected target90 rows** even though they did not retain those rows in their input matrices. The strict `target90 accessed` answer is therefore **YES (feature-cache I/O only)**.
+
+The code's `wanted` filter retained exactly the 3,178 target10 features; all training, fold assignments, predictions and metrics used only target10 rows. The selected-only `inwild_target10.json` supplied labels. No target90 label file, target90 score, target90 metric or target90-based selection was read, computed or used. There was no target90 adaptation or final evaluation. The previous `target90_accessed=false` run fields use the narrower meaning **no target90 labels/metrics/selection**, not no feature-cache bytes. Future ITW development workflows must use an explicit target10-only feature artifact or a reader that avoids nonselected feature bytes before claiming strict no-access status.
+
+The previous ASV eval label-file boundary correction remains separate and unchanged. This correction is recorded immediately after discovery; no old record is deleted or rewritten.

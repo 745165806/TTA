@@ -1,0 +1,10 @@
+{
+  "correction_date": "2026-09-27",
+  "supersedes_field": "summary.json:target90_accessed=false when interpreted as any bytes read",
+  "strict_target90_feature_cache_bytes_accessed": true,
+  "target90_labels_accessed": false,
+  "target90_scores_or_metrics_accessed": false,
+  "target90_used_for_training_selection_or_adaptation": false,
+  "reason": "The inherited ITW FeatureCache.iter_chunks reader loads all chunks of the 31779-row target_test cache before retaining only 3178 fixed target10 IDs.",
+  "detail_ref": "../../TARGET90_FEATURE_IO_CORRECTION.md"
+}
