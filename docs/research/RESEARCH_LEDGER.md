@@ -547,3 +547,54 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: no final-holdout metric was computed; full local resource metadata/headers and label codes were read during the authorized audit
 - interpretation: unselected local WaveFake rows are not untouched under byte-access semantics
 - next_decision: retain audited resource for development only; any future final claim requires independently protected data or a transparent prior-access account.
+
+## Supervised five-fold head geometry 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-head-tta
+- commit: a780b5c (precommitted H0–H4 contract/runner)
+- experiment_id: head_capacity_geometry/itw_head_geometry_20260927a and wavefake_head_geometry_20260927a
+- purpose: separate source-head calibration, fixed-norm direction change, and full linear target-head capacity before any new unlabeled adaptation
+- datasets: existing ITW target10 3178; fixed WaveFake related-content paired development 4096
+- manifests: exact saved five outer capacity folds; WaveFake `audio_id` kept together in outer and inner splits; ITW target10-only labels and WaveFake selected-only labels used solely by supervised audit
+- method: H0 bias-only; H1 positive scale+bias; H2 independently trained fixed-source-norm direction with source bias; H3 full linear reproducing prior C2; H4 reused prior nonlinear C3 held-out scores
+- parameters: H0/H1 convex BCE, L2 1e-4; H2/H3 Adam lr0.01, batch256, max100 epochs, inner10% validation, patience10, seed2026; source 160D original-view embeddings, no encoder update
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/head_capacity_geometry/run_geometry.py --domain itw --run-id itw_head_geometry_20260927a`; same with `--domain wavefake --run-id wavefake_head_geometry_20260927a`
+- result_directory: `experiments/head_capacity_geometry/results/itw_head_geometry_20260927a/` and `results/wavefake_head_geometry_20260927a/`
+- key_metrics: ITW H2/H3 AUC `0.967247/0.973159` vs Frozen `0.963309`; WaveFake `0.934795/0.951711` vs Frozen `0.915003`; H2/H3 EER ITW `0.096106/0.085292`, WaveFake `0.135742/0.114258`. H2 AUC improvements occur in all five folds of both domains. H2 recovers `39.98%/53.92%` of H3 AUC gain, below predeclared 80%. H3 prior C2 score parity max difference 0; H0/H1 preserve within-fold ranking exactly.
+- interpretation: supervised direction change contributes but independently constrained H2 is not equivalent to H3; `DECISION_DIRECTION_SHIFT` by preregistered H2≈H3 rule is NOT_CONFIRMED. Pooled H0/H1 shifts are fold-specific calibration, not new within-fold discrimination. Supervised linear probe remains only an upper bound, not TTA.
+- next_decision: quantify actual fold head vectors and R-expressible correction; do not implement H-UA1 until geometry/R audits complete.
+
+## Supervised source-target head shift 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-head-tta
+- commit: 7355fc6 (geometry analysis code)
+- experiment_id: head_capacity_geometry/head_shift_20260927a
+- purpose: measure source versus supervised target decision direction and bias across saved five-fold heads, plus descriptive cross-domain delta similarity
+- datasets: ITW target10 and fixed WaveFake paired development; no new sample selection
+- manifests: H3 head weights from the two saved five-fold geometry runs
+- method: normalize each w to unit length; report cosine, angle, norm of `unit(w*)−unit(w_s)`, raw bias delta, and mean/25 pairwise cross-domain delta cosines
+- parameters: deterministic vector analysis; no fit or hyperparameter
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/head_capacity_geometry/analyze_geometry.py --run-id head_shift_20260927a`
+- result_directory: `experiments/head_capacity_geometry/results/head_shift_20260927a/`
+- key_metrics: mean source-target angle ITW `83.37°`, WaveFake `85.50°`; mean cross-domain unit-delta cosine `0.664`, 25 pairwise cosines `0.566–0.705`; raw bias delta means `−9.94/+10.70`
+- interpretation: large target-specific head rotations exist in supervised development, but geometric delta similarity does not establish direct transfer; historical bidirectional direct probe transfer was negative.
+- next_decision: test how much of the normalized supervised head displacement lies in the actual production R-induced effective-head family.
+
+## Production R effective-head expressibility 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-head-tta
+- commit: 7355fc6 (precommitted effective-head contract and runner)
+- experiment_id: head_capacity_geometry/r_expressibility_20260927a
+- purpose: quantify why the supervised target linear-boundary correction could not be reached by the previous frozen-head 8×8 R space
+- datasets: fixed ITW target10 feature rows for parity; 5 ITW and 5 WaveFake supervised H3 fold heads
+- manifests: unchanged geometry fold heads; no new target labels used in this projection
+- method: derive `w_eff=w_s+U Rᵀ(Uᵀw_s)` from actual `apply_adapter`; verify 20 random radius-0.1 R on 32 real embeddings; project scale-normalized H3 head deltas to span(U), then impose q-radius `0.1||Uᵀw_s||`
+- parameters: seed2026, rho0.1, parity tolerance1e-5, predeclared mismatch threshold ≥4/5 folds per domain with explained fraction<0.5
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/head_capacity_geometry/audit_r_expressibility.py --run-id r_expressibility_20260927a`
+- result_directory: `experiments/head_capacity_geometry/results/r_expressibility_20260927a/`
+- key_metrics: direct/derived score parity max `1.907e-6`; U orthogonality error `2.533e-8`; `||Uᵀw_s||=0.483962`, allowed q norm `0.048396`. Mean subspace explained fraction ITW/WaveFake `0.172633/0.171386`; radius-limited `0.033830/0.033058`; all 5 folds in each domain <0.5.
+- interpretation: `R_PARAMETERIZATION_MISMATCH` confirmed under the predeclared rule for these supervised H3 directions. Previous bounded-R loss searches cannot recover most of this measured head correction.
+- next_decision: retire R-adapter TTA research and implement only the predeclared label-free episodic source-anchored linear head prototype H-UA1, with fixed B256 and three alpha values.

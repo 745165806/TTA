@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "role": "SUPERVISED_DEVELOPMENT_GEOMETRY_NOT_TTA",
+  "mean_delta_crossdomain_cosine": 0.6642198795981542,
+  "pairwise_delta_cosine_min": 0.5662751142429185,
+  "pairwise_delta_cosine_mean": 0.6489536496864564,
+  "pairwise_delta_cosine_max": 0.7045490049602637,
+  "per_domain": {
+    "itw": {
+      "mean_angle_degrees": 83.3733056090781,
+      "angle_range_degrees": [
+        82.6591850972206,
+        83.95472821553906
+      ],
+      "mean_normalized_delta_norm": 1.3300983814839615
+    },
+    "wavefake": {
+      "mean_angle_degrees": 85.49606547540898,
+      "angle_range_degrees": [
+        84.57758866677196,
+        86.51918007453553
+      ],
+      "mean_normalized_delta_norm": 1.357530858749011
+    }
+  },
+  "target90_labels_accessed": false,
+  "target90_metrics_accessed": false
+}

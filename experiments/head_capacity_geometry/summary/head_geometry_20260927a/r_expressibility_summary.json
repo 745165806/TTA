@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "effective_head_formula": "w_eff=w_s+U R.T (U.T w_s)",
+  "U_orthogonality_max_abs_error": 2.53310306412265e-08,
+  "U_transpose_w_norm": 0.4839622780985953,
+  "q_radius_rho_0_1": 0.048396227809859534,
+  "parity_max_abs_score_difference": 1.9073486328125e-06,
+  "mismatch_rule": "at least 4 of 5 folds per domain have subspace explained_fraction < 0.5",
+  "R_PARAMETERIZATION_MISMATCH": true,
+  "per_domain": {
+    "itw": {
+      "mean_explained_fraction": 0.17263303034138583,
+      "mean_bounded_explained_fraction": 0.03383029313325421,
+      "folds_below_half": 5
+    },
+    "wavefake": {
+      "mean_explained_fraction": 0.17138567632104149,
+      "mean_bounded_explained_fraction": 0.0330577674653856,
+      "folds_below_half": 5
+    }
+  },
+  "target90_labels_accessed": false,
+  "target90_metrics_accessed": false
+}

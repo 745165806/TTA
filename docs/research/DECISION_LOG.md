@@ -169,3 +169,19 @@ Why: The authorized WaveFake audit inspected class codes and WAV headers across 
 What this excludes: The unselected local WaveFake rows cannot honestly be relabelled as an untouched final holdout, even though they were not trained on or scored for capacity. No separate WaveFake final-holdout assignment or metric exists in this stage.
 
 Next design: Preserve the fixed development selection and audit records. Any later final WaveFake claim must use an independently protected resource or explicitly account for this prior label/header access; do not manufacture a new untouched partition from the audited pool.
+
+## 2026-09-27 — Head direction contributes, but fixed-norm H2 does not match full H3
+
+Why: Capacity audit found a large supervised linear head upper bound while bounded R did not improve ranking. H0/H1/H2/H3 on the same held-out folds distinguish within-fold calibration from a learned classifier direction.
+
+What this excludes: Bias-only and positive scale+bias cannot change within-fold AUC/EER; their small pooled changes are fold calibration. H2 improves AUC consistently, but recovers only 40% of H3's ITW AUC gain and 54% on WaveFake, below the precommitted 80% `DECISION_DIRECTION_SHIFT` rule. Thus H2≈H3 is not established. This does not negate a large supervised head rotation or imply bias alone caused H3's ranking gain.
+
+Next design: Use the saved original-coordinate target w* and source w_s to quantify direction, bias and R-space projection before implementing any unlabeled head estimator.
+
+## 2026-09-27 — Actual R mathematics confirms parameterization mismatch
+
+Why: A head adaptation prototype needs a direct mechanistic link from the failed 8×8 R to the successful supervised linear correction. The actual `apply_adapter` equation gives a testable effective-head family.
+
+What this excludes: The R update is limited to `span(U)`, and the production radius tightens its coefficient norm. Numerical parity passes at 1.9e-6. Only about 17% of the scale-normalized supervised head displacement lies in that subspace and only about 3.3% is reachable at rho0.1, in both domains and all five folds under the precommitted mismatch rule. This excludes the interpretation that the same bounded R space can express most of the observed H3 head correction. Cross-domain delta cosine 0.664 is descriptive and does not override the earlier negative direct transfer experiment.
+
+Next design: Stop R-adapter TTA and begin exactly one unlabeled target-batch linear head prototype with source anchors, soft class assignments, continuous view agreement, fixed B256, and alpha values 0.25/0.5/0.75. Pre-register all covariance, prior and bias rules before reading development task metrics.
