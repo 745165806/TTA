@@ -20,6 +20,7 @@ from eptta.models.frozen import verify_frozen_export
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 SELECT = ROOT / "experiments/multidomain_mechanism/manifests/codecfake_mechanism_select.json"
+PA_SELECT = HERE / "manifests/asv2019_pa_dev_mechanism_select.json"
 BUNDLE = ROOT / "outputs_v2/ssl_aasist/frozen/bundle.json"
 REFERENCE = ROOT / "outputs_v2/ssl_aasist/cache-target-in_the_wild/index.json"
 
@@ -30,20 +31,24 @@ def write_new(path, value):
         stream.write("\n")
 
 
-def run(count, run_id):
+def run(count, run_id, domain="codecfake"):
     if not str(sys.executable).endswith("/envs/tta/bin/python"):
         raise EnvironmentError("tta environment is required")
-    if count not in (32, 512):
-        raise ValueError("only preregistered 32 or 512 sample counts are allowed")
+    if domain not in ("codecfake", "asv2019_pa_dev"):
+        raise ValueError("unsupported fixed development domain")
+    selected_ref = SELECT if domain == "codecfake" else PA_SELECT
+    expected_total = 512 if domain == "codecfake" else 270
+    if count not in (32, expected_total):
+        raise ValueError("only preregistered smoke or full counts are allowed")
     out = HERE / "results" / run_id
     out.mkdir(parents=True, exist_ok=False)
     for name in ("logs", "scores", "diagnostics", "analysis"):
         (out / name).mkdir()
     try:
-        doc = json.loads(SELECT.read_text(encoding="utf-8"))
+        doc = json.loads(selected_ref.read_text(encoding="utf-8"))
         rows = doc["records"][:count]
-        if doc["dataset_id"] != "codecfake" or len(doc["records"]) != 512:
-            raise ValueError("fixed Codecfake selection mismatch")
+        if doc["dataset_id"] != domain or len(doc["records"]) != expected_total:
+            raise ValueError("fixed development selection mismatch")
         if len({r["sample_id"] for r in rows}) != count:
             raise ValueError("duplicate selected ID")
         forbidden = {"label", "raw_label", "canonical_label", "attack_id"}
@@ -66,13 +71,13 @@ def run(count, run_id):
         with manifest.open("x", encoding="utf-8") as stream:
             for i, row in enumerate(rows):
                 worker_row = {"schema_version": "0.3.0", "sample_id": row["sample_id"],
-                              "sample_index": i, "root_key": "codecfake_xie",
+                              "sample_index": i, "root_key": row["root_key"],
                               "audio_relpath": row["audio_relpath"], "split_role": "select"}
                 stream.write(json.dumps(worker_row, allow_nan=False) + "\n")
-        cache_id = "task-objective-codecfake-%s" % run_id
+        cache_id = "task-objective-%s-%s" % (domain, run_id)
         numerical_mode = dict(ref["numerical_mode"])
         identity = CacheIdentity(cache_id=cache_id, source_run_id=bundle["source_run_id"],
-                                 checkpoint_ref=bundle["checkpoint_ref"], dataset_id="codecfake",
+                                 checkpoint_ref=bundle["checkpoint_ref"], dataset_id=domain,
                                  split_role="select", manifest_ref=str(manifest.resolve()),
                                  preprocess=bundle["preprocess"], views=ref["views"],
                                  seed=ref["seed"], dtype=ref["dtype"],
@@ -80,7 +85,7 @@ def run(count, run_id):
         job = {"schema_version": "0.3.0", "job_type": "inference", "purpose": "select",
                "input_role": "select", "bundle_ref": str(BUNDLE.resolve()),
                "manifest_ref": str(manifest.resolve()),
-               "data_roots": {"codecfake_xie": rows[0]["root_ref"]},
+               "data_roots": {rows[0]["root_key"]: rows[0]["root_ref"]},
                "probe": ref["views"], "numerical_mode": numerical_mode,
                "worker_slot": 0, "worker_count": 1,
                "expected_ids": [r["sample_id"] for r in rows],
@@ -94,7 +99,7 @@ def run(count, run_id):
         write_new(out / "run_config.json", {"run_id": run_id, "branch": branch, "commit": commit,
                   "python": sys.version, "pytorch": torch.__version__, "cuda": torch.version.cuda,
                   "gpu_available": torch.cuda.is_available(), "seed": 2026,
-                  "dataset": "codecfake", "sample_count": count,
+                  "dataset": domain, "sample_count": count,
                   "method": "production Frozen SSL-AASIST extraction",
                   "parameters": {"sample_rate": 16000, "waveform_length": 64600,
                                  "embedding_dim": bundle["embedding_dim"],
@@ -104,7 +109,7 @@ def run(count, run_id):
         write_new(out / "provenance.json", {"baseline_id": bundle["baseline_id"],
                   "source_run_id": bundle["source_run_id"],
                   "checkpoint_ref": bundle["checkpoint_ref"],
-                  "bundle_ref": str(BUNDLE), "select_manifest": str(SELECT),
+                  "bundle_ref": str(BUNDLE), "select_manifest": str(selected_ref),
                   "target_labels_read": False})
         with (out / "logs/extraction.log").open("x", encoding="utf-8") as log:
             completed = subprocess.run(command, cwd=ROOT, stdout=log, stderr=subprocess.STDOUT,
@@ -137,8 +142,9 @@ def run(count, run_id):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--count", type=int, choices=(32, 512), required=True)
+    parser.add_argument("--count", type=int, choices=(32, 270, 512), required=True)
+    parser.add_argument("--domain", choices=("codecfake", "asv2019_pa_dev"), default="codecfake")
     parser.add_argument("--run-id", default=None)
     args = parser.parse_args()
-    run(args.count, args.run_id or "codecfake_cache_%d_%s" %
-        (args.count, datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")))
+    run(args.count, args.run_id or "%s_cache_%d_%s" %
+        (args.domain, args.count, datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")), args.domain)

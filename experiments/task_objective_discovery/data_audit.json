@@ -55,6 +55,19 @@
       "boundary": "official eval label pool was historically scanned; no untouched final-holdout claim"
     }
   },
+  "auxiliary_domain": {
+    "asv2019_pa_dev": {
+      "audio_root": "/media/dell/data/fakedata/asvspoof2019/PA/ASVspoof2019_PA_dev",
+      "official_protocol_ref": "/media/dell/data/fakedata/asvspoof2019/PA/ASVspoof2019_PA_cm_protocols/ASVspoof2019.PA.cm.dev.trl.txt",
+      "original_split": "official_dev",
+      "fixed_group": "PA_0105",
+      "selected_count": 270,
+      "selected_sample_rate": "270 of 270 at 16 kHz",
+      "label_format": "speaker sample_id attack_id environment bonafide|spoof; label deferred until all scores complete",
+      "two_class_dev": "PENDING_POST_SCORE_AUDIT",
+      "boundary": "separate ASVspoof2019 PA domain; never named ASVspoof2021 LA/DF"
+    }
+  },
   "target90_labels_or_metrics_read_this_stage": false,
   "final_holdout_labels_read_this_stage": false
 }
