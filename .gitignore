@@ -243,5 +243,7 @@ experiments/codecfake_compat/results/
 experiments/local_distribution_tta/results/
 experiments/large_scale_confirmation/results/
 experiments/capacity_audit/results/
+experiments/head_capacity_geometry/results/
+experiments/head_tta/results/
 /outputs_v2
 outputs_v2/
