@@ -245,5 +245,6 @@ experiments/large_scale_confirmation/results/
 experiments/capacity_audit/results/
 experiments/head_capacity_geometry/results/
 experiments/head_tta/results/
+experiments/gradient_alignment_audit/target10_only_cache/
 /outputs_v2
 outputs_v2/
