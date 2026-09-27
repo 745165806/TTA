@@ -1,0 +1,3 @@
+# Ranking metric coverage correction — 2026-09-27
+
+This file is an append-only clarification of `summary.json` and `macro.csv` in the same run. The ASVspoof2021 LA mechanism groups contain 282 bonafide and 0 spoof samples; DF contains 370 bonafide and 0 spoof samples. EER, AUC, balanced accuracy, FPR, and FNR are undefined for each of these domains. The numbers in `macro.csv` for those five metrics are **In-the-Wild-only values**, not a three-domain macro estimate. Only score shifts, source-anchor evidence damage, and threshold flip counts have three-domain coverage. No group assignment has been changed after seeing labels.

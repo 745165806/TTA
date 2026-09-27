@@ -37,3 +37,37 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: Frozen EER 0.0985707245; oracle and five-fold oracle EER 0.0983463882; 0.02243363 pp gain; selector regret 0
 - interpretation: limited capacity in this guarded parameter space; no basis to generalize to all TTA
 - next_decision: vary guard only on a fixed multi-domain mechanism sandbox
+
+## Guard analysis failure 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-multidomain-mechanism
+- commit: f7c17b8 (score code); analysis code was not yet committed
+- experiment_id: multidomain_mechanism/guard_20260927T040400Z
+- purpose: first post-score guard-capacity audit
+- datasets: In-the-Wild target10 mechanism 512; ASV2021 LA 282; ASV2021 DF 370
+- manifests: fixed `experiments/multidomain_mechanism/manifests/*_mechanism_select.json`; audit sources opened only after score coverage
+- method: Frozen and hard/relaxed/unguarded EP at A/B/C
+- parameters: A=(5,0.01,0.05); B=(5,0.03,0.1); C=(10,0.3,0.2); gamma=0.1; lambda_keep=1
+- command: `PYTHONPATH=src:. conda run -n tta python experiments/multidomain_mechanism/guard_worker.py` then `.../guard_analysis.py --run experiments/multidomain_mechanism/results/guard_20260927T040400Z`
+- result_directory: `experiments/multidomain_mechanism/results/guard_20260927T040400Z/`
+- key_metrics: NOT_RUN as a complete analysis; score generation and exact coverage PASS, post-score plot generation exit 1 because Matplotlib could not import `pyparsing`
+- interpretation: environment plotting failure; partial CSV, `failure.json`, and log preserved; no scientific claim from this failed run
+- next_decision: use installed Pillow for standalone plots and a new run_id
+
+## Guard capacity partial three-domain mechanism result 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-multidomain-mechanism
+- commit: 6614bf7 (run configuration records full hash)
+- experiment_id: multidomain_mechanism/guard_20260927T040841Z
+- purpose: test whether margin guard severity alone explains weak correction, and whether unguarded updates damage source evidence
+- datasets: In-the-Wild target10 mechanism 512 (310 bonafide, 202 spoof); ASV2021 LA 282 (bonafide only); ASV2021 DF 370 (bonafide only); Codecfake/WaveFake NOT_RUN
+- manifests: fixed select and audit manifests under `experiments/multidomain_mechanism/manifests/`; ASV final-holdout labels excluded
+- method: Frozen and hard/relaxed/unguarded EP at A/B/C; every score generated before selected audit labels were read
+- parameters: A=(K5,lr0.01,rho0.05); B=(K5,lr0.03,rho0.1); C=(K10,lr0.3,rho0.2); gamma=0.1; lambda_keep=1; CPU production feature path
+- command: `PYTHONPATH=src:. conda run -n tta python experiments/multidomain_mechanism/guard_worker.py` then `PYTHONPATH=src:. conda run -n tta python experiments/multidomain_mechanism/guard_analysis.py --run experiments/multidomain_mechanism/results/guard_20260927T040841Z`
+- result_directory: `experiments/multidomain_mechanism/results/guard_20260927T040841Z/`
+- key_metrics: In-the-Wild Frozen EER/AUC 0.099010/0.957841; A unguarded 0.103226/0.958623; B unguarded 0.103960/0.958879; C unguarded 0.103960/0.947653. C hard 0.099010/0.955589. C unguarded evidence damage: In-the-Wild 0.172484, ASV LA 0.130316, ASV DF 0.586509. ASV EER/AUC undefined due single-class assignment.
+- interpretation: relaxation gives larger changes but no In-the-Wild EER gain; stronger unguarded update loses ranking and raises evidence damage. Small A/B AUC gains coexist with worse EER. Single-class ASV groups prevent a multi-domain ranking conclusion. Ranking "macro" in this run equals In-the-Wild only; see `analysis/coverage_correction.md`.
+- next_decision: test an explicit source decision-order preservation loss at fixed moderate strength before fitting a reliability gate; keep ASV signals descriptive, do not change the saved group assignment

@@ -235,6 +235,7 @@ def analyze(run):
     for setting, arm in (("Frozen", "Frozen"), *[(s, a) for s in SETTINGS for a in ARMS]):
         subset = [r for r in metrics if r["setting"] == setting and r["arm"] == arm]
         macro.append({"setting": setting, "arm": arm, "domains": len(subset),
+                      "ranking_metric_domains": sum(r["EER"] is not None for r in subset),
                       **{name: mean([r[name] for r in subset if r[name] is not None])
                          for name in ("EER", "AUC", "balanced_accuracy", "FPR", "FNR",
                                       "mean_abs_score_delta", "mean_update_norm", "mean_parameter_drift",
@@ -260,7 +261,7 @@ def analyze(run):
     for row in metrics:
         fmt = lambda v: "NA" if v is None else f"{v:.6f}"
         lines.append(f"| {row['domain']} | {row['setting']} | {row['arm']} | {fmt(row['EER'])} | {fmt(row['AUC'])} | {row['helpful_updates']} | {row['harmful_updates']} | {fmt(row['evidence_damage'])} |")
-    lines.extend(["", "Single-class domains have undefined EER/AUC and are excluded from those macro means.",
+    lines.extend(["", "Single-class domains have undefined EER/AUC and are excluded from those macro means. The domain count for ranking metrics must be reported separately.",
                   "Figures show descriptive associations. Labels appear only in post-score analysis; no gate uses them."])
     with (folder / "report.md").open("x", encoding="utf-8") as stream:
         stream.write("\n".join(lines) + "\n")

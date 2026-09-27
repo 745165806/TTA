@@ -1,0 +1,11 @@
+{
+  "status": "FAIL",
+  "stage": "post_score_analysis_plotting",
+  "command": "PYTHONPATH=src:. conda run -n tta python experiments/multidomain_mechanism/guard_analysis.py --run experiments/multidomain_mechanism/results/guard_20260927T040400Z",
+  "exit_code": 1,
+  "exception": "ModuleNotFoundError: No module named 'pyparsing'",
+  "score_generation_complete": true,
+  "score_coverage_verified": true,
+  "partial_outputs": ["analysis/metrics.csv", "analysis/sample_mechanisms.csv", "analysis/macro.csv"],
+  "reuse_policy": "preserve failed run; create a new run_id for corrected analysis"
+}
