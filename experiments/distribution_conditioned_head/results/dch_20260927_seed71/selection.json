@@ -1,0 +1,40 @@
+{
+  "source_role": "select",
+  "selected": {
+    "erm": {
+      "arm": "erm",
+      "epoch": 20,
+      "train_loss": 0.0018871235428377987,
+      "train_bce": 0.0018871235428377987,
+      "train_reg": 0.0,
+      "source_select_auc": 0.9999915946794163,
+      "source_select_eer": 0.0006659056316590251
+    },
+    "dch": {
+      "arm": "dch",
+      "epoch": 4,
+      "train_loss": 0.002635810803622007,
+      "train_bce": 0.0016173814365174621,
+      "train_reg": 0.0010184293263591827,
+      "source_select_auc": 0.999992772995386,
+      "source_select_eer": 0.0006659056316590251
+    }
+  },
+  "fit_cache_id": "cache-20260920T115942Z-eabd13",
+  "select_cache_id": "cache-20260921T005321Z-aabf21",
+  "pseudo_domain_attacks": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06"
+  ],
+  "view_conditions": [
+    0,
+    1,
+    2
+  ],
+  "support_query_audio_overlap": 0,
+  "device": "cpu"
+}

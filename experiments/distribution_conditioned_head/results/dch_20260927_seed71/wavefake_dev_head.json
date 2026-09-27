@@ -1,0 +1,10 @@
+{
+  "delta_w_norm": 0.3171527683734894,
+  "delta_b": 0.005292241461575031,
+  "angle_degrees": 15.869463945744037,
+  "source_w_norm": 0.8475843667984009,
+  "target_w_norm": 1.0317727327346802,
+  "domain": "wavefake_dev",
+  "count": 4096,
+  "cache_id": "capacity-wavefake-wavefake_capacity_cache_20260927a"
+}

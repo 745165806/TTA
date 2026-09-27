@@ -1,0 +1,31 @@
+{
+  "stage": "Distribution-Conditioned Target Head",
+  "protocol": "offline_batch_transductive_development",
+  "project_root": "/media/dell/data/fakeAudioDection/TTA",
+  "bundle_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+  "fit_cache": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/cache-fit",
+  "select_cache": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/cache-select",
+  "itw_cache": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/cache-target-in_the_wild",
+  "itw_select": "/media/dell/data/fakeAudioDection/TTA/experiments/target10_selection/manifests/inwild_target10_select.json",
+  "itw_target10": "/media/dell/data/fakeAudioDection/TTA/experiments/target10_selection/manifests/inwild_target10.json",
+  "wavefake_cache": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/feature_cache",
+  "wavefake_select": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/manifests/wavefake_capacity_select.json",
+  "fit_protocol": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.train.trn.txt",
+  "select_protocol": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2019_LA_cm_protocols/ASVspoof2019.LA.cm.dev.trl.txt",
+  "seeds": [
+    13,
+    29,
+    47,
+    71
+  ],
+  "epochs": 20,
+  "total_episodes": 96,
+  "support_per_class": 32,
+  "query_per_class": 32,
+  "hidden_dim": 128,
+  "learning_rate": 0.001,
+  "lambda_reg": 0.01,
+  "bootstrap_replicates": 400,
+  "seed": 71,
+  "run_id": "dch_20260927_seed71"
+}

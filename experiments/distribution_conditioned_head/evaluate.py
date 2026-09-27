@@ -245,6 +245,7 @@ def summarize(config_path):
     decision = ("DISTRIBUTION_CONDITIONING_ACTIONABLE" if actionable else
                 "DISTRIBUTION_CONDITIONING_NOT_ACTIONABLE")
     lines.extend(["", "WaveFake 成对 bootstrap 以 audio_id content-pair 为单位；ITW 以原始音频 ID 为单位。逐 seed 区间在 metrics.csv。目标标签只在分数落盘后用于开发评价。关闭 delta 与 Frozen 分数完全一致。",
+        "", "已有 Meta-Rank 四 seed 结果见 `experiments/meta_rank_head/report.md`；本轮未重训该方法。",
         "", "Decision: **%s**" % decision,
         "", "仅完成 ITW target10 与 WaveFake development；target90 labels/metrics accessed = NO；final holdout accessed = NO。", ""])
     report = Path(__file__).parent / "report.md"

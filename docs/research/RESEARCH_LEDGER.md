@@ -309,3 +309,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: four-seed mean ITW Frozen AUC/EER 0.963309/0.098571, ERM 0.963463/0.098526, Meta-BCE 0.963306/0.098402, Meta-Rank 0.963294/0.098402. WaveFake Frozen 0.915003/0.157715, ERM 0.917206/0.155762, Meta-BCE 0.912689/0.160522, Meta-Rank 0.912422/0.161133. WaveFake bootstrap retains content-pair groups.
 - interpretation: source-domain meta-training completed with nonzero finite unrolled gradients and disjoint support/query IDs. Meta-Rank does not reliably beat Meta-BCE, is worse than same-budget ERM on both domains, and shows no convincing test-time adaptation gain. ITW tiny EER changes coexist with flat AUC; WaveFake degrades.
 - next_decision: retain this negative method result; do not claim episodic or online behavior and do not run target90/final holdout based on this prototype
+
+## Distribution-Conditioned Target Head, four seeds — 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-distribution-conditioned-head
+- commit: 7a2208c (fixed method code; results committed subsequently)
+- experiment_id: distribution_conditioned_head/dch_20260927_seed13, seed29, seed47, seed71
+- purpose: test whether unlabeled target-domain mean/std can directly generate one shared 160D linear classifier head without test-time gradients
+- datasets: ASVspoof2019 LA source fit (25,380 cached) and select (11,723 cached); existing ITW target10 (3,178); existing WaveFake paired development cache (4,096 rows, 2,048 content groups)
+- manifests: source fit/select canonical manifests plus official LA train/dev CM protocol attack column; existing label-free ITW target10 select and separate audit; WaveFake capacity-audit label-free select and 160D cache
+- method: project-trained Frozen SSL-AASIST; 320→128→161 DomainHeadNet on source support original/augmented-view mean+std, one 160D weight correction plus bias correction; matched source-augmented ERM trained on identical query batches; one shared no-gradient target head per domain
+- parameters: four seeds 13/29/47/71, six attack families A01–A06 × three existing view conditions, 96 episodes over 20 epochs, each support/query 32 bona fide + 32 spoof, Adam 0.001, lambda_reg 0.01, no search
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 /home/dell/anaconda3/envs/tta/bin/python experiments/distribution_conditioned_head/train.py --config experiments/distribution_conditioned_head/config.json --run-id dch_20260927_seed<seed> --seed <seed>`; then `.../evaluate.py --config ... --run-id ...`; then `.../evaluate.py --config ... --summarize`. All four final training/evaluation commands and summary exited 0; PASS stdout retained as `train.log` and `evaluate.log` per run. `python -m compileall -q experiments/distribution_conditioned_head` exited 0.
+- result_directory: `experiments/distribution_conditioned_head/results/dch_20260927_seed*/`; checkpoints and unlabeled per-sample scores retained locally; small configs, curves, metrics, selected epochs, head movement and report committed
+- key_metrics: ITW four-seed Frozen/ERM/DCH AUC 0.963309/0.963539/0.963325, EER 0.098571/0.098402/0.098838. WaveFake AUC 0.915003/0.921766/0.924103, EER 0.157715/0.152344/0.149414. DCH WaveFake improves over Frozen in all four seeds, mean ΔAUC +0.009100 and EER gain +0.008301; ITW mean ΔAUC +0.000016 and EER worsens 0.000267. Mean head movement ITW angle 13.8531° and ||delta_w|| 0.256191; WaveFake angle 13.3914° and norm 0.246433. WaveFake bootstrap resamples content pairs.
+- interpretation: head generation is real and label-free at target time, but two-domain value is absent. ITW does not beat matched ERM; WaveFake gain is below the prespecified +0.01 mean AUC/EER actionable threshold. Decision `DISTRIBUTION_CONDITIONING_NOT_ACTIONABLE`.
+- next_decision: preserve this first-round result without a second parameter sweep; no target90 or final-holdout evaluation from this branch

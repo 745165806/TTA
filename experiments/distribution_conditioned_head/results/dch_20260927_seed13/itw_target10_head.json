@@ -1,0 +1,10 @@
+{
+  "delta_w_norm": 0.24486707150936127,
+  "delta_b": -0.012276793830096722,
+  "angle_degrees": 14.908049351617317,
+  "source_w_norm": 0.8475843667984009,
+  "target_w_norm": 0.93045973777771,
+  "domain": "itw_target10",
+  "count": 3178,
+  "cache_id": "cache-20260921T061728Z-259dab"
+}
