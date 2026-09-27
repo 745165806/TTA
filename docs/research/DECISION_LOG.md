@@ -89,3 +89,11 @@ Why: The previous Codecfake 512 local B32 AUC gain is roughly +0.01, but ITW 512
 What these results exclude: The new 5000 Codecfake and 5000 ASVspoof2019 LA feature caches are exact, finite and production-compatible; the old Codecfake 512 features match exactly inside the larger cache. Thus native-path mismatch, changed old512 view seeds and missing selected features cannot explain subsequent score differences. Cache success alone does not establish any AUC or EER effect. WaveFake has an existing pyarrow reader but no materialized study cache.
 
 Next design: Keep the four-arm budget and B32 fixed under the preregistered `CONFIRMATION_CONTRACT.md`; complete all six score orders before opening any new selected label protocol. Apply the prespecified effect-size, order-variability, bootstrap and EER rules without changing thresholds after inspection.
+
+## 2026-09-27 — Official LA dev protocol omits 28 selected audio IDs
+
+Why: The fixed LA assignment was drawn from all available official-dev FLAC files without opening labels. After all three-domain scores passed the label-free gate, the official dev trial protocol failed to cover 28/5000 selected IDs; the local dev label listing omits exactly the same IDs. The first analysis stopped before writing any metric.
+
+What these results exclude: Assuming audio-file availability implies official label availability is invalid for this resource. No adaptation result or class ratio was used to make the correction.
+
+Next design: Preserve all 5000 scores and the original assignment; use the exact 4972 official-protocol-covered selected IDs for LA post-hoc metrics, report the 28 omitted IDs, and make no replacement draw. Keep the four methods and preregistered promotion thresholds fixed.

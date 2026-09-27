@@ -164,13 +164,19 @@ def selected_labels(assignments):
                     raise ValueError("ASVspoof2019 LA selected label duplicate/unknown")
                 la[sid] = 0 if parts[4] == "bonafide" else 1
                 la_attack[sid] = parts[3]
-    if set(la) != wanted["asv2019_la_dev"]:
-        raise ValueError("ASVspoof2019 LA selected protocol coverage mismatch")
+    la_unlabelled = sorted(wanted["asv2019_la_dev"] - set(la))
+    if (not set(la) <= wanted["asv2019_la_dev"] or len(la) != 4972 or
+            len(la_unlabelled) != 28):
+        raise ValueError("ASVspoof2019 LA official protocol coverage differs from recorded correction")
     labels = {"in_the_wild": itw, "codecfake": codec, "asv2019_la_dev": la}
     if any(type(value) is not int or value not in (0, 1)
            for domain in labels for value in labels[domain].values()):
         raise ValueError("noncanonical selected label")
-    return labels, {"codecfake": codec_attack, "asv2019_la_dev": la_attack}
+    coverage = {"asv2019_la_dev": {"scored_count": 5000,
+                                    "official_protocol_labelled_count": 4972,
+                                    "unlabelled_sample_ids": la_unlabelled,
+                                    "policy": "retain_all_scores_analyze_only_official_protocol_covered_ids"}}
+    return labels, {"codecfake": codec_attack, "asv2019_la_dev": la_attack}, coverage
 
 
 def fast_eer_auc(scores, labels):
@@ -233,7 +239,8 @@ def read_order_scores(run, domain, key, ids):
             (run / "scores" / (domain + "_" + key + ".jsonl")).open(encoding="utf-8")]
     by_id = {sid: {} for sid in ids}
     for row in rows:
-        by_id[row["sample_id"]][row["arm"]] = row
+        if row["sample_id"] in by_id:
+            by_id[row["sample_id"]][row["arm"]] = row
     return by_id
 
 
@@ -243,13 +250,16 @@ def mean_std(values):
 
 def analyze(run):
     config, assignments = complete_scores(run)  # Required before any selected label reader.
-    labels, attacks = selected_labels(assignments)
+    labels, attacks, coverage = selected_labels(assignments)
     per_order, bootstrap_rows, subset_rows = [], [], []
     composition = {}
     for domain in DOMAINS:
-        ids = [record["sample_id"] for record in assignments[domain]]
+        ids = [record["sample_id"] for record in assignments[domain]
+               if record["sample_id"] in labels[domain]]
         y = [labels[domain][sid] for sid in ids]
-        composition[domain] = {"bonafide": len(y) - sum(y), "spoof": sum(y),
+        composition[domain] = {"assigned_and_scored": len(assignments[domain]),
+                               "official_protocol_labelled": len(y),
+                               "bonafide": len(y) - sum(y), "spoof": sum(y),
                                "attack_counts": dict(Counter(attacks.get(domain, {}).values()))}
         tau0 = read_json(run / "diagnostics" / (domain + "_provenance.json"))["tau0"]
         if not (0 < sum(y) < len(y)):
@@ -380,6 +390,7 @@ def analyze(run):
         write_csv_once(analysis / "codecfake_nested_subsets.csv", subset_rows)
     summary = {"status": "DEVELOPMENT_CONFIRMATION_ANALYZED", "run_id": config["run_id"],
                "role": "development_only", "decision": decision,
+               "protocol_coverage_correction": coverage,
                "promoted_mechanism": [r for r in chosen if len(r["passing_domains"]) >= 2],
                "arm_domain_checks": chosen, "composition": composition,
                "resource_audit": read_json(HERE / "resource_audit.json"),

@@ -1,0 +1,8 @@
+{
+  "stage": "selected_label_coverage",
+  "status": "FAIL",
+  "error": "ASVspoof2019 LA selected protocol coverage mismatch",
+  "score_files_complete": true,
+  "metrics_written": false,
+  "method_or_assignment_changed": false
+}

@@ -360,3 +360,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: both 5000/5000 exact selected-ID coverage, finite float32 3×160 features, zero numeric failures; Codecfake 2140 native16 and 2860 resampled, old fixed512 feature maximum difference 0 against prior cache; LA 5000 native16. Labels unread. WaveFake pyarrow 21.0.0 available, pipeline not materialized.
 - interpretation: data-path and sample-coverage prerequisites pass without changing historical selections; no ranking or class-composition claim yet
 - next_decision: run the fixed four arms on all three assignments in six label-free orders, verify all scores/buffer resets, and only then open selected development labels
+
+## ASVspoof2019 LA official protocol coverage failure before metrics 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-large-scale-confirmation
+- commit: ead03e3 (complete score worker); 2d10941 (registered-order audit check); label-coverage correction to analysis pending commit
+- experiment_id: large_scale_confirmation/confirmation_large_20260927a, first post-score analysis attempt
+- purpose: join official dev labels only after all 18 score files and 4,968 buffer records passed exact finite/order/reset validation
+- datasets: ITW target10 fixed3178; Codecfake official dev fixed5000; ASVspoof2019 LA fixed5000 audio IDs
+- manifests: unchanged three confirmation selects and six saved ID-only orders per domain
+- method: four fixed arms; no method, objective, parameter or assignment change
+- parameters: K=5, lr=0.03, rho=0.1, B=32, six registered orders
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/large_scale_confirmation/analyze.py --run experiments/large_scale_confirmation/results/confirmation_large_20260927a`
+- result_directory: `experiments/large_scale_confirmation/results/confirmation_large_20260927a/analysis/failure.json`; no metric files were written
+- key_metrics: NOT_COMPUTED. All 5000 LA audio IDs were scored; 4972 have official dev protocol rows and 28 do not. The local `dev_label.txt` has the same coverage. ITW and Codecfake selected labels have exact coverage.
+- interpretation: official-protocol coverage was incorrectly assumed equal to FLAC availability; this is a label-availability issue, not an adaptation failure or a class-composition finding
+- next_decision: retain all 5000 scores and original assignment, compute LA ranking only on the fixed 4972 official-protocol-covered IDs, report the 28 missing IDs, and keep every preregistered comparison and threshold unchanged
