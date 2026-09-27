@@ -4,7 +4,9 @@ import json
 from types import SimpleNamespace
 
 import numpy as np
+import torch
 
+from eptta.adaptation.math import apply_adapter
 from experiments.head_capacity_geometry.resources import sparse_selected_views
 from experiments.head_capacity_geometry.run_geometry import fit_h0_h1
 
@@ -31,3 +33,15 @@ def test_bias_and_positive_scale_preserve_within_fold_ranking():
     assert scale > 0
     assert np.array_equal(np.argsort(score), np.argsort(score + offset))
     assert np.array_equal(np.argsort(score), np.argsort(scale*score + b))
+
+
+def test_adapter_score_equals_derived_effective_head():
+    generator = torch.Generator().manual_seed(2026)
+    z = torch.randn((7, 160), generator=generator)
+    u, _ = torch.linalg.qr(torch.randn((160, 8), generator=generator))
+    r = torch.randn((8, 8), generator=generator)*.01
+    w = torch.randn((160,), generator=generator)
+    bias = .3
+    direct = apply_adapter(z, u, r)@w+bias
+    effective = z@(w+u@r.T@(u.T@w))+bias
+    assert torch.allclose(direct, effective, atol=1e-5, rtol=0)
