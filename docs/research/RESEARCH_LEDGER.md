@@ -122,3 +122,88 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: not a scientific experiment; raw full ASV eval label files were scanned previously, though only selected rows were returned; target90 sample labels/metrics were not opened
 - interpretation: strict final-holdout access rule was violated at file-scan level; earlier `final_holdout_labels_accessed=false` run fields must not be read as "file never opened"
 - next_decision: future analysis requires selected-only artifacts; ASV label-dependent observations are not used for method selection or held-out claims
+
+## Codecfake production-feature smoke 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: 67bb1a3 (new extraction helper was uncommitted during this engineering run; later committed as 8e797d1)
+- experiment_id: task_objective_discovery/codecfake_cache_32_20260927a
+- purpose: verify the first 32 fixed Codecfake official-dev waveforms against the existing Frozen SSL-AASIST production extractor before any objective analysis
+- datasets: Codecfake official dev, first 32 of fixed selected 512
+- manifests: existing label-free `experiments/multidomain_mechanism/manifests/codecfake_mechanism_select.json`; generated extraction JSONL contains no label
+- method: production `workers/baseline_bridge.py extract` with existing Frozen bundle and three-view numerical settings
+- parameters: 16 kHz, 64,600 waveform samples, 3 views, 160-dimensional embedding, float32, seed 2026 selection and source view seed 13
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/prepare_codecfake_cache.py --count 32 --run-id codecfake_cache_32_20260927a`
+- result_directory: `experiments/task_objective_discovery/results/codecfake_cache_32_20260927a/`
+- key_metrics: 32/32 16-kHz mono preflight; 32/32 finite feature IDs with exact coverage, 3×160 dimensions; PASS; no target labels read
+- interpretation: first 32 are production-compatible; this alone does not establish compatibility of the fixed 512
+- next_decision: attempt the fixed 512 without changing preprocessing or IDs
+
+## Codecfake fixed-512 production-feature failure 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: 67bb1a3 (helper committed later as 8e797d1)
+- experiment_id: task_objective_discovery/codecfake_cache_512_20260927a
+- purpose: materialize the complete fixed Codecfake dev selection under the identical production waveform contract
+- datasets: Codecfake official dev, fixed selected 512
+- manifests: same fixed label-free Codecfake mechanism select; no audit labels opened
+- method: production Frozen SSL-AASIST extraction preflight
+- parameters: 16-kHz required input, 64,600 waveform samples, 3 views, 160-dimensional embedding; no resampling or redraw
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/prepare_codecfake_cache.py --count 512 --run-id codecfake_cache_512_20260927a`
+- result_directory: `experiments/task_objective_discovery/results/codecfake_cache_512_20260927a/`
+- key_metrics: FAIL at selected `dev/F04_SSB00090180.wav` due 24-kHz sample rate; follow-up label-free metadata audit found 222 at 16 kHz, 209 at 24 kHz, 52 at 44.1 kHz and 29 at 48 kHz; `failure.json` retained
+- interpretation: full fixed selection cannot be extracted strictly through the present production preprocessing; the 32-sample smoke was unrepresentative of sample-rate coverage
+- next_decision: no Codecfake full objective score or label audit; seek a separate authorized two-class official-dev domain while retaining this negative result
+
+## Task-objective engineering smoke 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: 67bb1a3 (objective code committed later as a227bed)
+- experiment_id: task_objective_discovery/objective_smoke_20260927a
+- purpose: verify O1/O2/O3 finite label-free gradients and diagnostics on real cached waveforms before ranking analysis
+- datasets: In-the-Wild fixed mechanism first 32; Codecfake official dev fixed first 32
+- manifests: existing label-free mechanism select manifests; no audit reader or target label in worker
+- method: Frozen, `ep_no_keep`, O1 soft source affinity, O2 decision-logit consistency, O3 reliability-weighted soft affinity
+- parameters: episodic 8×8 R, K=5, lr=0.03, rho=0.1, projected SGD, original-view score, configuration `experiments/task_objective_discovery/objective_config.json`
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_worker.py --smoke --run-id objective_smoke_20260927a --codecfake-cache experiments/task_objective_discovery/results/codecfake_cache_32_20260927a/diagnostics/feature_cache`
+- result_directory: `experiments/task_objective_discovery/results/objective_smoke_20260927a/`
+- key_metrics: 32/32 samples per domain and all five arms; 160 rows/domain; finite scores and diagnostics; no EER/AUC computed
+- interpretation: engineering path passes for available 32-sample caches; no task-correction conclusion
+- next_decision: generate full fixed In-the-Wild scores, then perform selected-only post-score audit
+
+## First fixed In-the-Wild objective run 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: 67bb1a3 (new objective code was uncommitted during this run; provenance defect addressed by committed-code replay below)
+- experiment_id: task_objective_discovery/objective_inwild_512_20260927a
+- purpose: compare three task-aligned objectives to Frozen and Base on the fixed mechanism-dev selection
+- datasets: In-the-Wild target10-derived mechanism 512, 310 bona fide and 202 spoof after post-score selected audit
+- manifests: existing fixed `in_the_wild_mechanism_select.json`, selected-only local audit opened after 2,560 complete score rows
+- method: Frozen, `ep_no_keep`, O1/O2/O3 v0
+- parameters: fixed `objective_config.json`, K=5, lr=0.03, rho=0.1, episodic source-only anchors
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_worker.py --run-id objective_inwild_512_20260927a --domains in_the_wild`; then `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_analysis.py --run experiments/task_objective_discovery/results/objective_inwild_512_20260927a`
+- result_directory: `experiments/task_objective_discovery/results/objective_inwild_512_20260927a/`
+- key_metrics: Frozen EER/AUC 0.099010/0.957841; O1 0.103960/0.958799; O2 0.103960/0.958895; O3 0.103960/0.958879; all paired ΔAUC bootstrap intervals include zero
+- interpretation: no compelling task-ranking correction; uncommitted code makes this first run preliminary
+- next_decision: replay under committed code and keep promotion closed pending an independent two-class domain
+
+## Committed-code In-the-Wild objective replay 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-task-objective-discovery
+- commit: a227bed (run configuration); result-producing objective code committed
+- experiment_id: task_objective_discovery/objective_inwild_512_20260927b
+- purpose: establish reproducible fixed-budget single-domain evidence after the preliminary run's uncommitted-code provenance defect
+- datasets: In-the-Wild same fixed mechanism 512, 310 bona fide and 202 spoof
+- manifests: same saved label-free select; selected-only local audit read after exact score coverage
+- method: Frozen, production `ep_no_keep`, O1/O2/O3 v0
+- parameters: K=5, lr=0.03, rho=0.1, 8×8 episodic R, three views, original score, `objective_config.json`
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_worker.py --run-id objective_inwild_512_20260927b --domains in_the_wild`; then `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/task_objective_discovery/objective_analysis.py --run experiments/task_objective_discovery/results/objective_inwild_512_20260927b`
+- result_directory: `experiments/task_objective_discovery/results/objective_inwild_512_20260927b/`
+- key_metrics: replay reproduces Frozen 0.099010/0.957841 and O1/O2/O3 EER 0.103960 with AUC 0.958799/0.958895/0.958879; O1 paired ΔAUC 95% development interval [-0.000415, 0.002891]; 23 helpful and 0 harmful fixed-threshold flips
+- interpretation: O1 changes some threshold decisions but does not establish ranking improvement; all methods retain worse EER than Frozen and only one two-class domain is scored
+- next_decision: complete an independently named ASVspoof2019 PA official-dev auxiliary domain if production cache passes, without relabeling it as ASVspoof2021

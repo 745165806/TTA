@@ -33,3 +33,27 @@ Why: `epdc_development/v0b_20260927T042152Z` reduced source-anchor damage from 0
 What these results exclude: Simply strengthening source preservation around the current feature-variance objective does not yield task-useful correction at the fixed v0-B setting. Naive frozen pseudo-label BCE has also already failed on target10. Neither result proves that all task-aware objectives fail. Single-class ASV mechanism groups cannot validate ranking across domains.
 
 Next design: Retire v0-B rather than stack a reliability gate on an unhelpful candidate. Develop a target objective that has a credible label-free relation to spoof discrimination, test it against Frozen and Base first, and obtain two-class group-disjoint mechanism evidence from permitted official development partitions. Keep the existing ASV mechanism/final-holdout assignment fixed. Only after an objective and preservation show positive task metrics should a candidate gate and safe accumulation be implemented.
+
+## 2026-09-27 — Shift to task-aligned unlabeled objectives
+
+Why: Oracle, guard, and two retired preservation prototypes show that tuning, removing the guard, or suppressing source evidence damage do not create a useful target ranking correction within the current generic view-variance base. The existing frozen pseudo-label pilot was also unconvincing. A base objective is the next causal variable to change.
+
+What these results exclude: They exclude promoting the existing EPDC preservation prototypes or adding a gate, rollback, accumulator, drift controller, or method lock now. They do not exclude source-anchor soft affinity or decision-space consistency, which were not tested in this form.
+
+Next design: Pre-register only O1 source-anchor soft affinity, O2 decision-sensitive multi-view consistency, and O3 continuous reliability-weighted O1 plus O2. Fix K=5, lr=0.03, rho=0.1 and all other adaptation geometry. Require an independent second two-class development domain before promoting any objective.
+
+## 2026-09-27 — Codecfake fixed selection is incompatible with production preprocessing
+
+Why: The 32-waveform Codecfake production smoke passed, but the full fixed 512 preflight failed on a 24-kHz file. Label-free metadata audit shows only 222/512 are 16 kHz; production `load_audio` requires exactly 16 kHz and has no resampling branch.
+
+What this excludes: The first-32 smoke does not validate a full Codecfake ranking experiment under the current Frozen feature path. Quietly omitting incompatible samples or introducing an unregistered resampler would change the fixed assignment or numerical pipeline.
+
+Next design: Preserve the failed 512 run, keep Codecfake full scores and labels closed, and add a clearly separate official development domain whose whole selected group passes the same production preprocessing. Do not change the existing Codecfake or ASV2021 mechanism assignments.
+
+## 2026-09-27 — One-domain objective movement is not enough
+
+Why: The committed-code In-the-Wild 512 replay shows O1/O2/O3 AUC gains of only about 0.001 relative to Frozen; all paired ΔAUC intervals include zero and each EER worsens from 0.099010 to 0.103960. O1 improves 23 fixed-threshold predictions but does not provide clear ranking correction.
+
+What this excludes: A claim that O1/O2/O3 already produce repeatable spoof-discriminative correction, or that O1's balanced-accuracy gain alone justifies preservation or gating. These observations cannot establish a two-domain effect.
+
+Next design: Use one complete speaker group from independently named ASVspoof2019 PA official dev as an auxiliary second development domain after a production 32-waveform smoke. Keep ASVspoof2021 LA/DF marked `TWO_CLASS_DEV_UNAVAILABLE`. The PA protocol's first three non-selected rows were displayed during schema inspection; record that access and keep selected PA labels unread until full score coverage.
