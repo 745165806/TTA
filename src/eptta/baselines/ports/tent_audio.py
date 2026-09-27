@@ -1,4 +1,7 @@
-"""TENT audio port: episodic entropy minimization over backend normalization affine."""
+"""TENT audio port: episodic entropy minimization over backend normalization affine.
+
+Audio mapping (audited official cfgs/tent.yaml): Adam, lr=1e-3, steps=1, wd=0.
+"""
 import torch
 
 from eptta.baselines.ports.common import prediction_entropy
@@ -9,20 +12,19 @@ def logits_to_score(logits, class_index_map):
     return logits[:, class_index_map["spoof"]] - logits[:, class_index_map["bonafide"]]
 
 
-def tent_episodic(model, adapter, waveform, class_index_map, lr=0.001, momentum=0.9, steps=1):
-    """Adapt one sample; returns (score_before, score_after)."""
-    _emb, logits0 = adapter.forward(waveform)
-    score_before = float(logits_to_score(logits0, class_index_map)[0].item())
+def score_current(model, adapter, waveform, class_index_map):
+    _emb, logits = adapter.forward(waveform)
+    return float(logits_to_score(logits, class_index_map)[0].item())
 
+
+def tent_adapt(model, adapter, waveform, class_index_map, lr=1e-3, steps=1):
+    """Adam entropy-minimization update; returns the same-sample post-update score."""
     params = [p for p in model.parameters() if p.requires_grad]
-    optimizer = torch.optim.SGD(params, lr=lr, momentum=momentum)
+    optimizer = torch.optim.Adam(params, lr=lr)
     for _step in range(steps):
         _emb, logits = adapter.forward(waveform)
         loss = prediction_entropy(logits).mean()
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-
-    _emb, logits1 = adapter.forward(waveform)
-    score_after = float(logits_to_score(logits1, class_index_map)[0].item())
-    return score_before, score_after
+    return score_current(model, adapter, waveform, class_index_map)
