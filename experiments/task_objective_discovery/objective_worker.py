@@ -28,6 +28,7 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 CFG_PATH = HERE / "objective_config.json"
 SELECT_ROOT = ROOT / "experiments/multidomain_mechanism/manifests"
+PA_SELECT_ROOT = HERE / "manifests"
 ARMS = ("Frozen", "ep_no_keep", "O1", "O2", "O3")
 
 
@@ -37,7 +38,7 @@ def write_new(path, value):
         stream.write("\n")
 
 
-def codecfake_context(cache_ref, wanted):
+def dev_context(domain, cache_ref, wanted):
     bundle, *_ = verify_frozen_export(ROOT / "outputs_v2/ssl_aasist/frozen/bundle.json")
     resources, _, meta = load_frozen_resources(ROOT / "outputs_v2/ssl_aasist/resources", bundle)
     cache = FeatureCache(cache_ref)
@@ -45,18 +46,18 @@ def codecfake_context(cache_ref, wanted):
     expected = {"source_run_id": bundle["source_run_id"],
                 "checkpoint_ref": bundle["checkpoint_ref"],
                 "preprocess": bundle["preprocess"],
-                "dataset_id": "codecfake", "split_role": "select"}
+                "dataset_id": domain, "split_role": "select"}
     if any(identity.get(k) != v for k, v in expected.items()):
-        raise ValueError("Codecfake cache source provenance mismatch")
+        raise ValueError("development cache source provenance mismatch")
     if cache.index["feature_dim"] != bundle["embedding_dim"] or cache.index["num_views"] != 3:
-        raise ValueError("Codecfake cache feature schema mismatch")
+        raise ValueError("development cache feature schema mismatch")
     features = {}
     for ids, block in cache.iter_chunks():
         for i, sample_id in enumerate(ids):
             if sample_id in wanted:
                 features[sample_id] = block[i].copy()
     if set(features) != wanted or any(not np.isfinite(z).all() for z in features.values()):
-        raise ValueError("Codecfake selected coverage/finite values mismatch")
+        raise ValueError("development selected coverage/finite values mismatch")
     return resources, features, cache.cache_id, {
         "baseline_id": bundle["baseline_id"], "source_run_id": bundle["source_run_id"],
         "checkpoint_ref": bundle["checkpoint_ref"], "cache_identity": identity,
@@ -101,8 +102,8 @@ def diagnostic(target, resources, arm, result, elapsed):
 
 def run_domain(domain, rows, cache_ref, out, cfg, objective_config):
     wanted = {row["sample_id"] for row in rows}
-    if domain == "codecfake":
-        resources, features, cache_id, provenance = codecfake_context(cache_ref, wanted)
+    if domain in ("codecfake", "asv2019_pa_dev"):
+        resources, features, cache_id, provenance = dev_context(domain, cache_ref, wanted)
     else:
         resources, features, cache_id, provenance = load_context(domain, wanted)
     geometry = source_geometry(resources)
@@ -142,10 +143,23 @@ def run(args):
     for name in ("logs", "scores", "diagnostics", "analysis", "manifests"):
         (out / name).mkdir()
     try:
-        selected = {domain: load_select(domain, 32 if args.smoke else None)
-                    for domain in args.domains}
+        selected = {}
+        for domain in args.domains:
+            if domain == "asv2019_pa_dev":
+                source = PA_SELECT_ROOT / (domain + "_mechanism_select.json")
+                doc = json.loads(source.read_text(encoding="utf-8"))
+                rows = doc["records"]
+                forbidden = {"label", "raw_label", "canonical_label", "attack_id"}
+                if doc["role"] != "mechanism_select" or doc["dataset_id"] != domain or \
+                        len(rows) != 270 or forbidden.intersection(doc) or \
+                        any(forbidden.intersection(row) for row in rows):
+                    raise ValueError("unsafe PA development selection")
+                selected[domain] = rows[:32] if args.smoke else rows
+            else:
+                selected[domain] = load_select(domain, 32 if args.smoke else None)
         for domain in selected:
-            shutil.copyfile(SELECT_ROOT / (domain + "_mechanism_select.json"),
+            source = PA_SELECT_ROOT if domain == "asv2019_pa_dev" else SELECT_ROOT
+            shutil.copyfile(source / (domain + "_mechanism_select.json"),
                             out / "manifests" / (domain + "_mechanism_select.json"))
         branch = subprocess.check_output(["git", "branch", "--show-current"], cwd=ROOT,
                                          text=True).strip()
@@ -165,12 +179,15 @@ def run(args):
                   "outputs_v2/ssl_aasist/frozen/bundle.json"),
                   "source_resources": str(ROOT / "outputs_v2/ssl_aasist/resources"),
                   "codecfake_cache_ref": args.codecfake_cache,
+                  "pa_cache_ref": args.pa_cache,
                   "adaptation_reads_select_only": True, "audit_labels_read": False})
         status = {}
         for domain, rows in selected.items():
-            if domain == "codecfake" and not args.codecfake_cache:
-                raise ValueError("Codecfake requires explicit production feature cache")
-            status[domain] = run_domain(domain, rows, args.codecfake_cache, out, cfg,
+            cache_ref = args.codecfake_cache if domain == "codecfake" else \
+                args.pa_cache if domain == "asv2019_pa_dev" else None
+            if domain in ("codecfake", "asv2019_pa_dev") and not cache_ref:
+                raise ValueError("development domain requires explicit production feature cache")
+            status[domain] = run_domain(domain, rows, cache_ref, out, cfg,
                                         objective_config)
             print(domain, status[domain], flush=True)
         write_new(out / "diagnostics/score_completion.json", {
@@ -186,9 +203,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-id", default=None)
     parser.add_argument("--smoke", action="store_true")
-    parser.add_argument("--domains", nargs="+", choices=("in_the_wild", "codecfake"),
+    parser.add_argument("--domains", nargs="+", choices=("in_the_wild", "codecfake", "asv2019_pa_dev"),
                         default=("in_the_wild", "codecfake"))
     parser.add_argument("--codecfake-cache")
+    parser.add_argument("--pa-cache")
     args = parser.parse_args()
     args.run_id = args.run_id or (("objective_smoke_" if args.smoke else "objective_full_") +
                                   datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))

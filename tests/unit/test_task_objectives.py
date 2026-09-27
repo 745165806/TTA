@@ -64,4 +64,5 @@ def test_worker_has_no_audit_or_label_import():
               "experiments/task_objective_discovery/objective_worker.py").read_text()
     assert "load_select" in source
     assert "load_audit" not in source
-    assert "canonical_label" not in source
+    assert "label_source_ref" not in source
+    assert "pa_dev_labels" not in source

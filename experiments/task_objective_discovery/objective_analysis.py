@@ -17,6 +17,27 @@ HERE = Path(__file__).resolve().parent
 ARMS = ("Frozen", "ep_no_keep", "O1", "O2", "O3")
 
 
+def pa_dev_labels(audit, ids):
+    """Open official PA *dev* labels only after complete_scores has succeeded."""
+    if audit.get("role") != "mechanism_audit" or audit.get("dataset_id") != "asv2019_pa_dev" or \
+            {row["sample_id"] for row in audit["records"]} != ids:
+        raise ValueError("PA dev audit/score coverage mismatch")
+    values = {}
+    with Path(audit["label_source_ref"]).open(encoding="utf-8") as stream:
+        for line in stream:
+            fields = line.split()
+            if len(fields) != 5:
+                raise ValueError("unexpected PA dev protocol row")
+            sample_id = fields[1]
+            if sample_id in ids:
+                if sample_id in values or fields[4] not in ("bonafide", "spoof"):
+                    raise ValueError("duplicate or unknown PA dev label")
+                values[sample_id] = 0 if fields[4] == "bonafide" else 1
+    if set(values) != ids:
+        raise ValueError("PA dev selected audit label coverage mismatch")
+    return values
+
+
 def read_json(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
@@ -90,9 +111,11 @@ def analyze(run):
     config, scores = complete_scores(run)  # No label reader can run before this line.
     metrics, intervals = [], []
     for domain, by_id in scores.items():
-        audit = read_json(ROOT / "experiments/multidomain_mechanism/manifests" /
-                          (domain + "_mechanism_audit.json"))
-        labels = selected_labels(domain, audit, set(by_id))
+        audit_root = (HERE / "manifests") if domain == "asv2019_pa_dev" else \
+            (ROOT / "experiments/multidomain_mechanism/manifests")
+        audit = read_json(audit_root / (domain + "_mechanism_audit.json"))
+        labels = (pa_dev_labels(audit, set(by_id)) if domain == "asv2019_pa_dev" else
+                  selected_labels(domain, audit, set(by_id)))
         ids = sorted(by_id)
         y = [labels[sid] for sid in ids]
         tau0 = read_json(run / "diagnostics" / (domain + "_provenance.json"))["tau0"]
@@ -145,7 +168,9 @@ def analyze(run):
     ranking_domains = sorted({row["domain"] for row in metrics if row["EER"] is not None})
     summary = {"status": "PARTIAL_ONE_DOMAIN_DEVELOPMENT" if len(ranking_domains) < 2 else "MULTIDOMAIN_DEVELOPMENT",
                "ranking_domains": ranking_domains, "promotion_eligible": False,
-               "promotion_reason": "at least two independent two-class development domains are required",
+               "promotion_reason": ("at least two independent two-class development domains are required"
+                                    if len(ranking_domains) < 2 else
+                                    "promotion requires explicit cross-domain gain, uncertainty and damage interpretation"),
                "per_domain": metrics, "paired_bootstrap": intervals,
                "target90_labels_or_metrics_read": False,
                "final_holdout_labels_read_this_stage": False}
@@ -161,9 +186,10 @@ def analyze(run):
             row["domain"], row["arm"], fmt(row["EER"]), fmt(row["AUC"]),
             fmt(row["delta_EER"]), fmt(row["delta_AUC"]),
             fmt(row["mean_source_evidence_damage"]), row["helpful_flips"], row["harmful_flips"]))
-    lines.extend(("", "No O1/O2/O3 objective is promoted from a single two-class domain.",
+    lines.extend(("", "No O1/O2/O3 objective is promoted automatically; apply the predeclared cross-domain criteria.",
                   "Codecfake fixed 512 includes non-16-kHz waveforms incompatible with production extraction; "
-                  "WaveFake lacks a compatible Parquet reader; ASV2021 mechanism groups are one-class."))
+                  "WaveFake lacks a compatible Parquet reader; ASV2021 mechanism groups are one-class. "
+                  "ASVspoof2019 PA dev, if present, is an auxiliary domain and is not relabeled as ASVspoof2021."))
     with (run / "analysis/report.md").open("x", encoding="utf-8") as stream:
         stream.write("\n".join(lines) + "\n")
     return summary
