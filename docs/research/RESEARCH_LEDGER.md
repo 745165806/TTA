@@ -428,3 +428,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: 13100/13100 IDs have R plus WF1..WF7; all 104800 WAV headers mono, 22050 Hz, uncompressed 16-bit PCM; zero invalid WAV; selected 4096 unique rows with 2048 real and 2048 generated; generator counts 292–293 each
 - interpretation: matched-format paired development is feasible, with an unresolved small systematic duration-offset cue and no independent speaker/language/transcript metadata. This is not proof of spoof-specific generalization.
 - next_decision: use the fixed explicit 22050→16000 compatibility path and production Frozen extractor; require 32-waveform smoke and full selected-cache validation before five-fold supervised capacity analysis. No target90 or final holdout access.
+
+## ITW supervised capacity ladder 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-capacity-audit
+- commit: 79b2d2b (pre-registered implementation)
+- experiment_id: capacity_audit/itw_capacity_20260927a
+- purpose: locate whether the current bounded 8×8 adapter or frozen 160D representation limits task correction on the existing complete target10 development set
+- datasets: In-the-Wild existing target10, 3178 rows (2029 bonafide, 1149 spoof); no target90
+- manifests: unchanged fixed target10 selection and selected-only target10 development labels; five held-out stratified folds saved in run
+- method: C0 Frozen, C1 supervised 8×8 R with fixed U/w/b and radius 0.1, C2 160D linear probe, C3 160→32→1 nonlinear probe triggered by preregistered C2 condition; **SUPERVISED DEVELOPMENT DIAGNOSIS, NOT TTA OR FINAL PERFORMANCE**
+- parameters: seed2026; 5 folds; Adam lr0.01, batch256, L2 1e-4, max100 epochs, inner training-only 10% validation, patience10, min improvement1e-4; original-view frozen feature
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/capacity_audit/run_ladder.py --domain itw --run-id itw_capacity_20260927a`
+- result_directory: `experiments/capacity_audit/results/itw_capacity_20260927a/`
+- key_metrics: C0 AUC/EER 0.963309/0.098571; C1 0.963385/0.099064 (ΔAUC +0.000076, EER worse 0.000493); C2 0.973159/0.085292 (ΔAUC +0.009850, EER improvement +0.013279); C3 0.974185/0.082681 (ΔAUC +0.010876, EER improvement +0.015890). C2 and C3 AUC/EER improve versus C0 in all five held-out folds; C1 R norms reach radius 0.1.
+- interpretation: ITW current bounded R has SMALL adapter gap; frozen 160D representation has a moderate AUC and actionable EER linear-readout gap in held-out CV. This is one primary domain only; pooling fold scores may have calibration effects, so per-fold directions are essential. No general TTA candidate follows yet.
+- next_decision: complete WaveFake 32-waveform smoke and fixed 4096-feature cache, then repeat identical supervised ladder with content groups held out; only cross-domain replication can support a representation-versus-adapter conclusion. No gradient-direction study because C1 is not large.

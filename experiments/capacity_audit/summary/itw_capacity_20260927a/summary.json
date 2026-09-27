@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "role": "SUPERVISED_DEVELOPMENT_DIAGNOSIS_NOT_TTA",
+  "domain": "itw",
+  "count": 3178,
+  "capacity_table": [
+    {
+      "domain": "itw",
+      "arm": "C0_Frozen",
+      "count": 3178,
+      "auc": 0.9633087850193088,
+      "eer": 0.09857072449482504,
+      "delta_auc": 0.0,
+      "eer_improvement": 0.0
+    },
+    {
+      "domain": "itw",
+      "arm": "C1_supervised_R",
+      "count": 3178,
+      "auc": 0.9633847076400033,
+      "eer": 0.09906357811729916,
+      "delta_auc": 7.592262069444633e-05,
+      "eer_improvement": -0.0004928536224741153
+    },
+    {
+      "domain": "itw",
+      "arm": "C2_linear",
+      "count": 3178,
+      "auc": 0.9731589944070336,
+      "eer": 0.08529155787641429,
+      "delta_auc": 0.00985020938772474,
+      "eer_improvement": 0.013279166618410748
+    },
+    {
+      "domain": "itw",
+      "arm": "C3_nonlinear",
+      "count": 3178,
+      "auc": 0.9741845931984484,
+      "eer": 0.08268059181897303,
+      "delta_auc": 0.010875808179139579,
+      "eer_improvement": 0.015890132675852014
+    }
+  ],
+  "c3": {
+    "training_folds": [
+      {
+        "best_epoch": 17,
+        "inner_validation_bce": 0.22382411360740662,
+        "train_count": 2288,
+        "inner_val_count": 254,
+        "parameter_count": 5185,
+        "R_norm": null,
+        "fold": 0
+      },
+      {
+        "best_epoch": 23,
+        "inner_validation_bce": 0.18317440152168274,
+        "train_count": 2288,
+        "inner_val_count": 254,
+        "parameter_count": 5185,
+        "R_norm": null,
+        "fold": 1
+      },
+      {
+        "best_epoch": 11,
+        "inner_validation_bce": 0.24966852366924286,
+        "train_count": 2288,
+        "inner_val_count": 254,
+        "parameter_count": 5185,
+        "R_norm": null,
+        "fold": 2
+      },
+      {
+        "best_epoch": 18,
+        "inner_validation_bce": 0.15827395021915436,
+        "train_count": 2288,
+        "inner_val_count": 254,
+        "parameter_count": 5185,
+        "R_norm": null,
+        "fold": 3
+      },
+      {
+        "best_epoch": 30,
+        "inner_validation_bce": 0.19437362253665924,
+        "train_count": 2290,
+        "inner_val_count": 254,
+        "parameter_count": 5185,
+        "R_norm": null,
+        "fold": 4
+      }
+    ],
+    "runtime_seconds": 0.9653532710071886
+  },
+  "target90_accessed": false,
+  "final_holdout_accessed": false
+}

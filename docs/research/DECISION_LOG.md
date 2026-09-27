@@ -121,3 +121,11 @@ Why: Codecfake cannot separate class from sample rate, while the local WaveFake 
 What this excludes: Across all 104800 rows, rate, container, channel count and PCM width do not distinguish real from generated class. It does **not** exclude shortcut evidence: R and generated files have a small systematic duration offset, and speaker/language/transcript metadata are absent.
 
 Next design: Freeze 2048 randomly selected content IDs with one real and one cyclically assigned WF generator per ID. Run only the explicit SciPy 1.13.0 22050→16000 production-compatible extraction path, validate 32 waveforms before complete selected-cache generation, and keep all content pairs together during five-fold supervised CV. Preserve the duration caveat in every capacity interpretation.
+
+## 2026-09-27 — ITW distinguishes bounded-R and readable-feature capacity
+
+Why: Existing label-free TTA fails to improve ITW ranking, but that alone does not tell whether frozen embeddings lack spoof information or the fixed classifier plus bounded 8×8 R cannot recover it. The preregistered five-fold supervised development ladder isolates those alternatives.
+
+What this excludes: On ITW target10, supervised C1 gives only +0.000076 AUC and worsens EER, so the present radius-0.1 R space does not provide an actionable upper bound. Linear C2 improves AUC by +0.009850 and EER by 0.013279 across five held-out folds, so a total absence of linearly readable target spoof information is excluded for this domain. It does not distinguish R subspace from radius restriction or establish cross-domain generality.
+
+Next design: Run the already fixed WaveFake paired development cache and identical grouped held-out capacity ladder. Do not add a TTA objective or method now. Skip gradient-direction comparison unless a primary-domain C1 has an actionable gap. Treat all reported values as supervised development diagnosis, never final performance.
