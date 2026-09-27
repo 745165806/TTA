@@ -238,4 +238,6 @@ experiments/multidomain_mechanism/results/
 experiments/multidomain_mechanism/audit_labels/
 experiments/epdc_development/results/
 experiments/task_objective_discovery/results/
+experiments/meta_rank_head/results/*/*_scores.csv
+experiments/meta_rank_head/results/meta_rank_20260927_seed13/
 outputs_v2/
