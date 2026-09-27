@@ -1,0 +1,52 @@
+{
+  "run_id": "matched_oracle_dev_20260927a",
+  "role": "SUPERVISED_DEVELOPMENT_ORACLE_NOT_TTA",
+  "branch": "exp-matched-head-oracle",
+  "commit": "2cf0009f4cc8aaba3936dbd27ad206a50b37acab",
+  "command": [
+    "/home/dell/anaconda3/envs/tta/bin/python",
+    "experiments/matched_head_oracle/run_supervised_oracle.py",
+    "--run-id",
+    "matched_oracle_dev_20260927a"
+  ],
+  "python": "3.10.20 (main, Mar 11 2026, 17:46:40) [GCC 14.3.0]",
+  "torch": "2.1.0+cu121",
+  "sample_counts": {
+    "itw": 3178,
+    "wavefake": 4096
+  },
+  "buffer_size": 128,
+  "one_step": true,
+  "order": "fixed_manifest",
+  "reset_policy": "source_head_each_buffer",
+  "encoder_frozen": true,
+  "bias_frozen": true,
+  "normalized_deltas": [
+    0.01,
+    0.03,
+    0.1
+  ],
+  "o2_result_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/o2_strength_audit/results/o2_strength_dev_20260927a",
+  "itw_cache": {
+    "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/gradient_alignment_audit/target10_only_cache",
+    "cache_id": "gradient-target10-only-20260927a",
+    "selected_only_count": 3178
+  },
+  "wavefake_cache": {
+    "source_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+    "source_run_id": "source-20260919T083421Z-a61b23",
+    "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/outputs/source/ssl-aasist-full-asvspoof2019train-random/checkpoints/epoch_0007.pt",
+    "cache_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/feature_cache",
+    "cache_id": "capacity-wavefake-wavefake_capacity_cache_20260927a",
+    "selection_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-o2-strength-audit/experiments/capacity_audit/manifests/wavefake_capacity_select.json",
+    "selected_rows_loaded": 4096,
+    "chunk_id_metadata_rows_scanned": 4096,
+    "nonselected_feature_values_loaded_into_application": false,
+    "target_labels_read": false,
+    "target90_labels_read": false,
+    "target90_metrics_read": false,
+    "tau0": -4.770049095153809
+  },
+  "target90_labels_or_metrics_accessed": false,
+  "final_heldout_metrics_accessed": false
+}
