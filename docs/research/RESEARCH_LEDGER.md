@@ -649,3 +649,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: original 354-row alignment output remains unchanged; ITW Frozen selected-row parity was 0. Target90 labels and metrics remain unopened. The original worker opened shared 31779-row target_test `.npy` chunks, so strict no-target90-cache access cannot be certified.
 - interpretation: `NONCOMPLIANT_SHARED_CACHE_ACCESS`; the original `DIRECTION_ALIGNED_BUT_EXECUTION_INEFFECTIVE` decision is numerical exploratory evidence only. Formal protocol-clean conclusion is `INCONCLUSIVE` pending an existing standalone target10 cache.
 - next_decision: runner now requires `--itw-selected-cache`, exact 3178 IDs and source identity and rejects the known shared cache before opening its index; only a new run ID with such a resource may finalize this audit. No re-embedding, target90 label/metric access, method implementation or parameter adjustment is authorized.
+
+## Target10-only cache and compliant gradient replay 2026-09-27
+
+- date: 2026-09-27
+- branch: exp-o2-strength-audit
+- commit: 3b41ddf (selective extraction code), 54fae0b (cache validation record; replay code unchanged from 0ed4a68)
+- experiment_id: gradient_alignment_audit/target10_only_cache; gradient_alignment_audit/alignment_compliant_20260927a
+- purpose: remove the earlier mixed-cache access problem, then confirm the predeclared cross-domain O2 head-gradient direction before any strength update
+- datasets: fixed ITW target10 3178; fixed WaveFake paired development 4096
+- manifests: existing ITW confirmation select and WaveFake paired select unchanged; target10-only cache has 3178 exact unique IDs in manifest order
+- method: NumPy memory-map selective extraction of only 3178 fixed `sample_index` slices; independent ID-based selected-row tensor parity; new standalone FeatureCache; exact same ENT/PL/O1/O2/O3/Base head-gradient runner at frozen source head on B128 manifest chunks
+- parameters: no TTA update; chunk_size128, no shuffle, same objective_config and supervised reference as exploratory run; source cache 31779 rows, selected rows 3178, per-feature shape3×160 float32
+- command: `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/gradient_alignment_audit/build_target10_only_cache.py`; `PYTHONPATH=src:. OMP_NUM_THREADS=1 conda run -n tta python experiments/gradient_alignment_audit/run_alignment.py --run-id alignment_compliant_20260927a --itw-selected-cache experiments/gradient_alignment_audit/target10_only_cache`
+- result_directory: `experiments/gradient_alignment_audit/target10_only_cache/` (large local artifact); `experiments/gradient_alignment_audit/target10_only_cache_provenance.json`; `experiments/gradient_alignment_audit/results/alignment_compliant_20260927a/`
+- key_metrics: cache count/unique IDs 3178/3178, all finite, shape3×160, maximum tensor difference versus historical selected rows 0; no nonselected feature row indexed by project code, no waveform encoder rerun. Replay 354 rows finite and exact CSV equality with exploratory alignment run. O2 full cosine ITW/WaveFake `+0.319200/+0.527607`, positive chunk fraction `1.0/1.0`, norm ratio `0.110184/0.018657`.
+- interpretation: `CROSS_DOMAIN_O2_GRADIENT_ALIGNMENT_CONFIRMED` under the user's fixed gate (`full cosine>0`, positive chunk fraction≥0.9 in both domains). The source shared files were opened once for selective extraction; OS page-byte isolation is not claimed. Subsequent replay read only the independent selected-only cache. No hash was computed: automatic approval review rejected project hash code under AGENTS.md; source provenance and exact tensor equality replace it.
+- next_decision: preregister one-step O2 raw versus three fixed normalized direction step sizes, source bias held fixed and B128 reset, then generate all unlabeled scores before any selected development label analysis. No new loss or method claim.

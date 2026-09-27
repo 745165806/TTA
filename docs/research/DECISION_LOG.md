@@ -209,3 +209,11 @@ Why: The audit instruction forbids reading target90 feature/cache data. The orig
 What this excludes: The original run cannot be called a protocol-clean use of an already isolated selected-only ITW cache. Its target10 gradient values remain unchanged, and no target90 label or metric was read, but the numerical `DIRECTION_ALIGNED_BUT_EXECUTION_INEFFECTIVE` category is exploratory rather than confirmatory. A scoped search found no standalone 3,178-row ITW feature cache in 25 known cache indices.
 
 Next design: Do not re-embed audio or silently reuse the mixed cache. Require a standalone target10 cache path with exact selected-ID and source-identity validation; until that resource is identified, report formal status `INCONCLUSIVE`. Preserve the first run and its boundary correction side by side.
+
+## 2026-09-27 — Isolated target10 cache permits an exact alignment replay
+
+Why: The earlier gradient audit had a shared-cache protocol deviation. The current instruction explicitly allows one-time selective extraction of fixed target10 rows as long as nonselected feature values are not indexed. A standalone 3,178-row cache was created and independently compared with historical selected tensors before any replay.
+
+What this excludes: The replay is no longer dependent on opening the shared target_test cache at audit time. Its full alignment CSV is byte-identical to the exploratory run, so the earlier O2 numerical observation was not caused by selected-row extraction differences. O2 full cosine is positive in ITW and WaveFake and all 25/32 chunks are positive, satisfying the fixed `CROSS_DOMAIN_O2_GRADIENT_ALIGNMENT_CONFIRMED` gate. This still does not prove that an update improves ranking.
+
+Next design: Run only the preregistered one-step O2 direction-versus-strength comparison on the same fixed B128 chunks, keeping source bias and encoder frozen. Do not expand buffers, losses or step sizes based on its outcomes.
