@@ -24,7 +24,7 @@ def run(args):
         (out / part).mkdir()
     try:
         itw_ids, itw_x, itw_y, itw_resources, itw_provenance, _ = load_itw()
-        wave_ids, wave_x, wave_y, wave_resources, wave_provenance, _ = load_wavefake(
+        wave_ids, wave_x, wave_y, wave_resources, wave_provenance, wave_groups = load_wavefake(
             args.cache, args.assignment, args.labels)
         write_new(out / "run_config.json", {"role": "SUPERVISED_CROSS_DOMAIN_DEVELOPMENT_DIAGNOSTIC_NOT_FINAL",
             "command": sys.argv, "model": "C2_linear_fixed_training_schedule",
@@ -43,8 +43,10 @@ def run(args):
             both_y = np.concatenate((train_y, test_y))
             train = np.arange(len(train_x))
             heldout = np.arange(len(train_x), len(both_x))
+            train_groups = None if source == "itw" else wave_groups
+            all_groups = None if train_groups is None else train_groups + [f"itw:{i}" for i in range(len(test_x))]
             prediction, detail = fit_arm("C2_linear", both_x, both_y, train, heldout,
-                                         train_resources, 0)
+                                         train_resources, 0, all_groups)
             frozen = (test_x @ test_resources.w.numpy() + test_resources.b).astype(np.float64)
             frozen_metric = metric(frozen, test_y)
             transfer_metric = metric(prediction, test_y)

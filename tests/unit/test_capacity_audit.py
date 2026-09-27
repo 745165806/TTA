@@ -5,7 +5,7 @@ from types import SimpleNamespace
 import numpy as np
 import torch
 
-from experiments.capacity_audit.run_ladder import fit_arm, group_stratified_folds
+from experiments.capacity_audit.run_ladder import fit_arm, group_stratified_folds, inner_group_split
 
 
 def test_group_folds_keep_wavefake_content_pairs_together():
@@ -17,6 +17,14 @@ def test_group_folds_keep_wavefake_content_pairs_together():
         assert sorted(np.bincount(labels[validation]).tolist()) == [5, 5]
         held_out.extend(validation.tolist())
     assert sorted(held_out) == list(range(50))
+
+
+def test_inner_wavefake_epoch_split_keeps_pairs_together():
+    groups = [f"content-{index}" for index in range(100) for _ in range(2)]
+    labels = np.array([0, 1] * 100, dtype=np.int64)
+    train, validation = inner_group_split(np.arange(200), labels, groups, 2026)
+    assert not set(np.array(groups)[train]) & set(np.array(groups)[validation])
+    assert np.bincount(labels[validation]).tolist() == [10, 10]
 
 
 def test_supervised_R_is_projected_and_predictions_are_held_out():

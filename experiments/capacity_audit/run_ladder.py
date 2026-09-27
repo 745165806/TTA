@@ -132,9 +132,26 @@ def inner_stratified_split(indices: np.ndarray, y: np.ndarray, seed: int):
     return np.array(sorted(inner_train), dtype=np.int64), np.array(sorted(inner_val), dtype=np.int64)
 
 
+def inner_group_split(indices: np.ndarray, y: np.ndarray, groups: list[str], seed: int):
+    """Keep real/generated content pairs together even during epoch selection."""
+    names = sorted({groups[index] for index in indices})
+    if len(names) < 10:
+        raise ValueError("insufficient paired content groups for inner validation")
+    rng = np.random.default_rng(seed)
+    rng.shuffle(names)
+    n_val = max(1, int(round(.1 * len(names))))
+    validation_groups = set(names[:n_val])
+    inner_val = np.array([i for i in indices if groups[i] in validation_groups], dtype=np.int64)
+    inner_train = np.array([i for i in indices if groups[i] not in validation_groups], dtype=np.int64)
+    if set(y[inner_val].tolist()) != {0, 1} or set(y[inner_train].tolist()) != {0, 1}:
+        raise ValueError("inner grouped split lost a class")
+    return inner_train, inner_val
+
+
 def fit_arm(arm: str, X: np.ndarray, y: np.ndarray, train_idx: np.ndarray,
-            val_idx: np.ndarray, resources, fold: int):
-    inner_train, inner_val = inner_stratified_split(train_idx, y, SEED + fold)
+            val_idx: np.ndarray, resources, fold: int, groups: list[str] | None = None):
+    inner_train, inner_val = (inner_stratified_split(train_idx, y, SEED + fold)
+                              if groups is None else inner_group_split(train_idx, y, groups, SEED + fold))
     torch.manual_seed(SEED + fold)
     torch.set_num_threads(1)
     mean = np.zeros(X.shape[1], np.float32)
@@ -265,7 +282,7 @@ def run(args):
             train_details = []
             start = time.monotonic()
             for fold, (train, heldout) in enumerate(folds):
-                prediction, detail = fit_arm(arm, X, y, train, heldout, resources, fold)
+                prediction, detail = fit_arm(arm, X, y, train, heldout, resources, fold, groups)
                 pred[heldout] = prediction
                 detail["fold"] = fold
                 train_details.append(detail)
