@@ -248,5 +248,6 @@ experiments/head_capacity_geometry/results/
 experiments/head_tta/results/
 experiments/gradient_alignment_audit/target10_only_cache/
 experiments/o2_strength_audit/results/*/scores/
+experiments/matched_head_oracle/results/*/scores/
 /outputs_v2
 outputs_v2/
