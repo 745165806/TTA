@@ -242,4 +242,6 @@ experiments/meta_rank_head/results/*/*_scores.csv
 experiments/meta_rank_head/results/meta_rank_20260927_seed13/
 experiments/distribution_conditioned_head/results/*/*_scores.csv
 experiments/overnight_tta/results/*/*_scores.csv
+experiments/representation_tta/results/*/ll_cache/
+experiments/representation_tta/results/*/logs/
 outputs_v2/
