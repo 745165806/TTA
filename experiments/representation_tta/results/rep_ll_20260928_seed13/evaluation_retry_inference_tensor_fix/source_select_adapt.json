@@ -1,0 +1,11 @@
+{
+  "updates": 368,
+  "numerical_failures": 0,
+  "selected_bonafide_presentations": 2404,
+  "selected_spoof_presentations": 21020,
+  "skipped_bonafide_batches": 2,
+  "skipped_spoof_batches": 0,
+  "adapter_parameter_delta_norm": 0.6317209358153872,
+  "adapt_seconds": 51.5877502609801,
+  "peak_gpu_bytes": 4075830272
+}

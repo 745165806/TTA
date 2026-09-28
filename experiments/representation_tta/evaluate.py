@@ -116,14 +116,14 @@ def development_labels(domain,ids,config):
     return labels,groups
 
 
-def run(config_ref,run_id,seed,gpu):
+def run(config_ref,run_id,seed,gpu,evaluation_id='evaluation'):
     config=json.loads(Path(config_ref).read_text())
     if not torch.cuda.is_available() or torch.cuda.device_count()<=gpu:
         raise RuntimeError('representation-level evaluation requires a visible GPU')
     torch.set_num_threads(2)
     device=torch.device(f'cuda:{gpu}')
     torch.cuda.set_device(device)
-    output=HERE/'results'/run_id/'evaluation'
+    output=HERE/'results'/run_id/evaluation_id
     output.mkdir(parents=True,exist_ok=False)
     (output/'config.json').write_text(json.dumps({**config,'run_id':run_id,'seed':seed,'gpu':gpu},indent=2)+'\n')
     started=time.monotonic()
@@ -228,5 +228,6 @@ if __name__=='__main__':
     parser.add_argument('--run-id',required=True)
     parser.add_argument('--seed',type=int,required=True)
     parser.add_argument('--gpu',type=int,required=True)
+    parser.add_argument('--evaluation-id',default='evaluation')
     args=parser.parse_args()
-    run(args.config,args.run_id,args.seed,args.gpu)
+    run(args.config,args.run_id,args.seed,args.gpu,args.evaluation_id)

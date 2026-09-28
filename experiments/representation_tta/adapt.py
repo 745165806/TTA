@@ -51,6 +51,9 @@ def adapt_unlabeled(source_model, views, prototypes, config, seed, device):
     """No labels, IDs, paths, target class proportions, or attack codes enter here."""
     if views.ndim != 4 or views.shape[1:] != (3,201,128) or not torch.isfinite(views).all():
         raise ValueError('target adapter requires finite unlabeled [N,3,201,128]')
+    # source_prototypes runs under inference_mode; autograd cannot save its tensors.
+    prototypes = {key: value.detach().clone() if torch.is_tensor(value) else value
+                  for key, value in prototypes.items()}
     source_model.eval()
     adapter = copy.deepcopy(source_model.adapter)
     model = RepresentationDetector(source_model.backend, adapter).to(device)

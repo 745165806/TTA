@@ -1,0 +1,22 @@
+{
+  "updates": 128,
+  "numerical_failures": 0,
+  "selected_bonafide_presentations": 3818,
+  "selected_spoof_presentations": 3130,
+  "skipped_bonafide_batches": 0,
+  "skipped_spoof_batches": 0,
+  "adapter_parameter_delta_norm": 1.098786252009143,
+  "adapt_seconds": 17.936958754988154,
+  "peak_gpu_bytes": 4075947520,
+  "domain": "wavefake_dev",
+  "count": 4096,
+  "inference_seconds": {
+    "frozen": 0.050796231982531026,
+    "static_source": 1.4270671950071119,
+    "adapter_off": 1.4353581579925958,
+    "adapter_on": 1.427850492997095
+  },
+  "adapter_parameters": 16576,
+  "source_checkpoint": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-representation-tta/experiments/representation_tta/results/rep_ll_20260928_seed13/task_supcon/adapter_epoch_0005.pt",
+  "static_checkpoint": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-representation-tta/experiments/representation_tta/results/rep_ll_20260928_seed13/static_bce/adapter_epoch_0005.pt"
+}

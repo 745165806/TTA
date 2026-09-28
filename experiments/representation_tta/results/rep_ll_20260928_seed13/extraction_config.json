@@ -1,0 +1,19 @@
+{
+  "run_id": "rep_ll_20260928_seed13",
+  "python": "/home/dell/anaconda3/envs/tta/bin/python",
+  "domains": [
+    "fit",
+    "select",
+    "itw_target10",
+    "wavefake_dev"
+  ],
+  "shards": 4,
+  "gpu_per_shard": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "batch_audio": 4,
+  "purpose": "actual pre-backend 201x128 waveform SSL features"
+}

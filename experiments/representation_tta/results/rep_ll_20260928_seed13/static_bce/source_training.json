@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "arm": "static_bce",
+  "seed": 13,
+  "gpu": 0,
+  "optimizer_steps": 3565,
+  "presentations": 228160,
+  "unique_fit_ids_seen": 25380,
+  "fit_count": 25380,
+  "select_count": 11723,
+  "adapter_parameters": 16576,
+  "numerical_failures": 0,
+  "elapsed_seconds": 568.372430339019,
+  "peak_gpu_bytes": 2738895872
+}

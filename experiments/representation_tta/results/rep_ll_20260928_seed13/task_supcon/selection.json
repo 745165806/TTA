@@ -1,0 +1,10 @@
+{
+  "epoch": 5,
+  "checkpoint_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-representation-tta/experiments/representation_tta/results/rep_ll_20260928_seed13/task_supcon/adapter_epoch_0005.pt",
+  "source_select_key": [
+    0.0004756468797564306,
+    0.0019025875190258335,
+    -0.9999982718032445
+  ],
+  "optimizer_steps": 3565
+}

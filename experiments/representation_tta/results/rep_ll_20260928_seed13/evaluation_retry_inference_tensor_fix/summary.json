@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "run_id": "rep_ll_20260928_seed13",
+  "seed": 13,
+  "gpu": 0,
+  "elapsed_seconds": 165.1625549920136,
+  "target90_accessed": false,
+  "final_holdout_accessed": false
+}
