@@ -20,7 +20,8 @@
 3. 已实现真实 waveform 到 LL 的 GPU 抽取器 [extract_ll.py](extract_ll.py)，仅读取现有 fit/select、ITW target10 及 WaveFake 4096 固定 assignment；WaveFake 复用先前经审计的 16kHz 派生波形，不访问生成器标签。该缓存每条为三视图 `[3,201,128]` float32。44,377 条总量估计 12.76 GiB，磁盘空余 692.7 GiB；16 条 smoke GPU 峰值约 2.12 GiB。见 `resource_estimate.json`。
 4. 初次 16 条 smoke 发现与既有 Frozen 160D 缓存最大分数差 0.0337，原因是新脚本未遵守生产提取器禁用 TF32 的数值模式。保留初次缓存，关闭 CUDA matmul/cuDNN TF32 后以独立 `ll_smoke_20260928b` 重测，差降至 0.000486（跨 batch 数值差）；同一 LL 张量关闭 adapter 则**精确恢复**冻结后端分数。真实 LL adapter BCE 反向梯度范数 4.266，有限非零。见 `smoke_adapter.json`。
 5. 用合成工程原型检查 [adapt.py](adapt.py) 的标签隔离和梯度路径：16 条真实 LL 特征上四次无标签更新，参数位移范数 0.03256、最大分数变化 0.0593、无数值失败。合成原型不构成源训练或目标性能证据。见 `smoke_adapt.json`。
-6. 已准备源标签/攻击合同、严格缓存读取、[train.py](train.py) 的同批次同预算 BCE 静态对照与 BCE+SupCon adapter 训练、[evaluate.py](evaluate.py) 的四臂比较、源阈值、WaveFake content-pair 配对 bootstrap、最终共享适配器分数和 checkpoint。源训练和评价代码**尚未经全量真实运行验证**，不能标 PASS。参数与晋级规则见 [METHOD.md](METHOD.md) 和 [config.json](config.json)。
+6. 用已有的 16 条真实源音频 LL 特征与 source canonical labels 执行了一次 BCE+SupCon 优化步：loss 和梯度有限，adapter 参数位移 0.00911。该批只有 1 条 bonafide、15 条 spoof，仅用于核对代码路径，**不是源训练 epoch**。见 `smoke_source_train.json`。
+7. 已准备源标签/攻击合同、严格缓存读取、[train.py](train.py) 的同批次同预算 BCE 静态对照与 BCE+SupCon adapter 训练、[evaluate.py](evaluate.py) 的四臂比较、源阈值、WaveFake content-pair 配对 bootstrap、最终共享适配器分数和 checkpoint。源训练和评价代码**尚未经全量真实运行验证**，不能标 PASS。参数与晋级规则见 [METHOD.md](METHOD.md) 和 [config.json](config.json)。
 
 ## 阻塞与下一步
 
