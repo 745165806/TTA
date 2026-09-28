@@ -1,0 +1,30 @@
+{
+  "segments": [
+    {
+      "segment": 0,
+      "domain": "ITW",
+      "count": 3178,
+      "metrics": {
+        "count": 3178,
+        "threshold": -4.28347635269165,
+        "tp": 1144,
+        "fp": 1041,
+        "tn": 988,
+        "fn": 5,
+        "tpr": 0.9956483899042646,
+        "fpr": 0.5130606209955643,
+        "fnr": 0.004351610095735422,
+        "balanced_accuracy": 0.7412938844543502,
+        "auroc": 0.9633087850193088,
+        "eer": 0.09857072449482504
+      },
+      "first256_after_switch": null,
+      "rolling_valid_count": 23,
+      "rolling_na_count": 0,
+      "rolling_mean_auc": 0.964248838299307,
+      "rolling_mean_eer": 0.0955120492143309,
+      "rolling_worst_auc": 0.9300424975482183,
+      "rolling_worst_eer": 0.14864864864864866
+    }
+  ]
+}

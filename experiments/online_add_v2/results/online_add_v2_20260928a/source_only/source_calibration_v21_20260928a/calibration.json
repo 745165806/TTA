@@ -1,0 +1,63 @@
+{
+  "status": "COMPLETE",
+  "calibration_id": "source_calibration_v21_20260928a",
+  "source_role": "select",
+  "source_ids_ref": "/media/dell/data/fakeAudioDection/TTA/.worktrees/online-add-baselines-v2/experiments/online_add_v2/results/online_add_v2_20260928a/source_only/setup_20260928b/source_ids.json",
+  "count": 1024,
+  "class_counts": {
+    "bonafide": 512,
+    "spoof": 512
+  },
+  "policy": "fresh method stream on fixed source-select clean B16; minimize |FPR-FNR|, then mean error, then threshold",
+  "note": "calibration added after v2.1 execution package was supplied; no target scores or labels enter this program",
+  "methods": {
+    "frozen": {
+      "threshold": -4.28347635269165,
+      "source_select_fpr": 0.001953125,
+      "source_select_fnr": 0.001953125,
+      "source_select_auc": 0.9997215270996094,
+      "source_select_eer": 0.001953125,
+      "score_form": "native spoof-minus-bonafide logits"
+    },
+    "bn_only": {
+      "threshold": 3.308915615081787,
+      "source_select_fpr": 0.001953125,
+      "source_select_fnr": 0.001953125,
+      "source_select_auc": 0.9999656677246094,
+      "source_select_eer": 0.001953125,
+      "score_form": "native spoof-minus-bonafide logits"
+    },
+    "tent": {
+      "threshold": 2.9029700756073,
+      "source_select_fpr": 0.001953125,
+      "source_select_fnr": 0.001953125,
+      "source_select_auc": 0.9999732971191406,
+      "source_select_eer": 0.001953125,
+      "score_form": "native spoof-minus-bonafide logits"
+    },
+    "eata": {
+      "threshold": 3.3241374492645264,
+      "source_select_fpr": 0.001953125,
+      "source_select_fnr": 0.001953125,
+      "source_select_auc": 0.9999656677246094,
+      "source_select_eer": 0.001953125,
+      "score_form": "native spoof-minus-bonafide logits"
+    },
+    "rotta": {
+      "threshold": -0.5585063695907593,
+      "source_select_fpr": 0.001953125,
+      "source_select_fnr": 0.001953125,
+      "source_select_auc": 0.9986953735351562,
+      "source_select_eer": 0.001953125,
+      "score_form": "native spoof-minus-bonafide logits"
+    },
+    "lame": {
+      "threshold": -5.155588150024414,
+      "source_select_fpr": 0.001953125,
+      "source_select_fnr": 0.001953125,
+      "source_select_auc": 0.9999046325683594,
+      "source_select_eer": 0.001953125,
+      "score_form": "post-LAME spoof/bonafide log-odds"
+    }
+  }
+}

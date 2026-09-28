@@ -1,0 +1,30 @@
+{
+  "segments": [
+    {
+      "segment": 0,
+      "domain": "WaveFake",
+      "count": 4096,
+      "metrics": {
+        "count": 4096,
+        "threshold": -0.5585063695907593,
+        "tp": 1961,
+        "fp": 1696,
+        "tn": 352,
+        "fn": 87,
+        "tpr": 0.95751953125,
+        "fpr": 0.828125,
+        "fnr": 0.04248046875,
+        "balanced_accuracy": 0.564697265625,
+        "auroc": 0.882673978805542,
+        "eer": 0.17919921875
+      },
+      "first256_after_switch": null,
+      "rolling_valid_count": 31,
+      "rolling_na_count": 0,
+      "rolling_mean_auc": 0.9201459727174259,
+      "rolling_mean_eer": 0.15483790754095889,
+      "rolling_worst_auc": 0.8324482695477019,
+      "rolling_worst_eer": 0.26356589147286824
+    }
+  ]
+}

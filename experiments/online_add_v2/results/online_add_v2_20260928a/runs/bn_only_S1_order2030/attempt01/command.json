@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "/home/dell/anaconda3/envs/tta/bin/python",
+    "/media/dell/data/fakeAudioDection/TTA/.worktrees/online-add-baselines-v2/experiments/online_add_v2/run.py",
+    "--config",
+    "/media/dell/data/fakeAudioDection/TTA/.worktrees/online-add-baselines-v2/experiments/online_add_v2/config.json",
+    "--method",
+    "bn_only",
+    "--stream",
+    "S1",
+    "--order-seed",
+    "2030",
+    "--gpu",
+    "0",
+    "--run-id",
+    "online_add_v2_20260928a",
+    "--attempt-id",
+    "attempt01"
+  ],
+  "cwd": "/media/dell/data/fakeAudioDection/TTA/.worktrees/online-add-baselines-v2"
+}

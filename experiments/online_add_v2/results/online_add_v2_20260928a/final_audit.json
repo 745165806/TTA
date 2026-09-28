@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "formal_runs": 180,
+  "order2026": 36,
+  "later": 144,
+  "failed_or_blocked": 0,
+  "segment_metric_vectors_checked": 360,
+  "paired_bootstrap_comparisons": 100,
+  "replicates_per_comparison": 1000,
+  "method_specific_source_thresholds": 6,
+  "target90_accessed_by_v2_run": false,
+  "final_holdout_accessed_by_v2_run": false,
+  "note": "First-score exact coverage/finite values were checked by both evaluator summaries."
+}

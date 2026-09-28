@@ -73,7 +73,7 @@ def metric(scores, labels, threshold):
     return binary_metrics(scores, labels, threshold)
 
 
-def score_segments(run, config, labels):
+def score_segments(run, config, labels, threshold):
     scores = run['scores']
     rows = run['stream']
     segments = []
@@ -82,13 +82,13 @@ def score_segments(run, config, labels):
         domain = rows[indices[0]]['domain']
         x = [scores[i]['score'] for i in indices]
         y = [labels[domain][rows[i]['sample_id']]['canonical_label'] for i in indices]
-        full = metric(x, y, config['source_threshold'])
+        full = metric(x, y, threshold)
         rolling = []
         for start in range(0, len(x)-255, 128):
-            result = metric(x[start:start+256], y[start:start+256], config['source_threshold'])
+            result = metric(x[start:start+256], y[start:start+256], threshold)
             rolling.append({'start': start, 'metrics': result})
         valid = [item for item in rolling if item['metrics'] is not None]
-        first256 = metric(x[:256], y[:256], config['source_threshold']) if segment > 0 else None
+        first256 = metric(x[:256], y[:256], threshold) if segment > 0 else None
         segments.append({'segment': segment, 'domain': domain, 'count': len(indices),
                          'metrics': full, 'first256_after_switch': first256,
                          'rolling_valid_count': len(valid),
@@ -102,7 +102,7 @@ def score_segments(run, config, labels):
         output['segment_macro_auc'] = statistics.mean(item['metrics']['auroc'] for item in segments)
         output['segment_macro_eer'] = statistics.mean(item['metrics']['eer'] for item in segments)
         pooled_y = [labels[item['domain']][item['sample_id']]['canonical_label'] for item in rows]
-        output['pooled'] = metric([item['score'] for item in scores], pooled_y, config['source_threshold'])
+        output['pooled'] = metric([item['score'] for item in scores], pooled_y, threshold)
         output['worst_rolling_auc'] = min(item['rolling_worst_auc'] for item in segments if item['rolling_worst_auc'] is not None)
         output['worst_rolling_eer'] = max(item['rolling_worst_eer'] for item in segments if item['rolling_worst_eer'] is not None)
         first = [item['first256_after_switch'] for item in segments[1:] if item['first256_after_switch'] is not None]
@@ -125,16 +125,20 @@ def stats(values):
             'min': min(values), 'max': max(values), 'n_orders': len(values)}
 
 
-def write_report(config, results, root):
+def write_report(config, results, root, thresholds=None, calibration=None):
     methods = config['methods']
     streams = config['streams']
     seeds = config['order_seeds']
     count = len(results)
+    calibrated = thresholds is not None
+    metrics_filename = 'metrics_v21.csv' if calibrated else 'metrics.csv'
+    summary_filename = 'summary_v21.json' if calibrated else 'summary.json'
     lines = ['# BASELINE_REPORT — Online ADD Baselines v2', '',
              f'**Stage:** Online ADD Baselines v2 · **Status:** {"COMPLETE" if count == 180 else "INCOMPLETE"}',
              f'**Completed runs:** {count} / 180',
              '**Target domains:** ITW = 3,178; WaveFake = 4,096; LA21 = 4,096; DF21 = 4,096.',
              '**Methods:** ' + '; '.join(f'{name} = {"COMPLETE" if sum((name, stream, seed) in results for stream in streams for seed in seeds)==30 else "INCOMPLETE"} ({sum((name, stream, seed) in results for stream in streams for seed in seeds)}/30)' for name in methods) + '.',
+             '**Operating thresholds:** ' + ('method-specific source-select calibration (v2.1 supplement; chronology disclosed below).' if calibrated else 'shared existing source-cal0 threshold (original v2 protocol).'),
              '', '## Stationary mean over five orders', '',
              '| Method | ITW EER% / AUC | WaveFake EER% / AUC | LA21 EER% / AUC | DF21 EER% / AUC |',
              '|---|---:|---:|---:|---:|']
@@ -198,20 +202,48 @@ def write_report(config, results, root):
         dynamic_gain = statistics.mean(row[0] for row in dynamic[dynamic_top])
         negative = [method for method in methods[1:]
                     if statistics.mean(row[0] for row in stationary[method]) < 0]
-        lines += [f'1. Highest stationary mean paired ΔAUC: {top} {top_gain:+.4f}; positive in {top_positive}/20 domain-order comparisons.',
-                  f'2. Highest dynamic segment-macro mean paired ΔAUC: {dynamic_top} {dynamic_gain:+.4f} over 10 stream-order comparisons.',
-                  f'3. Negative stationary mean ΔAUC versus Frozen: {", ".join(negative) if negative else "none"}. Five orders measure arrival-order sensitivity, not independent datasets.']
-        useful = (f'{top} has the highest observed stationary mean ΔAUC ({top_gain:+.4f}, '
-                  f'{top_positive}/20 positive); inspect the domain table and conditional bootstrap intervals before treating this as a stable benefit.')
-        failing = (f'{", ".join(negative) if negative else "No method by mean stationary AUC"} '
-                   'has negative mean stationary ΔAUC. Dynamic switch and rolling minima are listed in the segment metrics; '
-                   'these are development-stream observations, not a final-holdout claim.')
+        stationary_positive = sum(row[0] > 0 for values in stationary.values() for row in values)
+        dynamic_positive = sum(row[0] > 0 for values in dynamic.values() for row in values)
+        domain_effects = []
+        for method in methods[1:]:
+            for number, domain in enumerate(('ITW', 'WaveFake', 'LA21', 'DF21'), 1):
+                paired = [(results[(method, f'S{number}', seed)]['evaluation']['segments'][0]['metrics']['auroc'] -
+                           results[('frozen', f'S{number}', seed)]['evaluation']['segments'][0]['metrics']['auroc'])
+                          for seed in seeds]
+                domain_effects.append((statistics.mean(paired), method, domain))
+        worst_effect, worst_method, worst_domain = min(domain_effects)
+        lines += [f'1. Adapted methods gain AUC in {stationary_positive}/100 stationary and {dynamic_positive}/50 dynamic segment-macro paired comparisons with Frozen.',
+                  f'2. Least negative stationary mean ΔAUC: {top} {top_gain:+.4f}; least negative dynamic mean ΔAUC: {dynamic_top} {dynamic_gain:+.4f}.',
+                  f'3. Largest domain-mean AUC drop: {worst_method} on {worst_domain} ({worst_effect:+.4f}). Five arrival orders are not independent target datasets.']
+        if top_gain <= 0:
+            useful = (f'None improves mean stationary or dynamic segment-macro AUC over Frozen. '
+                      f'{dynamic_top} is least damaging by dynamic mean ΔAUC ({dynamic_gain:+.4f}), '
+                      'but that is not an overall benefit.')
+        else:
+            useful = (f'{top} has the highest observed stationary mean ΔAUC ({top_gain:+.4f}, '
+                      f'{top_positive}/20 positive); inspect per-domain effects and conditional intervals '
+                      'before treating this as a stable benefit.')
+        failing = ((f'{", ".join(negative)} have negative mean stationary ΔAUC. ' if negative else
+                    'No method has negative mean stationary ΔAUC. ') +
+                   f'{worst_method} on {worst_domain} has the largest domain-mean drop ({worst_effect:+.4f}); '
+                   'switch and rolling metrics show its dynamic behavior. These are development-stream observations, not a final-holdout claim.')
     lines += ['', '**Which existing mechanisms appear useful for audio ADD online TTA?** ' + useful,
               '', '**Which mechanisms fail or drift?** ' + failing,
               '', '**Can this benchmark support designing a new method?** ' + ('PARTIAL' if count < 180 else 'YES'),
               '', '**Target90 accessed:** NO · **Final holdout accessed:** NO',
               '', '## Protocol and limitations', '',
-              'All scores are first predictions on B16 predict-then-adapt streams; LAME refines its current batch output. The four domains are fixed development resources. LA21/DF21 are selected from official eval releases, so they are development subsets, not untouched final holdouts. The same source-cal0 operating threshold is applied to all spoof-oriented scores. Backend timing is synchronized prediction/update elapsed wall time, including host launch overhead but excluding frozen frontend extraction, cache I/O and score-file writes.',
+              'All scores are first predictions on B16 predict-then-adapt streams; LAME refines its current batch output. The four domains are fixed development resources. LA21/DF21 are selected from official eval releases, so they are development subsets, not untouched final holdouts. ' + ('Each method uses its own source-select threshold for FPR/FNR/BA; the v2.1 supplement arrived after interim target metrics, so this is a disclosed source-only evaluator correction. The earlier shared-threshold metrics remain in historical files.' if calibrated else 'The same source-cal0 operating threshold is applied to all spoof-oriented scores.') + ' Backend timing is synchronized prediction/update elapsed wall time, including host launch overhead but excluding frozen frontend extraction, cache I/O and score-file writes. See `ACCESS_BOUNDARY.md` for file and label visibility.',
+              '', '## Source-only operating points', '']
+    if calibration is not None:
+        lines += ['The same fixed 1,024 source-select IDs (512 per class) are scored once per freshly reset method. The threshold minimizes |FPR−FNR|, then mean error, then the numeric threshold; no target score or label enters calibration.',
+                  '', '| Method | Score form | Source-select threshold | Source-select EER% |',
+                  '|---|---|---:|---:|']
+        for method in methods:
+            item = calibration['methods'][method]
+            lines.append(f'| {method} | {item["score_form"]} | {item["threshold"]:.6f} | {fmt(item["source_select_eer"], True)} |')
+    else:
+        lines.append(f'Historical shared source-cal0 threshold: {config["source_threshold"]:.6f}.')
+    lines += [
               '', '## Stationary paired effects', '',
               'Positive ΔAUC and positive EER gain favor the method over Frozen. Each cell averages available arrival orders on the same fixed domain subset.',
               '', '| Method | Domain | Orders | Mean ΔAUC | Mean EER gain pp | AUC gains / orders |',
@@ -233,15 +265,36 @@ def write_report(config, results, root):
                          f'{fmt(statistics.mean(pair[1] for pair in pairs)) if pairs else "NA"} | '
                          f'{sum(pair[0] > 0 for pair in pairs)}/{len(pairs)} |')
     lines += [
+              '', '## Dynamic segments', '',
+              f'Within-domain rolling windows use 256 records and stride 128; single-class windows are NA. First256 applies only after a switch. Full per-order segment metrics, rolling counts and supplementary pooled metrics are in `{metrics_filename}` and `{summary_filename}`.',
+              '', '| Method | Stream | Segment / domain | Orders | EER% / AUC | First256 EER% / AUC | Rolling mean EER% / AUC | Worst rolling EER% / AUC | Valid windows total |',
+              '|---|---|---|---:|---:|---:|---:|---:|---:|']
+    for method in methods:
+        for stream in ('S5', 'S6'):
+            for segment_number, domain in enumerate(config['streams'][stream]):
+                values = [results[(method, stream, seed)]['evaluation']['segments'][segment_number]
+                          for seed in seeds if (method, stream, seed) in results]
+                if not values:
+                    lines.append(f'| {method} | {stream} | {segment_number} / {domain} | 0/5 | NA | NA | NA | NA | 0 |')
+                    continue
+                first = [row['first256_after_switch'] for row in values
+                         if row['first256_after_switch'] is not None]
+                rolling = [row for row in values if row['rolling_mean_eer'] is not None]
+                full_text = f'{fmt(statistics.mean(row["metrics"]["eer"] for row in values), True)} / {fmt(statistics.mean(row["metrics"]["auroc"] for row in values))}'
+                first_text = f'{fmt(statistics.mean(row["eer"] for row in first), True)} / {fmt(statistics.mean(row["auroc"] for row in first))}' if first else 'NA'
+                rolling_text = f'{fmt(statistics.mean(row["rolling_mean_eer"] for row in rolling), True)} / {fmt(statistics.mean(row["rolling_mean_auc"] for row in rolling))}' if rolling else 'NA'
+                worst_text = f'{fmt(max(row["rolling_worst_eer"] for row in rolling), True)} / {fmt(min(row["rolling_worst_auc"] for row in rolling))}' if rolling else 'NA'
+                lines.append(f'| {method} | {stream} | {segment_number} / {domain} | {len(values)}/5 | {full_text} | {first_text} | {rolling_text} | {worst_text} | {sum(row["rolling_valid_count"] for row in values)} |')
+    lines += [
               '', '## Run inventory', '',
-              '| Method | Stream | Order | Status | EER% | AUC | ΔAUC vs Frozen | EER gain pp vs Frozen |',
-              '|---|---|---:|---|---:|---:|---:|---:|']
+              '| Method | Stream | Order | Status | EER% | AUC | ΔAUC vs Frozen | EER gain pp vs Frozen | FPR% @ source τ | FNR% @ source τ | BA% @ source τ |',
+              '|---|---|---:|---|---:|---:|---:|---:|---:|---:|---:|']
     for seed in seeds:
         for stream in streams:
             for method in methods:
                 key = (method, stream, seed)
                 if key not in results:
-                    lines.append(f'| {method} | {stream} | {seed} | NOT_RUN | NA | NA | NA | NA |')
+                    lines.append(f'| {method} | {stream} | {seed} | NOT_RUN | NA | NA | NA | NA | NA | NA | NA |')
                     continue
                 evaluation = results[key]['evaluation']
                 metric_values = evaluation['segments'][0]['metrics'] if stream in ('S1','S2','S3','S4') else evaluation['pooled']
@@ -250,8 +303,8 @@ def write_report(config, results, root):
                 frozen_metric = (frozen['segments'][0]['metrics'] if stream in ('S1','S2','S3','S4') else frozen['pooled']) if frozen else None
                 delta_auc = metric_values['auroc'] - frozen_metric['auroc'] if frozen_metric else None
                 delta_eer = 100*(frozen_metric['eer'] - metric_values['eer']) if frozen_metric else None
-                lines.append(f'| {method} | {stream} | {seed} | COMPLETE | {fmt(metric_values["eer"], True)} | {fmt(metric_values["auroc"])} | {fmt(delta_auc)} | {fmt(delta_eer)} |')
-    lines += ['', 'Dynamic pooled values in the inventory are supplementary; compare S5/S6 by segment macro and within-segment windows in `summary.json`.',
+                lines.append(f'| {method} | {stream} | {seed} | COMPLETE | {fmt(metric_values["eer"], True)} | {fmt(metric_values["auroc"])} | {fmt(delta_auc)} | {fmt(delta_eer)} | {fmt(metric_values["fpr"], True)} | {fmt(metric_values["fnr"], True)} | {fmt(metric_values["balanced_accuracy"], True)} |')
+    lines += ['', f'Dynamic pooled values in the inventory are supplementary; compare S5/S6 by segment macro and within-segment windows in `{summary_filename}`.',
               '', '## Order sensitivity', '',
               'Mean ± sample std (ddof=1), then min–max. Five orders are arrival-order repeats, not independent target datasets.',
               '', '| Method | Stream | Orders | EER% mean ± std [min, max] | AUC mean ± std [min, max] |',
@@ -284,21 +337,34 @@ def write_report(config, results, root):
                         return f'{low} / {high} / {5-low-high}'
                     lines.append(f'| {method} | {domain} | {interval_counts("delta_auc_ci95")} | '
                                  f'{interval_counts("eer_gain_ci95")} |')
+            all_intervals = list(bootstrap['comparisons'].values())
+            auc_positive = sum(item['delta_auc_ci95'][0] > 0 for item in all_intervals)
+            auc_negative = sum(item['delta_auc_ci95'][1] < 0 for item in all_intervals)
+            lines += ['', f'Across {len(all_intervals)} stationary method/domain/order comparisons, AUC intervals are positive-only in {auc_positive}, negative-only in {auc_negative}, and cross zero in {len(all_intervals)-auc_positive-auc_negative}.']
         else:
             lines.append(f'Bootstrap status: {bootstrap["status"]}; complete 20 stationary stream-order groups before interpreting intervals.')
     else:
         lines.append('Bootstrap status: NOT_RUN.')
     lines += [
               '', '## Reproduction', '',
-              'See `PROTOCOL.md`, `config.json`, `streams_locked/`, `results/<run_id>/source_only/`, each run’s `command.json`, `status.json`, `scores.jsonl`, and the launcher logs. First scores and large LL caches stay on this workstation; compact summary tables and the report are versioned.',
+              'See `PROTOCOL.md`, `ACCESS_BOUNDARY.md`, `config.json`, `streams_locked/`, `results/<run_id>/run_index.csv`, `results/<run_id>/final_audit.json`, `results/<run_id>/source_only/`, each run’s `command.json`, `status.json`, `scores.jsonl`, and the launcher logs. First scores and large LL caches stay on this workstation; compact summary tables and the report are versioned.',
               '', '## One next research step', '',
-              'After the complete five-order table, use the strongest stable baseline and its worst drifting segment as the single reference case for a new-method hypothesis.' if count == 180 else 'Finish all available fixed-protocol stream runs and then inspect the complete five-order comparison.', '']
+              f'Investigate the {worst_method} failure on {worst_domain} ({worst_effect:+.4f} mean paired ΔAUC) on the fixed development subset, with Frozen as the reference, before proposing a new online rule.' if count == 180 else 'Finish all available fixed-protocol stream runs and then inspect the complete five-order comparison.', '']
     (HERE / 'BASELINE_REPORT.md').write_text('\n'.join(lines))
 
 
-def main(root):
+def main(root, calibration_path=None):
     config = json.loads((HERE / 'config.json').read_text())
     labels = labels_for(config)
+    thresholds = None
+    calibration = None
+    if calibration_path is not None:
+        calibration = json.loads(calibration_path.read_text())
+        if calibration['status'] != 'COMPLETE' or set(calibration['methods']) != set(config['methods']):
+            raise ValueError('source-only method-threshold calibration incomplete')
+        thresholds = {method: calibration['methods'][method]['threshold']
+                      for method in config['methods']}
+    suffix = '_v21' if thresholds is not None else ''
     results = {}
     for seed in config['order_seeds']:
         for stream in config['streams']:
@@ -306,8 +372,9 @@ def main(root):
                 run = realized_run(config, root, labels, method, stream, seed)
                 if run is None:
                     continue
-                evaluation = score_segments(run, config, labels)
-                per_run_metrics = run['path'] / 'metrics.json'
+                threshold = thresholds[method] if thresholds is not None else config['source_threshold']
+                evaluation = score_segments(run, config, labels, threshold)
+                per_run_metrics = run['path'] / f'metrics{suffix}.json'
                 if per_run_metrics.exists():
                     if json.loads(per_run_metrics.read_text()) != evaluation:
                         raise ValueError('previous per-run metrics differ from current evaluation')
@@ -321,23 +388,26 @@ def main(root):
         compact[f'{method}_{stream}_order{seed}'] = {'status': item['run']['status'],
                                                     'evaluation': item['evaluation'],
                                                     'score_ref': str(item['run']['path'] / 'scores.jsonl')}
-    (root / 'summary.json').write_text(json.dumps({'status': 'COMPLETE' if len(results)==180 else 'INCOMPLETE',
+    (root / f'summary{suffix}.json').write_text(json.dumps({'status': 'COMPLETE' if len(results)==180 else 'INCOMPLETE',
         'completed_runs': len(results), 'expected_runs': 180, 'runs': compact,
+        'operating_thresholds': thresholds if thresholds is not None else config['source_threshold'],
+        'calibration_ref': str(calibration_path) if calibration_path is not None else None,
         'target90_accessed': False, 'final_holdout_accessed': False}, indent=2) + '\n')
-    with (root / 'metrics.csv').open('w', newline='') as handle:
-        writer = csv.writer(handle)
+    with (root / f'metrics{suffix}.csv').open('w', newline='') as handle:
+        writer = csv.writer(handle, lineterminator='\n')
         writer.writerow(['method','stream','order_seed','segment','domain','count','auc','eer','fpr','fnr','balanced_accuracy','rolling_valid_count','rolling_na_count','rolling_mean_auc','rolling_mean_eer','rolling_worst_auc','rolling_worst_eer','first256_auc','first256_eer'])
         for (method, stream, seed), item in results.items():
             for segment in item['evaluation']['segments']:
                 m = segment['metrics']
                 first = segment['first256_after_switch']
                 writer.writerow([method,stream,seed,segment['segment'],segment['domain'],segment['count'],m['auroc'],m['eer'],m['fpr'],m['fnr'],m['balanced_accuracy'],segment['rolling_valid_count'],segment['rolling_na_count'],segment['rolling_mean_auc'],segment['rolling_mean_eer'],segment['rolling_worst_auc'],segment['rolling_worst_eer'],first['auroc'] if first else '',first['eer'] if first else ''])
-    write_report(config, results, root)
+    write_report(config, results, root, thresholds, calibration)
     print(json.dumps({'status': 'COMPLETE' if len(results)==180 else 'INCOMPLETE', 'completed_runs': len(results)}))
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', type=Path, required=True)
+    parser.add_argument('--calibration', type=Path)
     args = parser.parse_args()
-    main(args.root)
+    main(args.root, args.calibration)

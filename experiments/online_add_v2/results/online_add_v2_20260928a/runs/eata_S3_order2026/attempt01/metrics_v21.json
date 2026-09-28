@@ -1,0 +1,30 @@
+{
+  "segments": [
+    {
+      "segment": 0,
+      "domain": "LA21",
+      "count": 4096,
+      "metrics": {
+        "count": 4096,
+        "threshold": 3.3241374492645264,
+        "tp": 2015,
+        "fp": 394,
+        "tn": 1654,
+        "fn": 33,
+        "tpr": 0.98388671875,
+        "fpr": 0.1923828125,
+        "fnr": 0.01611328125,
+        "balanced_accuracy": 0.895751953125,
+        "auroc": 0.9532260894775391,
+        "eer": 0.08544921875
+      },
+      "first256_after_switch": null,
+      "rolling_valid_count": 31,
+      "rolling_na_count": 0,
+      "rolling_mean_auc": 0.9537195518664647,
+      "rolling_mean_eer": 0.08436417534836348,
+      "rolling_worst_auc": 0.9244200244200245,
+      "rolling_worst_eer": 0.11811023622047245
+    }
+  ]
+}

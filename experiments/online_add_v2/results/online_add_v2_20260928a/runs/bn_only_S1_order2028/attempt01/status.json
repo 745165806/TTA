@@ -1,0 +1,18 @@
+{
+  "status": "COMPLETE",
+  "count": 3178,
+  "expected": 3178,
+  "elapsed_seconds": 20.83477520602173,
+  "backend_cuda_seconds": 2.3458092079672497,
+  "ms_per_audio_backend": 0.738140090612728,
+  "peak_gpu_mb": 1213.27587890625,
+  "gpu": 2,
+  "method": "bn_only",
+  "stream": "S1",
+  "order_seed": 2028,
+  "updates": 0,
+  "adapted_samples": 0,
+  "seen": 3178,
+  "memory_size": 0,
+  "trainable_names": []
+}

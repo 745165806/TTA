@@ -1,0 +1,30 @@
+{
+  "segments": [
+    {
+      "segment": 0,
+      "domain": "DF21",
+      "count": 4096,
+      "metrics": {
+        "count": 4096,
+        "threshold": -4.770049095153809,
+        "tp": 2048,
+        "fp": 1864,
+        "tn": 184,
+        "fn": 0,
+        "tpr": 1.0,
+        "fpr": 0.91015625,
+        "fnr": 0.0,
+        "balanced_accuracy": 0.544921875,
+        "auroc": 0.9763426780700684,
+        "eer": 0.0634765625
+      },
+      "first256_after_switch": null,
+      "rolling_valid_count": 31,
+      "rolling_na_count": 0,
+      "rolling_mean_auc": 0.9767161938243304,
+      "rolling_mean_eer": 0.061223341709730074,
+      "rolling_worst_auc": 0.9577533577533578,
+      "rolling_worst_eer": 0.10077519379844961
+    }
+  ]
+}

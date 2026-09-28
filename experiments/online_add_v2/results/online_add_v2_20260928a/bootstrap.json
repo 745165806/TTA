@@ -1,0 +1,1307 @@
+{
+  "status": "COMPLETE",
+  "replicates": 1000,
+  "interpretation": "conditional uncertainty of the realized online trajectories",
+  "comparisons": {
+    "bn_only_S1_order2026": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.029513543602038277,
+        -0.020135968808791486
+      ],
+      "eer_gain_ci95": [
+        -0.03352578565821455,
+        -0.014637575063127298
+      ]
+    },
+    "tent_S1_order2026": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.030532021348405363,
+        -0.02108715748125202
+      ],
+      "eer_gain_ci95": [
+        -0.03421015545941687,
+        -0.015900305658228746
+      ]
+    },
+    "eata_S1_order2026": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02989320562886027,
+        -0.020564265671106
+      ],
+      "eer_gain_ci95": [
+        -0.03336899907694618,
+        -0.015083708358367377
+      ]
+    },
+    "rotta_S1_order2026": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.06277090236326344,
+        -0.04730603260880223
+      ],
+      "eer_gain_ci95": [
+        -0.07574400417365637,
+        -0.052009083365190535
+      ]
+    },
+    "lame_S1_order2026": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.01414678601954639,
+        -0.00787748842793484
+      ],
+      "eer_gain_ci95": [
+        -0.012041270571290313,
+        0.0009727744800098429
+      ]
+    },
+    "bn_only_S1_order2027": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03370001293396954,
+        -0.023107144859756113
+      ],
+      "eer_gain_ci95": [
+        -0.041795564313857204,
+        -0.02197561507736205
+      ]
+    },
+    "tent_S1_order2027": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.035767417090972836,
+        -0.02494859290234758
+      ],
+      "eer_gain_ci95": [
+        -0.04172989676420189,
+        -0.022226152029306858
+      ]
+    },
+    "eata_S1_order2027": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.034410692048393116,
+        -0.023793503318758045
+      ],
+      "eer_gain_ci95": [
+        -0.042539094472359776,
+        -0.022850018940202003
+      ]
+    },
+    "rotta_S1_order2027": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.028025598147430573,
+        -0.01819422764705177
+      ],
+      "eer_gain_ci95": [
+        -0.035218685393533004,
+        -0.016415858307137716
+      ]
+    },
+    "lame_S1_order2027": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.015349402807975157,
+        -0.00943530756073985
+      ],
+      "eer_gain_ci95": [
+        -0.015135030979291227,
+        -0.001595208828041124
+      ]
+    },
+    "bn_only_S1_order2028": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.030918181071565156,
+        -0.020131773961629455
+      ],
+      "eer_gain_ci95": [
+        -0.03142556472996815,
+        -0.01251369913377093
+      ]
+    },
+    "tent_S1_order2028": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.031730518431556866,
+        -0.020961921307566918
+      ],
+      "eer_gain_ci95": [
+        -0.032151151123184604,
+        -0.013260142235074584
+      ]
+    },
+    "eata_S1_order2028": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03155695218833132,
+        -0.020670915387052284
+      ],
+      "eer_gain_ci95": [
+        -0.03211764091471352,
+        -0.012846437505741768
+      ]
+    },
+    "rotta_S1_order2028": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.030004723287335,
+        -0.019955150521079025
+      ],
+      "eer_gain_ci95": [
+        -0.04298854318014324,
+        -0.02241731851873826
+      ]
+    },
+    "lame_S1_order2028": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.013277401576633024,
+        -0.0070445545251244975
+      ],
+      "eer_gain_ci95": [
+        -0.012121354961698852,
+        0.0005180830146386953
+      ]
+    },
+    "bn_only_S1_order2029": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.027165039794167532,
+        -0.0175658085460933
+      ],
+      "eer_gain_ci95": [
+        -0.032803968867730585,
+        -0.014812743261669115
+      ]
+    },
+    "tent_S1_order2029": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02824079921826516,
+        -0.018669994262952135
+      ],
+      "eer_gain_ci95": [
+        -0.034955734381395015,
+        -0.016605925758776816
+      ]
+    },
+    "eata_S1_order2029": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02807416308280001,
+        -0.018270946116478583
+      ],
+      "eer_gain_ci95": [
+        -0.03426531302345822,
+        -0.015794601949740222
+      ]
+    },
+    "rotta_S1_order2029": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.035475633451119884,
+        -0.02470351155049888
+      ],
+      "eer_gain_ci95": [
+        -0.05971689788449577,
+        -0.03902025122071192
+      ]
+    },
+    "lame_S1_order2029": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.015696736340982148,
+        -0.009423874204027188
+      ],
+      "eer_gain_ci95": [
+        -0.013856964710163556,
+        -0.0014869202178348247
+      ]
+    },
+    "bn_only_S1_order2030": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.031970641049289115,
+        -0.022003571498061945
+      ],
+      "eer_gain_ci95": [
+        -0.03631950706122075,
+        -0.017725631719247507
+      ]
+    },
+    "tent_S1_order2030": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03414205139529737,
+        -0.023690828260975207
+      ],
+      "eer_gain_ci95": [
+        -0.03870731978951081,
+        -0.020214303670186017
+      ]
+    },
+    "eata_S1_order2030": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.032809592294693414,
+        -0.02262334248922388
+      ],
+      "eer_gain_ci95": [
+        -0.037003524105961784,
+        -0.01808898691974032
+      ]
+    },
+    "rotta_S1_order2030": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.033140796789190075,
+        -0.022755300240984717
+      ],
+      "eer_gain_ci95": [
+        -0.049661349646812715,
+        -0.028829997120020427
+      ]
+    },
+    "lame_S1_order2030": {
+      "domain": "ITW",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.01681670119306266,
+        -0.010207323284970586
+      ],
+      "eer_gain_ci95": [
+        -0.012126384114441502,
+        0.0004935644449829571
+      ]
+    },
+    "bn_only_S2_order2026": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.01935831904411316,
+        -0.007168883085250855
+      ],
+      "eer_gain_ci95": [
+        -0.02393798828125,
+        -0.00390625
+      ]
+    },
+    "tent_S2_order2026": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.036994928121566774,
+        -0.02253372073173523
+      ],
+      "eer_gain_ci95": [
+        -0.0400390625,
+        -0.01904296875
+      ]
+    },
+    "eata_S2_order2026": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.01928303837776184,
+        -0.007088786363601685
+      ],
+      "eer_gain_ci95": [
+        -0.0244140625,
+        -0.00390625
+      ]
+    },
+    "rotta_S2_order2026": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03377934694290161,
+        -0.016898411512374877
+      ],
+      "eer_gain_ci95": [
+        -0.02294921875,
+        -0.0029296875
+      ]
+    },
+    "lame_S2_order2026": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.07855419516563415,
+        -0.05994579195976258
+      ],
+      "eer_gain_ci95": [
+        -0.091796875,
+        -0.06834716796875001
+      ]
+    },
+    "bn_only_S2_order2027": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.020264017581939697,
+        -0.008175039291381836
+      ],
+      "eer_gain_ci95": [
+        -0.02978515625,
+        -0.0087890625
+      ]
+    },
+    "tent_S2_order2027": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.04383172392845154,
+        -0.027856296300888064
+      ],
+      "eer_gain_ci95": [
+        -0.04833984375,
+        -0.02490234375
+      ]
+    },
+    "eata_S2_order2027": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.020191890001296998,
+        -0.00817909836769104
+      ],
+      "eer_gain_ci95": [
+        -0.02979736328125,
+        -0.00830078125
+      ]
+    },
+    "rotta_S2_order2027": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03723937273025513,
+        -0.020123791694641114
+      ],
+      "eer_gain_ci95": [
+        -0.0263671875,
+        -0.00634765625
+      ]
+    },
+    "lame_S2_order2027": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.07658933997154235,
+        -0.0570279061794281
+      ],
+      "eer_gain_ci95": [
+        -0.08642578125,
+        -0.0615234375
+      ]
+    },
+    "bn_only_S2_order2028": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.023203617334365843,
+        -0.010284870862960815
+      ],
+      "eer_gain_ci95": [
+        -0.02734375,
+        -0.0068359375
+      ]
+    },
+    "tent_S2_order2028": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.04210809469223022,
+        -0.025986707210540774
+      ],
+      "eer_gain_ci95": [
+        -0.0458984375,
+        -0.0244140625
+      ]
+    },
+    "eata_S2_order2028": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.0231095552444458,
+        -0.010164695978164672
+      ],
+      "eer_gain_ci95": [
+        -0.02735595703125,
+        -0.0068359375
+      ]
+    },
+    "rotta_S2_order2028": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.042848396301269534,
+        -0.024567472934722903
+      ],
+      "eer_gain_ci95": [
+        -0.03271484375,
+        -0.0107421875
+      ]
+    },
+    "lame_S2_order2028": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.08180136680603027,
+        -0.06324082016944886
+      ],
+      "eer_gain_ci95": [
+        -0.08984375,
+        -0.06494140625
+      ]
+    },
+    "bn_only_S2_order2029": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.022467905282974245,
+        -0.00828385353088379
+      ],
+      "eer_gain_ci95": [
+        -0.0322265625,
+        -0.0107421875
+      ]
+    },
+    "tent_S2_order2029": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03728395104408264,
+        -0.021305865049362185
+      ],
+      "eer_gain_ci95": [
+        -0.04542236328125,
+        -0.02197265625
+      ]
+    },
+    "eata_S2_order2029": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.022515362501144408,
+        -0.008340483903884888
+      ],
+      "eer_gain_ci95": [
+        -0.0322265625,
+        -0.0107421875
+      ]
+    },
+    "rotta_S2_order2029": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.0387881338596344,
+        -0.021292787790298463
+      ],
+      "eer_gain_ci95": [
+        -0.02587890625,
+        -0.004382324218750011
+      ]
+    },
+    "lame_S2_order2029": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.08456165790557861,
+        -0.0638885259628296
+      ],
+      "eer_gain_ci95": [
+        -0.09423828125,
+        -0.06932373046875001
+      ]
+    },
+    "bn_only_S2_order2030": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.015383875370025635,
+        -0.0039630293846130375
+      ],
+      "eer_gain_ci95": [
+        -0.02001953125,
+        -0.00048828125
+      ]
+    },
+    "tent_S2_order2030": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.036258387565612796,
+        -0.0215137779712677
+      ],
+      "eer_gain_ci95": [
+        -0.04249267578125,
+        -0.02001953125
+      ]
+    },
+    "eata_S2_order2030": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.01536872386932373,
+        -0.003954869508743287
+      ],
+      "eer_gain_ci95": [
+        -0.01954345703125,
+        -0.00048828125
+      ]
+    },
+    "rotta_S2_order2030": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.041189974546432494,
+        -0.024264228343963624
+      ],
+      "eer_gain_ci95": [
+        -0.03272705078125,
+        -0.01123046875
+      ]
+    },
+    "lame_S2_order2030": {
+      "domain": "WaveFake",
+      "group_unit": "content_pair",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.0814011573791504,
+        -0.06295561790466309
+      ],
+      "eer_gain_ci95": [
+        -0.08642578125,
+        -0.06298828125
+      ]
+    },
+    "bn_only_S3_order2026": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02648278651228537,
+        -0.016260872960817914
+      ],
+      "eer_gain_ci95": [
+        -0.02604539743296859,
+        -0.01383242511717943
+      ]
+    },
+    "tent_S3_order2026": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.025841793186229825,
+        -0.015756057115056153
+      ],
+      "eer_gain_ci95": [
+        -0.029171133903722307,
+        -0.01642392682025419
+      ]
+    },
+    "eata_S3_order2026": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.026561747546565186,
+        -0.01633863624378214
+      ],
+      "eer_gain_ci95": [
+        -0.026532879685246813,
+        -0.014810997906014367
+      ]
+    },
+    "rotta_S3_order2026": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.022839166685985072,
+        -0.013994428437176899
+      ],
+      "eer_gain_ci95": [
+        -0.029836922904426817,
+        -0.01617587673836054
+      ]
+    },
+    "lame_S3_order2026": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.004898826914145537,
+        -0.00033951732989831196
+      ],
+      "eer_gain_ci95": [
+        -0.006533053661963031,
+        0.0001446765530070296
+      ]
+    },
+    "bn_only_S3_order2027": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.026091496397354343,
+        -0.016419667100302883
+      ],
+      "eer_gain_ci95": [
+        -0.020805361676053766,
+        -0.009001728755655948
+      ]
+    },
+    "tent_S3_order2027": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.025537778531178734,
+        -0.015983357530782973
+      ],
+      "eer_gain_ci95": [
+        -0.01849149775931845,
+        -0.006826694645981774
+      ]
+    },
+    "eata_S3_order2027": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.026389092791583368,
+        -0.016553455918931537
+      ],
+      "eer_gain_ci95": [
+        -0.021514598655215628,
+        -0.009308706959649821
+      ]
+    },
+    "rotta_S3_order2027": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.030083940403444264,
+        -0.019902072197574467
+      ],
+      "eer_gain_ci95": [
+        -0.03834813513382315,
+        -0.024141614523168906
+      ]
+    },
+    "lame_S3_order2027": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.003989784590467995,
+        0.00045209140052021585
+      ],
+      "eer_gain_ci95": [
+        -0.0037942493142350555,
+        0.003461961716516638
+      ]
+    },
+    "bn_only_S3_order2028": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.023169565447307604,
+        -0.014323467211051653
+      ],
+      "eer_gain_ci95": [
+        -0.022071815259746604,
+        -0.009694545595769998
+      ]
+    },
+    "tent_S3_order2028": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.022298671697877505,
+        -0.013700748277111768
+      ],
+      "eer_gain_ci95": [
+        -0.020846722351790713,
+        -0.008598654872902843
+      ]
+    },
+    "eata_S3_order2028": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.023404538342174923,
+        -0.014447110955596379
+      ],
+      "eer_gain_ci95": [
+        -0.022497164598608364,
+        -0.0100814921174336
+      ]
+    },
+    "rotta_S3_order2028": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02727288288580566,
+        -0.016980216988608365
+      ],
+      "eer_gain_ci95": [
+        -0.032024114562551075,
+        -0.018312437497023673
+      ]
+    },
+    "lame_S3_order2028": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.004280053157426289,
+        0.0004449258546215804
+      ],
+      "eer_gain_ci95": [
+        -0.00441447225142254,
+        0.0029839894925562317
+      ]
+    },
+    "bn_only_S3_order2029": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02537610517017661,
+        -0.016304914691072755
+      ],
+      "eer_gain_ci95": [
+        -0.026073789014637163,
+        -0.013273360229047373
+      ]
+    },
+    "tent_S3_order2029": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.024649702736060698,
+        -0.01559390861797624
+      ],
+      "eer_gain_ci95": [
+        -0.027499596464284827,
+        -0.01515626240199
+      ]
+    },
+    "eata_S3_order2029": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02578803943529267,
+        -0.01665682555714492
+      ],
+      "eer_gain_ci95": [
+        -0.026124905113515732,
+        -0.013641494216365457
+      ]
+    },
+    "rotta_S3_order2029": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.030157842976825486,
+        -0.019782449438424905
+      ],
+      "eer_gain_ci95": [
+        -0.03914174413337597,
+        -0.02455597447993585
+      ]
+    },
+    "lame_S3_order2029": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.00404915131494647,
+        0.001158632337030373
+      ],
+      "eer_gain_ci95": [
+        -0.004498401307178462,
+        0.002815070403124955
+      ]
+    },
+    "bn_only_S3_order2030": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.020646605970108613,
+        -0.011871442082294334
+      ],
+      "eer_gain_ci95": [
+        -0.02113414381978737,
+        -0.008965534132026593
+      ]
+    },
+    "tent_S3_order2030": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.019714057713809817,
+        -0.011134494408725666
+      ],
+      "eer_gain_ci95": [
+        -0.021693405832084404,
+        -0.00929968044479895
+      ]
+    },
+    "eata_S3_order2030": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02075320634308976,
+        -0.01188920987921616
+      ],
+      "eer_gain_ci95": [
+        -0.02148477159728858,
+        -0.008966100557363953
+      ]
+    },
+    "rotta_S3_order2030": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.025673135103448767,
+        -0.01653653139403754
+      ],
+      "eer_gain_ci95": [
+        -0.028341806588425687,
+        -0.016058978944534282
+      ]
+    },
+    "lame_S3_order2030": {
+      "domain": "LA21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.002812746119637424,
+        0.0018031112699594869
+      ],
+      "eer_gain_ci95": [
+        -0.004272750737073154,
+        0.0024074053009287056
+      ]
+    },
+    "bn_only_S4_order2026": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02977368974227202,
+        -0.019752664673373135
+      ],
+      "eer_gain_ci95": [
+        -0.039967189582457326,
+        -0.02319877358543381
+      ]
+    },
+    "tent_S4_order2026": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.028461027946824376,
+        -0.01859071379539826
+      ],
+      "eer_gain_ci95": [
+        -0.03628847176312943,
+        -0.02159854338572034
+      ]
+    },
+    "eata_S4_order2026": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03003958604884993,
+        -0.0200007871753458
+      ],
+      "eer_gain_ci95": [
+        -0.03992358500131539,
+        -0.022898366941510245
+      ]
+    },
+    "rotta_S4_order2026": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.03160339464803929,
+        -0.02211651476994897
+      ],
+      "eer_gain_ci95": [
+        -0.05018489196764823,
+        -0.0327693872195573
+      ]
+    },
+    "lame_S4_order2026": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.005816218191306172,
+        -0.0019514330703607448
+      ],
+      "eer_gain_ci95": [
+        -0.011616726163938855,
+        -0.003256785424962419
+      ]
+    },
+    "bn_only_S4_order2027": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02410958457537314,
+        -0.01547072854467686
+      ],
+      "eer_gain_ci95": [
+        -0.03894604534401155,
+        -0.023173427467582733
+      ]
+    },
+    "tent_S4_order2027": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02281431674961518,
+        -0.014613521654655045
+      ],
+      "eer_gain_ci95": [
+        -0.0352955419455918,
+        -0.020735656158961255
+      ]
+    },
+    "eata_S4_order2027": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.024281315624201622,
+        -0.015524069285581431
+      ],
+      "eer_gain_ci95": [
+        -0.0388540704413924,
+        -0.02374316101738981
+      ]
+    },
+    "rotta_S4_order2027": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.023930084499833346,
+        -0.01616975253359448
+      ],
+      "eer_gain_ci95": [
+        -0.04934990388566203,
+        -0.0313457753685366
+      ]
+    },
+    "lame_S4_order2027": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.004748851811155938,
+        -0.0016270827823498869
+      ],
+      "eer_gain_ci95": [
+        -0.007715401803955814,
+        0.0004976876463152336
+      ]
+    },
+    "bn_only_S4_order2028": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02395603157826203,
+        -0.015294451671870466
+      ],
+      "eer_gain_ci95": [
+        -0.03703732162394856,
+        -0.022624219888277872
+      ]
+    },
+    "tent_S4_order2028": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.021952446049549684,
+        -0.01378658746349527
+      ],
+      "eer_gain_ci95": [
+        -0.03351982854561289,
+        -0.019647191426648284
+      ]
+    },
+    "eata_S4_order2028": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.024438991518450085,
+        -0.015514113911317873
+      ],
+      "eer_gain_ci95": [
+        -0.036809610034501436,
+        -0.022624426607234592
+      ]
+    },
+    "rotta_S4_order2028": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02334919042787232,
+        -0.014744738866305177
+      ],
+      "eer_gain_ci95": [
+        -0.04326754239565012,
+        -0.027160886012399348
+      ]
+    },
+    "lame_S4_order2028": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.007319137463184982,
+        -0.0034475262572603673
+      ],
+      "eer_gain_ci95": [
+        -0.011255390264421508,
+        -0.0019760175194957776
+      ]
+    },
+    "bn_only_S4_order2029": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.021851421277104648,
+        -0.013917514300983303
+      ],
+      "eer_gain_ci95": [
+        -0.03588674806673803,
+        -0.019663579887194808
+      ]
+    },
+    "tent_S4_order2029": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.01891165953320215,
+        -0.011606989160188942
+      ],
+      "eer_gain_ci95": [
+        -0.03361313995900363,
+        -0.017360818273092417
+      ]
+    },
+    "eata_S4_order2029": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.022220611153427362,
+        -0.014167651848914477
+      ],
+      "eer_gain_ci95": [
+        -0.03587913792952735,
+        -0.01963623913943203
+      ]
+    },
+    "rotta_S4_order2029": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.020771461204639415,
+        -0.014064708530370207
+      ],
+      "eer_gain_ci95": [
+        -0.047324535247316876,
+        -0.03069581350528912
+      ]
+    },
+    "lame_S4_order2029": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.0046939708193193125,
+        -0.0014228490938484222
+      ],
+      "eer_gain_ci95": [
+        -0.0053129349970575815,
+        0.0009654033239511692
+      ]
+    },
+    "bn_only_S4_order2030": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.027078831592700647,
+        -0.017062962350119643
+      ],
+      "eer_gain_ci95": [
+        -0.03881796163751797,
+        -0.022409334771293705
+      ]
+    },
+    "tent_S4_order2030": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.024961068195004977,
+        -0.015616797680164992
+      ],
+      "eer_gain_ci95": [
+        -0.034549706916496094,
+        -0.020806630996883735
+      ]
+    },
+    "eata_S4_order2030": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.027496037010171347,
+        -0.0173560519471497
+      ],
+      "eer_gain_ci95": [
+        -0.039255001510627455,
+        -0.022770497562910292
+      ]
+    },
+    "rotta_S4_order2030": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.02048173871669755,
+        -0.013746696165416164
+      ],
+      "eer_gain_ci95": [
+        -0.04214298686678793,
+        -0.02702188387749808
+      ]
+    },
+    "lame_S4_order2030": {
+      "domain": "DF21",
+      "group_unit": "audio_id",
+      "valid_replicates": 1000,
+      "delta_auc_ci95": [
+        -0.00729776604657594,
+        -0.003329861798083583
+      ],
+      "eer_gain_ci95": [
+        -0.01013208062524495,
+        -0.0019174309108158207
+      ]
+    }
+  }
+}
