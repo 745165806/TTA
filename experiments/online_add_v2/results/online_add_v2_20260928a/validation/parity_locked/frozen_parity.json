@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "count": 32,
+  "max_abs_native_vs_ll_logits": 0.0,
+  "tolerance": 1e-05,
+  "native_class_index_map": {
+    "bonafide": 1,
+    "spoof": 0
+  }
+}

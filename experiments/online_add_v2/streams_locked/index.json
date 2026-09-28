@@ -1,0 +1,302 @@
+[
+  {
+    "stream": "S1",
+    "order_seed": 2026,
+    "count": 3178,
+    "segments": [
+      "ITW"
+    ],
+    "manifest": "S1_order2026.jsonl"
+  },
+  {
+    "stream": "S2",
+    "order_seed": 2026,
+    "count": 4096,
+    "segments": [
+      "WaveFake"
+    ],
+    "manifest": "S2_order2026.jsonl"
+  },
+  {
+    "stream": "S3",
+    "order_seed": 2026,
+    "count": 4096,
+    "segments": [
+      "LA21"
+    ],
+    "manifest": "S3_order2026.jsonl"
+  },
+  {
+    "stream": "S4",
+    "order_seed": 2026,
+    "count": 4096,
+    "segments": [
+      "DF21"
+    ],
+    "manifest": "S4_order2026.jsonl"
+  },
+  {
+    "stream": "S5",
+    "order_seed": 2026,
+    "count": 15466,
+    "segments": [
+      "ITW",
+      "LA21",
+      "WaveFake",
+      "DF21"
+    ],
+    "manifest": "S5_order2026.jsonl"
+  },
+  {
+    "stream": "S6",
+    "order_seed": 2026,
+    "count": 15466,
+    "segments": [
+      "DF21",
+      "WaveFake",
+      "LA21",
+      "ITW"
+    ],
+    "manifest": "S6_order2026.jsonl"
+  },
+  {
+    "stream": "S1",
+    "order_seed": 2027,
+    "count": 3178,
+    "segments": [
+      "ITW"
+    ],
+    "manifest": "S1_order2027.jsonl"
+  },
+  {
+    "stream": "S2",
+    "order_seed": 2027,
+    "count": 4096,
+    "segments": [
+      "WaveFake"
+    ],
+    "manifest": "S2_order2027.jsonl"
+  },
+  {
+    "stream": "S3",
+    "order_seed": 2027,
+    "count": 4096,
+    "segments": [
+      "LA21"
+    ],
+    "manifest": "S3_order2027.jsonl"
+  },
+  {
+    "stream": "S4",
+    "order_seed": 2027,
+    "count": 4096,
+    "segments": [
+      "DF21"
+    ],
+    "manifest": "S4_order2027.jsonl"
+  },
+  {
+    "stream": "S5",
+    "order_seed": 2027,
+    "count": 15466,
+    "segments": [
+      "ITW",
+      "LA21",
+      "WaveFake",
+      "DF21"
+    ],
+    "manifest": "S5_order2027.jsonl"
+  },
+  {
+    "stream": "S6",
+    "order_seed": 2027,
+    "count": 15466,
+    "segments": [
+      "DF21",
+      "WaveFake",
+      "LA21",
+      "ITW"
+    ],
+    "manifest": "S6_order2027.jsonl"
+  },
+  {
+    "stream": "S1",
+    "order_seed": 2028,
+    "count": 3178,
+    "segments": [
+      "ITW"
+    ],
+    "manifest": "S1_order2028.jsonl"
+  },
+  {
+    "stream": "S2",
+    "order_seed": 2028,
+    "count": 4096,
+    "segments": [
+      "WaveFake"
+    ],
+    "manifest": "S2_order2028.jsonl"
+  },
+  {
+    "stream": "S3",
+    "order_seed": 2028,
+    "count": 4096,
+    "segments": [
+      "LA21"
+    ],
+    "manifest": "S3_order2028.jsonl"
+  },
+  {
+    "stream": "S4",
+    "order_seed": 2028,
+    "count": 4096,
+    "segments": [
+      "DF21"
+    ],
+    "manifest": "S4_order2028.jsonl"
+  },
+  {
+    "stream": "S5",
+    "order_seed": 2028,
+    "count": 15466,
+    "segments": [
+      "ITW",
+      "LA21",
+      "WaveFake",
+      "DF21"
+    ],
+    "manifest": "S5_order2028.jsonl"
+  },
+  {
+    "stream": "S6",
+    "order_seed": 2028,
+    "count": 15466,
+    "segments": [
+      "DF21",
+      "WaveFake",
+      "LA21",
+      "ITW"
+    ],
+    "manifest": "S6_order2028.jsonl"
+  },
+  {
+    "stream": "S1",
+    "order_seed": 2029,
+    "count": 3178,
+    "segments": [
+      "ITW"
+    ],
+    "manifest": "S1_order2029.jsonl"
+  },
+  {
+    "stream": "S2",
+    "order_seed": 2029,
+    "count": 4096,
+    "segments": [
+      "WaveFake"
+    ],
+    "manifest": "S2_order2029.jsonl"
+  },
+  {
+    "stream": "S3",
+    "order_seed": 2029,
+    "count": 4096,
+    "segments": [
+      "LA21"
+    ],
+    "manifest": "S3_order2029.jsonl"
+  },
+  {
+    "stream": "S4",
+    "order_seed": 2029,
+    "count": 4096,
+    "segments": [
+      "DF21"
+    ],
+    "manifest": "S4_order2029.jsonl"
+  },
+  {
+    "stream": "S5",
+    "order_seed": 2029,
+    "count": 15466,
+    "segments": [
+      "ITW",
+      "LA21",
+      "WaveFake",
+      "DF21"
+    ],
+    "manifest": "S5_order2029.jsonl"
+  },
+  {
+    "stream": "S6",
+    "order_seed": 2029,
+    "count": 15466,
+    "segments": [
+      "DF21",
+      "WaveFake",
+      "LA21",
+      "ITW"
+    ],
+    "manifest": "S6_order2029.jsonl"
+  },
+  {
+    "stream": "S1",
+    "order_seed": 2030,
+    "count": 3178,
+    "segments": [
+      "ITW"
+    ],
+    "manifest": "S1_order2030.jsonl"
+  },
+  {
+    "stream": "S2",
+    "order_seed": 2030,
+    "count": 4096,
+    "segments": [
+      "WaveFake"
+    ],
+    "manifest": "S2_order2030.jsonl"
+  },
+  {
+    "stream": "S3",
+    "order_seed": 2030,
+    "count": 4096,
+    "segments": [
+      "LA21"
+    ],
+    "manifest": "S3_order2030.jsonl"
+  },
+  {
+    "stream": "S4",
+    "order_seed": 2030,
+    "count": 4096,
+    "segments": [
+      "DF21"
+    ],
+    "manifest": "S4_order2030.jsonl"
+  },
+  {
+    "stream": "S5",
+    "order_seed": 2030,
+    "count": 15466,
+    "segments": [
+      "ITW",
+      "LA21",
+      "WaveFake",
+      "DF21"
+    ],
+    "manifest": "S5_order2030.jsonl"
+  },
+  {
+    "stream": "S6",
+    "order_seed": 2030,
+    "count": 15466,
+    "segments": [
+      "DF21",
+      "WaveFake",
+      "LA21",
+      "ITW"
+    ],
+    "manifest": "S6_order2030.jsonl"
+  }
+]

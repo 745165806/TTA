@@ -1,0 +1,164 @@
+[
+  {
+    "method": "tent",
+    "factor": 0.3333333333333333,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 0.3333333333333333,
+    "view": "noise",
+    "eer": 0.02734375,
+    "auc": 0.9940528869628906,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 0.3333333333333333,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 1,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.999969482421875,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 1,
+    "view": "noise",
+    "eer": 0.02734375,
+    "auc": 0.9941253662109375,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 1,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 3,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9999732971191406,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 3,
+    "view": "noise",
+    "eer": 0.02734375,
+    "auc": 0.9945259094238281,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "tent",
+    "factor": 3,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9999732971191406,
+    "updates": 64,
+    "adapted_samples": 1024
+  },
+  {
+    "method": "eata",
+    "factor": 0.3333333333333333,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 59,
+    "adapted_samples": 589
+  },
+  {
+    "method": "eata",
+    "factor": 0.3333333333333333,
+    "view": "noise",
+    "eer": 0.02734375,
+    "auc": 0.9939918518066406,
+    "updates": 60,
+    "adapted_samples": 552
+  },
+  {
+    "method": "eata",
+    "factor": 0.3333333333333333,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 59,
+    "adapted_samples": 588
+  },
+  {
+    "method": "eata",
+    "factor": 1,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 61,
+    "adapted_samples": 606
+  },
+  {
+    "method": "eata",
+    "factor": 1,
+    "view": "noise",
+    "eer": 0.02734375,
+    "auc": 0.9940223693847656,
+    "updates": 60,
+    "adapted_samples": 553
+  },
+  {
+    "method": "eata",
+    "factor": 1,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 61,
+    "adapted_samples": 606
+  },
+  {
+    "method": "eata",
+    "factor": 3,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 61,
+    "adapted_samples": 607
+  },
+  {
+    "method": "eata",
+    "factor": 3,
+    "view": "noise",
+    "eer": 0.02734375,
+    "auc": 0.9940452575683594,
+    "updates": 61,
+    "adapted_samples": 564
+  },
+  {
+    "method": "eata",
+    "factor": 3,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9999656677246094,
+    "updates": 61,
+    "adapted_samples": 607
+  }
+]

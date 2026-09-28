@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "prefix_count": 64,
+  "different_future_count": 16,
+  "max_prefix_abs_difference": 0.0,
+  "method": "tent"
+}

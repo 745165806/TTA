@@ -1,0 +1,12 @@
+{
+  "domain": "la",
+  "role": "development_benchmark",
+  "source_inference": "/media/dell/data/fakeAudioDection/TTA/data/manifests_v2/asv2021_la_eval/inference/target_test.jsonl",
+  "official_key": "LA-keys-full/keys/LA/CM/trial_metadata.txt",
+  "seed": 2026,
+  "count": 4096,
+  "bonafide": 2048,
+  "spoof": 2048,
+  "runner_ref": "runner.jsonl",
+  "evaluator_only_ref": "private_eval_labels.jsonl"
+}

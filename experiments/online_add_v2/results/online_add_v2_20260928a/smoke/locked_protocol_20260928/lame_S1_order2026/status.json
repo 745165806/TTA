@@ -1,0 +1,18 @@
+{
+  "status": "SMOKE_PASS",
+  "count": 64,
+  "expected": 64,
+  "elapsed_seconds": 7.237784074997762,
+  "backend_cuda_seconds": 0.3541323900280986,
+  "ms_per_audio_backend": 5.533318594189041,
+  "peak_gpu_mb": 1213.27587890625,
+  "gpu": 1,
+  "method": "lame",
+  "stream": "S1",
+  "order_seed": 2026,
+  "updates": 0,
+  "adapted_samples": 0,
+  "seen": 64,
+  "memory_size": 0,
+  "trainable_names": []
+}

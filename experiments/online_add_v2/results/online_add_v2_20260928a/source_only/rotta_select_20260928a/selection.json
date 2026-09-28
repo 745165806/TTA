@@ -1,0 +1,6 @@
+{
+  "author_lr": 0.001,
+  "selected_factor": 1,
+  "selected_lr": 0.001,
+  "criterion": "source-select mean EER, then AUC, then author default"
+}

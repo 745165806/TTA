@@ -1,0 +1,74 @@
+[
+  {
+    "factor": 0.3333333333333333,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9987297058105469,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 0.3333333333333333,
+    "view": "noise",
+    "eer": 0.033203125,
+    "auc": 0.9884681701660156,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 0.3333333333333333,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9987220764160156,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 1,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9987411499023438,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 1,
+    "view": "noise",
+    "eer": 0.03125,
+    "auc": 0.9887466430664062,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 1,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9988059997558594,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 3,
+    "view": "clean",
+    "eer": 0.001953125,
+    "auc": 0.9987106323242188,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 3,
+    "view": "noise",
+    "eer": 0.033203125,
+    "auc": 0.9886932373046875,
+    "updates": 16,
+    "memory_size": 64
+  },
+  {
+    "factor": 3,
+    "view": "fir",
+    "eer": 0.001953125,
+    "auc": 0.9987907409667969,
+    "updates": 16,
+    "memory_size": 64
+  }
+]

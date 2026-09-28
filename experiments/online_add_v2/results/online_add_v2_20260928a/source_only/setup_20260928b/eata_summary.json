@@ -1,0 +1,8 @@
+{
+  "diversity_threshold": 0.9812904000282288,
+  "fit_count": 2000,
+  "select_count": 1024,
+  "source_role": "fit_and_select",
+  "fisher_formula": "mean squared batch CE gradient on source fit",
+  "diversity_policy": "source-select 95th percentile cosine to clean mean probability"
+}

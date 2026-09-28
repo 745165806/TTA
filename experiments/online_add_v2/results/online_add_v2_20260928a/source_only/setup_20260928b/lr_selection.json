@@ -1,0 +1,14 @@
+{
+  "tent": {
+    "author_lr": 0.001,
+    "selected_factor": 3,
+    "selected_lr": 0.003,
+    "criterion": "source-select mean EER, then AUC, then author default"
+  },
+  "eata": {
+    "author_lr": 0.001,
+    "selected_factor": 3,
+    "selected_lr": 0.003,
+    "criterion": "source-select mean EER, then AUC, then author default"
+  }
+}
