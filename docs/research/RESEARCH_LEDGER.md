@@ -292,3 +292,20 @@ Required fields: date, branch, commit, experiment_id, purpose, datasets, manifes
 - key_metrics: In-the-Wild Frozen EER/AUC 0.099010/0.957841; O1/O2/O3 EER 0.103960 and AUC 0.958799/0.958895/0.958879, all paired ΔAUC intervals span zero. PA EER/AUC undefined (single-class); Base/O1/O2/O3 PA source damage 0.193014/0.041150/0.236152/0.192282, harmful flips 16/3/23/14 respectively; zero numeric failures.
 - interpretation: O1 changes class-mean score gap and some threshold decisions in In-the-Wild but does not show reliable ranking benefit; PA cannot validate a second-domain ranking effect. Source-damage reduction on PA is not a task gain.
 - next_decision: keep all three objectives unpromoted; do not implement preservation, gate, continual, or method lock. Preserve fixed PA and all historical assignments; resolve genuine two-class development coverage only through a distinct permitted resource or report blocker.
+
+## Independent EP capacity and gradient geometry audit 2026-10-09
+
+- date: 2026-10-09
+- branch: codex/ep-capacity-geometry-20261009
+- commit: 3926d63dbb301785ee09072165924e832eb5d04a (result-producing code); baseline 66680217720532388ff241bbb88a8565788cf297
+- experiment_id: ep_capacity_audit/run_20261009f
+- purpose: test score-change capacity, task-direction projection, initial loss/score gradient geometry, and projected-SGD/guard limits without target labels
+- datasets: fixed In-the-Wild target10 mechanism subset, 512 unlabeled IDs; source fit anchor memory and self-trained SSL-AASIST epoch 7 only
+- manifests: existing `experiments/multidomain_mechanism/manifests/in_the_wild_mechanism_select.json`; exact 512-ID coverage against existing 3×160 float32 feature cache; no target90 or final holdout labels read
+- method: production Frozen/K=0 parity and `ep_tta_guarded`; U-original, source-supervised U-task, source-only U-mixed; unguarded and no-projection mechanism controls
+- parameters: K=10, lr=0.3, rho=0.2, gamma=0.1, lambda_keep=1; original-U guarded K=1/5 step contrasts; fresh R per sample
+- command: `PYTHONPATH=src conda run --no-capture-output -n tta python experiments/ep_capacity_audit/run_geometry.py --data-root /media/dell/data/fakeAudioDection/TTA --output local/ep_capacity_audit/run_20261009f` (exit 0; local `run.log`); related pytest 75 passed, exit 0
+- result_directory: ignored `local/ep_capacity_audit/run_20261009f/`; tracked small summary at `experiments/ep_capacity_audit/summary/run_20261009f/`; full report `EP_CAPACITY_AUDIT.md`
+- key_metrics: original task projection 0.32603; projected theoretical median score bound 1.73337; original hard-guard/unguarded median absolute score delta 0.000971/0.031987; initial gradient cosine median 0.01589; hard guard triggered in 62.58% and reverted in 21.13% of K10 steps; all 512 Frozen/K=0 pairs exact; zero numeric fallbacks; no new EER/AUC
+- interpretation: original U has nonzero classification capacity, but current guard strongly shrinks realized updates. Source task U increases the bound without increasing the guarded median movement; the current unlabeled gradient has no stable signed score direction. No target-label correctness or cross-domain efficacy follows.
+- next_decision: No-Go on U-only promotion or new full model training. Prioritize a controlled unlabeled-objective × guard study on the same frozen representation, then separate post-score two-class development diagnosis if an independently permitted second domain exists; keep target90/final holdout closed.
