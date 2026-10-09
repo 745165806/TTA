@@ -1,0 +1,11 @@
+# Auxiliary ASVspoof2019 PA official-dev contract
+
+The local official PA dev protocol has explicit five-column rows: `speaker sample_id attack_id environment bonafide|spoof`; audio is `ASVspoof2019_PA_dev/flac/<sample_id>.flac`. The SSL-AASIST source model was trained on ASVspoof2019 **LA train**, so PA dev is a distinct acquisition/attack domain. It is not ASVspoof2021 data and does not restore two-class ASVspoof2021 mechanism groups.
+
+`build_pa_dev.py` reads only the first two protocol fields during selection, enumerates sorted explicit speaker groups with 270 rows, and retains groups for which every referenced WAV exists and is 16 kHz. It shuffles eligible group names with `random.Random(2026)` and fixes one complete group, `PA_0105` (270 samples). The first preflight attempt sought two groups and produced no manifest because only one group was audio-complete; it did not read labels or create an assignment. The final selection and audit manifests are written once with exclusive creation. They must never be redrawn after label audit.
+
+The select manifest has no label. The objective worker may read only the select manifest and production feature cache. The audit manifest points to the official dev protocol; `objective_analysis.py` opens it only after exact score coverage and finite checks have passed. This official dev protocol is development data, not a claimed final holdout. No ASVspoof2021 eval labels are touched for this auxiliary study.
+
+During schema inspection before the PA assignment was built, `head -3` displayed the first three official dev protocol rows including their label strings. Those rows belong to `PA_0069`, while the fixed selected group is `PA_0105`; none of those three labels entered selection, adaptation, or parameter decisions. This pre-score protocol inspection is recorded here so the access history is explicit.
+
+The fixed 270 production feature cache passed exact coverage. `objective_two_domain_20260927a` produced all PA score rows before opening PA dev labels. The subsequent selected audit revealed 270 bonafide and zero spoof, so PA is retained only as single-class mechanism evidence. The group assignment must not be redrawn to force two-class coverage.

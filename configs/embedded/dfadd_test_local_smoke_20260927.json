@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "dataset_id": "dfadd",
+  "release": "isjwdu/DFADD-local-arrow",
+  "subset": "test-group-p227_164-smoke",
+  "format": "arrow",
+  "source_root": "/media/dell/data/fakedata/DFADD",
+  "sources": [{"pattern": "test/data-*.arrow", "expected_count": 2}],
+  "audio_column": "audio",
+  "label_column": "label",
+  "group": {
+    "map_ref": "configs/embedded/dfadd_test_group_map_20260927.csv",
+    "key_column": "audio_name",
+    "map_key_column": "audio_name",
+    "map_group_column": "source_group_id"
+  },
+  "label_map": {"real": 0, "spoofed": 1},
+  "preprocess": {"input_sample_rate": 16000, "output_sample_rate": 16000, "channels": "mono_mean", "resampler": "identity"},
+  "assert_columns": {"split": "test"},
+  "select_groups": ["dfadd_vctk_p227_164"],
+  "expected_sample_count": 6,
+  "output": "data/imported/dfadd_test_20260927_smoke_v1"
+}

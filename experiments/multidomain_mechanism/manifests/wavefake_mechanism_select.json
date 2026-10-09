@@ -1,0 +1,10 @@
+{
+  "schema_version": "0.1.0",
+  "dataset_id": "wavefake",
+  "selection_seed": 2026,
+  "selection_policy": "pending_explicit_parquet_reader_and_feature_extraction",
+  "source_ref": "/media/dell/data/fakedata/WaveFake",
+  "count": 0,
+  "records": [],
+  "role": "mechanism_select"
+}

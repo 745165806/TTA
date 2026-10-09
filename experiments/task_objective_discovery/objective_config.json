@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.1.0",
+  "status": "PREREGISTERED_BEFORE_TARGET_LABEL_ANALYSIS",
+  "seed": 2026,
+  "arms": ["Frozen", "ep_no_keep", "O1", "O2", "O3"],
+  "steps": 5,
+  "lr": 0.03,
+  "rho": 0.1,
+  "gamma": 0.1,
+  "lambda_keep": 0.0,
+  "reset_policy": "episodic_zero_R_per_sample",
+  "parameter_scope": "production_R_8x8",
+  "optimizer_family": "projected_SGD",
+  "score_view": "original",
+  "affinity_temperature": 1.0,
+  "affinity_entropy_weight": 0.1,
+  "decision_consistency_weight": 1.0,
+  "o3_affinity_weight": 1.0,
+  "o3_reliability_sharpness": 4.0,
+  "scale_sweep": "NONE",
+  "bootstrap_replicates": 1000,
+  "bootstrap_seed": 2026
+}

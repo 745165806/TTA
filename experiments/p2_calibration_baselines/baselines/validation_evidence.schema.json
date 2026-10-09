@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.2.0",
+  "description": "Runtime validation evidence contract; boolean gate values are generated only after tests pass.",
+  "required_top_level": [
+    "schema_version",
+    "validated_git_commit",
+    "validated_tree_or_code_version",
+    "generated_at",
+    "methods"
+  ],
+  "required_method_fields": [
+    "method_id",
+    "parameter_scope_verified",
+    "reset_contract_pass",
+    "label_isolation_pass",
+    "audit_verified",
+    "official_commit_pinned",
+    "official_repo_commit",
+    "evidence_refs",
+    "test_evidence"
+  ],
+  "commit_policy": "exact_match_only"
+}

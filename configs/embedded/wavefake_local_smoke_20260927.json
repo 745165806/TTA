@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.1.0",
+  "dataset_id": "wavefake",
+  "release": "ajaykarthick/wavefake-audio-local-parquet",
+  "subset": "train-partition0-group-LJ001-0001-smoke",
+  "format": "parquet",
+  "source_root": "/media/dell/data/fakedata/WaveFake",
+  "sources": [{"pattern": "data/partition0-00000-of-00001.parquet", "expected_count": 1}],
+  "audio_column": "audio",
+  "label_column": "real_or_fake",
+  "group": {"column": "audio_id"},
+  "label_map": {"R": 0, "WF1": 1, "WF2": 1, "WF3": 1, "WF4": 1, "WF5": 1, "WF6": 1, "WF7": 1},
+  "preprocess": {"input_sample_rate": 22050, "output_sample_rate": 16000, "channels": "mono_mean", "resampler": "scipy_polyphase_v1"},
+  "select_groups": ["LJ001-0001"],
+  "expected_sample_count": 8,
+  "output": "data/imported/wavefake_20260927_smoke_v1"
+}

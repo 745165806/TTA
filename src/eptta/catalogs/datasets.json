@@ -35,9 +35,17 @@
       "roles": [
         "target_test"
       ],
-      "raw_contract_status": "UNRESOLVED",
-      "adapter": "wavefake_candidate",
-      "implementation_status": "L3_INTERFACE_IMPLEMENTED_REVIEW_REQUIRED"
+      "raw_contract_status": "LOCAL_PARQUET_CONTRACT_VERIFIED",
+      "adapter": "embedded_parquet",
+      "implementation_status": "LOCAL_IMPORT_SMOKE_PASS_FULL_NOT_RUN"
+    },
+    "dfadd": {
+      "roles": [
+        "target_test"
+      ],
+      "raw_contract_status": "LOCAL_TEST_ARROW_CONTRACT_VERIFIED",
+      "adapter": "embedded_arrow",
+      "implementation_status": "LOCAL_IMPORT_SMOKE_PASS_FULL_NOT_RUN"
     },
     "codecfake_xie": {
       "roles": [
