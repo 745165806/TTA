@@ -1,0 +1,50 @@
+{
+  "schema_version": "0.1.0",
+  "note": "confirmatory workers read this file only; parameters must not be re-tuned after target10.",
+  "methods": {
+    "tent_audio_ep": {
+      "method": "tent_audio_ep",
+      "optimizer": "Adam",
+      "lr": 0.001,
+      "steps": 1,
+      "weight_decay": 0.0,
+      "parameter_scope": "backend BatchNorm1d/BatchNorm2d affine",
+      "normalization_policy": "AUDIO_EVAL_EXCEPT_NORM_MODE",
+      "official_repo_commit": "e9e926a668d85244c66a6d5c006efbd2b82e83e8"
+    },
+    "sar_audio_ep": {
+      "method": "sar_audio_ep",
+      "optimizer": "SGD + SAM",
+      "lr": 1.5625e-05,
+      "steps": 1,
+      "rho": 0.05,
+      "momentum": 0.9,
+      "entropy_margin": 0.2772588722239781,
+      "parameter_scope": "backend BatchNorm1d/BatchNorm2d affine",
+      "normalization_policy": "AUDIO_EVAL_EXCEPT_NORM_MODE",
+      "official_repo_commit": "20f6e24b17525f34503510afccedc0629b67b7c4"
+    },
+    "memo_audio_ep_full": {
+      "method": "memo_audio_ep_full",
+      "optimizer": "SGD",
+      "lr": 0.00025,
+      "steps": 1,
+      "weight_decay": 0.0,
+      "niter": 1,
+      "parameter_scope": "full SSL-AASIST (XLS-R frontend + backend)",
+      "normalization_policy": "none (full-model adaptation, eval mode)",
+      "augmentation_policy": "project fixed audio probe3 (view0 original, view1 noise, view2 FIR)",
+      "official_repo_commit": "228b2908d271c954ef8bf19cf143ede3b2fa8e3e"
+    },
+    "norm_only_audio": {
+      "method": "norm_only_audio",
+      "optimizer": "none",
+      "lr": null,
+      "steps": 0,
+      "parameter_scope": "backend BatchNorm1d/BatchNorm2d (frozen, no update)",
+      "normalization_policy": "AUDIO_EVAL_EXCEPT_NORM_MODE",
+      "augmentation_policy": "none",
+      "control": true
+    }
+  }
+}

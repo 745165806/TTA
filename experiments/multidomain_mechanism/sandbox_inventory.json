@@ -1,0 +1,61 @@
+{
+  "in_the_wild": {
+    "status": "READY",
+    "mechanism_count": 512,
+    "selection_policy": "fixed_target10_id_sample_without_repartition",
+    "source_ref": "experiments/target10_selection/manifests/inwild_target10_select.json",
+    "label_source_ref": "experiments/target10_selection/manifests/inwild_target10.json",
+    "final_holdout_rule": null
+  },
+  "codecfake": {
+    "status": "READY",
+    "mechanism_count": 512,
+    "selection_policy": "official_dev_sorted_ids_random2026",
+    "source_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/dev",
+    "label_source_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/dev.txt",
+    "final_holdout_rule": null
+  },
+  "asv2021_la": {
+    "status": "READY",
+    "mechanism_count": 282,
+    "selection_policy": "group_disjoint_official_eval_seed2026",
+    "source_ref": "data/manifests_v2/asv2021_la_eval/inference/target_test.jsonl",
+    "label_source_ref": "data/manifests_v2/asv2021_la_eval/labels/target_test.jsonl",
+    "final_holdout_rule": {
+      "source_ref": "data/manifests_v2/asv2021_la_eval/inference/target_test.jsonl",
+      "mechanism_group_ids": [
+        "LA_0055",
+        "LA_0060",
+        "LA_0063",
+        "LA_0067"
+      ],
+      "final_holdout": "all other explicit source_group_id values in this official_eval pool",
+      "group_ref": "data/manifests_v2/asv2021_la_eval/groups/target_test.jsonl"
+    }
+  },
+  "asv2021_df": {
+    "status": "READY",
+    "mechanism_count": 370,
+    "selection_policy": "group_disjoint_official_eval_seed2026",
+    "source_ref": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+    "label_source_ref": "data/manifests_v2/asv2021_df_eval/labels/target_test.jsonl",
+    "final_holdout_rule": {
+      "source_ref": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+      "mechanism_group_ids": [
+        "LA_0053",
+        "LA_0068",
+        "VCC2SM1"
+      ],
+      "final_holdout": "all other explicit source_group_id values in this official_eval pool",
+      "group_ref": "data/manifests_v2/asv2021_df_eval/groups/target_test.jsonl"
+    }
+  },
+  "wavefake": {
+    "status": "BLOCKED_PARQUET_READER_AND_FEATURE_CACHE",
+    "mechanism_count": 0,
+    "selection_policy": "pending_explicit_parquet_reader_and_feature_extraction",
+    "source_ref": "/media/dell/data/fakedata/WaveFake",
+    "label_source_ref": null,
+    "final_holdout_rule": null
+  }
+}

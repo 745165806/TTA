@@ -1,0 +1,16 @@
+{
+  "schema_version": "0.1.0",
+  "command": "prepare-data",
+  "dataset": {
+    "dataset_id": "wavefake",
+    "release": "ajaykarthick/wavefake-audio-local-parquet",
+    "subset": "train-partition0-group-LJ001-0001-smoke",
+    "manifest": "data/imported/wavefake_20260927_smoke_v1/input.csv",
+    "audio_root": "data/imported/wavefake_20260927_smoke_v1",
+    "root_key": "wavefake"
+  },
+  "columns": {"sample_id": "sample_id", "audio_relpath": "audio_relpath", "label": "label", "group_id": "source_group_id", "split_role": "split_role"},
+  "label_map": {"R": 0, "WF1": 1, "WF2": 1, "WF3": 1, "WF4": 1, "WF5": 1, "WF6": 1, "WF7": 1},
+  "split": {"reuse_existing": true, "seed": 13},
+  "output": "data/manifests_v2/wavefake_20260927_smoke_v1"
+}

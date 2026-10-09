@@ -24,6 +24,7 @@ from eptta.cache.reader import FeatureCache
 from eptta.models.frozen import verify_frozen_export
 from eptta.offline.artifacts import load_frozen_resources
 from baselines.probe import three_view_probe
+from baselines.provenance import git_commit
 
 FROZEN_BUNDLE = ROOT / "outputs_v2/ssl_aasist/frozen/bundle.json"
 RESOURCES = ROOT / "outputs_v2/ssl_aasist/resources"
@@ -101,7 +102,8 @@ def main():
 
     tol = 1e-5
     result = {
-        "schema_version": "0.1.0",
+        "schema_version": "0.2.0",
+        "git_commit": git_commit(),
         "seed": args.seed,
         "sample_count": len(chosen),
         "tolerance": tol,

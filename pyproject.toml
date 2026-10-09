@@ -17,6 +17,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+container-data = ["pyarrow>=14,<22"]
 author-models = [
   "fairseq==0.12.2",
   "librosa>=0.10,<0.11",

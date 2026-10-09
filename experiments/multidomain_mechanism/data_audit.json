@@ -1,0 +1,69 @@
+{
+  "schema_version": "0.1.0",
+  "date": "2026-09-27",
+  "method": "read-only local path and explicit metadata/protocol audit; no target90 labels or metrics used",
+  "domains": {
+    "in_the_wild": {
+      "status": "PRESENT_READY_CACHED",
+      "audio_root": "/media/dell/data/fakedata/release_in_the_wild",
+      "observed_audio_files": 31779,
+      "split": "existing target10 development assignment; 3178 records; target90 assignment untouched",
+      "development_records": 3178,
+      "label_format": "existing target10 audit JSON, canonical integer 0=bonafide, 1=spoof",
+      "label_source": "experiments/target10_selection/manifests/inwild_target10.json",
+      "feature_cache": "outputs_v2/ssl_aasist/cache-target-in_the_wild",
+      "cache_records": 31779
+    },
+    "wavefake": {
+      "status": "PRESENT_BLOCKED_READER_AND_FEATURE_CACHE",
+      "data_root": "/media/dell/data/fakedata/WaveFake",
+      "observed_parquet_partitions": 131,
+      "declared_records_from_local_README": 64800,
+      "verified_row_count": null,
+      "split": "local dataset README declares train only; no verified dev/eval partition",
+      "label_format": "Parquet column real_or_fake, string; canonical mapping not yet validated",
+      "feature_cache": null,
+      "reason": "tta environment lacks a Parquet reader and production feature cache; no download or dependency installation performed"
+    },
+    "codecfake": {
+      "status": "PRESENT_NO_FEATURE_CACHE",
+      "data_root": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "official_dev_protocol": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/dev.txt",
+      "official_dev_records": 92596,
+      "observed_dev_wav_files": 92596,
+      "split": "official dev; train and test directories also exist, not used for this sandbox",
+      "label_format": "three whitespace columns filename, raw_label, attack_id; explicit local mapping real=0, fake=1",
+      "feature_cache": null
+    },
+    "asv2021_la": {
+      "status": "PRESENT_READY_CACHED",
+      "audio_root": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_LA_eval",
+      "source_manifest": "data/manifests_v2/asv2021_la_eval/inference/target_test.jsonl",
+      "source_records": 148176,
+      "split": "official eval only in the available source manifest; group-disjoint mechanism_dev/final_holdout assignment created once",
+      "label_format": "separate canonical JSONL label artifact in data/manifests_v2/asv2021_la_eval/labels/target_test.jsonl; not read for sandbox assignment",
+      "feature_cache": "outputs_v2/ssl_aasist/cache-target-asv2021_la_eval",
+      "cache_records": 148176
+    },
+    "asv2021_df": {
+      "status": "PRESENT_READY_CACHED",
+      "audio_root": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "source_manifest": "data/manifests_v2/asv2021_df_eval/inference/target_test.jsonl",
+      "source_records": 533928,
+      "split": "official eval only in the available source manifest; group-disjoint mechanism_dev/final_holdout assignment created once",
+      "label_format": "separate canonical JSONL label artifact in data/manifests_v2/asv2021_df_eval/labels/target_test.jsonl; not read for sandbox assignment",
+      "feature_cache": "outputs_v2/ssl_aasist/cache-target-asv2021_df_eval",
+      "cache_records": 533928
+    }
+  },
+  "sandbox_counts": {
+    "in_the_wild": 512,
+    "wavefake": 0,
+    "codecfake": 512,
+    "asv2021_la": 282,
+    "asv2021_df": 370
+  },
+  "target90_sample_labels_or_metrics_read": false,
+  "historical_split_meta_target90_aggregate_class_counts_printed_during_orientation": true,
+  "final_holdout_sample_labels_read": false
+}

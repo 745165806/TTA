@@ -1,0 +1,74 @@
+{
+  "date": "2026-09-27",
+  "branch": "exp-task-objective-discovery",
+  "seed": 2026,
+  "domains": {
+    "in_the_wild": {
+      "audio_root": "/media/dell/data/fakedata/release_in_the_wild",
+      "development_split": "existing target10 mechanism selection",
+      "selected_count": 512,
+      "label_format": "existing selected audit: canonical integer 0/1",
+      "feature_cache": "outputs_v2/ssl_aasist/cache-target-in_the_wild",
+      "two_class_dev": "AVAILABLE",
+      "assignment_policy": "reuse only; no redraw"
+    },
+    "codecfake": {
+      "audio_root": "/media/dell/data/fakedata/Codecfake_Xie/extracted/dev",
+      "development_split": "official dev",
+      "protocol_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/label/label/dev.txt",
+      "protocol_count": 92596,
+      "selected_count": 512,
+      "label_format": "filename raw_label attack_id; real=0, fake=1 per existing explicit private mapping",
+      "selected_waveform_preflight_32": "16 kHz, mono for all 32; production extraction smoke PASS",
+      "selected_waveform_audit_512": {"16000_hz": 222, "24000_hz": 209, "44100_hz": 52, "48000_hz": 29},
+      "feature_cache": "32 smoke cache PASS; full 512 production extraction blocked by non-16-kHz waveforms",
+      "two_class_dev": "PRODUCTION_PREPROCESS_BLOCKER",
+      "assignment_policy": "reuse fixed official-dev selected IDs; no redraw, no unregistered resampling"
+    },
+    "wavefake": {
+      "audio_root": "/media/dell/data/fakedata/WaveFake/data",
+      "partition_count": 131,
+      "development_split": "README declares train=64800; row count unverified",
+      "label_format": "Parquet real_or_fake string; canonical mapping unverified",
+      "parquet_readers_tta": {"pyarrow": "MISSING", "pandas": "MISSING", "polars": "MISSING", "duckdb": "MISSING"},
+      "feature_cache": "MISSING",
+      "two_class_dev": "DEPENDENCY_BLOCKER"
+    },
+    "asv2021_la": {
+      "audio_root": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_LA_eval",
+      "development_split": "existing mechanism eval selection, historical only",
+      "selected_count": 282,
+      "selected_class_count": 1,
+      "official_2021_train_dev_found": false,
+      "label_format": "separate existing canonical JSONL 0/1",
+      "two_class_dev": "TWO_CLASS_DEV_UNAVAILABLE",
+      "boundary": "official eval label pool was historically scanned; no untouched final-holdout claim"
+    },
+    "asv2021_df": {
+      "audio_root": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval",
+      "development_split": "existing mechanism eval selection, historical only",
+      "selected_count": 370,
+      "selected_class_count": 1,
+      "official_2021_train_dev_found": false,
+      "label_format": "separate existing canonical JSONL 0/1",
+      "two_class_dev": "TWO_CLASS_DEV_UNAVAILABLE",
+      "boundary": "official eval label pool was historically scanned; no untouched final-holdout claim"
+    }
+  },
+  "auxiliary_domain": {
+    "asv2019_pa_dev": {
+      "audio_root": "/media/dell/data/fakedata/asvspoof2019/PA/ASVspoof2019_PA_dev",
+      "official_protocol_ref": "/media/dell/data/fakedata/asvspoof2019/PA/ASVspoof2019_PA_cm_protocols/ASVspoof2019.PA.cm.dev.trl.txt",
+      "original_split": "official_dev",
+      "fixed_group": "PA_0105",
+      "selected_count": 270,
+      "selected_sample_rate": "270 of 270 at 16 kHz",
+      "label_format": "speaker sample_id attack_id environment bonafide|spoof; label deferred until all scores complete",
+      "selected_class_counts_post_score": {"bonafide": 270, "spoof": 0},
+      "two_class_dev": "SINGLE_CLASS_HISTORICAL_EVIDENCE_ONLY",
+      "boundary": "separate ASVspoof2019 PA domain; never named ASVspoof2021 LA/DF"
+    }
+  },
+  "target90_labels_or_metrics_read_this_stage": false,
+  "final_holdout_labels_read_this_stage": false
+}

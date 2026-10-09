@@ -36,6 +36,8 @@ python -m eptta.cli prepare-data \
 
 输出包括完整 `manifest.csv`、角色 manifest、无标签 `inference/<role>.jsonl`、独立 labels/groups 和 `summary.json`。TTA 只接收无标签 inference 视图。
 
+本机 WaveFake Parquet 与 DFADD Arrow 的显式音频导入、预处理和分组配置见 [docs/EMBEDDED_DATASETS.md](docs/EMBEDDED_DATASETS.md)。
+
 ## 2. 训练或复用源模型
 
 ```bash

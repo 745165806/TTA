@@ -6,6 +6,7 @@ MODULES = {
     "asvspoof2021_df": "asvspoof2021",
     "asvspoof2021_la": "asvspoof2021",
     "wavefake": "wavefake",
+    "dfadd": "dfadd",
     "codecfake_xie": "codecfake_xie",
     "in_the_wild": "in_the_wild",
 }

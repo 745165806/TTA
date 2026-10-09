@@ -62,8 +62,7 @@ def test_bn_source_statistics_unchanged_while_affine_can_update():
     state = snapshot_episode_state(model)
     adapter = Adapter(model)
     before = {name: p.detach().clone() for name, p in model.named_parameters() if p.requires_grad}
-    tent_audio.tent_adapt(model, adapter, torch.randn(3, 4),
-                          {"spoof": 0, "bonafide": 1}, weight_decay=0.0)
+    tent_audio.tent_adapt(model, adapter, torch.randn(3, 4), {"spoof": 0, "bonafide": 1})
     assert_bn_buffers_unchanged(model, state)
     changed = {name for name, p in model.named_parameters()
                if name in before and not torch.equal(p, before[name])}

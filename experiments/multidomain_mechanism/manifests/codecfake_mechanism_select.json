@@ -1,0 +1,5131 @@
+{
+  "schema_version": "0.1.0",
+  "dataset_id": "codecfake",
+  "selection_seed": 2026,
+  "selection_policy": "official_dev_sorted_ids_random2026",
+  "source_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted/dev",
+  "count": 512,
+  "records": [
+    {
+      "sample_id": "dev/F01_SSB01930323.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB01930323.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB02000121.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB02000121.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB02730432.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB02730432.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB02990484.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB02990484.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB03380079.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB03380079.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB03540010.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB03540010.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB03790403.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB03790403.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB04270228.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB04270228.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB04270480.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB04270480.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB04700133.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB04700133.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB04700154.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB04700154.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB05650336.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB05650336.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB05990345.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB05990345.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB06070421.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB06070421.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB06140077.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB06140077.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB06660029.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB06660029.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB06660091.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB06660091.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB06860042.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB06860042.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB07510009.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB07510009.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB07600191.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB07600191.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB08090005.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB08090005.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB10200101.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB10200101.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB10240076.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB10240076.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB10910142.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB10910142.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB10960198.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB10960198.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB10960380.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB10960380.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB11250194.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB11250194.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB11310071.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB11310071.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB12040077.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB12040077.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB12180183.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB12180183.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB15630075.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB15630075.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB15750027.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB15750027.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB16240053.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB16240053.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB16250166.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB16250166.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB17280271.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB17280271.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB17450246.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB17450246.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB18100253.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB18100253.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB18310209.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB18310209.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB18630247.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB18630247.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB18630425.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB18630425.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB18910124.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB18910124.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_SSB19020159.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_SSB19020159.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p225_115.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p225_115.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p230_352.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p230_352.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p231_474.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p231_474.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p236_464.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p236_464.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p248_181.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p248_181.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p256_198.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p256_198.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p259_072.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p259_072.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p259_408.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p259_408.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p268_235.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p268_235.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p273_106.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p273_106.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p279_063.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p279_063.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p281_286.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p281_286.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p302_024.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p302_024.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p305_271.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p305_271.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p308_239.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p308_239.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p308_327.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p308_327.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p310_381.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p310_381.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p316_174.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p316_174.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p317_236.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p317_236.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p333_243.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p333_243.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p333_326.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p333_326.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F01_p363_216.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F01_p363_216.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00110059.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00110059.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00110181.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00110181.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00120492.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00120492.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00160345.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00160345.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00730245.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00730245.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00730347.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00730347.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB00730365.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB00730365.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB01120299.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB01120299.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB01390076.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB01390076.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB01930342.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB01930342.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB02410415.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB02410415.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB02870334.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB02870334.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB03420389.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB03420389.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB03660272.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB03660272.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB03950222.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB03950222.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB04070174.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB04070174.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB04340069.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB04340069.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB04350109.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB04350109.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB04820030.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB04820030.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB05020360.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB05020360.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB05440408.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB05440408.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB05990080.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB05990080.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB06090223.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB06090223.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB06140077.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB06140077.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB06660049.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB06660049.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB06660104.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB06660104.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07170130.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07170130.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07200133.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07200133.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07480353.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07480353.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07580067.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07580067.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07580070.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07580070.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07580222.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07580222.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07600352.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07600352.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB07780085.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB07780085.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB08090128.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB08090128.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB08510194.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB08510194.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB09350016.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB09350016.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB10200134.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB10200134.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB10550326.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB10550326.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB10960337.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB10960337.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB10960459.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB10960459.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB11100281.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB11100281.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB11260275.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB11260275.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB11870348.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB11870348.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB12030176.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB12030176.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB13400023.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB13400023.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB13410003.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB13410003.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB13660466.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB13660466.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB13820341.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB13820341.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB14520283.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB14520283.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB15750063.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB15750063.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB15750111.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB15750111.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB15930048.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB15930048.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB16240074.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB16240074.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB16500341.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB16500341.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB17810311.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB17810311.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB18460305.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB18460305.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_SSB18720192.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_SSB18720192.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p226_214.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p226_214.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p236_459.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p236_459.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p239_394.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p239_394.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p240_036.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p240_036.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p240_084.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p240_084.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p250_493.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p250_493.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p258_089.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p258_089.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p266_355.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p266_355.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p267_364.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p267_364.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p268_155.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p268_155.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p270_163.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p270_163.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p282_045.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p282_045.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p282_065.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p282_065.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p283_150.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p283_150.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p283_191.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p283_191.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p285_204.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p285_204.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p292_047.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p292_047.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p292_306.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p292_306.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p302_152.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p302_152.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p302_154.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p302_154.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p302_168.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p302_168.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p302_263.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p302_263.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p312_284.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p312_284.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p317_362.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p317_362.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p317_394.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p317_394.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p341_063.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p341_063.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p360_214.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p360_214.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F02_p374_005.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F02_p374_005.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB00430214.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB00430214.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB00570184.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB00570184.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB01120078.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB01120078.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB01220329.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB01220329.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB01390131.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB01390131.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB02880159.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB02880159.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB02880443.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB02880443.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB03230464.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB03230464.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB03380398.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB03380398.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB03790006.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB03790006.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB04820231.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB04820231.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB05940387.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB05940387.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB06230454.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB06230454.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB06320059.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB06320059.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB06930413.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB06930413.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07020224.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07020224.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07110143.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07110143.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07170169.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07170169.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07230115.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07230115.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07360308.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07360308.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07480319.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07480319.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07490431.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07490431.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB07600150.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB07600150.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB10020340.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB10020340.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB10500076.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB10500076.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB10500188.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB10500188.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB10960290.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB10960290.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB11760109.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB11760109.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB12390226.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB12390226.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB13020220.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB13020220.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB13830208.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB13830208.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB13920138.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB13920138.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB13930196.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB13930196.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB14020128.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB14020128.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB14020482.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB14020482.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB16250262.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB16250262.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB17450402.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB17450402.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB17590510.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB17590510.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB18100253.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB18100253.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB18280263.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB18280263.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB18320346.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB18320346.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB18370190.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB18370190.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB18370298.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB18370298.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB18780075.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB18780075.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB19020250.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB19020250.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB19350283.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB19350283.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_SSB19560199.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_SSB19560199.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p225_156.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p225_156.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p228_021.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p228_021.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p236_197.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p236_197.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p239_447.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p239_447.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p240_002.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p240_002.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p244_357.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p244_357.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p249_065.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p249_065.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p252_124.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p252_124.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p266_391.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p266_391.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p267_332.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p267_332.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p270_098.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p270_098.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p277_269.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p277_269.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p277_448.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p277_448.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p280_284.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p280_284.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p280_340.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p280_340.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p283_170.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p283_170.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p288_396.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p288_396.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p297_026.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p297_026.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p297_119.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p297_119.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p304_292.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p304_292.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p313_039.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p313_039.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p314_184.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p314_184.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p330_310.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p330_310.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p335_298.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p335_298.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F03_p339_331.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F03_p339_331.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB00090180.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB00090180.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB00160303.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB00160303.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB00330344.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB00330344.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB01490029.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB01490029.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB02410028.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB02410028.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB02670055.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB02670055.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB02870286.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB02870286.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB02880438.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB02880438.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB03160406.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB03160406.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB03380282.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB03380282.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB03390382.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB03390382.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB03420280.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB03420280.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB03660328.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB03660328.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB04070256.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB04070256.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB04070434.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB04070434.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB04340031.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB04340031.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB04350095.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB04350095.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB05020016.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB05020016.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB05780389.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB05780389.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB05900079.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB05900079.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB06070206.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB06070206.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB06660329.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB06660329.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB07110004.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB07110004.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB07200333.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB07200333.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB07580300.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB07580300.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB07600166.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB07600166.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB08170431.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB08170431.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB10080442.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB10080442.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB10200157.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB10200157.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB10500466.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB10500466.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB10960170.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB10960170.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB11000463.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB11000463.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB11150273.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB11150273.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB11150404.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB11150404.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB13410164.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB13410164.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB13650233.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB13650233.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB15670350.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB15670350.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB15750214.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB15750214.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB16860140.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB16860140.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB18280251.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB18280251.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB18320269.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB18320269.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB19350283.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB19350283.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_SSB19390162.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_SSB19390162.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p228_021.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p228_021.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p232_257.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p232_257.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p233_140.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p233_140.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p236_465.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p236_465.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p241_314.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p241_314.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p245_318.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p245_318.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p274_289.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p274_289.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p279_005.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p279_005.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p279_030.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p279_030.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p281_188.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p281_188.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p287_198.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p287_198.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p318_410.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p318_410.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p336_097.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p336_097.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p336_340.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p336_340.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p339_395.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p339_395.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F04_p347_160.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F04_p347_160.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB00730276.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB00730276.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB01390349.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB01390349.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB01490427.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB01490427.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB02000333.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB02000333.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB02610419.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB02610419.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB03160163.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB03160163.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB03820213.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB03820213.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB03950185.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB03950185.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB05020089.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB05020089.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB05440461.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB05440461.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB05940204.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB05940204.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB05940417.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB05940417.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB06320065.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB06320065.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB06860126.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB06860126.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB07100030.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB07100030.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB07460222.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB07460222.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB07580022.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB07580022.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB07580343.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB07580343.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB07860393.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB07860393.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB08220171.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB08220171.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB08510007.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB08510007.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB09350238.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB09350238.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB09970511.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB09970511.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB10010213.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB10010213.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB10240183.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB10240183.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB10560195.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB10560195.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB11080191.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB11080191.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB11150035.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB11150035.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB11250223.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB11250223.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB13020299.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB13020299.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB13220200.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB13220200.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB13990119.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB13990119.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB16240297.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB16240297.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB18100332.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB18100332.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB18320418.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB18320418.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB18910154.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB18910154.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB19020251.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB19020251.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_SSB19020283.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_SSB19020283.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p229_251.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p229_251.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p236_028.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p236_028.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p238_131.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p238_131.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p238_147.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p238_147.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p243_063.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p243_063.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p257_356.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p257_356.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p258_393.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p258_393.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p259_434.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p259_434.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p264_473.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p264_473.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p266_306.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p266_306.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p272_113.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p272_113.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p307_009.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p307_009.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p308_205.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p308_205.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p308_234.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p308_234.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p316_372.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p316_372.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p326_104.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p326_104.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p329_301.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p329_301.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p330_420.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p330_420.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p334_232.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p334_232.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p334_235.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p334_235.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p341_315.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p341_315.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p343_180.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p343_180.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p351_088.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p351_088.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p374_038.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p374_038.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F05_p376_170.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F05_p376_170.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB00050286.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB00050286.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB00110213.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB00110213.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB00330298.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB00330298.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB00330505.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB00330505.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB00730060.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB00730060.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB00800066.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB00800066.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB01120089.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB01120089.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB01390087.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB01390087.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB01450122.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB01450122.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB02000026.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB02000026.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB02870385.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB02870385.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB02990145.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB02990145.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB03090217.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB03090217.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB03090364.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB03090364.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB03160001.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB03160001.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB03790132.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB03790132.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB03790285.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB03790285.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB03820337.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB03820337.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB04070416.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB04070416.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB04820216.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB04820216.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB05390196.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB05390196.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB05440121.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB05440121.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB05440181.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB05440181.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB05780269.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB05780269.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06010253.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06010253.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06090459.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06090459.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06090461.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06090461.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06230183.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06230183.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06660023.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06660023.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06680147.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06680147.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB06710485.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB06710485.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07110081.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07110081.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07170483.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07170483.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07200408.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07200408.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07230181.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07230181.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07370455.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07370455.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07460358.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07460358.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07460454.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07460454.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07460503.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07460503.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07480132.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07480132.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07480175.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07480175.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07780224.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07780224.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB07840104.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB07840104.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB08870389.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB08870389.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB09190250.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB09190250.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB09350107.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB09350107.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB09970180.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB09970180.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB10640203.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB10640203.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB10910281.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB10910281.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB11870442.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB11870442.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB11970472.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB11970472.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB13400074.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB13400074.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB13660219.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB13660219.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB14310379.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB14310379.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB14480061.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB14480061.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB15750159.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB15750159.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB16500296.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB16500296.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB18720089.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB18720089.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_SSB18780253.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_SSB18780253.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p225_053.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p225_053.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p230_084.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p230_084.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p249_097.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p249_097.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p250_255.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p250_255.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p250_285.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p250_285.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p257_016.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p257_016.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p259_129.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p259_129.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p272_074.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p272_074.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p272_117.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p272_117.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p277_045.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p277_045.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p294_290.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p294_290.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p295_342.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p295_342.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p298_086.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p298_086.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p301_098.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p301_098.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p306_354.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p306_354.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p313_196.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p313_196.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p314_064.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p314_064.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p314_174.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p314_174.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p318_259.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p318_259.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p334_041.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p334_041.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p335_376.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p335_376.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p345_227.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p345_227.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p351_043.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p351_043.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p361_090.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p361_090.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p361_197.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p361_197.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p361_330.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p361_330.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p363_332.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p363_332.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/F06_p363_371.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/F06_p363_371.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB00120239.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB00120239.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB01120249.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB01120249.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB01450174.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB01450174.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB01490008.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB01490008.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB01930089.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB01930089.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03420058.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03420058.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03420297.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03420297.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03660334.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03660334.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03750082.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03750082.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03790269.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03790269.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03820241.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03820241.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB03850015.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB03850015.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB04070174.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB04070174.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB05020444.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB05020444.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB05350316.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB05350316.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB05650202.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB05650202.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB05700139.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB05700139.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB05880093.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB05880093.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB05940001.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB05940001.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB06010337.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB06010337.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB06060453.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB06060453.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB06290234.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB06290234.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB06320188.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB06320188.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB06660467.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB06660467.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07000298.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07000298.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07100180.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07100180.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07160105.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07160105.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07460456.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07460456.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07490084.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07490084.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07490216.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07490216.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07580343.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07580343.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07800214.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07800214.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB07840357.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB07840357.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB10500112.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB10500112.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB11000148.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB11000148.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB11260151.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB11260151.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB11310008.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB11310008.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB11310168.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB11310168.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB11870304.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB11870304.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB12530070.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB12530070.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB13220434.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB13220434.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB13850151.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB13850151.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB14020067.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB14020067.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB14480124.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB14480124.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB15550272.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB15550272.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB16240342.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB16240342.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB16840096.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB16840096.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB17390053.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB17390053.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB18630333.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB18630333.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB18720109.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB18720109.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB19350260.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB19350260.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/SSB19560478.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/SSB19560478.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p230_408.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p230_408.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p240_324.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p240_324.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p241_115.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p241_115.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p247_470.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p247_470.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p252_127.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p252_127.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p254_311.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p254_311.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p255_354.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p255_354.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p256_046.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p256_046.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p261_281.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p261_281.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p262_228.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p262_228.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p263_277.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p263_277.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p271_376.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p271_376.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p274_384.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p274_384.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p274_400.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p274_400.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p278_380.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p278_380.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p279_218.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p279_218.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p285_182.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p285_182.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p286_237.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p286_237.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p286_321.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p286_321.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p293_293.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p293_293.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p301_094.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p301_094.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p304_350.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p304_350.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p308_348.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p308_348.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p312_372.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p312_372.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p313_217.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p313_217.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p315_107.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p315_107.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p315_208.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p315_208.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p345_332.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p345_332.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    },
+    {
+      "sample_id": "dev/p351_206.wav",
+      "dataset_id": "codecfake",
+      "original_split": "official_dev",
+      "root_key": "codecfake_xie",
+      "root_ref": "/media/dell/data/fakedata/Codecfake_Xie/extracted",
+      "audio_relpath": "dev/p351_206.wav",
+      "selection_seed": 2026,
+      "selection_policy": "official_dev_sorted_ids_random2026"
+    }
+  ],
+  "role": "mechanism_select"
+}
