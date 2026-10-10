@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "scope": "one_real_source_batch_engineering_only",
+  "count": 16,
+  "class_counts": {
+    "bonafide": 1,
+    "spoof": 15
+  },
+  "bce": 0.0063995858654379845,
+  "supcon": 3.253904342651367,
+  "total_loss": 0.16909480094909668,
+  "gradient_norm": 0.12214738875627518,
+  "adapter_parameter_delta_norm": 0.009106742218136787,
+  "gpu_peak_bytes": 1272211968
+}

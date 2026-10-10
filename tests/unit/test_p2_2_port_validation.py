@@ -115,6 +115,9 @@ def test_sample_coverage_and_adaptation_coverage_are_distinct():
 
 
 def test_itw_target90_excludes_target10():
+    target90 = SPLITS.get_split("itw_target90")
+    if not Path(target90["manifest_ref"]).is_file():
+        pytest.skip("local target_test manifest unavailable in this clean worktree")
     ids, excluded = SPLITS.load_split_sample_ids("itw_target90")
     target10_ids, _ = SPLITS.load_split_sample_ids("target10")
     assert excluded > 0

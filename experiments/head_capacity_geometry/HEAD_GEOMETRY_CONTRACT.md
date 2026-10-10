@@ -1,0 +1,17 @@
+# Supervised head geometry audit — fixed before metrics
+
+This is **supervised development diagnosis**, never an unsupervised TTA result. The only datasets are the existing ITW target10 (3,178) and fixed WaveFake paired development (4,096). Use exactly the saved five outer folds from the capacity audit. WaveFake real/generated rows of one `audio_id` remain together in outer and inner splits. Every reported target score is predicted by a model trained without its outer fold. Target90 labels/metrics and final held-out metrics are forbidden.
+
+The source encoder, original-view 160D frozen embeddings, source-trained `w_s,b_s`, source resources and score direction remain unchanged. ITW features are read sparsely by selected row from the existing `.npy` cache; only the fixed 3,178 target10 feature rows are copied to RAM. WaveFake uses only the validated fixed 4,096 cache. Development labels enter this **supervised** audit only. The later H-UA1 worker will be separate and label-free.
+
+## Heads
+
+- **H0 bias only:** fit `b` by fold-training BCE with `w=w_s`; convex SciPy L-BFGS-B, 500 iterations maximum, `1e-4(b-b_s)^2` regularization.
+- **H1 positive scale + bias:** fit `a≥1e-6,b` in `s=a(z·w_s+b_s)+b` by fold-training BCE, same optimizer and `1e-4[(a−1)^2+b²]` regularization. This positive affine score transform cannot change **within-fold** AUC/EER. Different fold-specific calibrations can change pooled cross-fold ranking; report that separately as a calibration effect, not a new direction.
+- **H2 direction only:** `w=||w_s||u/||u||`, initialize `u=w_s`, hold `b=b_s`, train `u` with fold-training BCE using Adam lr0.01, batch256, max100 epochs. Inner fold-training-only 10% validation selects epoch (patience10, minimum BCE improvement1e-4). WaveFake inner split is grouped by `audio_id`. The norm is fixed exactly; no SSL/backend update.
+- **H3 full linear head:** reproduce the prior capacity C2 linear probe exactly: fold-training-only standardization, torch 160→1 linear head, Adam lr0.01, batch256, L2 `1e-4` on weight and bias, max100 epochs, same inner validation/early stop. Convert the fitted head back to original feature coordinates and save `w*,b*` per fold. Require per-sample held-out score parity against the existing C2 prediction file within `1e-5`; otherwise stop analysis and save failure.
+- **H4 nonlinear upper bound:** reuse the unchanged prior capacity C3 held-out predictions and 160→32→1 definition. It is not retrained in this audit.
+
+Report pooled held-out AUC/EER and five per-fold AUC/EER for every head. H0/H1 must equal Frozen **within each fold**; a mismatch is an engineering failure. Pooled differences can arise from fold-specific score calibration and cannot be called direction change. Compare H2 against H3 without treating a small threshold shift as ranking improvement. `DECISION_DIRECTION_SHIFT` is supported only if H2 and H3 both improve ranking in both domains and H2 recovers at least 80% of H3's **positive AUC improvement** in both domains; H0/H1 must preserve within-fold ranking. This threshold is fixed now, before H2 scores.
+
+For H3 target geometry, save actual source `w_s,b_s` and fold target `w*,b*`. Since score scale is arbitrary for AUC/EER, define `u_s=w_s/||w_s||`, `u*=w*/||w*||`, `Δu=u*−u_s`. Report `cos(u_s,u*)`, angle in degrees, `||Δu||`, raw `b*−b_s`, and the five-fold distribution. Compare ITW and WaveFake mean `Δu` as a descriptive cosine, plus all 25 fold-pair cosines. This is development geometry only; it does not establish a universal spoof direction.
