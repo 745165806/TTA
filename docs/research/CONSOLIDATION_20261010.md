@@ -15,7 +15,7 @@ See the root `RESEARCH_ARCHIVE_INDEX.md` for each original branch HEAD and tag.
 | `codex/online-add-baselines-v2` `a1bedd41cee39621e96ba62d551ae99c094fc671` (includes meta-rank, distribution-conditioned head, overnight and representation research) | Experiment-local online baseline implementations/evaluators and the earlier-layer/alternative-head research scripts and reports. Locked streams, evaluator labels, result trees, checkpoints and large LL caches remain at their historical locations. | None. Online predict-then-adapt B16, memory methods and offline batch adaptation are separate protocols from per-sample episodic EP-TTA. | New CPU contract checks for native spoof-minus-bonafide score and independent stream counters: 2/2 PASS. Full stream evaluation NOT_RUN. |
 | `codex/meta-audio-tta-v2-mechanism` `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` (includes `exp/meta-audio-tta` `98df7f255e956f98a33da9dbf575edfbeb7e9303`) | Source training/meta-training core, bounded source diagnostic scripts, selected source-only configs and reports. Shared source checkpoint/paired-flip helpers were extracted from historical Stage 3 code to avoid importing its content-checksum seal. Historical Stage 1/3 configs, target-label config and run trees remain only in the archive. | None. No new source or target run is launched by importing this code. | 10/10 source/meta unit tests PASS. Stage 3 seal/evaluator tests NOT_RUN because that historical checksum gate was not imported. |
 | `exp-p3.1-stat-asym` `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | No executable code imported yet. Its archived fixed calU/evalU split is defined by SHA-ordering, which conflicts with the current prohibition on content-digest-based project workflows; changing the algorithm would change historical membership. | None. | Import NOT_RUN; preserved by remote archive tag. |
-| `codex/ep-capacity-geometry-20261009` `e3ce4c229591549cd5ce962471d31886adbeb052` | No code imported while this recently active branch and ignored `local/` run products are being assessed. | None. | NOT_RUN. |
+| `codex/ep-capacity-geometry-20261009` `e3ce4c229591549cd5ce962471d31886adbeb052` | Source-only task/mixed subspace construction, unlabeled fixed-512 geometry audit and SVG renderer, small historical summary/figures, full historical report and two source-subspace tests. Ignored per-sample `local/` products remain in the original worktree. | None; no geometry candidate is registered as a default method. | 3/3 source-subspace and analytic score-bound tests PASS; geometry modules import. The historical 512-ID numerical run was not repeated. |
 
 `codex/sync-necessary-20261009` at `8b9e4b8dd2bbc5d5678443b62be9767beabe0050`
 was already merged into `origin/main`; its tree equals that main snapshot. The
@@ -50,6 +50,13 @@ dirty root worktree match main files, so they were not duplicated here.
   computation. The subsequent source-only mechanism subset found negative
   BYOL/CE gradient alignment on several selected items and counterexamples on
   others; it does not prove all BYOL adaptation fails.
+- The fixed 512-ID unlabeled EP capacity audit found that the original U has
+  nonzero score capacity, while the hard guard greatly reduces actual score
+  movement. Its initial view-loss gradient has no stable signed score
+  direction. These are geometric and mechanistic observations; the audit did
+  not open target labels or establish an EER/AUC benefit. The historical
+  numbers, failed preliminary runs and local artifact paths are recorded in
+  `EP_CAPACITY_AUDIT.md`; only the small summary and figures were imported.
 - The earlier ASV evaluation-label-file scan boundary correction in
   `experiments/multidomain_mechanism/AUDIT_BOUNDARY_CORRECTION.md` remains in
   force. Historical `final_holdout_labels_accessed=false` fields must be read

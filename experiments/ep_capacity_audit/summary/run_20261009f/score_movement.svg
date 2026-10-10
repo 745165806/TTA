@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="545" viewBox="0 0 880 545">
+<rect width="100%" height="100%" fill="white"/>
+<text x="20" y="25" font-size="16">Median |score change| (logit), fixed unlabeled 512</text>
+<text x="20" y="71" font-size="12">U-original/ep_tta_guarded</text>
+<rect x="265" y="55" width="12.26" height="22" fill="#326aa8"/>
+<text x="287.26" y="71" font-size="12">0.000970602</text>
+<text x="20" y="121" font-size="12">U-original/ep_tta_guarded_K1</text>
+<rect x="265" y="105" width="8.02" height="22" fill="#326aa8"/>
+<text x="283.02" y="121" font-size="12">0.000634909</text>
+<text x="20" y="171" font-size="12">U-original/ep_tta_guarded_K5</text>
+<rect x="265" y="155" width="12.00" height="22" fill="#326aa8"/>
+<text x="287.00" y="171" font-size="12">0.000950098</text>
+<text x="20" y="221" font-size="12">U-original/ep_tta</text>
+<rect x="265" y="205" width="403.88" height="22" fill="#326aa8"/>
+<text x="678.88" y="221" font-size="12">0.031987</text>
+<text x="20" y="271" font-size="12">U-original/ep_no_projection</text>
+<rect x="265" y="255" width="410.30" height="22" fill="#326aa8"/>
+<text x="685.30" y="271" font-size="12">0.0324955</text>
+<text x="20" y="321" font-size="12">U-task/ep_tta_guarded</text>
+<rect x="265" y="305" width="12.20" height="22" fill="#326aa8"/>
+<text x="287.20" y="321" font-size="12">0.000966072</text>
+<text x="20" y="371" font-size="12">U-task/ep_tta</text>
+<rect x="265" y="355" width="431.66" height="22" fill="#326aa8"/>
+<text x="706.66" y="371" font-size="12">0.0341873</text>
+<text x="20" y="421" font-size="12">U-mixed/ep_tta_guarded</text>
+<rect x="265" y="405" width="12.15" height="22" fill="#326aa8"/>
+<text x="287.15" y="421" font-size="12">0.000962257</text>
+<text x="20" y="471" font-size="12">U-mixed/ep_tta</text>
+<rect x="265" y="455" width="460.00" height="22" fill="#326aa8"/>
+<text x="735.00" y="471" font-size="12">0.0364316</text>
+</svg>

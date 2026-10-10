@@ -30,7 +30,7 @@ before they can be made public. `pending` means no exit tag yet.
 | `codex/online-add-baselines-v2` | `a1bedd41cee39621e96ba62d551ae99c094fc671` | `archive/20261010/codex-online-add-baselines-v2` | remote | 180/180 online development streams, scores/logs, ignored private evaluator labels and LL cache. Continual/batch baseline, separate from episodic EP-TTA. |
 | `exp/meta-audio-tta` | `98df7f255e956f98a33da9dbf575edfbeb7e9303` | `archive/20261010/exp-meta-audio-tta` | local | Project-trained source/meta checkpoints, source selection/cal0, disclosed-access four-domain development evaluation; ignored epoch checkpoints remain. |
 | `codex/meta-audio-tta-v2-mechanism` | `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` | `archive/20261010/codex-meta-audio-tta-v2-mechanism` | local | V1 failure mechanism, source-only matched-gradient diagnostics and tracked analysis. |
-| `codex/ep-capacity-geometry-20261009` | `e3ce4c229591549cd5ce962471d31886adbeb052` | pending | Active/recent geometry line; `local/` results must be inventoried after work has stopped. This HEAD is a snapshot and may advance. |
+| `codex/ep-capacity-geometry-20261009` | `e3ce4c229591549cd5ce962471d31886adbeb052` | pending | Recent geometry line; reusable code, small summary and report were copied into integration. Ignored `local/` per-sample results still require backup. This HEAD is a snapshot and may advance. |
 
 The historical `origin/main` merge already contains P0/P1, P2, protocol/oracle,
 guard, task-objective negative evidence and the WaveFake/DFADD embedded-audio
