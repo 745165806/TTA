@@ -13,7 +13,7 @@ See the root `RESEARCH_ARCHIVE_INDEX.md` for each original branch HEAD and tag.
 |---|---|---|---|
 | `exp-matched-head-oracle` `093c9a94ab86cd1766f3b493383e02613d0b0f8f` (includes `exp-local-distribution-tta`, `exp-large-scale-confirmation`, `exp-capacity-audit`, `exp-head-tta`, `exp-gradient-alignment-audit`) | Experiment-local Codecfake compatibility, local-distribution, large confirmation, capacity, head, gradient, O2-strength and supervised-oracle scripts/contracts; ten unit tests; three **label-free** fixed confirmation manifests. No checkpoint, private label or run output copied. | None; scripts remain under `experiments/`. The supervised oracle is a development diagnostic, never an unsupervised TTA method. | 28/28 selected tests passed after adding the required label-free manifests. Full dataset/cache execution NOT_RUN. |
 | `codex/online-add-baselines-v2` `a1bedd41cee39621e96ba62d551ae99c094fc671` (includes meta-rank, distribution-conditioned head, overnight and representation research) | Experiment-local online baseline implementations/evaluators and the earlier-layer/alternative-head research scripts and reports. Locked streams, evaluator labels, result trees, checkpoints and large LL caches remain at their historical locations. | None. Online predict-then-adapt B16, memory methods and offline batch adaptation are separate protocols from per-sample episodic EP-TTA. | New CPU contract checks for native spoof-minus-bonafide score and independent stream counters: 2/2 PASS. Full stream evaluation NOT_RUN. |
-| `codex/meta-audio-tta-v2-mechanism` `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` (includes `exp/meta-audio-tta` `98df7f255e956f98a33da9dbf575edfbeb7e9303`) | Source training/meta-training core, bounded source diagnostic scripts, source-only configs and reports. Shared source checkpoint/paired-flip helpers were extracted from historical Stage 3 code to avoid importing its content-checksum seal. Historical target-label config and run trees remain only in the archive. | None. No new source or target run is launched by importing this code. | 10/10 source/meta unit tests PASS. Stage 3 seal/evaluator tests NOT_RUN because that historical checksum gate was not imported. |
+| `codex/meta-audio-tta-v2-mechanism` `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` (includes `exp/meta-audio-tta` `98df7f255e956f98a33da9dbf575edfbeb7e9303`) | Source training/meta-training core, bounded source diagnostic scripts, selected source-only configs and reports. Shared source checkpoint/paired-flip helpers were extracted from historical Stage 3 code to avoid importing its content-checksum seal. Historical Stage 1/3 configs, target-label config and run trees remain only in the archive. | None. No new source or target run is launched by importing this code. | 10/10 source/meta unit tests PASS. Stage 3 seal/evaluator tests NOT_RUN because that historical checksum gate was not imported. |
 | `exp-p3.1-stat-asym` `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | No executable code imported yet. Its archived fixed calU/evalU split is defined by SHA-ordering, which conflicts with the current prohibition on content-digest-based project workflows; changing the algorithm would change historical membership. | None. | Import NOT_RUN; preserved by remote archive tag. |
 | `codex/ep-capacity-geometry-20261009` `e3ce4c229591549cd5ce962471d31886adbeb052` | No code imported while this recently active branch and ignored `local/` run products are being assessed. | None. | NOT_RUN. |
 
@@ -68,8 +68,11 @@ real-data assertion remains **NOT_RUN**, rather than a fabricated pass. The
 waveform parity is **NOT_RUN_RESOURCE** because the model/GPU inputs are not
 available here. The passing synthetic suite covers core model interfaces,
 Frozen/cached scoring, per-item reset, score direction, parser contracts and
-role/group validation, but does not replace a real-model parity run. A CLI
-entrypoint smoke and final integration review remain pending. No full training,
+role/group validation, but does not replace a real-model parity run. The
+`eptta.cli --help` entrypoint smoke exited successfully. Historical Meta Audio
+Stage 3 documents contain reproduction commands for scripts and configs kept
+at their archive tag; those commands are not runnable from this integration
+tree. Final PR review remains pending. No full training,
 full cache materialization, new target scoring or new final-holdout access is
 part of the consolidation.
 
