@@ -1,0 +1,19 @@
+{
+  "selection_seed": 2026,
+  "label_files_opened": false,
+  "official_available_counts": {
+    "codecfake": 92596,
+    "asv2019_la_dev": 24986
+  },
+  "selected_counts": {
+    "in_the_wild": 3178,
+    "codecfake": 5000,
+    "asv2019_la_dev": 5000
+  },
+  "codecfake_old_fixed512_included": 512,
+  "selection_policy": {
+    "in_the_wild": "reuse_existing_target10_all_3178",
+    "codecfake": "fixed512_plus_random2026_4488_official_dev",
+    "asv2019_la_dev": "random2026_5000_available_official_dev_ids"
+  }
+}

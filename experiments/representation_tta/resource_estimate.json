@@ -1,0 +1,24 @@
+{
+  "counts": {
+    "fit": 25380,
+    "select": 11723,
+    "itw_target10": 3178,
+    "wavefake_dev": 4096
+  },
+  "total_audio": 44377,
+  "shape_per_audio": [
+    3,
+    201,
+    128
+  ],
+  "dtype": "float32",
+  "raw_cache_bytes_estimate": 13700777472,
+  "raw_cache_gib_estimate": 12.76,
+  "disk_free_gib": 692.7,
+  "measured_16_audio_smoke_seconds_including_model_load": 8.541,
+  "measured_smoke_peak_gpu_gib": 2.267,
+  "gpu_count": 4,
+  "cache_scope": "source fit/select and fixed ITW target10/WaveFake development selected-only; no target90 or final holdout",
+  "output": "results/rep_ll_20260928_seed13/ll_cache; mkdir exist_ok=False per shard",
+  "target_labels_in_extraction": "not read"
+}

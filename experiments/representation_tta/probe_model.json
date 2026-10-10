@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "device": "cuda:0",
+  "ssl_shape": [
+    1,
+    201,
+    1024
+  ],
+  "ll_shape": [
+    1,
+    201,
+    128
+  ],
+  "logits_shape": [
+    1,
+    2
+  ],
+  "boundary": "after model.LL, before max_pool2d/RawNet2 encoder",
+  "backend_replay_max_abs": 0.0,
+  "elapsed_seconds": 7.314199873013422,
+  "gpu_peak_bytes": 1454310912,
+  "generic_ssl_patch": {
+    "kind": "explicit_generic_ssl_path_only",
+    "artifact_ref": "/media/dell/data/fakeAudioDection/pretrained-model/xlsr2_300m.pt",
+    "fairseq_version": "0.12.2",
+    "removed_legacy_config_fields": [
+      "task.autoregressive",
+      "task.conv_feature_layers",
+      "task.encoder_embed_dim",
+      "task.eval_wer",
+      "task.eval_wer_config",
+      "task.eval_wer_post_process",
+      "task.eval_wer_tokenizer",
+      "task.mask_channel_length",
+      "task.mask_channel_min_space",
+      "task.mask_channel_other",
+      "task.mask_channel_prob",
+      "task.mask_channel_selection",
+      "task.mask_length",
+      "task.mask_min_space",
+      "task.mask_other",
+      "task.mask_prob",
+      "task.mask_selection",
+      "task.multiple_train_files",
+      "task.no_mask_channel_overlap",
+      "task.no_mask_overlap",
+      "task.shuffle_by_bucket",
+      "task.shuffle_by_bucket_size",
+      "task.train_subset"
+    ]
+  },
+  "task_checkpoint": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/detector_state.pt"
+}

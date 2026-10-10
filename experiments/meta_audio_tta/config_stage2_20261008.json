@@ -1,0 +1,20 @@
+{
+  "run_id": "meta-audio-20261008-stage2-fixed",
+  "seed": 29,
+  "epochs": 2,
+  "tasks_per_epoch": 256,
+  "meta_batch_tasks": 1,
+  "source_val_per_class": 128,
+  "inner_lr": 0.0003,
+  "outer_lr": 0.0001,
+  "auxiliary_weight": 0.1,
+  "outer_weight_decay": 0.0,
+  "support_views": ["original", "deterministic_fir"],
+  "fast_scope": "active task-trained backend BN affine plus online auxiliary BN affine",
+  "inner_optimizer": "one stateless SGD step per original audio",
+  "target_during_task": "fixed; eval BN; no gradient or EMA",
+  "ema_after_outer_step": 0.996,
+  "source_val_subset_rule": "first 128 IDs per canonical class in sorted sample_id order; fixed across variants and epochs",
+  "checkpoint_selection": "minimum source_val K1 EER; earliest epoch on exact ties",
+  "variants": ["cross", "same"]
+}

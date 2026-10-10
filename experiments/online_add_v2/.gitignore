@@ -1,0 +1,10 @@
+# Large, reproducible workstation artifacts; small status/config/summary files remain versionable.
+streams/
+private_eval_labels/
+results/*/ll_cache/
+results/*/extract_logs/
+results/*/run_logs/
+results/*/smoke/
+results/*/validation/
+results/*/runs/*/*/scores.jsonl
+results/*/source_only/**/*.pt

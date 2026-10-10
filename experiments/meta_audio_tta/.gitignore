@@ -1,0 +1,4 @@
+# Keep full task checkpoints on disk; commit their exact paths and small logs.
+runs/*/initial.pt
+runs/*/*/checkpoints/*.pt
+runs/*/*/checkpoints/*.pt.partial

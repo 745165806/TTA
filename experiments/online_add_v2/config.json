@@ -1,0 +1,36 @@
+{
+  "stage": "Online ADD Baselines v2",
+  "protocol": "predict_then_adapt_online_b16",
+  "run_id": "online_add_v2_20260928a",
+  "source_setup_id": "setup_20260928b",
+  "source_bundle": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/frozen/bundle.json",
+  "source_threshold": -4.770049095153809,
+  "source_threshold_ref": "/media/dell/data/fakeAudioDection/TTA/outputs_v2/ssl_aasist/resources/resources.json#scalars.tau0",
+  "batch_size": 16,
+  "order_seeds": [2026, 2027, 2028, 2029, 2030],
+  "stream_manifest_root": "experiments/online_add_v2/streams_locked",
+  "view_recipe": {"num_views": 3, "seed": 13, "noise_snr_db": 30.0, "fir_side_gain": 0.05},
+  "existing_ll_cache": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-representation-tta/experiments/representation_tta/results/rep_ll_20260928_seed13/ll_cache",
+  "domains": {
+    "ITW": {"count": 3178, "runner": "/media/dell/data/fakeAudioDection/TTA/experiments/target10_selection/manifests/inwild_target10_select.json", "audio_root": "/media/dell/data/fakedata/release_in_the_wild", "cache_name": "itw_target10"},
+    "WaveFake": {"count": 4096, "runner": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/manifests/worker_select.jsonl", "audio_root": "/media/dell/data/fakeAudioDection/TTA/.worktrees/exp-capacity-audit/experiments/capacity_audit/results/wavefake_capacity_cache_20260927a/derived_audio", "cache_name": "wavefake_dev"},
+    "LA21": {"count": 4096, "runner": "experiments/online_add_v2/manifests/asv2021_la_online_dev/runner.jsonl", "audio_root": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_LA_eval", "cache_name": "la21_dev"},
+    "DF21": {"count": 4096, "runner": "experiments/online_add_v2/manifests/asv2021_df_online_dev/runner.jsonl", "audio_root": "/media/dell/data/fakedata/asvspoof2019/LA/ASVspoof2021_DF_eval", "cache_name": "df21_dev"}
+  },
+  "streams": {"S1": ["ITW"], "S2": ["WaveFake"], "S3": ["LA21"], "S4": ["DF21"], "S5": ["ITW", "LA21", "WaveFake", "DF21"], "S6": ["DF21", "WaveFake", "LA21", "ITW"]},
+  "methods": ["frozen", "bn_only", "tent", "eata", "rotta", "lame"],
+  "tent_lr": 0.003,
+  "tent_author_lr": 0.001,
+  "eata_lr": 0.003,
+  "eata_author_lr": 0.001,
+  "eata_entropy_threshold": 0.2772588722239781,
+  "rotta_lr": 0.001,
+  "rotta_author_lr": 0.001,
+  "rotta_memory_limit": 64,
+  "lame_knn": 5,
+  "source_selection": {
+    "tent": "results/online_add_v2_20260928a/source_only/setup_20260928b/lr_selection.json",
+    "eata": "results/online_add_v2_20260928a/source_only/setup_20260928b/lr_selection.json",
+    "rotta": "results/online_add_v2_20260928a/source_only/rotta_select_20260928a/selection.json"
+  }
+}

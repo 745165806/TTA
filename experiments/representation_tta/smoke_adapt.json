@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "type": "engineering_synthetic_prototypes_only",
+  "count": 16,
+  "updates": 4,
+  "adapter_parameter_delta_norm": 0.032557828272541105,
+  "max_score_change": 0.05929422378540039,
+  "peak_gpu_bytes": 1272211968,
+  "no_labels_in_adapt_signature": true
+}

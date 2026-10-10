@@ -1,0 +1,26 @@
+{
+  "role": "label_free_resource_audit",
+  "selected_audio_sample_rate_counts": {
+    "codecfake": {
+      "16000": 2140,
+      "24000": 2174,
+      "44100": 460,
+      "48000": 226
+    },
+    "asv2019_la_dev": {
+      "16000": 5000
+    }
+  },
+  "target_labels_read": false,
+  "wavefake": {
+    "root": "/media/dell/data/fakedata/WaveFake/data",
+    "parquet_file_count": 131,
+    "readers": {
+      "pyarrow": "21.0.0",
+      "pandas": "MISSING",
+      "polars": "MISSING",
+      "duckdb": "MISSING"
+    },
+    "status": "READER_AVAILABLE_PIPELINE_NOT_MATERIALIZED"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "run_id": "meta-audio-source-diagnostics-20261008-fixed",
+  "source_val_role": "source_val",
+  "source_val_subset": "sorted sample_id positions 128:160 within each canonical class",
+  "source_val_offset_per_class": 128,
+  "source_val_count_per_class": 32,
+  "fit_role": "fit",
+  "fit_subset": "first 8 sorted sample IDs within each canonical class; epoch 0 crop",
+  "fit_count_per_class": 8,
+  "acoustic_conditions": ["original", "deterministic_fir"],
+  "inner_lr": 0.0003,
+  "decision_threshold": 0.0,
+  "decision_threshold_meaning": "native logit argmax boundary; diagnostic only, not cal0",
+  "allowed_variants": ["ce", "joint", "cross", "same"],
+  "allowed_devices": ["cuda:2", "cuda:3"],
+  "resource_gate": {
+    "min_free_gpu_gib": 20,
+    "max_gpu_utilization_fraction": 0.20,
+    "min_available_ram_gib": 16,
+    "min_disk_free_gib": 100,
+    "max_io_some_avg10_fraction": 0.05,
+    "max_cpu_load_fraction": 0.75
+  },
+  "source_only": true
+}

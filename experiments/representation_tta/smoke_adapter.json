@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "samples": 16,
+  "shape": [
+    16,
+    3,
+    201,
+    128
+  ],
+  "adapter_parameters": 16576,
+  "disabled_frozen_score_parity": "exact",
+  "max_abs_vs_existing_frozen_cache": 0.00048597902059555054,
+  "adapter_gradient_norm": 4.2662248611450195,
+  "gpu_peak_bytes": 1276406272
+}
