@@ -17,6 +17,15 @@ See the root `RESEARCH_ARCHIVE_INDEX.md` for each original branch HEAD and tag.
 | `exp-p3.1-stat-asym` `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | Experiment-local label-free Gaussian-mixture calibrator, independent calibrated-selective episode, paired statistical helper, three small historical reports and a boundary README. The archived fixed calU/evalU split used SHA ordering; its generator, run launchers and per-sample records were not imported because the current project forbids digest-based workflows and changing the split would alter historical membership. | None; P3 is not registered as a default method or complete runner. | 3/3 isolated component and paired-interval tests PASS. Historical P3 target evaluation NOT_RUN. |
 | `codex/ep-capacity-geometry-20261009` `e3ce4c229591549cd5ce962471d31886adbeb052` | Source-only task/mixed subspace construction, unlabeled fixed-512 geometry audit and SVG renderer, small historical summary/figures, full historical report and two source-subspace tests. Ignored per-sample `local/` products remain in the original worktree. | None; no geometry candidate is registered as a default method. | 3/3 source-subspace and analytic score-bound tests PASS; geometry modules import. The historical 512-ID numerical run was not repeated. |
 
+After the initial code import, the original small development reports were
+also copied without recomputing their metrics: capacity, head, local-distribution
+and large-confirmation summaries from `exp-matched-head-oracle`; the historical
+overnight `MORNING_REPORT.md`; and the v1 mechanism analysis and unimplemented
+v2 proposal from `codex/meta-audio-tta-v2-mechanism`. These reports describe
+historical runs, not tests performed during consolidation. Their links to
+ignored per-sample files and figures resolve only in the retained original
+worktrees or archive, pending an independent artifact backup.
+
 `codex/sync-necessary-20261009` at `8b9e4b8dd2bbc5d5678443b62be9767beabe0050`
 was already merged into `origin/main`; its tree equals that main snapshot. The
 WaveFake/DFADD embedded import and O1/O2/O3 task-objective records in the
