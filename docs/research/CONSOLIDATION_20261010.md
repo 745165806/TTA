@@ -72,11 +72,13 @@ dirty root worktree match main files, so they were not duplicated here.
 
 All listed PASS values came from commands run in the `tta` conda environment
 on this integration worktree. They are engineering checks, not new scientific
-outcomes. The broader `tests/unit tests/contracts` run finished with **276
-passed, 1 skipped**. The skip is the existing target90-versus-target10 check:
+outcomes. After the geometry and P3 imports, the combined
+`tests/unit tests/contracts tests/integration` command finished with **286
+passed, 2 skipped** (exit code 0). The unit skip is the existing
+target90-versus-target10 check:
 its ignored local `target_test.jsonl` is absent in this clean worktree, so the
 real-data assertion remains **NOT_RUN**, rather than a fabricated pass. The
-`tests/integration` run finished with **4 passed, 1 skipped**; real SSL-AASIST
+integration skip is real SSL-AASIST
 waveform parity is **NOT_RUN_RESOURCE** because the model/GPU inputs are not
 available here. The passing synthetic suite covers core model interfaces,
 Frozen/cached scoring, per-item reset, score direction, parser contracts and
