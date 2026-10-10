@@ -73,9 +73,11 @@ entrypoint smoke and final integration review remain pending. No full training,
 full cache materialization, new target scoring or new final-holdout access is
 part of the consolidation.
 
-No historical worktree has been removed. Fourteen annotated archive tags were
-pushed and independently verified against their original remote branch tips.
-Three further tags are local-only pending privacy review of the Git objects.
+The synchronized `/tmp/tta-sync-20261009` worktree and its local/remote branch
+were removed after the remote tag, clean-status, ignored-file and process
+checks passed. Fifteen annotated archive tags were pushed and independently
+verified against their original commit tips. Two further tags are local-only
+pending privacy review of their Git objects.
 Ignored and untracked artifacts still require an independently located backup
 with file count, byte size and checksum verification before any worktree or
 branch deletion. Until then, branch/archive status is **retained**.

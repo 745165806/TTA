@@ -13,8 +13,8 @@ before they can be made public. `pending` means no exit tag yet.
 
 | Historical branch | Original HEAD | Archive tag | Tag state | Distinct research record / local artifacts |
 |---|---|---|---|---|
-| `codex/sync-necessary-20261009` | `8b9e4b8dd2bbc5d5678443b62be9767beabe0050` | `archive/20261010/codex-sync-necessary-20261009` | remote | Same tree as `origin/main` at `6ba82fb`; `/tmp/tta-sync-20261009` has no known research run. |
-| `exp-task-objective-discovery` | `66680217720532388ff241bbb88a8565788cf297` | `archive/20261010/exp-task-objective-discovery` | local | O1/O2/O3 and PA single-class/Codecfake incompatibility negative evidence; root worktree remains dirty relative to this old HEAD. |
+| `codex/sync-necessary-20261009` | `8b9e4b8dd2bbc5d5678443b62be9767beabe0050` | `archive/20261010/codex-sync-necessary-20261009` | remote | Same tree as `origin/main` at `6ba82fb`. The clean `/tmp/tta-sync-20261009` worktree and local/remote branches were removed after fresh artifact and process checks. |
+| `exp-task-objective-discovery` | `66680217720532388ff241bbb88a8565788cf297` | `archive/20261010/exp-task-objective-discovery` | remote | O1/O2/O3 and PA single-class/Codecfake incompatibility negative evidence; root worktree remains dirty relative to this old HEAD. |
 | `exp-audio-native-tta` | `cfc2be3c5e4df69ff574c6149377889f883cc4ba` | `archive/20261010/exp-audio-native-tta` | remote | Audio-native target10 baseline results and ignored logs in `/media/dell/data/fakeAudioDection/TTA_audio_native`. |
 | `exp-p3.1-stat-asym` | `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | `archive/20261010/exp-p3.1-stat-asym` | remote | Calibrated-teacher sensitivity/asymmetry results and ignored logs in `/media/dell/data/fakeAudioDection/TTA_p3`. Historical SHA-ordered split must not be regenerated with a changed algorithm. |
 | `exp-local-distribution-tta` | `a1da16482657e82f9306d5ceb5de43669314a625` | `archive/20261010/exp-local-distribution-tta` | remote | Codecfake compatibility and local-distribution development; ignored `experiments/{codecfake_compat,local_distribution_tta}/results/`. |
@@ -44,5 +44,6 @@ identify all ignored/untracked artifacts; back them up to a separate location;
 verify per-file count, byte size and checksum against the source; confirm no
 process or Codex task uses the directory; verify the remote archive tag's
 peeled commit equals the original HEAD. A remote tag alone never satisfies the
-artifact-backup gate. No historical worktree had been removed when this index
-was first written.
+artifact-backup gate. The synchronized `/tmp/tta-sync-20261009` worktree was
+removed after confirming it contained no research artifact. Every other
+historical worktree remains pending backup and removal checks.
