@@ -23,8 +23,8 @@ and large-confirmation summaries from `exp-matched-head-oracle`; the historical
 overnight `MORNING_REPORT.md`; and the v1 mechanism analysis and unimplemented
 v2 proposal from `codex/meta-audio-tta-v2-mechanism`. These reports describe
 historical runs, not tests performed during consolidation. Their links to
-ignored per-sample files and figures resolve only in the retained original
-worktrees or archive, pending an independent artifact backup.
+ignored per-sample files and figures resolve in the retained original
+worktrees and the verified local artifact archive. Both are on the same volume.
 
 `codex/sync-necessary-20261009` at `8b9e4b8dd2bbc5d5678443b62be9767beabe0050`
 was already merged into `origin/main`; its tree equals that main snapshot. The
@@ -64,6 +64,15 @@ dirty root worktree match main files, so they were not duplicated here.
   computation. The subsequent source-only mechanism subset found negative
   BYOL/CE gradient alignment on several selected items and counterexamples on
   others; it does not prove all BYOL adaptation fails.
+- A separate private Candidate B B0 source-fit study tested real SSL-AASIST
+  BN updates with per-item reset. Its auxiliary transform head trained at
+  roughly chance accuracy, and the preregistered source-query benefit gate
+  failed in both clean and 30 dB conditions. K0 was already saturated on the
+  tested fit tasks; paired query-CE intervals crossed zero and no ranking or
+  decision gain was observed. This historical negative result involved no
+  target scoring and does not show that all BN or acoustic-task adaptation
+  fails. Its unmerged experiment code, full report and raw runs remain in
+  restricted private history pending a separate privacy review.
 - The fixed 512-ID unlabeled EP capacity audit found that the original U has
   nonzero score capacity, while the hard guard greatly reduces actual score
   movement. Its initial view-loss gradient has no stable signed score
@@ -95,15 +104,39 @@ role/group validation, but does not replace a real-model parity run. The
 `eptta.cli --help` entrypoint smoke exited successfully. Historical Meta Audio
 Stage 3 documents contain reproduction commands for scripts and configs kept
 at their archive tag; those commands are not runnable from this integration
-tree. Final PR review remains pending. No full training,
+tree. PR #2 was locally reviewed and merged into `main` as
+`78b84608767a6c3e88b28e587e131c20dd145937`; GitHub had no CI checks or
+separate reviewer approval. No full training,
 full cache materialization, new target scoring or new final-holdout access is
 part of the consolidation.
 
-The synchronized `/tmp/tta-sync-20261009` worktree and its local/remote branch
+The synchronized temporary worktree and its local/remote branch
 were removed after the remote tag, clean-status, ignored-file and process
-checks passed. Fifteen annotated archive tags were pushed and independently
-verified against their original commit tips. Two further tags are local-only
+checks passed. Sixteen annotated archive tags were pushed and independently
+verified against their original commit tips, including the EP geometry
+snapshot. Two further tags are local-only
 pending privacy review of their Git objects.
-Ignored and untracked artifacts still require an independently located backup
-with file count, byte size and checksum verification before any worktree or
-branch deletion. Until then, branch/archive status is **retained**.
+The user designated the repository filesystem for ignored and untracked
+artifact copies. The ignored directory
+`.worktrees/.research_artifact_archive_20261010/` contains verified packages
+for the historical worktrees and the dirty root worktree, including the root's
+modified tracked files. Each source and destination path was checked by path
+set, type, logical size and SHA-256. Detailed file inventories and hashes are
+kept only in that local archive. It is on the same physical volume as the
+source and does not protect against volume failure. No artifact-bearing
+worktree may be removed before its process, Codex ownership and remote-tag
+gates are rechecked. On 2026-10-11 the user authorized conditional cleanup,
+with an additional verified independent-device or trusted-remote copy for
+important non-reproducible artifacts. The same-volume packages alone do not
+satisfy that condition.
+
+On 2026-10-11, fourteen clean historical experiment worktrees passed the
+independent NVMe copy, per-file SHA-256, full restore, process and remote-tag
+checks. Their worktrees and local branches were removed with normal Git
+operations; existing remote experiment branches were deleted after a fresh
+tag check. The dirty primary worktree, two private Meta Audio worktrees and
+unmerged document integration worktrees remain. A separate private Candidate
+B clone was found outside the registered worktree list; its source-only
+negative result is summarized above, and its Git history and ignored results
+have restricted local and independent-device recovery copies. Neither private
+history nor raw research outputs were pushed to the public repository.

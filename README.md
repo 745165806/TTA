@@ -14,7 +14,7 @@ python -m pytest -q
 
 训练、特征提取、TTA、评价和测试均使用当前 `tta` 环境的 `python`；子进程使用 `sys.executable`。仓库不会自动下载数据/权重、SSH、安装 CUDA 或修改已有环境。
 
-`environment.yml` 固定的是依据作者依赖和本机现状整理的单环境候选配方。SSL adapter 明确使用该环境安装的 fairseq 0.12.2，不再切换到作者目录内另一套 Python/fairseq 环境。当前机器没有名为 `tta` 的环境，因此尚未完成两套真实模型在该配方下的权重加载、前向、反向与 CUDA 联合验证；详见“验证范围”。
+`environment.yml` 固定的是依据作者依赖和本机现状整理的单环境候选配方。SSL adapter 明确使用该环境安装的 fairseq 0.12.2，不再切换到作者目录内另一套 Python/fairseq 环境。本机已有 `tta` 环境；两套真实模型在该配方下的权重加载、前向、反向与 CUDA 联合验证仍未完成，详见“验证范围”。
 
 私有路径写入不提交的本地文件，例如：
 
@@ -143,4 +143,18 @@ python -m pytest -q
 
 它不访问网络、远程数据或 CUDA，覆盖 EP reference/梯度/投影、K=0、逐样本 reset、serial/batch、标签方向、指标边界、group 隔离、TTA 标签隔离、显式缓存归属、精确 ID、数值回退以及 epoch checkpoint 重载/续训状态合同。
 
-当前交付没有创建 `tta` 环境，也没有执行真实 AASIST/SSL-AASIST 权重加载、GPU 前向/反向、完整训练、全量缓存或目标集评价。轻量工程测试通过不代表单环境依赖已在服务器验证，更不代表论文方法有效。
+2026-10-10 主线整合在本机 `tta` 环境运行了 `tests/unit tests/contracts tests/integration`，结果为 **286 passed、2 skipped**。两个跳过项分别缺少本 worktree 的真实 target90 manifest 和真实 SSL-AASIST 波形校验资源，均不能算作通过。仍未执行真实两模型的完整权重/CUDA 联合验证、完整训练、全量缓存或新的目标集评价。轻量工程测试不代表论文方法有效。
+
+## 主线与研究归档
+
+新的 EP-TTA 研究从最新 `origin/main` 创建独立分支和 worktree；不要在含有本地科研产物或未提交工作的历史目录中切换分支。例如：
+
+```bash
+git fetch origin main
+git worktree add -b codex/ep-tta-next-YYYYMMDD \
+  .worktrees/ep-tta-next-YYYYMMDD origin/main
+```
+
+[研究归档索引](RESEARCH_ARCHIVE_INDEX.md)记录历史分支、原始提交、归档 tag 和研究结果边界；[整合记录](docs/research/CONSOLIDATION_20261010.md)说明进入主线的代码与未运行的验证。[分支管理说明](docs/BRANCH_MANAGEMENT.md)给出新研究 worktree 和历史退出条件。Git tag 只保存已提交历史；重要且不可轻易重建的产物须有独立设备或可信远端的第二份备份及恢复验证。私有 Meta Audio 历史不得直接推送公开仓库。
+
+[截至 2026-10-11 的研究进展与实验结果](docs/research/PROGRESS_20261011.md)汇总各协议 EER、方法结论和未完成事项。
