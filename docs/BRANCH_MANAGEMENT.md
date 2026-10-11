@@ -9,7 +9,8 @@ git worktree add -b codex/ep-tta-next-YYYYMMDD \
   .worktrees/ep-tta-next-YYYYMMDD origin/main
 ```
 
-Do not switch the dirty primary worktree merely to start a new study. Record the
+The primary worktree is now clean on `main`; keep each new study in its own
+worktree so the local ignored research artifacts remain untouched. Record the
 exact source commit in each run's metadata. Research methods remain in
 `experiments/` until their protocol, tests and access boundaries justify
 promotion to a default method.
@@ -37,9 +38,11 @@ need separate protection. Before retiring one worktree, verify:
 Only then remove that one clean worktree with `git worktree remove`, delete its
 local historical branch, recheck the remote tag and delete any corresponding
 remote experiment branch. Never use forced worktree removal, broad cleanup
-commands or branch-name patterns as evidence of safety. Keep the dirty primary
-worktree and any unmerged integration worktree until their own exit conditions
-are satisfied.
+commands or branch-name patterns as evidence of safety. The primary worktree
+switched to `main` only after its 20 former dirty paths were independently
+backed up and restored, and its large ignored results were checked in place.
+Private Meta Audio Git objects stay in restricted local bundles and recovery
+mirrors, never on the public remote.
 
 The local artifact inventory and exact backup paths are restricted operational
 records and are not published in this repository.

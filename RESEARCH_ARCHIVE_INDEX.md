@@ -14,7 +14,7 @@ before they can be made public. `pending` means no exit tag yet.
 | Historical branch | Original HEAD | Archive tag | Tag state | Distinct research record / local artifacts |
 |---|---|---|---|---|
 | `codex/sync-necessary-20261009` | `8b9e4b8dd2bbc5d5678443b62be9767beabe0050` | `archive/20261010/codex-sync-necessary-20261009` | remote | Same tree as `origin/main` at `6ba82fb`. The clean temporary worktree and local/remote branches were removed after fresh artifact and process checks. |
-| `exp-task-objective-discovery` | `66680217720532388ff241bbb88a8565788cf297` | `archive/20261010/exp-task-objective-discovery` | remote | O1/O2/O3 and PA single-class/Codecfake incompatibility negative evidence; root worktree remains dirty relative to this old HEAD. |
+| `exp-task-objective-discovery` | `66680217720532388ff241bbb88a8565788cf297` | `archive/20261010/exp-task-objective-discovery` | remote | O1/O2/O3 and PA single-class/Codecfake incompatibility negative evidence; the root worktree now uses `main`, while its ignored results remain in place. |
 | `exp-audio-native-tta` | `cfc2be3c5e4df69ff574c6149377889f883cc4ba` | `archive/20261010/exp-audio-native-tta` | remote | Audio-native target10 baseline results and ignored logs are in the verified artifact archive. |
 | `exp-p3.1-stat-asym` | `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | `archive/20261010/exp-p3.1-stat-asym` | remote | Small method/statistical tools and reports copied into integration; complete calibrated-teacher sensitivity/asymmetry scores and ignored logs are in the verified artifact archive. Historical SHA-ordered split must not be regenerated with a changed algorithm. |
 | `exp-local-distribution-tta` | `a1da16482657e82f9306d5ceb5de43669314a625` | `archive/20261010/exp-local-distribution-tta` | remote | Codecfake compatibility and local-distribution development; ignored `experiments/{codecfake_compat,local_distribution_tta}/results/`. |
@@ -28,8 +28,8 @@ before they can be made public. `pending` means no exit tag yet.
 | `exp-overnight-tta` | `f58f3c268b3804f7265f2f8fb43b3cf95f4f6e86` | `archive/20261010/exp-overnight-tta` | remote | Residual/T3A development, static-versus-adaptation controls, ignored checkpoints/scores. |
 | `exp-representation-tta` | `29f98ac16d2b4594a0953016712906eaa22ed01f` | `archive/20261010/exp-representation-tta` | remote | Earlier-layer SSL-AASIST negative result, failed first evaluation, large LL cache and checkpoint artifacts. |
 | `codex/online-add-baselines-v2` | `a1bedd41cee39621e96ba62d551ae99c094fc671` | `archive/20261010/codex-online-add-baselines-v2` | remote | 180/180 online development streams, scores/logs, ignored private evaluator labels and LL cache. Continual/batch baseline, separate from episodic EP-TTA. |
-| `exp/meta-audio-tta` | `98df7f255e956f98a33da9dbf575edfbeb7e9303` | `archive/20261010/exp-meta-audio-tta` | local | Project-trained source/meta checkpoints, source selection/cal0, disclosed-access four-domain development evaluation; ignored epoch checkpoints remain. |
-| `codex/meta-audio-tta-v2-mechanism` | `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` | `archive/20261010/codex-meta-audio-tta-v2-mechanism` | local | V1 failure mechanism, source-only matched-gradient diagnostics and tracked analysis. |
+| `exp/meta-audio-tta` | `98df7f255e956f98a33da9dbf575edfbeb7e9303` | `archive/20261010/exp-meta-audio-tta` | local | Project-trained source/meta checkpoints, source selection/cal0, disclosed-access four-domain development evaluation; ignored epoch checkpoints are in restricted, verified artifact archives. |
+| `codex/meta-audio-tta-v2-mechanism` | `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` | `archive/20261010/codex-meta-audio-tta-v2-mechanism` | local | V1 failure mechanism, source-only matched-gradient diagnostics and tracked analysis; full private history is in a restricted recovery bundle. |
 | `codex/ep-capacity-geometry-20261009` | `e3ce4c229591549cd5ce962471d31886adbeb052` | `archive/20261010/codex-ep-capacity-geometry-20261009` | remote | Unlabeled geometry snapshot; reusable code, small summary and report were copied into integration. Ignored `local/` per-sample results have a verified local archive copy. The branch may advance beyond this tagged snapshot. |
 
 The historical `origin/main` merge already contains P0/P1, P2, protocol/oracle,
@@ -46,13 +46,12 @@ process or Codex task uses the directory; verify the remote archive tag's
 peeled commit equals the original HEAD. A remote tag alone never satisfies the
 artifact-backup gate. The user-designated backup directory is under `.worktrees/`
 on the same volume, so it does not protect against physical disk failure.
-The synchronized temporary worktree was
-removed after confirming it contained no research artifact. The remaining
-historical worktrees and the dirty root worktree have verified local artifact
-packages. On 2026-10-11 the user authorized conditional historical cleanup;
-important non-reproducible artifacts additionally require a verified second
-copy on an independent physical device or trusted remote before their source
-worktree can be removed. Original worktrees remain pending those checks.
+The synchronized temporary worktree was removed after confirming it contained
+no research artifact. On 2026-10-11 the user authorized conditional historical
+cleanup; important non-reproducible artifacts require a verified second copy
+on an independent physical device or trusted remote before their source
+worktree can be removed. The root's large ignored results remain in place
+because they do not yet have a full independent copy.
 Detailed per-file inventories and checksums reside only in the ignored local
 archive, not in this public index.
 
@@ -85,11 +84,33 @@ checksums are held in local operational records, not published here.
 | `codex/online-add-baselines-v2` | `online-add-baselines-v2` | deleted |
 | `exp-representation-tta` | `exp-representation-tta` | deleted |
 
-The dirty primary worktree remains because its large ignored results have no
-independent full copy. The two registered Meta Audio worktrees remain because
-their Git history contains private objects and their tags are local-only. A
-separate private Candidate B clone, outside this repository's registered
-worktree list, also remains; its local recovery bundle and ignored results
-have independently verified copies. All fourteen ordinary historical
-worktrees in the table have exited. The document integration worktrees remain
-until their changes are merged.
+All fourteen ordinary historical worktrees in the table have exited. PR #3
+merged the remaining public documentation after PR #2. The documentation
+branch at `0086f7825f2a06a502bf944cf362f4cb23cfa3c9` and superseded
+integration branch at `f4fe16ea4620a72933558647daf970752fa1cb16` were
+retired with normal worktree removal after their public annotated tags were
+verified on `origin`. The three local-only documents in those worktrees were
+saved and verified on both the repository volume and an independent NVMe; the
+outdated cleanup snapshot was not published. Their local and remote branches
+were deleted.
+
+The root worktree now uses `main`. Its 20 former modified/untracked paths were
+verified against an independent NVMe backup and a fresh restore before an
+exact-path stash and branch switch. The old HEAD's remote annotated tag was
+rechecked before deleting the local experimental branch. The 36,539 ignored
+files outside `.worktrees/` (436,061,551,820 logical bytes) had identical
+path, size, modification time and inode before and after the switch. These
+large original results still require a full independent backup before any
+future disk-space cleanup.
+
+The private Meta Audio branches also exited after both complete-history bundles
+were restored and checked on independent NVMe. The `exp/meta-audio-tta`
+worktree's 21 ignored research files (82,424,880,692 logical bytes) were
+rechecked by SHA-256 against the source and independent backup before removal;
+the mechanism worktree had no ignored research files. Reconstructible Python
+caches were backed up separately. Their local annotated tags remain, and no
+private tag, bundle or Git object was pushed to the public remote. The separate
+Candidate B clone remains in place with its own verified bundle and 35-file
+artifact backup (7,634,151,931 logical bytes); its local origin now points to
+the independently restored private Git mirror. Restricted recovery instructions
+and exact backup paths remain outside the public repository.

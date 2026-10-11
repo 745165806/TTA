@@ -158,3 +158,5 @@ git worktree add -b codex/ep-tta-next-YYYYMMDD \
 [研究归档索引](RESEARCH_ARCHIVE_INDEX.md)记录历史分支、原始提交、归档 tag 和研究结果边界；[整合记录](docs/research/CONSOLIDATION_20261010.md)说明进入主线的代码与未运行的验证。[分支管理说明](docs/BRANCH_MANAGEMENT.md)给出新研究 worktree 和历史退出条件。Git tag 只保存已提交历史；重要且不可轻易重建的产物须有独立设备或可信远端的第二份备份及恢复验证。私有 Meta Audio 历史不得直接推送公开仓库。
 
 [截至 2026-10-11 的研究进展与实验结果](docs/research/PROGRESS_20261011.md)汇总各协议 EER、方法结论和未完成事项。
+
+截至 2026-10-11，公开代码 PR #2 与文档 PR #3 已合入主线，主工作目录已切换至干净的 `main`。历史普通实验、文档整合及两处私有 Meta Audio worktree 已按[归档索引](RESEARCH_ARCHIVE_INDEX.md)退出；私有 Git 历史和科研产物留在受限归档，独立 Candidate B 克隆仍保留。根目录约 406 GiB 的 ignored 科研原件仍原地保存；其完整异盘备份尚未完成，不能据此清理磁盘空间。
