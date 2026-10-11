@@ -24,6 +24,8 @@ cp configs/research/paths.local.yaml.example configs/research/paths.local.yaml
 
 实验配置中的 `@path:key` 从 `--paths` 文件读取；`${ENV_NAME}` 做显式环境变量展开。缺失路径、未设置变量和 `REPLACE_WITH_...` 占位都会在实际使用时明确报错。
 
+本机后续实验使用 `configs/local_v2/paths.local.yaml`、`data/manifests_v2/asv2019_la/` 和 `configs/local_v2/` 中的运行配置。当前 AASIST 与 SSL-AASIST 的 frozen bundle 和源资源分别位于 `outputs_v2/aasist/` 与 `outputs_v2/ssl_aasist/`；模型、U、anchors、Fisher 和 cal0 阈值须按同一源训练运行成套使用。`configs/experiment.private.json` 是旧 R4/R5 实验记录，不作为新实验入口；旧划分、评分记录和停用的 `experiment.private.env` 保存在忽略的 `local/archive/eptta_work_20261011/`。
+
 ## 1. 准备数据
 
 ```bash
