@@ -64,6 +64,15 @@ dirty root worktree match main files, so they were not duplicated here.
   computation. The subsequent source-only mechanism subset found negative
   BYOL/CE gradient alignment on several selected items and counterexamples on
   others; it does not prove all BYOL adaptation fails.
+- A separate private Candidate B B0 source-fit study tested real SSL-AASIST
+  BN updates with per-item reset. Its auxiliary transform head trained at
+  roughly chance accuracy, and the preregistered source-query benefit gate
+  failed in both clean and 30 dB conditions. K0 was already saturated on the
+  tested fit tasks; paired query-CE intervals crossed zero and no ranking or
+  decision gain was observed. This historical negative result involved no
+  target scoring and does not show that all BN or acoustic-task adaptation
+  fails. Its unmerged experiment code, full report and raw runs remain in
+  restricted private history pending a separate privacy review.
 - The fixed 512-ID unlabeled EP capacity audit found that the original U has
   nonzero score capacity, while the hard guard greatly reduces actual score
   movement. Its initial view-loss gradient has no stable signed score
@@ -120,3 +129,14 @@ gates are rechecked. On 2026-10-11 the user authorized conditional cleanup,
 with an additional verified independent-device or trusted-remote copy for
 important non-reproducible artifacts. The same-volume packages alone do not
 satisfy that condition.
+
+On 2026-10-11, fourteen clean historical experiment worktrees passed the
+independent NVMe copy, per-file SHA-256, full restore, process and remote-tag
+checks. Their worktrees and local branches were removed with normal Git
+operations; existing remote experiment branches were deleted after a fresh
+tag check. The dirty primary worktree, two private Meta Audio worktrees and
+unmerged document integration worktrees remain. A separate private Candidate
+B clone was found outside the registered worktree list; its source-only
+negative result is summarized above, and its Git history and ignored results
+have restricted local and independent-device recovery copies. Neither private
+history nor raw research outputs were pushed to the public repository.

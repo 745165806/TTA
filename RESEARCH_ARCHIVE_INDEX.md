@@ -15,8 +15,8 @@ before they can be made public. `pending` means no exit tag yet.
 |---|---|---|---|---|
 | `codex/sync-necessary-20261009` | `8b9e4b8dd2bbc5d5678443b62be9767beabe0050` | `archive/20261010/codex-sync-necessary-20261009` | remote | Same tree as `origin/main` at `6ba82fb`. The clean temporary worktree and local/remote branches were removed after fresh artifact and process checks. |
 | `exp-task-objective-discovery` | `66680217720532388ff241bbb88a8565788cf297` | `archive/20261010/exp-task-objective-discovery` | remote | O1/O2/O3 and PA single-class/Codecfake incompatibility negative evidence; root worktree remains dirty relative to this old HEAD. |
-| `exp-audio-native-tta` | `cfc2be3c5e4df69ff574c6149377889f883cc4ba` | `archive/20261010/exp-audio-native-tta` | remote | Audio-native target10 baseline results and ignored logs in its retained worktree. |
-| `exp-p3.1-stat-asym` | `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | `archive/20261010/exp-p3.1-stat-asym` | remote | Small method/statistical tools and reports copied into integration; complete calibrated-teacher sensitivity/asymmetry scores and ignored logs remain in its retained worktree. Historical SHA-ordered split must not be regenerated with a changed algorithm. |
+| `exp-audio-native-tta` | `cfc2be3c5e4df69ff574c6149377889f883cc4ba` | `archive/20261010/exp-audio-native-tta` | remote | Audio-native target10 baseline results and ignored logs are in the verified artifact archive. |
+| `exp-p3.1-stat-asym` | `2f0b82cfefa366f4e411c318f6b8f11b32d1e7a1` | `archive/20261010/exp-p3.1-stat-asym` | remote | Small method/statistical tools and reports copied into integration; complete calibrated-teacher sensitivity/asymmetry scores and ignored logs are in the verified artifact archive. Historical SHA-ordered split must not be regenerated with a changed algorithm. |
 | `exp-local-distribution-tta` | `a1da16482657e82f9306d5ceb5de43669314a625` | `archive/20261010/exp-local-distribution-tta` | remote | Codecfake compatibility and local-distribution development; ignored `experiments/{codecfake_compat,local_distribution_tta}/results/`. |
 | `exp-large-scale-confirmation` | `314ae7e70de8b24026f3b2e31ff5778705cfc342` | `archive/20261010/exp-large-scale-confirmation` | remote | Fixed development assignments, order-specific confirmation and ignored cache/results. |
 | `exp-capacity-audit` | `e7185f0676864e6632dc27bd1b9e6eaf35c8b4e5` | `archive/20261010/exp-capacity-audit` | remote | Supervised capacity and WaveFake pairing diagnostics; ignored capacity results and `outputs_v2`. |
@@ -55,3 +55,41 @@ copy on an independent physical device or trusted remote before their source
 worktree can be removed. Original worktrees remain pending those checks.
 Detailed per-file inventories and checksums reside only in the ignored local
 archive, not in this public index.
+
+## Conditional exits on 2026-10-11
+
+The following registered historical worktrees passed fresh Git status and
+process checks, remote annotated-tag verification, exact source-to-archive and
+independent NVMe copy checks, and full-package restore verification. Their
+worktrees and local branches were removed with normal Git operations. Any
+corresponding remote experiment branch was deleted only after checking the
+remote tag again; all remote archive tags remain. The package name resolves
+under the ignored local `.worktrees/.research_artifact_archive_20261010/` and
+under a restricted independent-device archive. Exact second-copy paths and
+checksums are held in local operational records, not published here.
+
+| Retired branch | Artifact package | Remote branch |
+|---|---|---|
+| `exp-audio-native-tta` | `TTA_audio_native` | deleted |
+| `exp-head-tta` | `exp-head-tta` | deleted |
+| `codex/ep-capacity-geometry-20261009` | `ep-capacity-geometry-20261009` | absent before cleanup |
+| `exp-distribution-conditioned-head` | `exp-distribution-conditioned-head` | deleted |
+| `exp-gradient-alignment-audit` | `exp-gradient-alignment-audit` | deleted |
+| `exp-p3.1-stat-asym` | `TTA_p3` | deleted |
+| `exp-local-distribution-tta` | `exp-local-distribution-tta` | deleted |
+| `exp-large-scale-confirmation` | `exp-large-scale-confirmation` | deleted |
+| `exp-capacity-audit` | `exp-capacity-audit` | deleted |
+| `exp-meta-rank-head` | `exp-meta-rank-head` | deleted |
+| `exp-matched-head-oracle` | `exp-o2-strength-audit` | deleted |
+| `exp-overnight-tta` | `exp-overnight-tta` | deleted |
+| `codex/online-add-baselines-v2` | `online-add-baselines-v2` | deleted |
+| `exp-representation-tta` | `exp-representation-tta` | deleted |
+
+The dirty primary worktree remains because its large ignored results have no
+independent full copy. The two registered Meta Audio worktrees remain because
+their Git history contains private objects and their tags are local-only. A
+separate private Candidate B clone, outside this repository's registered
+worktree list, also remains; its local recovery bundle and ignored results
+have independently verified copies. All fourteen ordinary historical
+worktrees in the table have exited. The document integration worktrees remain
+until their changes are merged.
