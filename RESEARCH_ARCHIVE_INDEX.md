@@ -30,7 +30,7 @@ before they can be made public. `pending` means no exit tag yet.
 | `codex/online-add-baselines-v2` | `a1bedd41cee39621e96ba62d551ae99c094fc671` | `archive/20261010/codex-online-add-baselines-v2` | remote | 180/180 online development streams, scores/logs, ignored private evaluator labels and LL cache. Continual/batch baseline, separate from episodic EP-TTA. |
 | `exp/meta-audio-tta` | `98df7f255e956f98a33da9dbf575edfbeb7e9303` | `archive/20261010/exp-meta-audio-tta` | local | Project-trained source/meta checkpoints, source selection/cal0, disclosed-access four-domain development evaluation; ignored epoch checkpoints remain. |
 | `codex/meta-audio-tta-v2-mechanism` | `2e639fc3f8ae8d5fcd98026f4fe1eba09a474371` | `archive/20261010/codex-meta-audio-tta-v2-mechanism` | local | V1 failure mechanism, source-only matched-gradient diagnostics and tracked analysis. |
-| `codex/ep-capacity-geometry-20261009` | `e3ce4c229591549cd5ce962471d31886adbeb052` | pending | Recent geometry line; reusable code, small summary and report were copied into integration. Ignored `local/` per-sample results still require backup. This HEAD is a snapshot and may advance. |
+| `codex/ep-capacity-geometry-20261009` | `e3ce4c229591549cd5ce962471d31886adbeb052` | `archive/20261010/codex-ep-capacity-geometry-20261009` | remote | Unlabeled geometry snapshot; reusable code, small summary and report were copied into integration. Ignored `local/` per-sample results have a verified local archive copy. The branch may advance beyond this tagged snapshot. |
 
 The historical `origin/main` merge already contains P0/P1, P2, protocol/oracle,
 guard, task-objective negative evidence and the WaveFake/DFADD embedded-audio
@@ -44,6 +44,11 @@ identify all ignored/untracked artifacts; back them up to a separate location;
 verify per-file count, byte size and checksum against the source; confirm no
 process or Codex task uses the directory; verify the remote archive tag's
 peeled commit equals the original HEAD. A remote tag alone never satisfies the
-artifact-backup gate. The synchronized `/tmp/tta-sync-20261009` worktree was
-removed after confirming it contained no research artifact. Every other
-historical worktree remains pending backup and removal checks.
+artifact-backup gate. The user-designated backup directory is under `.worktrees/`
+on the same volume, so it does not protect against physical disk failure.
+The synchronized `/tmp/tta-sync-20261009` worktree was
+removed after confirming it contained no research artifact. The remaining
+historical worktrees and the dirty root worktree have verified local artifact
+packages. Original worktrees remain pending fresh removal checks and explicit
+deletion authorization. Detailed per-file inventories and checksums reside
+only in the ignored local archive, not in this public index.
